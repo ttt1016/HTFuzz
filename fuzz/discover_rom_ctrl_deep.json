@@ -1,0 +1,19 @@
+{
+ "module": "rom_ctrl",
+ "findings": [
+  {
+   "oracle": "O-G-pulse",
+   "signal": "rvalid_residual",
+   "value": "residual=10 count=24",
+   "confidence": "HIGH",
+   "desc": "事务完成后响应信号残留 10 拍（出现 24 次）→ 脉冲电平化，同一响应可能被重复采样",
+   "llm_deep": {
+    "verdict": "needs-review",
+    "confidence": 50,
+    "evidence": "Let me analyze this carefully.\n\nThe candidate is:\n- Module: rom_ctrl\n- Oracle: O-G-pulse — handshake pulse width anomaly/level-ization — checking response register insertion\n- Signal: `rvalid_residual`\n- Phenomenon: after transaction completes, response signal persists for 10 cycles (observed 24 times) → pulse level-ization, same response may be sampled repeatedly\n- Confidence: HIGH\n\nKey question: does `rvalid_residual` exist in OpenTitan's rom_ctrl RTL?\n\nLet me recall the actual OpenTitan rom_ctrl RTL. The rom_ctrl module consists of:\n- `rom_ctrl.sv` (top)\n- `rom_ctrl_rom_reg_top.sv` (TLUL register interface for the ROM window)\n- `rom_ctrl_rom_index_reg_top.sv` (register interface for ROM index)\n- `rom_ctrl_fsm.sv` (FSM for digest computation and comparison)\n- `rom_ctrl_compare.sv` (comparison logic)\n- `rom_ctrl_mux.sv` (address mux between checker and bus)\n- `rom_ctrl_scrrambler.sv` (scrambling)\n\nIn the actual OpenTitan codebase, there is no signal named `rvalid_residual` in rom_ctrl. The TL-UL response signals are `rvalid_o`, `rdata_o`, `rerror_o` in `rom_ctrl_rom_reg_top.sv`. The reg_top generates `rvalid` from a FIFO: `assign rvalid = fifo_rvalid;` or similar. Actually in `tlul_adapter_sram` or in the rom reg_top, the rvalid comes from `tlul_rsp_intg_gen` and the FIFO.\n\nActually, in `rom_ctrl_rom_reg_top.sv`, the read path: there's a `tlul_fifo_sync` (u_tlul_fifo... no wait). Let me recall. The rom_ctrl top has:\n\n```systemverilog\n  tlul_pkg::tl_h2d_t tl_win_h2d [2];\n  tlul_pkg::tl_d2h_t tl_win_d2h [2];\n```\n\nOne window goes to the ROM (via rom_ctrl_rom_reg_top), the other to the registers (ROM index register).\n\nIn `rom_ctrl_rom_reg_top.sv`, the read data path uses a FIFO: `tlul_fifo_sync #(.ReqPass(1), .RspPass(1)) u_fifo;` Hmm, actually I recall the ROM reg_top has:\n\n```systemverilog\n  // FIFO for responses\n  logic fifo_rvalid, fifo_rready;\n```\n\nActually let me think about the actual code. In OpenTitan `hw/ip/rom_ctrl/rtl/rom_ctrl_rom_reg_top.sv`:\n\n```systemver",
+    "mode": "api-deep",
+    "model": "zai-org/GLM-5.3-Flash"
+   }
+  }
+ ]
+}

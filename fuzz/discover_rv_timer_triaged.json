@@ -1,0 +1,35 @@
+{
+ "module": "rv_timer",
+ "triaged": [
+  {
+   "level": "LOW",
+   "oracle": "O-F-stream",
+   "signal": "u_dut.mtime_lo",
+   "sec_cm": [],
+   "sensitive": false,
+   "cross_oracle": 0,
+   "rtl_wipe_nearby": false,
+   "evidence": "计数器 u_dut.mtime_lo 在数据流使能后 300 拍三次采样完全不变（值 0x4）→ 疑似计数器冻结/数据流卡死"
+  },
+  {
+   "level": "LOW",
+   "oracle": "O-F-stream",
+   "signal": "u_dut.mtime_lo",
+   "sec_cm": [],
+   "sensitive": false,
+   "cross_oracle": 0,
+   "rtl_wipe_nearby": false,
+   "evidence": "计数器 u_dut.mtime_lo 在数据流使能后 300 拍三次采样完全不变（值 0x4）→ 疑似计数器冻结/数据流卡死"
+  },
+  {
+   "level": "LOW",
+   "oracle": "O-F-stream",
+   "signal": "u_dut.mtime_lo",
+   "sec_cm": [],
+   "sensitive": false,
+   "cross_oracle": 0,
+   "rtl_wipe_nearby": false,
+   "evidence": "计数器 u_dut.mtime_lo 在数据流使能后 300 拍三次采样完全不变（值 0x4）→ 疑似计数器冻结/数据流卡死"
+  }
+ ]
+}

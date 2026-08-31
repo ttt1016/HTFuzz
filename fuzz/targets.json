@@ -1,0 +1,3994 @@
+{
+ "targets": [
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CONFIG.MUBI",
+   "file": "hw/ip/edn/rtl/edn_core.sv",
+   "line": 421,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "mubi 非法值写入 → 应按 false 处理或报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CONFIG.MUBI",
+   "file": "hw/ip/edn/rtl/edn_core.sv",
+   "line": 442,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "mubi 非法值写入 → 应按 false 处理或报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CONFIG.MUBI",
+   "file": "hw/ip/edn/rtl/edn_core.sv",
+   "line": 469,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "mubi 非法值写入 → 应按 false 处理或报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "FIFO.CTR.REDUN",
+   "file": "hw/ip/edn/rtl/edn_core.sv",
+   "line": 667,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "双轨信号不一致注入 → 应报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "FIFO.CTR.REDUN",
+   "file": "hw/ip/edn/rtl/edn_core.sv",
+   "line": 710,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "双轨信号不一致注入 → 应报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "MAIN_SM.FSM.SPARSE",
+   "file": "hw/ip/edn/rtl/edn_core.sv",
+   "line": 753,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "非法编码值写入 → 应报错/进安全态"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "MAIN_SM.CTR.LOCAL_ESC",
+   "file": "hw/ip/edn/rtl/edn_core.sv",
+   "line": 754,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "本地错误 → 擦除+安全态"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CTR.REDUN",
+   "file": "hw/ip/edn/rtl/edn_core.sv",
+   "line": 787,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "双轨信号不一致注入 → 应报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CONFIG.MUBI",
+   "file": "hw/ip/edn/rtl/edn_core.sv",
+   "line": 833,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "mubi 非法值写入 → 应按 false 处理或报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CS_RDATA.BUS.CONSISTENCY",
+   "file": "hw/ip/edn/rtl/edn_core.sv",
+   "line": 922,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "通用等价类"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "ACK_SM.FSM.SPARSE",
+   "file": "hw/ip/edn/rtl/edn_core.sv",
+   "line": 976,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "非法编码值写入 → 应报错/进安全态"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CONFIG.REGWEN",
+   "file": "hw/ip/edn/rtl/edn.sv",
+   "line": 50,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "REGWEN 锁定后写 → 应被拒"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "TILE_LINK.BUS.INTEGRITY",
+   "file": "hw/ip/edn/rtl/edn.sv",
+   "line": 51,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "intg 错误注入 vs 正常，响应应不同"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "BUS.INTEGRITY",
+   "file": "hw/ip/usbdev/rtl/usbdev.sv",
+   "line": 890,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "intg 错误注入 vs 正常，响应应不同"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "BUS.INTEGRITY",
+   "file": "hw/ip/hmac/rtl/hmac.sv",
+   "line": 777,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "intg 错误注入 vs 正常，响应应不同"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CTRL.FSM.GLOBAL_ESC",
+   "file": "hw/ip/keymgr_dpe/rtl/keymgr_dpe_ctrl.sv",
+   "line": 20,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "escalate 触发 → 状态应立即进安全态"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CTRL.KEY.INTEGRITY",
+   "file": "hw/ip/keymgr_dpe/rtl/keymgr_dpe_ctrl.sv",
+   "line": 262,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "intg 错误注入 vs 正常，响应应不同"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CTRL.CTR.REDUN",
+   "file": "hw/ip/keymgr_dpe/rtl/keymgr_dpe_ctrl.sv",
+   "line": 361,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "双轨信号不一致注入 → 应报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CTRL.FSM.LOCAL_ESC",
+   "file": "hw/ip/keymgr_dpe/rtl/keymgr_dpe_ctrl.sv",
+   "line": 391,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "本地错误 → 擦除+安全态"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CTRL.FSM.SPARSE",
+   "file": "hw/ip/keymgr_dpe/rtl/keymgr_dpe_ctrl.sv",
+   "line": 405,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "非法编码值写入 → 应报错/进安全态"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "LC_CTRL.INTERSIG.MUBI",
+   "file": "hw/ip/keymgr_dpe/rtl/keymgr_dpe.sv",
+   "line": 54,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "mubi 非法值写入 → 应按 false 处理或报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "BUS.INTEGRITY",
+   "file": "hw/ip/keymgr_dpe/rtl/keymgr_dpe.sv",
+   "line": 125,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "intg 错误注入 vs 正常，响应应不同"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CONFIG.SHADOW",
+   "file": "hw/ip/keymgr_dpe/rtl/keymgr_dpe.sv",
+   "line": 126,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "shadow 寄存器两阶段写等价类 + err_update 观测"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "OP.CONFIG.REGWEN",
+   "file": "hw/ip/keymgr_dpe/rtl/keymgr_dpe.sv",
+   "line": 127,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "REGWEN 锁定后写 → 应被拒"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "MAX_KEY_VER.CONFIG.REGWEN",
+   "file": "hw/ip/keymgr_dpe/rtl/keymgr_dpe.sv",
+   "line": 128,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "REGWEN 锁定后写 → 应被拒"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CONSTANTS.CONSISTENCY",
+   "file": "hw/ip/keymgr_dpe/rtl/keymgr_dpe.sv",
+   "line": 501,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "通用等价类"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "INTERSIG.CONSISTENCY",
+   "file": "hw/ip/keymgr_dpe/rtl/keymgr_dpe.sv",
+   "line": 502,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "通用等价类"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "HW.KEY.SW_NOACCESS",
+   "file": "hw/ip/keymgr_dpe/rtl/keymgr_dpe.sv",
+   "line": 604,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "通用等价类"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "OUTPUT_KEYS.CTRL.REDUN",
+   "file": "hw/ip/keymgr_dpe/rtl/keymgr_dpe.sv",
+   "line": 614,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "双轨信号不一致注入 → 应报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "OUTPUT_KEYS.CTRL.REDUN",
+   "file": "hw/ip/keymgr_dpe/rtl/keymgr_dpe.sv",
+   "line": 640,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "双轨信号不一致注入 → 应报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CONFIG.MUBI",
+   "file": "hw/ip/csrng/rtl/csrng_core.sv",
+   "line": 780,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "mubi 非法值写入 → 应按 false 处理或报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CONFIG.MUBI",
+   "file": "hw/ip/csrng/rtl/csrng_core.sv",
+   "line": 801,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "mubi 非法值写入 → 应按 false 处理或报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CONFIG.MUBI",
+   "file": "hw/ip/csrng/rtl/csrng_core.sv",
+   "line": 820,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "mubi 非法值写入 → 应按 false 处理或报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CONFIG.MUBI",
+   "file": "hw/ip/csrng/rtl/csrng_core.sv",
+   "line": 839,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "mubi 非法值写入 → 应按 false 处理或报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "SW_GENBITS.BUS.CONSISTENCY",
+   "file": "hw/ip/csrng/rtl/csrng_core.sv",
+   "line": 1001,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "通用等价类"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CTRL.MUBI",
+   "file": "hw/ip/csrng/rtl/csrng_core.sv",
+   "line": 1134,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "mubi 非法值写入 → 应按 false 处理或报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "MAIN_SM.CTR.LOCAL_ESC",
+   "file": "hw/ip/csrng/rtl/csrng_core.sv",
+   "line": 1153,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "本地错误 → 擦除+安全态"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "MAIN_SM.FSM.SPARSE",
+   "file": "hw/ip/csrng/rtl/csrng_core.sv",
+   "line": 1154,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "非法编码值写入 → 应报错/进安全态"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CONSTANTS.LC_GATED",
+   "file": "hw/ip/csrng/rtl/csrng_core.sv",
+   "line": 1318,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "通用等价类"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "GEN_CMD.CTR.REDUN",
+   "file": "hw/ip/csrng/rtl/csrng_cmd_stage.sv",
+   "line": 198,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "双轨信号不一致注入 → 应报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "INTERSIG.MUBI",
+   "file": "hw/ip/csrng/rtl/csrng.sv",
+   "line": 27,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "mubi 非法值写入 → 应按 false 处理或报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CONFIG.REGWEN",
+   "file": "hw/ip/csrng/rtl/csrng.sv",
+   "line": 65,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "REGWEN 锁定后写 → 应被拒"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "TILE_LINK.BUS.INTEGRITY",
+   "file": "hw/ip/csrng/rtl/csrng.sv",
+   "line": 66,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "intg 错误注入 vs 正常，响应应不同"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "BLK_ENC.FSM.SPARSE",
+   "file": "hw/ip/csrng/rtl/csrng_ctr_drbg_upd.sv",
+   "line": 186,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "非法编码值写入 → 应报错/进安全态"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "OUTBLK.FSM.SPARSE",
+   "file": "hw/ip/csrng/rtl/csrng_ctr_drbg_upd.sv",
+   "line": 220,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "非法编码值写入 → 应报错/进安全态"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "DRBG_UPD.CTR.REDUN",
+   "file": "hw/ip/csrng/rtl/csrng_ctr_drbg_upd.sv",
+   "line": 289,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "双轨信号不一致注入 → 应报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "AES_CIPHER.FSM.SPARSE",
+   "file": "hw/ip/csrng/rtl/csrng_block_encrypt.sv",
+   "line": 85,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "非法编码值写入 → 应报错/进安全态"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "AES_CIPHER.FSM.REDUN",
+   "file": "hw/ip/csrng/rtl/csrng_block_encrypt.sv",
+   "line": 86,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "双轨信号不一致注入 → 应报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "AES_CIPHER.CTRL.SPARSE",
+   "file": "hw/ip/csrng/rtl/csrng_block_encrypt.sv",
+   "line": 87,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "非法编码值写入 → 应报错/进安全态"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "AES_CIPHER.FSM.LOCAL_ESC",
+   "file": "hw/ip/csrng/rtl/csrng_block_encrypt.sv",
+   "line": 88,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "本地错误 → 擦除+安全态"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "AES_CIPHER.CTR.REDUN",
+   "file": "hw/ip/csrng/rtl/csrng_block_encrypt.sv",
+   "line": 89,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "双轨信号不一致注入 → 应报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "AES_CIPHER.DATA_REG.LOCAL_ESC",
+   "file": "hw/ip/csrng/rtl/csrng_block_encrypt.sv",
+   "line": 90,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "本地错误 → 擦除+安全态"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "UPDATE.FSM.SPARSE",
+   "file": "hw/ip/csrng/rtl/csrng_ctr_drbg_gen.sv",
+   "line": 221,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "非法编码值写入 → 应报错/进安全态"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "DRBG_GEN.CTR.REDUN",
+   "file": "hw/ip/csrng/rtl/csrng_ctr_drbg_gen.sv",
+   "line": 294,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "双轨信号不一致注入 → 应报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "BUS.INTEGRITY",
+   "file": "hw/ip/aon_timer/rtl/aon_timer.sv",
+   "line": 118,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "intg 错误注入 vs 正常，响应应不同"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "BUS.INTEGRITY",
+   "file": "hw/ip/spi_device/rtl/spi_device.sv",
+   "line": 1930,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "intg 错误注入 vs 正常，响应应不同"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "BUS.INTEGRITY",
+   "file": "hw/ip/i2c/rtl/i2c.sv",
+   "line": 81,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "intg 错误注入 vs 正常，响应应不同"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "BUS.INTEGRITY",
+   "file": "hw/ip/adc_ctrl/rtl/adc_ctrl.sv",
+   "line": 77,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "intg 错误注入 vs 正常，响应应不同"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "LC_ESCALATE_EN.INTERSIG.MUBI",
+   "file": "hw/ip/sram_ctrl/rtl/sram_ctrl.sv",
+   "line": 62,
+   "strategy": {
+    "oracle": "O-B-determinism",
+    "how": "秘密相关信号功耗/翻转模式分析"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "LC_HW_DEBUG_EN.INTERSIG.MUBI",
+   "file": "hw/ip/sram_ctrl/rtl/sram_ctrl.sv",
+   "line": 64,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "mubi 非法值写入 → 应按 false 处理或报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "EXEC.INTERSIG.MUBI",
+   "file": "hw/ip/sram_ctrl/rtl/sram_ctrl.sv",
+   "line": 67,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "mubi 非法值写入 → 应按 false 处理或报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "SCRAMBLE.KEY.SIDELOAD",
+   "file": "hw/ip/sram_ctrl/rtl/sram_ctrl.sv",
+   "line": 70,
+   "strategy": {
+    "oracle": "O-A-residual",
+    "how": " scramble 前后明文残留扫描"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CTRL.CONFIG.REGWEN",
+   "file": "hw/ip/sram_ctrl/rtl/sram_ctrl.sv",
+   "line": 149,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "REGWEN 锁定后写 → 应被拒"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "EXEC.CONFIG.REGWEN",
+   "file": "hw/ip/sram_ctrl/rtl/sram_ctrl.sv",
+   "line": 150,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "REGWEN 锁定后写 → 应被拒"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "READBACK.CONFIG.REGWEN",
+   "file": "hw/ip/sram_ctrl/rtl/sram_ctrl.sv",
+   "line": 151,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "REGWEN 锁定后写 → 应被拒"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "BUS.INTEGRITY",
+   "file": "hw/ip/sram_ctrl/rtl/sram_ctrl.sv",
+   "line": 166,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "intg 错误注入 vs 正常，响应应不同"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "KEY.GLOBAL_ESC",
+   "file": "hw/ip/sram_ctrl/rtl/sram_ctrl.sv",
+   "line": 233,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "escalate 触发 → 状态应立即进安全态"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "KEY.LOCAL_ESC",
+   "file": "hw/ip/sram_ctrl/rtl/sram_ctrl.sv",
+   "line": 239,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "本地错误 → 擦除+安全态"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "INIT.CTR.REDUN",
+   "file": "hw/ip/sram_ctrl/rtl/sram_ctrl.sv",
+   "line": 299,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "双轨信号不一致注入 → 应报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "KEY.GLOBAL_ESC",
+   "file": "hw/ip/sram_ctrl/rtl/sram_ctrl.sv",
+   "line": 371,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "escalate 触发 → 状态应立即进安全态"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "KEY.LOCAL_ESC",
+   "file": "hw/ip/sram_ctrl/rtl/sram_ctrl.sv",
+   "line": 372,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "本地错误 → 擦除+安全态"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "INSTR.BUS.LC_GATED",
+   "file": "hw/ip/sram_ctrl/rtl/sram_ctrl.sv",
+   "line": 433,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "通用等价类"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "EXEC.CONFIG.MUBI",
+   "file": "hw/ip/sram_ctrl/rtl/sram_ctrl.sv",
+   "line": 435,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "mubi 非法值写入 → 应按 false 处理或报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "EXEC.INTERSIG.MUBI",
+   "file": "hw/ip/sram_ctrl/rtl/sram_ctrl.sv",
+   "line": 437,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "mubi 非法值写入 → 应按 false 处理或报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "RAM_TL_LC_GATE.FSM.SPARSE",
+   "file": "hw/ip/sram_ctrl/rtl/sram_ctrl.sv",
+   "line": 487,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "非法编码值写入 → 应报错/进安全态"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "MEM.READBACK",
+   "file": "hw/ip/sram_ctrl/rtl/sram_ctrl.sv",
+   "line": 522,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "通用等价类"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "MEM.INTEGRITY",
+   "file": "hw/ip/sram_ctrl/rtl/sram_ctrl.sv",
+   "line": 534,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "intg 错误注入 vs 正常，响应应不同"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "TLUL_FIFO.CTR.REDUN",
+   "file": "hw/ip/sram_ctrl/rtl/sram_ctrl.sv",
+   "line": 535,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "双轨信号不一致注入 → 应报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "MEM.READBACK",
+   "file": "hw/ip/sram_ctrl/rtl/sram_ctrl.sv",
+   "line": 536,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "通用等价类"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "BUS.INTEGRITY",
+   "file": "hw/ip/sram_ctrl/rtl/sram_ctrl.sv",
+   "line": 553,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "intg 错误注入 vs 正常，响应应不同"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "MEM.SCRAMBLE",
+   "file": "hw/ip/sram_ctrl/rtl/sram_ctrl.sv",
+   "line": 675,
+   "strategy": {
+    "oracle": "O-A-residual",
+    "how": " scramble 前后明文残留扫描"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "BUS.INTEGRITY",
+   "file": "hw/ip/rv_timer/rtl/rv_timer.sv",
+   "line": 141,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "intg 错误注入 vs 正常，响应应不同"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "KMAC.FSM.SPARSE",
+   "file": "hw/ip/lc_ctrl/rtl/lc_ctrl_kmac_if.sv",
+   "line": 125,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "非法编码值写入 → 应报错/进安全态"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "STATE.CONFIG.SPARSE",
+   "file": "hw/ip/lc_ctrl/rtl/lc_ctrl_state_decode.sv",
+   "line": 29,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "非法编码值写入 → 应报错/进安全态"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "MANUF.STATE.BKGN_CHK",
+   "file": "hw/ip/lc_ctrl/rtl/lc_ctrl_state_decode.sv",
+   "line": 97,
+   "strategy": {
+    "oracle": "O-B-determinism",
+    "how": "背景检查失效注入 → 应报 alert"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "TRANSITION.CTR.BKGN_CHK",
+   "file": "hw/ip/lc_ctrl/rtl/lc_ctrl_state_decode.sv",
+   "line": 127,
+   "strategy": {
+    "oracle": "O-B-determinism",
+    "how": "背景检查失效注入 → 应报 alert"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "MANUF.STATE.BKGN_CHK",
+   "file": "hw/ip/lc_ctrl/rtl/lc_ctrl_state_decode.sv",
+   "line": 131,
+   "strategy": {
+    "oracle": "O-B-determinism",
+    "how": "背景检查失效注入 → 应报 alert"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "TRANSITION.CTR.BKGN_CHK",
+   "file": "hw/ip/lc_ctrl/rtl/lc_ctrl_state_decode.sv",
+   "line": 142,
+   "strategy": {
+    "oracle": "O-B-determinism",
+    "how": "背景检查失效注入 → 应报 alert"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "MANUF.STATE.BKGN_CHK",
+   "file": "hw/ip/lc_ctrl/rtl/lc_ctrl_state_decode.sv",
+   "line": 149,
+   "strategy": {
+    "oracle": "O-B-determinism",
+    "how": "背景检查失效注入 → 应报 alert"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "MANUF.STATE.SPARSE",
+   "file": "hw/ip/lc_ctrl/rtl/lc_ctrl_state_pkg.sv",
+   "line": 96,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "非法编码值写入 → 应报错/进安全态"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "TRANSITION.CTR.SPARSE",
+   "file": "hw/ip/lc_ctrl/rtl/lc_ctrl_state_pkg.sv",
+   "line": 159,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "非法编码值写入 → 应报错/进安全态"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "TOKEN.DIGEST",
+   "file": "hw/ip/lc_ctrl/rtl/lc_ctrl.sv",
+   "line": 80,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "token 等价类: 全匹配/部分匹配/不匹配的转移结果"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "TOKEN_VALID.CTRL.MUBI",
+   "file": "hw/ip/lc_ctrl/rtl/lc_ctrl.sv",
+   "line": 85,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "mubi 非法值写入 → 应按 false 处理或报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "INTERSIG.MUBI",
+   "file": "hw/ip/lc_ctrl/rtl/lc_ctrl.sv",
+   "line": 88,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "mubi 非法值写入 → 应按 false 处理或报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "INTERSIG.MUBI",
+   "file": "hw/ip/lc_ctrl/rtl/lc_ctrl.sv",
+   "line": 104,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "mubi 非法值写入 → 应按 false 处理或报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "INTERSIG.MUBI",
+   "file": "hw/ip/lc_ctrl/rtl/lc_ctrl.sv",
+   "line": 110,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "mubi 非法值写入 → 应按 false 处理或报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "TRANSITION.CONFIG.REGWEN",
+   "file": "hw/ip/lc_ctrl/rtl/lc_ctrl.sv",
+   "line": 146,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "REGWEN 锁定后写 → 应被拒"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "BUS.INTEGRITY",
+   "file": "hw/ip/lc_ctrl/rtl/lc_ctrl.sv",
+   "line": 155,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "intg 错误注入 vs 正常，响应应不同"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "BUS.INTEGRITY",
+   "file": "hw/ip/lc_ctrl/rtl/lc_ctrl.sv",
+   "line": 198,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "intg 错误注入 vs 正常，响应应不同"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "TRANSITION.CONFIG.REGWEN",
+   "file": "hw/ip/lc_ctrl/rtl/lc_ctrl.sv",
+   "line": 397,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "REGWEN 锁定后写 → 应被拒"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "TRANSITION.CONFIG.REGWEN",
+   "file": "hw/ip/lc_ctrl/rtl/lc_ctrl.sv",
+   "line": 406,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "REGWEN 锁定后写 → 应被拒"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "MAIN.FSM.GLOBAL_ESC",
+   "file": "hw/ip/lc_ctrl/rtl/lc_ctrl.sv",
+   "line": 660,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "escalate 触发 → 状态应立即进安全态"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "MAIN.FSM.SPARSE",
+   "file": "hw/ip/lc_ctrl/rtl/lc_ctrl_pkg.sv",
+   "line": 251,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "非法编码值写入 → 应报错/进安全态"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "STATE.CONFIG.SPARSE",
+   "file": "hw/ip/lc_ctrl/rtl/lc_ctrl_state_transition.sv",
+   "line": 129,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "非法编码值写入 → 应报错/进安全态"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "STATE.CONFIG.SPARSE",
+   "file": "hw/ip/lc_ctrl/rtl/lc_ctrl_state_transition.sv",
+   "line": 178,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "非法编码值写入 → 应报错/进安全态"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "MAIN.CTRL_FLOW.CONSISTENCY",
+   "file": "hw/ip/lc_ctrl/rtl/lc_ctrl_fsm.sv",
+   "line": 203,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "通用等价类"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "TOKEN.DIGEST",
+   "file": "hw/ip/lc_ctrl/rtl/lc_ctrl_fsm.sv",
+   "line": 447,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "token 等价类: 全匹配/部分匹配/不匹配的转移结果"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "TOKEN.DIGEST",
+   "file": "hw/ip/lc_ctrl/rtl/lc_ctrl_fsm.sv",
+   "line": 483,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "token 等价类: 全匹配/部分匹配/不匹配的转移结果"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "MAIN.FSM.GLOBAL_ESC",
+   "file": "hw/ip/lc_ctrl/rtl/lc_ctrl_fsm.sv",
+   "line": 570,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "escalate 触发 → 状态应立即进安全态"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "MAIN.FSM.LOCAL_ESC",
+   "file": "hw/ip/lc_ctrl/rtl/lc_ctrl_fsm.sv",
+   "line": 573,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "本地错误 → 擦除+安全态"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "TOKEN_MUX.CTRL.REDUN",
+   "file": "hw/ip/lc_ctrl/rtl/lc_ctrl_fsm.sv",
+   "line": 662,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "双轨信号不一致注入 → 应报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "TOKEN.DIGEST",
+   "file": "hw/ip/lc_ctrl/rtl/lc_ctrl_fsm.sv",
+   "line": 674,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "token 等价类: 全匹配/部分匹配/不匹配的转移结果"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "TOKEN_VALID.MUX.REDUN",
+   "file": "hw/ip/lc_ctrl/rtl/lc_ctrl_fsm.sv",
+   "line": 710,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "双轨信号不一致注入 → 应报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "STATE.CONFIG.SPARSE",
+   "file": "hw/ip/lc_ctrl/rtl/lc_ctrl_fsm.sv",
+   "line": 733,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "非法编码值写入 → 应报错/进安全态"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "SCRAMBLE.KEY.SIDELOAD",
+   "file": "hw/ip/otbn/rtl/otbn.sv",
+   "line": 301,
+   "strategy": {
+    "oracle": "O-A-residual",
+    "how": " scramble 前后明文残留扫描"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "MEM.SCRAMBLE",
+   "file": "hw/ip/otbn/rtl/otbn.sv",
+   "line": 336,
+   "strategy": {
+    "oracle": "O-A-residual",
+    "how": " scramble 前后明文残留扫描"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "TLUL_FIFO.CTR.REDUN",
+   "file": "hw/ip/otbn/rtl/otbn.sv",
+   "line": 387,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "双轨信号不一致注入 → 应报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "DATA_REG_SW.SCA",
+   "file": "hw/ip/otbn/rtl/otbn.sv",
+   "line": 444,
+   "strategy": {
+    "oracle": "O-B-determinism",
+    "how": "秘密相关信号功耗/翻转模式分析"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "MEM.SCRAMBLE",
+   "file": "hw/ip/otbn/rtl/otbn.sv",
+   "line": 552,
+   "strategy": {
+    "oracle": "O-A-residual",
+    "how": " scramble 前后明文残留扫描"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "DATA.MEM.INTEGRITY",
+   "file": "hw/ip/otbn/rtl/otbn.sv",
+   "line": 602,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "intg 错误注入 vs 正常，响应应不同"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "TLUL_FIFO.CTR.REDUN",
+   "file": "hw/ip/otbn/rtl/otbn.sv",
+   "line": 639,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "双轨信号不一致注入 → 应报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "DATA.MEM.SW_NOACCESS",
+   "file": "hw/ip/otbn/rtl/otbn.sv",
+   "line": 671,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "通用等价类"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "DATA_REG_SW.SCA",
+   "file": "hw/ip/otbn/rtl/otbn.sv",
+   "line": 686,
+   "strategy": {
+    "oracle": "O-B-determinism",
+    "how": "秘密相关信号功耗/翻转模式分析"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "WRITE.MEM.INTEGRITY",
+   "file": "hw/ip/otbn/rtl/otbn.sv",
+   "line": 761,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "intg 错误注入 vs 正常，响应应不同"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "BUS.INTEGRITY",
+   "file": "hw/ip/otbn/rtl/otbn.sv",
+   "line": 798,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "intg 错误注入 vs 正常，响应应不同"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "TLUL_FIFO.CTR.REDUN",
+   "file": "hw/ip/otbn/rtl/otbn.sv",
+   "line": 799,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "双轨信号不一致注入 → 应报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "RND.BUS.CONSISTENCY",
+   "file": "hw/ip/otbn/rtl/otbn.sv",
+   "line": 1047,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "通用等价类"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "DATA_REG_SW.SCA",
+   "file": "hw/ip/otbn/rtl/otbn_rf_bignum_ff.sv",
+   "line": 46,
+   "strategy": {
+    "oracle": "O-B-determinism",
+    "how": "秘密相关信号功耗/翻转模式分析"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "DATA_REG_SW.SCA",
+   "file": "hw/ip/otbn/rtl/otbn_rf_bignum_ff.sv",
+   "line": 69,
+   "strategy": {
+    "oracle": "O-B-determinism",
+    "how": "秘密相关信号功耗/翻转模式分析"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "RF_BIGNUM.DATA_REG_SW.GLITCH_DETECT",
+   "file": "hw/ip/otbn/rtl/otbn_rf_bignum_ff.sv",
+   "line": 112,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "通用等价类"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CALL_STACK.ADDR.INTEGRITY",
+   "file": "hw/ip/otbn/rtl/otbn_rf_base.sv",
+   "line": 128,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "intg 错误注入 vs 正常，响应应不同"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CALL_STACK.ADDR.INTEGRITY",
+   "file": "hw/ip/otbn/rtl/otbn_rf_base.sv",
+   "line": 145,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "intg 错误注入 vs 正常，响应应不同"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "RF_BASE.DATA_REG_SW.INTEGRITY",
+   "file": "hw/ip/otbn/rtl/otbn_rf_base.sv",
+   "line": 218,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "intg 错误注入 vs 正常，响应应不同"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "RND.BUS.CONSISTENCY",
+   "file": "hw/ip/otbn/rtl/otbn_rnd.sv",
+   "line": 158,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "通用等价类"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "RND.RNG.DIGEST",
+   "file": "hw/ip/otbn/rtl/otbn_rnd.sv",
+   "line": 159,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "通用等价类"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "DATA_REG_SW.SCA",
+   "file": "hw/ip/otbn/rtl/otbn_mac_bignum.sv",
+   "line": 56,
+   "strategy": {
+    "oracle": "O-B-determinism",
+    "how": "秘密相关信号功耗/翻转模式分析"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "DATA_REG_SW.SCA",
+   "file": "hw/ip/otbn/rtl/otbn_mac_bignum.sv",
+   "line": 63,
+   "strategy": {
+    "oracle": "O-B-determinism",
+    "how": "秘密相关信号功耗/翻转模式分析"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "DATA_REG_SW.SCA",
+   "file": "hw/ip/otbn/rtl/otbn_mac_bignum.sv",
+   "line": 149,
+   "strategy": {
+    "oracle": "O-B-determinism",
+    "how": "秘密相关信号功耗/翻转模式分析"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CTRL.REDUN",
+   "file": "hw/ip/otbn/rtl/otbn_mac_bignum.sv",
+   "line": 237,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "双轨信号不一致注入 → 应报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CONTROLLER.FSM.GLOBAL_ESC",
+   "file": "hw/ip/otbn/rtl/otbn_start_stop_control.sv",
+   "line": 103,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "escalate 触发 → 状态应立即进安全态"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "START_STOP_CTRL.FSM.SPARSE",
+   "file": "hw/ip/otbn/rtl/otbn_start_stop_control.sv",
+   "line": 149,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "非法编码值写入 → 应报错/进安全态"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "DATA_REG_SW.SEC_WIPE",
+   "file": "hw/ip/otbn/rtl/otbn_start_stop_control.sv",
+   "line": 263,
+   "strategy": {
+    "oracle": "O-A-residual",
+    "how": "触发擦除流程后白盒扫描关联寄存器/信号残留"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "START_STOP_CTRL.FSM.GLOBAL_ESC",
+   "file": "hw/ip/otbn/rtl/otbn_start_stop_control.sv",
+   "line": 338,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "escalate 触发 → 状态应立即进安全态"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "START_STOP_CTRL.FSM.LOCAL_ESC",
+   "file": "hw/ip/otbn/rtl/otbn_start_stop_control.sv",
+   "line": 339,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "本地错误 → 擦除+安全态"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "START_STOP_CTRL.STATE.CONSISTENCY",
+   "file": "hw/ip/otbn/rtl/otbn_start_stop_control.sv",
+   "line": 428,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "通用等价类"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CONTROLLER.FSM.LOCAL_ESC",
+   "file": "hw/ip/otbn/rtl/otbn_controller.sv",
+   "line": 499,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "本地错误 → 擦除+安全态"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CONTROLLER.FSM.GLOBAL_ESC",
+   "file": "hw/ip/otbn/rtl/otbn_controller.sv",
+   "line": 511,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "escalate 触发 → 状态应立即进安全态"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CONTROLLER.FSM.SPARSE",
+   "file": "hw/ip/otbn/rtl/otbn_controller.sv",
+   "line": 692,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "非法编码值写入 → 应报错/进安全态"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CTRL_FLOW.COUNT",
+   "file": "hw/ip/otbn/rtl/otbn_controller.sv",
+   "line": 695,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "通用等价类"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "DATA_REG_SW.SCA",
+   "file": "hw/ip/otbn/rtl/otbn_controller.sv",
+   "line": 1048,
+   "strategy": {
+    "oracle": "O-B-determinism",
+    "how": "秘密相关信号功耗/翻转模式分析"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "BUS.INTEGRITY",
+   "file": "hw/ip/otbn/rtl/otbn_controller.sv",
+   "line": 1194,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "intg 错误注入 vs 正常，响应应不同"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CTRL.REDUN",
+   "file": "hw/ip/otbn/rtl/otbn_controller.sv",
+   "line": 1495,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "双轨信号不一致注入 → 应报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "DATA_REG_SW.SCA",
+   "file": "hw/ip/otbn/rtl/otbn_controller.sv",
+   "line": 1528,
+   "strategy": {
+    "oracle": "O-B-determinism",
+    "how": "秘密相关信号功耗/翻转模式分析"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CTRL.REDUN",
+   "file": "hw/ip/otbn/rtl/otbn_rf_bignum.sv",
+   "line": 129,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "双轨信号不一致注入 → 应报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "RF_BIGNUM.DATA_REG_SW.INTEGRITY",
+   "file": "hw/ip/otbn/rtl/otbn_rf_bignum.sv",
+   "line": 139,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "intg 错误注入 vs 正常，响应应不同"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CTRL_FLOW.SCA",
+   "file": "hw/ip/otbn/rtl/otbn_core.sv",
+   "line": 14,
+   "strategy": {
+    "oracle": "O-B-determinism",
+    "how": "秘密相关信号功耗/翻转模式分析"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CTRL.REDUN",
+   "file": "hw/ip/otbn/rtl/otbn_core.sv",
+   "line": 410,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "双轨信号不一致注入 → 应报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "RF_BASE.DATA_REG_SW.GLITCH_DETECT",
+   "file": "hw/ip/otbn/rtl/otbn_rf_bignum_fpga.sv",
+   "line": 79,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "通用等价类"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "LOOP_STACK.CTR.REDUN",
+   "file": "hw/ip/otbn/rtl/otbn_loop_controller.sv",
+   "line": 228,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "双轨信号不一致注入 → 应报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "LOOP_STACK.ADDR.INTEGRITY",
+   "file": "hw/ip/otbn/rtl/otbn_loop_controller.sv",
+   "line": 279,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "intg 错误注入 vs 正常，响应应不同"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "DATA_REG_SW.SCA",
+   "file": "hw/ip/otbn/rtl/otbn_instruction_fetch.sv",
+   "line": 130,
+   "strategy": {
+    "oracle": "O-B-determinism",
+    "how": "秘密相关信号功耗/翻转模式分析"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "INSTRUCTION.MEM.INTEGRITY",
+   "file": "hw/ip/otbn/rtl/otbn_instruction_fetch.sv",
+   "line": 377,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "intg 错误注入 vs 正常，响应应不同"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "PC.CTRL_FLOW.REDUN",
+   "file": "hw/ip/otbn/rtl/otbn_instruction_fetch.sv",
+   "line": 396,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "双轨信号不一致注入 → 应报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "RF_BASE.DATA_REG_SW.GLITCH_DETECT",
+   "file": "hw/ip/otbn/rtl/otbn_rf_base_ff.sv",
+   "line": 76,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "通用等价类"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "STACK_WR_PTR.CTR.REDUN",
+   "file": "hw/ip/otbn/rtl/otbn_stack.sv",
+   "line": 86,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "双轨信号不一致注入 → 应报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "DATA_REG_SW.SCA",
+   "file": "hw/ip/otbn/rtl/otbn_alu_bignum.sv",
+   "line": 163,
+   "strategy": {
+    "oracle": "O-B-determinism",
+    "how": "秘密相关信号功耗/翻转模式分析"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "DATA_REG_SW.SCA",
+   "file": "hw/ip/otbn/rtl/otbn_alu_bignum.sv",
+   "line": 190,
+   "strategy": {
+    "oracle": "O-B-determinism",
+    "how": "秘密相关信号功耗/翻转模式分析"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "DATA_REG_SW.SCA",
+   "file": "hw/ip/otbn/rtl/otbn_alu_bignum.sv",
+   "line": 275,
+   "strategy": {
+    "oracle": "O-B-determinism",
+    "how": "秘密相关信号功耗/翻转模式分析"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "DATA_REG_SW.SCA",
+   "file": "hw/ip/otbn/rtl/otbn_alu_bignum.sv",
+   "line": 305,
+   "strategy": {
+    "oracle": "O-B-determinism",
+    "how": "秘密相关信号功耗/翻转模式分析"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "DATA_REG_SW.SCA",
+   "file": "hw/ip/otbn/rtl/otbn_alu_bignum.sv",
+   "line": 339,
+   "strategy": {
+    "oracle": "O-B-determinism",
+    "how": "秘密相关信号功耗/翻转模式分析"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "DATA_REG_SW.SCA",
+   "file": "hw/ip/otbn/rtl/otbn_alu_bignum.sv",
+   "line": 418,
+   "strategy": {
+    "oracle": "O-B-determinism",
+    "how": "秘密相关信号功耗/翻转模式分析"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "KEY.SIDELOAD",
+   "file": "hw/ip/otbn/rtl/otbn_alu_bignum.sv",
+   "line": 457,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "通用等价类"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "DATA_REG_SW.SCA",
+   "file": "hw/ip/otbn/rtl/otbn_alu_bignum.sv",
+   "line": 468,
+   "strategy": {
+    "oracle": "O-B-determinism",
+    "how": "秘密相关信号功耗/翻转模式分析"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CTRL.REDUN",
+   "file": "hw/ip/otbn/rtl/otbn_alu_bignum.sv",
+   "line": 543,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "双轨信号不一致注入 → 应报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "DATA_REG_SW.SCA",
+   "file": "hw/ip/otbn/rtl/otbn_alu_bignum.sv",
+   "line": 559,
+   "strategy": {
+    "oracle": "O-B-determinism",
+    "how": "秘密相关信号功耗/翻转模式分析"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "DATA_REG_SW.SCA",
+   "file": "hw/ip/otbn/rtl/otbn_alu_bignum.sv",
+   "line": 566,
+   "strategy": {
+    "oracle": "O-B-determinism",
+    "how": "秘密相关信号功耗/翻转模式分析"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "DATA_REG_SW.SCA",
+   "file": "hw/ip/otbn/rtl/otbn_alu_bignum.sv",
+   "line": 615,
+   "strategy": {
+    "oracle": "O-B-determinism",
+    "how": "秘密相关信号功耗/翻转模式分析"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "DATA_REG_SW.SCA",
+   "file": "hw/ip/otbn/rtl/otbn_alu_bignum.sv",
+   "line": 625,
+   "strategy": {
+    "oracle": "O-B-determinism",
+    "how": "秘密相关信号功耗/翻转模式分析"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "DATA_REG_SW.SCA",
+   "file": "hw/ip/otbn/rtl/otbn_alu_bignum.sv",
+   "line": 634,
+   "strategy": {
+    "oracle": "O-B-determinism",
+    "how": "秘密相关信号功耗/翻转模式分析"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "DATA_REG_SW.SCA",
+   "file": "hw/ip/otbn/rtl/otbn_alu_bignum.sv",
+   "line": 644,
+   "strategy": {
+    "oracle": "O-B-determinism",
+    "how": "秘密相关信号功耗/翻转模式分析"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CTRL.REDUN",
+   "file": "hw/ip/otbn/rtl/otbn_alu_bignum.sv",
+   "line": 821,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "双轨信号不一致注入 → 应报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "DATA_REG_SW.SCA",
+   "file": "hw/ip/otbn/rtl/otbn_alu_bignum.sv",
+   "line": 851,
+   "strategy": {
+    "oracle": "O-B-determinism",
+    "how": "秘密相关信号功耗/翻转模式分析"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "DATA_REG_SW.SCA",
+   "file": "hw/ip/otbn/rtl/otbn_alu_bignum.sv",
+   "line": 858,
+   "strategy": {
+    "oracle": "O-B-determinism",
+    "how": "秘密相关信号功耗/翻转模式分析"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "DATA_REG_SW.SCA",
+   "file": "hw/ip/otbn/rtl/otbn_alu_bignum.sv",
+   "line": 870,
+   "strategy": {
+    "oracle": "O-B-determinism",
+    "how": "秘密相关信号功耗/翻转模式分析"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "SCRAMBLE_CTRL.FSM.SPARSE",
+   "file": "hw/ip/otbn/rtl/otbn_scramble_ctrl.sv",
+   "line": 134,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "非法编码值写入 → 应报错/进安全态"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "DATA.MEM.SEC_WIPE",
+   "file": "hw/ip/otbn/rtl/otbn_scramble_ctrl.sv",
+   "line": 155,
+   "strategy": {
+    "oracle": "O-A-residual",
+    "how": "触发擦除流程后白盒扫描关联寄存器/信号残留"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "INSTRUCTION.MEM.SEC_WIPE",
+   "file": "hw/ip/otbn/rtl/otbn_scramble_ctrl.sv",
+   "line": 164,
+   "strategy": {
+    "oracle": "O-A-residual",
+    "how": "触发擦除流程后白盒扫描关联寄存器/信号残留"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "SCRAMBLE_CTRL.FSM.LOCAL_ESC",
+   "file": "hw/ip/otbn/rtl/otbn_scramble_ctrl.sv",
+   "line": 208,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "本地错误 → 擦除+安全态"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "RF_BASE.DATA_REG_SW.GLITCH_DETECT",
+   "file": "hw/ip/otbn/rtl/otbn_rf_base_fpga.sv",
+   "line": 74,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "通用等价类"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CTR.REDUN",
+   "file": "hw/ip/entropy_src/rtl/entropy_src_bucket_ht.sv",
+   "line": 51,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "双轨信号不一致注入 → 应报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CONFIG.MUBI",
+   "file": "hw/ip/entropy_src/rtl/entropy_src_core.sv",
+   "line": 569,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "mubi 非法值写入 → 应按 false 处理或报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CONFIG.MUBI",
+   "file": "hw/ip/entropy_src/rtl/entropy_src_core.sv",
+   "line": 703,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "mubi 非法值写入 → 应按 false 处理或报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CONFIG.MUBI",
+   "file": "hw/ip/entropy_src/rtl/entropy_src_core.sv",
+   "line": 724,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "mubi 非法值写入 → 应按 false 处理或报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CONFIG.MUBI",
+   "file": "hw/ip/entropy_src/rtl/entropy_src_core.sv",
+   "line": 743,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "mubi 非法值写入 → 应按 false 处理或报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CONFIG.MUBI",
+   "file": "hw/ip/entropy_src/rtl/entropy_src_core.sv",
+   "line": 762,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "mubi 非法值写入 → 应按 false 处理或报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "FIFO.CTR.REDUN",
+   "file": "hw/ip/entropy_src/rtl/entropy_src_core.sv",
+   "line": 1054,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "双轨信号不一致注入 → 应报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CONFIG.MUBI",
+   "file": "hw/ip/entropy_src/rtl/entropy_src_core.sv",
+   "line": 1482,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "mubi 非法值写入 → 应按 false 处理或报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CONFIG.MUBI",
+   "file": "hw/ip/entropy_src/rtl/entropy_src_core.sv",
+   "line": 1501,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "mubi 非法值写入 → 应按 false 处理或报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CONFIG.MUBI",
+   "file": "hw/ip/entropy_src/rtl/entropy_src_core.sv",
+   "line": 1520,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "mubi 非法值写入 → 应按 false 处理或报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CTR.REDUN",
+   "file": "hw/ip/entropy_src/rtl/entropy_src_core.sv",
+   "line": 1564,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "双轨信号不一致注入 → 应报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "RNG.BKGN_CHK",
+   "file": "hw/ip/entropy_src/rtl/entropy_src_core.sv",
+   "line": 1628,
+   "strategy": {
+    "oracle": "O-B-determinism",
+    "how": "背景检查失效注入 → 应报 alert"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CTR.REDUN",
+   "file": "hw/ip/entropy_src/rtl/entropy_src_core.sv",
+   "line": 1671,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "双轨信号不一致注入 → 应报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "RNG.BKGN_CHK",
+   "file": "hw/ip/entropy_src/rtl/entropy_src_core.sv",
+   "line": 1691,
+   "strategy": {
+    "oracle": "O-B-determinism",
+    "how": "背景检查失效注入 → 应报 alert"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CTR.REDUN",
+   "file": "hw/ip/entropy_src/rtl/entropy_src_core.sv",
+   "line": 1732,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "双轨信号不一致注入 → 应报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "RNG.BKGN_CHK",
+   "file": "hw/ip/entropy_src/rtl/entropy_src_core.sv",
+   "line": 1752,
+   "strategy": {
+    "oracle": "O-B-determinism",
+    "how": "背景检查失效注入 → 应报 alert"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CTR.REDUN",
+   "file": "hw/ip/entropy_src/rtl/entropy_src_core.sv",
+   "line": 1801,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "双轨信号不一致注入 → 应报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CTR.REDUN",
+   "file": "hw/ip/entropy_src/rtl/entropy_src_core.sv",
+   "line": 1843,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "双轨信号不一致注入 → 应报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "RNG.BKGN_CHK",
+   "file": "hw/ip/entropy_src/rtl/entropy_src_core.sv",
+   "line": 1864,
+   "strategy": {
+    "oracle": "O-B-determinism",
+    "how": "背景检查失效注入 → 应报 alert"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CTR.REDUN",
+   "file": "hw/ip/entropy_src/rtl/entropy_src_core.sv",
+   "line": 1906,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "双轨信号不一致注入 → 应报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "RNG.BKGN_CHK",
+   "file": "hw/ip/entropy_src/rtl/entropy_src_core.sv",
+   "line": 1927,
+   "strategy": {
+    "oracle": "O-B-determinism",
+    "how": "背景检查失效注入 → 应报 alert"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CTR.REDUN",
+   "file": "hw/ip/entropy_src/rtl/entropy_src_core.sv",
+   "line": 1975,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "双轨信号不一致注入 → 应报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CTR.REDUN",
+   "file": "hw/ip/entropy_src/rtl/entropy_src_core.sv",
+   "line": 2016,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "双轨信号不一致注入 → 应报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CTR.REDUN",
+   "file": "hw/ip/entropy_src/rtl/entropy_src_core.sv",
+   "line": 2080,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "双轨信号不一致注入 → 应报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CTR.REDUN",
+   "file": "hw/ip/entropy_src/rtl/entropy_src_core.sv",
+   "line": 2122,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "双轨信号不一致注入 → 应报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CTR.REDUN",
+   "file": "hw/ip/entropy_src/rtl/entropy_src_core.sv",
+   "line": 2145,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "双轨信号不一致注入 → 应报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CONFIG.REDUN",
+   "file": "hw/ip/entropy_src/rtl/entropy_src_core.sv",
+   "line": 2179,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "双轨信号不一致注入 → 应报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CTR.REDUN",
+   "file": "hw/ip/entropy_src/rtl/entropy_src_core.sv",
+   "line": 2238,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "双轨信号不一致注入 → 应报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CTR.REDUN",
+   "file": "hw/ip/entropy_src/rtl/entropy_src_core.sv",
+   "line": 2253,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "双轨信号不一致注入 → 应报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CTR.REDUN",
+   "file": "hw/ip/entropy_src/rtl/entropy_src_core.sv",
+   "line": 2268,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "双轨信号不一致注入 → 应报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CTR.REDUN",
+   "file": "hw/ip/entropy_src/rtl/entropy_src_core.sv",
+   "line": 2282,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "双轨信号不一致注入 → 应报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CTR.REDUN",
+   "file": "hw/ip/entropy_src/rtl/entropy_src_core.sv",
+   "line": 2297,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "双轨信号不一致注入 → 应报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CTR.REDUN",
+   "file": "hw/ip/entropy_src/rtl/entropy_src_core.sv",
+   "line": 2313,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "双轨信号不一致注入 → 应报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CTR.REDUN",
+   "file": "hw/ip/entropy_src/rtl/entropy_src_core.sv",
+   "line": 2327,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "双轨信号不一致注入 → 应报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CTR.REDUN",
+   "file": "hw/ip/entropy_src/rtl/entropy_src_core.sv",
+   "line": 2342,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "双轨信号不一致注入 → 应报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CTR.REDUN",
+   "file": "hw/ip/entropy_src/rtl/entropy_src_core.sv",
+   "line": 2356,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "双轨信号不一致注入 → 应报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CONFIG.MUBI",
+   "file": "hw/ip/entropy_src/rtl/entropy_src_core.sv",
+   "line": 2404,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "mubi 非法值写入 → 应按 false 处理或报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "FIFO.CTR.REDUN",
+   "file": "hw/ip/entropy_src/rtl/entropy_src_core.sv",
+   "line": 2517,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "双轨信号不一致注入 → 应报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "FIFO.CTR.REDUN",
+   "file": "hw/ip/entropy_src/rtl/entropy_src_core.sv",
+   "line": 2569,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "双轨信号不一致注入 → 应报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CTR.LOCAL_ESC",
+   "file": "hw/ip/entropy_src/rtl/entropy_src_core.sv",
+   "line": 2845,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "本地错误 → 擦除+安全态"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "MAIN_SM.FSM.SPARSE",
+   "file": "hw/ip/entropy_src/rtl/entropy_src_core.sv",
+   "line": 2846,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "非法编码值写入 → 应报错/进安全态"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "FIFO.CTR.REDUN",
+   "file": "hw/ip/entropy_src/rtl/entropy_src_core.sv",
+   "line": 2936,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "双轨信号不一致注入 → 应报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "ACK_SM.FSM.SPARSE",
+   "file": "hw/ip/entropy_src/rtl/entropy_src_core.sv",
+   "line": 2991,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "非法编码值写入 → 应报错/进安全态"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "ESFINAL_RDATA.BUS.CONSISTENCY",
+   "file": "hw/ip/entropy_src/rtl/entropy_src_core.sv",
+   "line": 3011,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "通用等价类"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "INTERSIG.MUBI",
+   "file": "hw/ip/entropy_src/rtl/entropy_src.sv",
+   "line": 28,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "mubi 非法值写入 → 应按 false 处理或报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "INTERSIG.MUBI",
+   "file": "hw/ip/entropy_src/rtl/entropy_src.sv",
+   "line": 30,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "mubi 非法值写入 → 应按 false 处理或报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CONFIG.REGWEN",
+   "file": "hw/ip/entropy_src/rtl/entropy_src.sv",
+   "line": 120,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "REGWEN 锁定后写 → 应被拒"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "TILE_LINK.BUS.INTEGRITY",
+   "file": "hw/ip/entropy_src/rtl/entropy_src.sv",
+   "line": 121,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "intg 错误注入 vs 正常，响应应不同"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CTR.REDUN",
+   "file": "hw/ip/entropy_src/rtl/entropy_src_adaptp_ht.sv",
+   "line": 52,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "双轨信号不一致注入 → 应报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CTR.REDUN",
+   "file": "hw/ip/entropy_src/rtl/entropy_src_repcnt_ht.sv",
+   "line": 74,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "双轨信号不一致注入 → 应报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CTR.REDUN",
+   "file": "hw/ip/entropy_src/rtl/entropy_src_repcnts_ht.sv",
+   "line": 66,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "双轨信号不一致注入 → 应报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "BUS.INTEGRITY",
+   "file": "hw/ip/mbx/rtl/mbx_sysif.sv",
+   "line": 93,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "intg 错误注入 vs 正常，响应应不同"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "BUS.INTEGRITY",
+   "file": "hw/ip/mbx/rtl/mbx_hostif.sv",
+   "line": 104,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "intg 错误注入 vs 正常，响应应不同"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "ADDRESS_RANGE.CONFIG.REGWEN_MUBI",
+   "file": "hw/ip/mbx/rtl/mbx_hostif.sv",
+   "line": 105,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "REGWEN 锁定后写 → 应被拒"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "LC_HW_DEBUG_EN.INTERSIG.MUBI",
+   "file": "hw/ip/rv_dm/rtl/rv_dm.sv",
+   "line": 35,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "mubi 非法值写入 → 应按 false 处理或报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "LC_DFT_EN.INTERSIG.MUBI",
+   "file": "hw/ip/rv_dm/rtl/rv_dm.sv",
+   "line": 38,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "mubi 非法值写入 → 应按 false 处理或报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "OTP_DIS_RV_DM_LATE_DEBUG.INTERSIG.MUBI",
+   "file": "hw/ip/rv_dm/rtl/rv_dm.sv",
+   "line": 47,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "mubi 非法值写入 → 应按 false 处理或报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "BUS.INTEGRITY",
+   "file": "hw/ip/rv_dm/rtl/rv_dm.sv",
+   "line": 140,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "intg 错误注入 vs 正常，响应应不同"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "DM_EN.CTRL.LC_GATED",
+   "file": "hw/ip/rv_dm/rtl/rv_dm.sv",
+   "line": 246,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "通用等价类"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "DM_EN.CTRL.LC_GATED",
+   "file": "hw/ip/rv_dm/rtl/rv_dm.sv",
+   "line": 289,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "通用等价类"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "DM_EN.CTRL.LC_GATED",
+   "file": "hw/ip/rv_dm/rtl/rv_dm.sv",
+   "line": 368,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "通用等价类"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "SBA_TL_LC_GATE.FSM.SPARSE",
+   "file": "hw/ip/rv_dm/rtl/rv_dm.sv",
+   "line": 369,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "非法编码值写入 → 应报错/进安全态"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "DM_EN.CTRL.LC_GATED",
+   "file": "hw/ip/rv_dm/rtl/rv_dm.sv",
+   "line": 440,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "通用等价类"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "DM_EN.CTRL.LC_GATED",
+   "file": "hw/ip/rv_dm/rtl/rv_dm.sv",
+   "line": 529,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "通用等价类"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "DM_EN.CTRL.LC_GATED",
+   "file": "hw/ip/rv_dm/rtl/rv_dm.sv",
+   "line": 602,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "通用等价类"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "MEM_TL_LC_GATE.FSM.SPARSE",
+   "file": "hw/ip/rv_dm/rtl/rv_dm.sv",
+   "line": 603,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "非法编码值写入 → 应报错/进安全态"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "DM_EN.CTRL.LC_GATED",
+   "file": "hw/ip/rv_dm/rtl/rv_dm.sv",
+   "line": 623,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "通用等价类"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "EXEC.CTRL.MUBI",
+   "file": "hw/ip/rv_dm/rtl/rv_dm.sv",
+   "line": 638,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "mubi 非法值写入 → 应按 false 处理或报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "BUS.INTEGRITY",
+   "file": "hw/ip/rv_dm/rtl/rv_dm.sv",
+   "line": 640,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "intg 错误注入 vs 正常，响应应不同"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "DM_EN.CTRL.LC_GATED",
+   "file": "hw/ip/rv_dm/rtl/rv_dm_dmi_gate.sv",
+   "line": 197,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "通用等价类"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "BUS.INTEGRITY",
+   "file": "hw/ip/soc_dbg_ctrl/rtl/soc_dbg_ctrl.sv",
+   "line": 86,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "intg 错误注入 vs 正常，响应应不同"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "DEBUG_POLICY_VALID.CONFIG.SHADOW",
+   "file": "hw/ip/soc_dbg_ctrl/rtl/soc_dbg_ctrl.sv",
+   "line": 87,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "shadow 寄存器两阶段写等价类 + err_update 观测"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "DEBUG_POLICY_CATEGORY.CONFIG.SHADOW",
+   "file": "hw/ip/soc_dbg_ctrl/rtl/soc_dbg_ctrl.sv",
+   "line": 88,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "shadow 寄存器两阶段写等价类 + err_update 观测"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "BUS.INTEGRITY",
+   "file": "hw/ip/soc_dbg_ctrl/rtl/soc_dbg_ctrl.sv",
+   "line": 109,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "intg 错误注入 vs 正常，响应应不同"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "DEBUG_POLICY_CATEGORY.CONFIG.SHADOW",
+   "file": "hw/ip/soc_dbg_ctrl/rtl/soc_dbg_ctrl.sv",
+   "line": 126,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "shadow 寄存器两阶段写等价类 + err_update 观测"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "HALT.FSM.SPARSE",
+   "file": "hw/ip/soc_dbg_ctrl/rtl/soc_dbg_ctrl.sv",
+   "line": 378,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "非法编码值写入 → 应报错/进安全态"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "LC_CTRL.INTERSIG.MUBI",
+   "file": "hw/ip/otp_macro/rtl/otp_macro.sv",
+   "line": 31,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "mubi 非法值写入 → 应按 false 处理或报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "MACRO.MEM.INTEGRITY",
+   "file": "hw/ip/otp_macro/rtl/otp_macro.sv",
+   "line": 59,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "intg 错误注入 vs 正常，响应应不同"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "MACRO.MEM.CM",
+   "file": "hw/ip/otp_macro/rtl/otp_macro.sv",
+   "line": 60,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "通用等价类"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "TEST.BUS.LC_GATED",
+   "file": "hw/ip/otp_macro/rtl/otp_macro.sv",
+   "line": 115,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "通用等价类"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "TEST.BUS.LC_GATED",
+   "file": "hw/ip/otp_macro/rtl/otp_macro.sv",
+   "line": 127,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "通用等价类"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "TEST_TL_LC_GATE.FSM.SPARSE",
+   "file": "hw/ip/otp_macro/rtl/otp_macro.sv",
+   "line": 128,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "非法编码值写入 → 应报错/进安全态"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "BUS.INTEGRITY",
+   "file": "hw/ip/sysrst_ctrl/rtl/sysrst_ctrl.sv",
+   "line": 95,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "intg 错误注入 vs 正常，响应应不同"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "BUS.INTEGRITY",
+   "file": "hw/ip/spi_host/rtl/spi_host.sv",
+   "line": 100,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "intg 错误注入 vs 正常，响应应不同"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CTRL.FSM.GLOBAL_ESC",
+   "file": "hw/ip/keymgr/rtl/keymgr_ctrl.sv",
+   "line": 20,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "escalate 触发 → 状态应立即进安全态"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CTRL.FSM.SPARSE",
+   "file": "hw/ip/keymgr/rtl/keymgr_ctrl.sv",
+   "line": 260,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "非法编码值写入 → 应报错/进安全态"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CTRL.KEY.INTEGRITY",
+   "file": "hw/ip/keymgr/rtl/keymgr_ctrl.sv",
+   "line": 302,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "intg 错误注入 vs 正常，响应应不同"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CTRL.CTR.REDUN",
+   "file": "hw/ip/keymgr/rtl/keymgr_ctrl.sv",
+   "line": 420,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "双轨信号不一致注入 → 应报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CTRL.FSM.LOCAL_ESC",
+   "file": "hw/ip/keymgr/rtl/keymgr_ctrl.sv",
+   "line": 462,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "本地错误 → 擦除+安全态"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "RESEED.CTR.REDUN",
+   "file": "hw/ip/keymgr/rtl/keymgr_reseed_ctrl.sv",
+   "line": 94,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "双轨信号不一致注入 → 应报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "SIDELOAD_CTRL.FSM.SPARSE",
+   "file": "hw/ip/keymgr/rtl/keymgr_sideload_key_ctrl.sv",
+   "line": 63,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "非法编码值写入 → 应报错/进安全态"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "SIDE_LOAD_SEL.CTRL.CONSISTENCY",
+   "file": "hw/ip/keymgr/rtl/keymgr_sideload_key_ctrl.sv",
+   "line": 203,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "通用等价类"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "KMAC_IF.CTR.REDUN",
+   "file": "hw/ip/keymgr/rtl/keymgr_kmac_if.sv",
+   "line": 142,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "双轨信号不一致注入 → 应报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "KMAC_IF.FSM.SPARSE",
+   "file": "hw/ip/keymgr/rtl/keymgr_kmac_if.sv",
+   "line": 169,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "非法编码值写入 → 应报错/进安全态"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "KMAC_IF_DONE.CTRL.CONSISTENCY",
+   "file": "hw/ip/keymgr/rtl/keymgr_kmac_if.sv",
+   "line": 348,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "通用等价类"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "KMAC_IF_CMD.CTRL.CONSISTENCY",
+   "file": "hw/ip/keymgr/rtl/keymgr_kmac_if.sv",
+   "line": 374,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "通用等价类"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "LC_CTRL.INTERSIG.MUBI",
+   "file": "hw/ip/keymgr/rtl/keymgr.sv",
+   "line": 60,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "mubi 非法值写入 → 应按 false 处理或报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "BUS.INTEGRITY",
+   "file": "hw/ip/keymgr/rtl/keymgr.sv",
+   "line": 140,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "intg 错误注入 vs 正常，响应应不同"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CONFIG.SHADOW",
+   "file": "hw/ip/keymgr/rtl/keymgr.sv",
+   "line": 141,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "shadow 寄存器两阶段写等价类 + err_update 观测"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "OP.CONFIG.REGWEN",
+   "file": "hw/ip/keymgr/rtl/keymgr.sv",
+   "line": 142,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "REGWEN 锁定后写 → 应被拒"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "MAX_KEY_VER.CONFIG.REGWEN",
+   "file": "hw/ip/keymgr/rtl/keymgr.sv",
+   "line": 143,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "REGWEN 锁定后写 → 应被拒"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CONSTANTS.CONSISTENCY",
+   "file": "hw/ip/keymgr/rtl/keymgr.sv",
+   "line": 509,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "通用等价类"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "INTERSIG.CONSISTENCY",
+   "file": "hw/ip/keymgr/rtl/keymgr.sv",
+   "line": 510,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "通用等价类"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "HW.KEY.SW_NOACCESS",
+   "file": "hw/ip/keymgr/rtl/keymgr.sv",
+   "line": 589,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "通用等价类"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "OUTPUT_KEYS.CTRL.REDUN",
+   "file": "hw/ip/keymgr/rtl/keymgr.sv",
+   "line": 599,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "双轨信号不一致注入 → 应报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "OUTPUT_KEYS.CTRL.REDUN",
+   "file": "hw/ip/keymgr/rtl/keymgr.sv",
+   "line": 625,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "双轨信号不一致注入 → 应报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "DATA.FSM.SPARSE",
+   "file": "hw/ip/keymgr/rtl/keymgr_data_en_state.sv",
+   "line": 68,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "非法编码值写入 → 应报错/进安全态"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CTRL.FSM.CONSISTENCY",
+   "file": "hw/ip/keymgr/rtl/keymgr_err.sv",
+   "line": 124,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "通用等价类"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "BUS.INTEGRITY",
+   "file": "hw/ip/dma/rtl/dma.sv",
+   "line": 159,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "intg 错误注入 vs 正常，响应应不同"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "RANGE.CONFIG.REGWEN_MUBI",
+   "file": "hw/ip/dma/rtl/dma.sv",
+   "line": 160,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "REGWEN 锁定后写 → 应被拒"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "ASID.INTERSIG.MUBI",
+   "file": "hw/ip/dma/rtl/dma.sv",
+   "line": 836,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "mubi 非法值写入 → 应按 false 处理或报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "BUS.INTEGRITY",
+   "file": "hw/ip/pattgen/rtl/pattgen.sv",
+   "line": 45,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "intg 错误注入 vs 正常，响应应不同"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "FSM.SPARSE",
+   "file": "hw/ip/rom_ctrl/rtl/rom_ctrl_compare.sv",
+   "line": 74,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "非法编码值写入 → 应报错/进安全态"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "COMPARE.CTRL_FLOW.CONSISTENCY",
+   "file": "hw/ip/rom_ctrl/rtl/rom_ctrl_compare.sv",
+   "line": 106,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "通用等价类"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "COMPARE.CTR.CONSISTENCY",
+   "file": "hw/ip/rom_ctrl/rtl/rom_ctrl_compare.sv",
+   "line": 112,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "通用等价类"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "COMPARE.CTR.CONSISTENCY",
+   "file": "hw/ip/rom_ctrl/rtl/rom_ctrl_compare.sv",
+   "line": 118,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "通用等价类"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "COMPARE.CTR.REDUN",
+   "file": "hw/ip/rom_ctrl/rtl/rom_ctrl_compare.sv",
+   "line": 127,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "双轨信号不一致注入 → 应报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "FSM.SPARSE",
+   "file": "hw/ip/rom_ctrl/rtl/rom_ctrl_fsm.sv",
+   "line": 168,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "非法编码值写入 → 应报错/进安全态"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "INTERSIG.MUBI",
+   "file": "hw/ip/rom_ctrl/rtl/rom_ctrl_fsm.sv",
+   "line": 169,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "mubi 非法值写入 → 应按 false 处理或报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CHECKER.CTRL_FLOW.CONSISTENCY",
+   "file": "hw/ip/rom_ctrl/rtl/rom_ctrl_fsm.sv",
+   "line": 232,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "通用等价类"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CHECKER.FSM.LOCAL_ESC",
+   "file": "hw/ip/rom_ctrl/rtl/rom_ctrl_fsm.sv",
+   "line": 241,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "本地错误 → 擦除+安全态"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CHECKER.CTR.CONSISTENCY",
+   "file": "hw/ip/rom_ctrl/rtl/rom_ctrl_fsm.sv",
+   "line": 341,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "通用等价类"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CTRL.MEM.INTEGRITY",
+   "file": "hw/ip/rom_ctrl/rtl/rom_ctrl.sv",
+   "line": 58,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "intg 错误注入 vs 正常，响应应不同"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "MEM.DIGEST",
+   "file": "hw/ip/rom_ctrl/rtl/rom_ctrl.sv",
+   "line": 119,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "通用等价类"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CTRL.REDUN",
+   "file": "hw/ip/rom_ctrl/rtl/rom_ctrl.sv",
+   "line": 162,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "双轨信号不一致注入 → 应报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "BUS.INTEGRITY",
+   "file": "hw/ip/rom_ctrl/rtl/rom_ctrl.sv",
+   "line": 184,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "intg 错误注入 vs 正常，响应应不同"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "TLUL_FIFO.CTR.REDUN",
+   "file": "hw/ip/rom_ctrl/rtl/rom_ctrl.sv",
+   "line": 185,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "双轨信号不一致注入 → 应报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "BUS.LOCAL_ESC",
+   "file": "hw/ip/rom_ctrl/rtl/rom_ctrl.sv",
+   "line": 258,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "本地错误 → 擦除+安全态"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "MEM.SCRAMBLE",
+   "file": "hw/ip/rom_ctrl/rtl/rom_ctrl.sv",
+   "line": 267,
+   "strategy": {
+    "oracle": "O-A-residual",
+    "how": " scramble 前后明文残留扫描"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "BUS.INTEGRITY",
+   "file": "hw/ip/rom_ctrl/rtl/rom_ctrl.sv",
+   "line": 331,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "intg 错误注入 vs 正常，响应应不同"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "MUX.MUBI",
+   "file": "hw/ip/rom_ctrl/rtl/rom_ctrl_mux.sv",
+   "line": 81,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "mubi 非法值写入 → 应按 false 处理或报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "MUX.CONSISTENCY",
+   "file": "hw/ip/rom_ctrl/rtl/rom_ctrl_mux.sv",
+   "line": 89,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "通用等价类"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "MUX.CONSISTENCY",
+   "file": "hw/ip/rom_ctrl/rtl/rom_ctrl_mux.sv",
+   "line": 95,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "通用等价类"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "SW_CMD.CTRL.SPARSE",
+   "file": "hw/ip/kmac/rtl/kmac_pkg.sv",
+   "line": 71,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "非法编码值写入 → 应报错/进安全态"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "FSM.SPARSE",
+   "file": "hw/ip/kmac/rtl/keccak_round.sv",
+   "line": 183,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "非法编码值写入 → 应报错/进安全态"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "FSM.GLOBAL_ESC",
+   "file": "hw/ip/kmac/rtl/keccak_round.sv",
+   "line": 397,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "escalate 触发 → 状态应立即进安全态"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "LOGIC.INTEGRITY",
+   "file": "hw/ip/kmac/rtl/keccak_round.sv",
+   "line": 456,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "intg 错误注入 vs 正常，响应应不同"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CTR.REDUN",
+   "file": "hw/ip/kmac/rtl/keccak_round.sv",
+   "line": 555,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "双轨信号不一致注入 → 应报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "FSM.SPARSE",
+   "file": "hw/ip/kmac/rtl/kmac_app.sv",
+   "line": 322,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "非法编码值写入 → 应报错/进安全态"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "FSM.GLOBAL_ESC",
+   "file": "hw/ip/kmac/rtl/kmac_app.sv",
+   "line": 567,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "escalate 触发 → 状态应立即进安全态"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "LOGIC.INTEGRITY",
+   "file": "hw/ip/kmac/rtl/kmac_app.sv",
+   "line": 679,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "intg 错误注入 vs 正常，响应应不同"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "LOGIC.INTEGRITY",
+   "file": "hw/ip/kmac/rtl/kmac_app.sv",
+   "line": 690,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "intg 错误注入 vs 正常，响应应不同"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "LOGIC.INTEGRITY",
+   "file": "hw/ip/kmac/rtl/kmac_app.sv",
+   "line": 701,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "intg 错误注入 vs 正常，响应应不同"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "LOGIC.INTEGRITY",
+   "file": "hw/ip/kmac/rtl/kmac_app.sv",
+   "line": 709,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "intg 错误注入 vs 正常，响应应不同"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "KEY.SIDELOAD",
+   "file": "hw/ip/kmac/rtl/kmac_app.sv",
+   "line": 766,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "通用等价类"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "FSM.SPARSE",
+   "file": "hw/ip/kmac/rtl/kmac_errchk.sv",
+   "line": 185,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "非法编码值写入 → 应报错/进安全态"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "FSM.GLOBAL_ESC",
+   "file": "hw/ip/kmac/rtl/kmac_errchk.sv",
+   "line": 450,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "escalate 触发 → 状态应立即进安全态"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "FSM.SPARSE",
+   "file": "hw/ip/kmac/rtl/kmac_entropy.sv",
+   "line": 490,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "非法编码值写入 → 应报错/进安全态"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "FSM.GLOBAL_ESC",
+   "file": "hw/ip/kmac/rtl/kmac_entropy.sv",
+   "line": 731,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "escalate 触发 → 状态应立即进安全态"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "FSM.SPARSE",
+   "file": "hw/ip/kmac/rtl/kmac_core.sv",
+   "line": 165,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "非法编码值写入 → 应报错/进安全态"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "FSM.GLOBAL_ESC",
+   "file": "hw/ip/kmac/rtl/kmac_core.sv",
+   "line": 245,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "escalate 触发 → 状态应立即进安全态"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CTR.REDUN",
+   "file": "hw/ip/kmac/rtl/kmac_core.sv",
+   "line": 410,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "双轨信号不一致注入 → 应报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CTR.REDUN",
+   "file": "hw/ip/kmac/rtl/sha3pad.sv",
+   "line": 190,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "双轨信号不一致注入 → 应报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "ABSORBED.CTRL.MUBI",
+   "file": "hw/ip/kmac/rtl/sha3pad.sv",
+   "line": 290,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "mubi 非法值写入 → 应按 false 处理或报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "FSM.GLOBAL_ESC",
+   "file": "hw/ip/kmac/rtl/sha3pad.sv",
+   "line": 491,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "escalate 触发 → 状态应立即进安全态"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "FSM.GLOBAL_ESC",
+   "file": "hw/ip/kmac/rtl/sha3.sv",
+   "line": 318,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "escalate 触发 → 状态应立即进安全态"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "SW_CMD.CTRL.SPARSE",
+   "file": "hw/ip/kmac/rtl/kmac.sv",
+   "line": 282,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "非法编码值写入 → 应报错/进安全态"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CFG_SHADOWED.CONFIG.REGWEN",
+   "file": "hw/ip/kmac/rtl/kmac.sv",
+   "line": 482,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "REGWEN 锁定后写 → 应被拒"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "SW_KEY.KEY.MASKING",
+   "file": "hw/ip/kmac/rtl/kmac.sv",
+   "line": 488,
+   "strategy": {
+    "oracle": "O-B-determinism",
+    "how": "相同输入两次执行，掩码信号应不同"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "FSM.GLOBAL_ESC",
+   "file": "hw/ip/kmac/rtl/kmac.sv",
+   "line": 846,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "escalate 触发 → 状态应立即进安全态"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CFG_SHADOWED.CONFIG.SHADOW",
+   "file": "hw/ip/kmac/rtl/kmac.sv",
+   "line": 1395,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "shadow 寄存器两阶段写等价类 + err_update 观测"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "BUS.INTEGRITY",
+   "file": "hw/ip/kmac/rtl/kmac.sv",
+   "line": 1398,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "intg 错误注入 vs 正常，响应应不同"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "LC_ESCALATE_EN.INTERSIG.MUBI",
+   "file": "hw/ip/kmac/rtl/kmac.sv",
+   "line": 1510,
+   "strategy": {
+    "oracle": "O-B-determinism",
+    "how": "秘密相关信号功耗/翻转模式分析"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "PACKER.CTR.REDUN",
+   "file": "hw/ip/kmac/rtl/kmac_msgfifo.sv",
+   "line": 107,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "双轨信号不一致注入 → 应报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "BUS.INTEGRITY",
+   "file": "hw/ip/uart/rtl/uart.sv",
+   "line": 68,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "intg 错误注入 vs 正常，响应应不同"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CTR.FSM.LOCAL_ESC",
+   "file": "hw/ip/aes/rtl/aes_ctr_fsm.sv",
+   "line": 82,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "本地错误 → 擦除+安全态"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CTR.FSM.SPARSE",
+   "file": "hw/ip/aes/rtl/aes_ctr_fsm.sv",
+   "line": 120,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "非法编码值写入 → 应报错/进安全态"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "KEY.MASKING",
+   "file": "hw/ip/aes/rtl/aes_sbox.sv",
+   "line": 68,
+   "strategy": {
+    "oracle": "O-B-determinism",
+    "how": "相同输入两次执行，掩码信号应不同"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "KEY.MASKING",
+   "file": "hw/ip/aes/rtl/aes_sbox_dom.sv",
+   "line": 983,
+   "strategy": {
+    "oracle": "O-B-determinism",
+    "how": "相同输入两次执行，掩码信号应不同"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "DATA_REG.KEY.SCA",
+   "file": "hw/ip/aes/rtl/aes_cipher_control_fsm.sv",
+   "line": 337,
+   "strategy": {
+    "oracle": "O-B-determinism",
+    "how": "秘密相关信号功耗/翻转模式分析"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "DATA_REG.LOCAL_ESC",
+   "file": "hw/ip/aes/rtl/aes_cipher_control_fsm.sv",
+   "line": 342,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "本地错误 → 擦除+安全态"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "DATA_REG.SEC_WIPE",
+   "file": "hw/ip/aes/rtl/aes_cipher_control_fsm.sv",
+   "line": 415,
+   "strategy": {
+    "oracle": "O-A-residual",
+    "how": "触发擦除流程后白盒扫描关联寄存器/信号残留"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CIPHER.FSM.LOCAL_ESC",
+   "file": "hw/ip/aes/rtl/aes_cipher_control_fsm.sv",
+   "line": 430,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "本地错误 → 擦除+安全态"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CIPHER.FSM.SPARSE",
+   "file": "hw/ip/aes/rtl/aes_cipher_control_fsm.sv",
+   "line": 450,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "非法编码值写入 → 应报错/进安全态"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CTRL.SPARSE",
+   "file": "hw/ip/aes/rtl/aes_sub_bytes.sv",
+   "line": 37,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "非法编码值写入 → 应报错/进安全态"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "KEY.MASKING",
+   "file": "hw/ip/aes/rtl/aes_sbox_canright_masked_noreuse.sv",
+   "line": 391,
+   "strategy": {
+    "oracle": "O-B-determinism",
+    "how": "相同输入两次执行，掩码信号应不同"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "MAIN.FSM.GLOBAL_ESC",
+   "file": "hw/ip/aes/rtl/aes_control_fsm.sv",
+   "line": 610,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "escalate 触发 → 状态应立即进安全态"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "MAIN.FSM.LOCAL_ESC",
+   "file": "hw/ip/aes/rtl/aes_control_fsm.sv",
+   "line": 611,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "本地错误 → 擦除+安全态"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "MAIN.FSM.SPARSE",
+   "file": "hw/ip/aes/rtl/aes_control_fsm.sv",
+   "line": 631,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "非法编码值写入 → 应报错/进安全态"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "MAIN.CONFIG.SHADOW",
+   "file": "hw/ip/aes/rtl/aes_ctrl_reg_shadowed.sv",
+   "line": 121,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "shadow 寄存器两阶段写等价类 + err_update 观测"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "MAIN.CONFIG.SPARSE",
+   "file": "hw/ip/aes/rtl/aes_pkg.sv",
+   "line": 93,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "非法编码值写入 → 应报错/进安全态"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "MAIN.CONFIG.SPARSE",
+   "file": "hw/ip/aes/rtl/aes_pkg.sv",
+   "line": 99,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "非法编码值写入 → 应报错/进安全态"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "MAIN.CONFIG.SPARSE",
+   "file": "hw/ip/aes/rtl/aes_pkg.sv",
+   "line": 114,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "非法编码值写入 → 应报错/进安全态"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "MAIN.CONFIG.SPARSE",
+   "file": "hw/ip/aes/rtl/aes_pkg.sv",
+   "line": 121,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "非法编码值写入 → 应报错/进安全态"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "BUS.INTEGRITY",
+   "file": "hw/ip/aes/rtl/aes.sv",
+   "line": 89,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "intg 错误注入 vs 正常，响应应不同"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "AUX.CONFIG.SHADOW",
+   "file": "hw/ip/aes/rtl/aes.sv",
+   "line": 90,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "shadow 寄存器两阶段写等价类 + err_update 观测"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "AUX.CONFIG.REGWEN",
+   "file": "hw/ip/aes/rtl/aes.sv",
+   "line": 91,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "REGWEN 锁定后写 → 应被拒"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "KEY.SW_UNREADABLE",
+   "file": "hw/ip/aes/rtl/aes.sv",
+   "line": 92,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "通用等价类"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "DATA_REG.SW_UNREADABLE",
+   "file": "hw/ip/aes/rtl/aes.sv",
+   "line": 93,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "通用等价类"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "LC_ESCALATE_EN.INTERSIG.MUBI",
+   "file": "hw/ip/aes/rtl/aes.sv",
+   "line": 110,
+   "strategy": {
+    "oracle": "O-B-determinism",
+    "how": "秘密相关信号功耗/翻转模式分析"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "KEY.MASKING",
+   "file": "hw/ip/aes/rtl/aes_sbox_canright_masked.sv",
+   "line": 433,
+   "strategy": {
+    "oracle": "O-B-determinism",
+    "how": "相同输入两次执行，掩码信号应不同"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "KEY.SEC_WIPE",
+   "file": "hw/ip/aes/rtl/aes_core.sv",
+   "line": 313,
+   "strategy": {
+    "oracle": "O-A-residual",
+    "how": "触发擦除流程后白盒扫描关联寄存器/信号残留"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "KEY.SIDELOAD",
+   "file": "hw/ip/aes/rtl/aes_core.sv",
+   "line": 314,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "通用等价类"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "IV.CONFIG.SEC_WIPE",
+   "file": "hw/ip/aes/rtl/aes_core.sv",
+   "line": 339,
+   "strategy": {
+    "oracle": "O-A-residual",
+    "how": "触发擦除流程后白盒扫描关联寄存器/信号残留"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "DATA_REG.SEC_WIPE",
+   "file": "hw/ip/aes/rtl/aes_core.sv",
+   "line": 365,
+   "strategy": {
+    "oracle": "O-A-residual",
+    "how": "触发擦除流程后白盒扫描关联寄存器/信号残留"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "KEY.MASKING",
+   "file": "hw/ip/aes/rtl/aes_core.sv",
+   "line": 464,
+   "strategy": {
+    "oracle": "O-B-determinism",
+    "how": "相同输入两次执行，掩码信号应不同"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "DATA_REG.SEC_WIPE",
+   "file": "hw/ip/aes/rtl/aes_core.sv",
+   "line": 684,
+   "strategy": {
+    "oracle": "O-A-residual",
+    "how": "触发擦除流程后白盒扫描关联寄存器/信号残留"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CTRL.SPARSE",
+   "file": "hw/ip/aes/rtl/aes_ctr.sv",
+   "line": 75,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "非法编码值写入 → 应报错/进安全态"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CTR.FSM.REDUN",
+   "file": "hw/ip/aes/rtl/aes_ctr.sv",
+   "line": 105,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "双轨信号不一致注入 → 应报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CIPHER.FSM.REDUN",
+   "file": "hw/ip/aes/rtl/aes_cipher_control.sv",
+   "line": 148,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "双轨信号不一致注入 → 应报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CIPHER.CTR.REDUN",
+   "file": "hw/ip/aes/rtl/aes_cipher_control.sv",
+   "line": 149,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "双轨信号不一致注入 → 应报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CTRL.SPARSE",
+   "file": "hw/ip/aes/rtl/aes_cipher_control.sv",
+   "line": 389,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "非法编码值写入 → 应报错/进安全态"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "DATA_REG.SEC_WIPE",
+   "file": "hw/ip/aes/rtl/aes_cipher_core.sv",
+   "line": 245,
+   "strategy": {
+    "oracle": "O-A-residual",
+    "how": "触发擦除流程后白盒扫描关联寄存器/信号残留"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "KEY.SEC_WIPE",
+   "file": "hw/ip/aes/rtl/aes_cipher_core.sv",
+   "line": 436,
+   "strategy": {
+    "oracle": "O-A-residual",
+    "how": "触发擦除流程后白盒扫描关联寄存器/信号残留"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "KEY.SEC_WIPE",
+   "file": "hw/ip/aes/rtl/aes_cipher_core.sv",
+   "line": 457,
+   "strategy": {
+    "oracle": "O-A-residual",
+    "how": "触发擦除流程后白盒扫描关联寄存器/信号残留"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "MAIN.FSM.REDUN",
+   "file": "hw/ip/aes/rtl/aes_control.sv",
+   "line": 244,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "双轨信号不一致注入 → 应报错"
+   }
+  },
+  {
+   "source": "T1-SEC_CM",
+   "tag": "CTRL.SPARSE",
+   "file": "hw/ip/aes/rtl/aes_control.sv",
+   "line": 511,
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "非法编码值写入 → 应报错/进安全态"
+   }
+  },
+  {
+   "source": "T2-assert-waiver",
+   "name": "AesSecCmKeyMaskingPrdSubBytes",
+   "file": "hw/ip/aes/rtl/aes_cipher_core.sv",
+   "body": "sub_bytes_en == SP2V_HIGH && ($past(sub_bytes_en) == SP2V_LOW || ($past(sub_bytes_out_req) == SP2V_HIGH && $past(sub_bytes_out_ack) == SP2V_HIGH)) |=> $past(prd_sub_bytes_q) != $past(prd_sub_bytes_q, ",
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "断言含软件可触发的豁免条件，构造条件满足场景使断言失效"
+   }
+  },
+  {
+   "source": "T3-param-risk",
+   "file": "hw/ip/lc_ctrl/rtl/lc_ctrl.sv",
+   "frag": "SecVolatileRawUnlockEn = 1",
+   "desc": "易失 RAW 解锁开启",
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "危险参数值的安全后果验证"
+   }
+  },
+  {
+   "source": "T3-param-risk",
+   "file": "hw/ip/rv_dm/rtl/rv_dm_dmi_gate.sv",
+   "frag": "SecVolatileRawUnlockEn = 1",
+   "desc": "易失 RAW 解锁开启",
+   "strategy": {
+    "oracle": "O-C-equivclass",
+    "how": "危险参数值的安全后果验证"
+   }
+  }
+ ]
+}

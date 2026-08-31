@@ -1,0 +1,14 @@
+{
+ "module": "kmac",
+ "n_seqs": 30,
+ "findings": [
+  {
+   "oracle": "O-B-determinism",
+   "mut": "mut_boundary",
+   "seq_id": 13,
+   "signal": "u_dut.msg_data_masked",
+   "value": "0xffffffff 0xffffffff 0xffffffff 0xffffffff",
+   "desc": "序列[mut_boundary]两次执行 u_dut.msg_data_masked 逐位相同（无随机性）"
+  }
+ ]
+}

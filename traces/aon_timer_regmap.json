@@ -1,0 +1,16 @@
+{
+ "alert_test": 0,
+ "wkup_ctrl": 4,
+ "wkup_thold_hi": 8,
+ "wkup_thold_lo": 12,
+ "wkup_count_hi": 16,
+ "wkup_count_lo": 20,
+ "wdog_regwen": 24,
+ "wdog_ctrl": 28,
+ "wdog_bark_thold": 32,
+ "wdog_bite_thold": 36,
+ "wdog_count": 40,
+ "intr_state": 44,
+ "intr_test": 48,
+ "wkup_cause": 52
+}

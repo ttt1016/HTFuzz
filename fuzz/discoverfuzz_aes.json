@@ -1,0 +1,114 @@
+{
+ "module": "aes",
+ "n_seqs": 30,
+ "findings": [
+  {
+   "oracle": "O-A-residual",
+   "mut": "base",
+   "seq_id": 0,
+   "signal": "u_dut.key_init",
+   "word": 0,
+   "value": "0x55555555",
+   "desc": "序列[base]后 u_dut.key_init[0] 残留写入标记"
+  },
+  {
+   "oracle": "O-C-equivclass",
+   "mut": "base",
+   "seq_id": 0,
+   "signal": "u_dut.data_out_q",
+   "desc": "序列[base] vs 重排版: u_dut.data_out_q 终态不同"
+  },
+  {
+   "oracle": "O-C-equivclass",
+   "mut": "mut_window_oob",
+   "seq_id": 2,
+   "signal": "u_dut.data_out_q",
+   "desc": "序列[mut_window_oob] vs 重排版: u_dut.data_out_q 终态不同"
+  },
+  {
+   "oracle": "O-A-residual",
+   "mut": "mut_window_oob",
+   "seq_id": 3,
+   "signal": "u_dut.key_init",
+   "word": 0,
+   "value": "0x55555555",
+   "desc": "序列[mut_window_oob]后 u_dut.key_init[0] 残留写入标记"
+  },
+  {
+   "oracle": "O-A-residual",
+   "mut": "mut_illegal_dir",
+   "seq_id": 4,
+   "signal": "u_dut.key_init",
+   "word": 0,
+   "value": "0x55555555",
+   "desc": "序列[mut_illegal_dir]后 u_dut.key_init[0] 残留写入标记"
+  },
+  {
+   "oracle": "O-C-equivclass",
+   "mut": "mut_illegal_dir",
+   "seq_id": 4,
+   "signal": "u_dut.data_out_q",
+   "desc": "序列[mut_illegal_dir] vs 重排版: u_dut.data_out_q 终态不同"
+  },
+  {
+   "oracle": "O-A-residual",
+   "mut": "mut_bitflip",
+   "seq_id": 5,
+   "signal": "u_dut.key_init",
+   "word": 0,
+   "value": "0x555dd175",
+   "desc": "序列[mut_bitflip]后 u_dut.key_init[0] 残留写入标记"
+  },
+  {
+   "oracle": "O-A-residual",
+   "mut": "mut_fsm_violation",
+   "seq_id": 6,
+   "signal": "u_dut.key_init",
+   "word": 0,
+   "value": "0x555dd175",
+   "desc": "序列[mut_fsm_violation]后 u_dut.key_init[0] 残留写入标记"
+  },
+  {
+   "oracle": "O-C-equivclass",
+   "mut": "mut_dup_splice",
+   "seq_id": 9,
+   "signal": "u_dut.data_out_q",
+   "desc": "序列[mut_dup_splice] vs 重排版: u_dut.data_out_q 终态不同"
+  },
+  {
+   "oracle": "O-C-equivclass",
+   "mut": "mut_boundary",
+   "seq_id": 13,
+   "signal": "u_dut.data_in_prev_q",
+   "desc": "序列[mut_boundary] vs 重排版: u_dut.data_in_prev_q 终态不同"
+  },
+  {
+   "oracle": "O-C-equivclass",
+   "mut": "mut_boundary",
+   "seq_id": 13,
+   "signal": "u_dut.data_out_q",
+   "desc": "序列[mut_boundary] vs 重排版: u_dut.data_out_q 终态不同"
+  },
+  {
+   "oracle": "O-C-equivclass",
+   "mut": "mut_fsm_violation",
+   "seq_id": 14,
+   "signal": "u_dut.data_out_q",
+   "desc": "序列[mut_fsm_violation] vs 重排版: u_dut.data_out_q 终态不同"
+  },
+  {
+   "oracle": "O-C-equivclass",
+   "mut": "mut_illegal_dir",
+   "seq_id": 23,
+   "signal": "u_dut.data_in_prev_q",
+   "desc": "序列[mut_illegal_dir] vs 重排版: u_dut.data_in_prev_q 终态不同"
+  },
+  {
+   "oracle": "O-C-equivclass",
+   "mut": "mut_fsm_violation",
+   "seq_id": 29,
+   "signal": "u_dut.data_in_prev_q",
+   "desc": "序列[mut_fsm_violation] vs 重排版: u_dut.data_in_prev_q 终态不同"
+  }
+ ]
+}

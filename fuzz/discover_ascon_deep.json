@@ -1,0 +1,197 @@
+{
+ "module": "ascon",
+ "findings": [
+  {
+   "oracle": "O-A-residual",
+   "signal": "ascon_core.key_share0_in_q",
+   "word": 0,
+   "value": "0xdead00be",
+   "marker": "0xdead00be",
+   "trial": 0,
+   "desc": "敏感信号 ascon_core.key_share0_in_q[0] 在清除/操作序列后残留写入标记值",
+   "llm_deep": {
+    "verdict": "needs-review",
+    "confidence": 50,
+    "evidence": "Let me analyze this carefully.\n\nThe candidate is about `ascon_core.key_share0_in_q` in the OpenTitan ASCON module. The oracle O-A-residual flags that sensitive data (key) remains after clear/erase operations.\n\nLooking at the RTL context provided:\n\n```systemverilog\n// hw/ip/ascon/rtl/ascon_core.sv:158\n  128:   keymgr_pkg::hw_key_req_t  unused_keymgr_key_i;\n...\n  148:   // DATA REGISTERS\n  149: \n  150:   for (genvar i = 0; i < NumRegsKey; i++) begin : gen_hw_ext_key_regs\n  151:     // Input conversion\n  152:     assign key_share0_in_d[i] = reg2hw.key_share0[i].q;\n  153:     assign key_share1_in_d[i] = reg2hw.key_share1[i].q;\n  154: \n  155:     // hwext input key registers\n  156:     always_ff @(posedge clk_i or negedge rst_ni) begin : input_reg_key_share0\n  157:       if (!rst_ni) begin\n  158:         key_share0_in_q[i] <= '{default: '0};\n  159:       end else if (reg2hw.key_share0[i].qe) begin\n  160:         key_share0_in_q[i] <= key_share0_in_d[i];\n  161:       end\n  162:     end\n  163:     assign hw2reg.key_share0[i].d = '0;\n```\n\nThis is the upstream OpenTitan ASCON (ascon accelerator) code. Let me recall the actual OpenTitan ascon_core.sv. The ASCON crypto accelerator in OpenTitan (hw/ip/ascon) has key registers that are hwext — meaning the storage is in the hardware block itself, not in the register file. The `key_share0_in_q` registers capture the key when written via `reg2hw.key_share0[i].qe`.\n\nIn the original OpenTitan code, I recall there's a mechanism to clear the key registers. Let me think about what the original code looks like.\n\nLooking at the actual OpenTitan ascon repository (it's a work-in-progress IP from the \"ascon\" integration), the ascon_core.sv has:\n\n```systemverilog\n  // Input conversion\n  assign key_share0_in_d[i] = reg2hw.key_share0[i].q;\n  assign key_share1_in_d[i] = reg2hw.key_share1[i].q;\n\n  // hwext input key registers\n  always_ff @(posedge clk_i or negedge rst_ni) begin : input_reg_key_share0\n    if (!rst_ni) begin\n      key_share0_in_q[i",
+    "mode": "api-deep",
+    "model": "zai-org/GLM-5.3-Flash"
+   }
+  },
+  {
+   "oracle": "O-A-residual",
+   "signal": "ascon_core.key_share1_in_q",
+   "word": 0,
+   "value": "0xdead00bf",
+   "marker": "0xdead00be",
+   "trial": 0,
+   "desc": "敏感信号 ascon_core.key_share1_in_q[0] 在清除/操作序列后残留写入标记值",
+   "llm_deep": {
+    "verdict": "needs-review",
+    "confidence": 50,
+    "evidence": "Let me analyze this carefully.\n\nThe candidate is about `ascon_core.key_share1_in_q` in the OpenTitan ASCON module. The oracle O-A-residual flags that sensitive data (key) remains after clear/erase operations.\n\nLooking at the RTL context provided:\n\n```systemverilog\n// hw/ip/ascon/rtl/ascon_core.sv:167\n  // DATA REGISTERS\n  for (genvar i = 0; i < NumRegsKey; i++) begin : gen_hw_ext_key_regs\n    // Input conversion\n    assign key_share0_in_d[i] = reg2hw.key_share0[i].q;\n    assign key_share1_in_d[i] = reg2hw.key_share1[i].q;\n\n    // hwext input key registers\n    always_ff @(posedge clk_i or negedge rst_ni) begin : input_reg_key_share0\n      if (!rst_ni) begin\n        key_share0_in_q[i] <= '{default: '0};\n      end else if (reg2hw.key_share0[i].qe) begin\n        key_share0_in_q[i] <= key_share0_in_d[i];\n      end\n    end\n    assign hw2reg.key_share0[i].d = '0;\n\n    always_ff @(posedge clk_i or negedge rst_ni) begin : input_reg_key_share1\n      if (!rst_ni) begin\n        key_share1_in_q[i] <= '{default: '0};\n      end else if (reg2hw.key_share1[i].qe) begin\n        key_share1_in_q[i] <= key_share1_in_d[i];\n      end\n    end\n    assign hw2reg.key_share1[i].d = '0;\n  end\n```\n\nThis is the upstream OpenTitan ASCON (ascon package / ascon accelerator) code. Let me recall the actual upstream code from OpenTitan's `hw/ip/ascon/rtl/ascon_core.sv`.\n\nThe actual upstream code (from OpenTitan repository, hw/ip/ascon/rtl/ascon_core.sv):\n\n```systemverilog\n  // TODO Add logic to provide inputs unmasked.\n  //      Atm both shares must be written.\n  logic  unused_masked_msg_input;\n  logic  unused_masked_ad_input;\n  assign unused_masked_ad_input  = masked_ad_input;\n  assign unused_masked_msg_input = masked_msg_input;\n\n  // TODO Add escalation Input\n  assign unused_lc_escalate_en_i = lc_escalate_en_i;\n\n  // DATA REGISTERS\n\n  for (genvar i = 0; i < NumRegsKey; i++) begin : gen_hw_ext_key_regs\n    // Input conversion\n    assign key_share0_in_d[i] = reg2hw.key_share0[i].q;\n    assign key_share",
+    "mode": "api-deep",
+    "model": "zai-org/GLM-5.3-Flash"
+   }
+  },
+  {
+   "oracle": "O-A-residual",
+   "signal": "ascon_core.key_share0_in_q",
+   "word": 0,
+   "value": "0xdead01be",
+   "marker": "0xdead01be",
+   "trial": 1,
+   "desc": "敏感信号 ascon_core.key_share0_in_q[0] 在清除/操作序列后残留写入标记值",
+   "llm_deep": {
+    "verdict": "needs-review",
+    "confidence": 50,
+    "evidence": "Let me analyze this carefully.\n\nThe candidate is about `ascon_core.key_share0_in_q` in the OpenTitan ASCON module. The oracle O-A-residual flags that sensitive data (key) remains after clear/erase operations.\n\nLooking at the RTL context provided:\n\n```systemverilog\n// hw/ip/ascon/rtl/ascon_core.sv:158\n  128:   keymgr_pkg::hw_key_req_t  unused_keymgr_key_i;\n...\n  148:   // DATA REGISTERS\n  149: \n  150:   for (genvar i = 0; i < NumRegsKey; i++) begin : gen_hw_ext_key_regs\n  151:     // Input conversion\n  152:     assign key_share0_in_d[i] = reg2hw.key_share0[i].q;\n  153:     assign key_share1_in_d[i] = reg2hw.key_share1[i].q;\n  154: \n  155:     // hwext input key registers\n  156:     always_ff @(posedge clk_i or negedge rst_ni) begin : input_reg_key_share0\n  157:       if (!rst_ni) begin\n  158:         key_share0_in_q[i] <= '{default: '0};\n  159:       end else if (reg2hw.key_share0[i].qe) begin\n  160:         key_share0_in_q[i] <= key_share0_in_d[i];\n  161:       end\n  162:     end\n  163:     assign hw2reg.key_share0[i].d = '0;\n```\n\nThis is the upstream OpenTitan ASCON (ascon accelerator) code. Let me recall the actual OpenTitan ascon_core.sv. The ASCON crypto accelerator in OpenTitan (hw/ip/ascon) has key registers that are hwext — meaning the storage is in the hardware block itself, not in the register file. The `key_share0_in_q` registers capture the key when written via `reg2hw.key_share0[i].qe`.\n\nIn the original OpenTitan code, I recall there's a mechanism to clear the key registers. Let me think about what the original code looks like.\n\nLooking at the actual OpenTitan ascon repository (it's a work-in-progress IP from the \"ascon\" integration), the ascon_core.sv has:\n\n```systemverilog\n  // Input conversion\n  assign key_share0_in_d[i] = reg2hw.key_share0[i].q;\n  assign key_share1_in_d[i] = reg2hw.key_share1[i].q;\n\n  // hwext input key registers\n  always_ff @(posedge clk_i or negedge rst_ni) begin : input_reg_key_share0\n    if (!rst_ni) begin\n      key_share0_in_q[i",
+    "mode": "api-deep",
+    "model": "zai-org/GLM-5.3-Flash"
+   }
+  },
+  {
+   "oracle": "O-A-residual",
+   "signal": "ascon_core.key_share1_in_q",
+   "word": 0,
+   "value": "0xdead01bf",
+   "marker": "0xdead01be",
+   "trial": 1,
+   "desc": "敏感信号 ascon_core.key_share1_in_q[0] 在清除/操作序列后残留写入标记值",
+   "llm_deep": {
+    "verdict": "needs-review",
+    "confidence": 50,
+    "evidence": "Let me analyze this carefully.\n\nThe candidate is about `ascon_core.key_share1_in_q` in the OpenTitan ASCON module. The oracle O-A-residual flags that sensitive data (key) remains after clear/erase operations.\n\nLooking at the RTL context provided:\n\n```systemverilog\n// hw/ip/ascon/rtl/ascon_core.sv:167\n  // DATA REGISTERS\n  for (genvar i = 0; i < NumRegsKey; i++) begin : gen_hw_ext_key_regs\n    // Input conversion\n    assign key_share0_in_d[i] = reg2hw.key_share0[i].q;\n    assign key_share1_in_d[i] = reg2hw.key_share1[i].q;\n\n    // hwext input key registers\n    always_ff @(posedge clk_i or negedge rst_ni) begin : input_reg_key_share0\n      if (!rst_ni) begin\n        key_share0_in_q[i] <= '{default: '0};\n      end else if (reg2hw.key_share0[i].qe) begin\n        key_share0_in_q[i] <= key_share0_in_d[i];\n      end\n    end\n    assign hw2reg.key_share0[i].d = '0;\n\n    always_ff @(posedge clk_i or negedge rst_ni) begin : input_reg_key_share1\n      if (!rst_ni) begin\n        key_share1_in_q[i] <= '{default: '0};\n      end else if (reg2hw.key_share1[i].qe) begin\n        key_share1_in_q[i] <= key_share1_in_d[i];\n      end\n    end\n    assign hw2reg.key_share1[i].d = '0;\n  end\n```\n\nThis is the upstream OpenTitan ASCON (ascon package / ascon accelerator) code. Let me recall the actual upstream code from OpenTitan's `hw/ip/ascon/rtl/ascon_core.sv`.\n\nThe actual upstream code (from OpenTitan repository, hw/ip/ascon/rtl/ascon_core.sv):\n\n```systemverilog\n  // TODO Add logic to provide inputs unmasked.\n  //      Atm both shares must be written.\n  logic  unused_masked_msg_input;\n  logic  unused_masked_ad_input;\n  assign unused_masked_ad_input  = masked_ad_input;\n  assign unused_masked_msg_input = masked_msg_input;\n\n  // TODO Add escalation Input\n  assign unused_lc_escalate_en_i = lc_escalate_en_i;\n\n  // DATA REGISTERS\n\n  for (genvar i = 0; i < NumRegsKey; i++) begin : gen_hw_ext_key_regs\n    // Input conversion\n    assign key_share0_in_d[i] = reg2hw.key_share0[i].q;\n    assign key_share",
+    "mode": "api-deep",
+    "model": "zai-org/GLM-5.3-Flash"
+   }
+  },
+  {
+   "oracle": "O-A-residual",
+   "signal": "ascon_core.key_share0_in_q",
+   "word": 0,
+   "value": "0xdead02be",
+   "marker": "0xdead02be",
+   "trial": 2,
+   "desc": "敏感信号 ascon_core.key_share0_in_q[0] 在清除/操作序列后残留写入标记值",
+   "llm_deep": {
+    "verdict": "needs-review",
+    "confidence": 50,
+    "evidence": "Let me analyze this carefully.\n\nThe candidate is about `ascon_core.key_share0_in_q` in the OpenTitan ASCON module. The oracle O-A-residual flags that sensitive data (key) remains after clear/erase operations.\n\nLooking at the RTL context provided:\n\n```systemverilog\n// hw/ip/ascon/rtl/ascon_core.sv:158\n  128:   keymgr_pkg::hw_key_req_t  unused_keymgr_key_i;\n...\n  148:   // DATA REGISTERS\n  149: \n  150:   for (genvar i = 0; i < NumRegsKey; i++) begin : gen_hw_ext_key_regs\n  151:     // Input conversion\n  152:     assign key_share0_in_d[i] = reg2hw.key_share0[i].q;\n  153:     assign key_share1_in_d[i] = reg2hw.key_share1[i].q;\n  154: \n  155:     // hwext input key registers\n  156:     always_ff @(posedge clk_i or negedge rst_ni) begin : input_reg_key_share0\n  157:       if (!rst_ni) begin\n  158:         key_share0_in_q[i] <= '{default: '0};\n  159:       end else if (reg2hw.key_share0[i].qe) begin\n  160:         key_share0_in_q[i] <= key_share0_in_d[i];\n  161:       end\n  162:     end\n  163:     assign hw2reg.key_share0[i].d = '0;\n```\n\nThis is the upstream OpenTitan ASCON (ascon accelerator) code. Let me recall the actual OpenTitan ascon_core.sv. The ASCON crypto accelerator in OpenTitan (hw/ip/ascon) has key registers that are hwext — meaning the storage is in the hardware block itself, not in the register file. The `key_share0_in_q` registers capture the key when written via `reg2hw.key_share0[i].qe`.\n\nIn the original OpenTitan code, I recall there's a mechanism to clear the key registers. Let me think about what the original code looks like.\n\nLooking at the actual OpenTitan ascon repository (it's a work-in-progress IP from the \"ascon\" integration), the ascon_core.sv has:\n\n```systemverilog\n  // Input conversion\n  assign key_share0_in_d[i] = reg2hw.key_share0[i].q;\n  assign key_share1_in_d[i] = reg2hw.key_share1[i].q;\n\n  // hwext input key registers\n  always_ff @(posedge clk_i or negedge rst_ni) begin : input_reg_key_share0\n    if (!rst_ni) begin\n      key_share0_in_q[i",
+    "mode": "api-deep",
+    "model": "zai-org/GLM-5.3-Flash"
+   }
+  },
+  {
+   "oracle": "O-A-residual",
+   "signal": "ascon_core.key_share1_in_q",
+   "word": 0,
+   "value": "0xdead02bf",
+   "marker": "0xdead02be",
+   "trial": 2,
+   "desc": "敏感信号 ascon_core.key_share1_in_q[0] 在清除/操作序列后残留写入标记值",
+   "llm_deep": {
+    "verdict": "needs-review",
+    "confidence": 50,
+    "evidence": "Let me analyze this carefully.\n\nThe candidate is about `ascon_core.key_share1_in_q` in the OpenTitan ASCON module. The oracle O-A-residual flags that sensitive data (key) remains after clear/erase operations.\n\nLooking at the RTL context provided:\n\n```systemverilog\n// hw/ip/ascon/rtl/ascon_core.sv:167\n  // DATA REGISTERS\n  for (genvar i = 0; i < NumRegsKey; i++) begin : gen_hw_ext_key_regs\n    // Input conversion\n    assign key_share0_in_d[i] = reg2hw.key_share0[i].q;\n    assign key_share1_in_d[i] = reg2hw.key_share1[i].q;\n\n    // hwext input key registers\n    always_ff @(posedge clk_i or negedge rst_ni) begin : input_reg_key_share0\n      if (!rst_ni) begin\n        key_share0_in_q[i] <= '{default: '0};\n      end else if (reg2hw.key_share0[i].qe) begin\n        key_share0_in_q[i] <= key_share0_in_d[i];\n      end\n    end\n    assign hw2reg.key_share0[i].d = '0;\n\n    always_ff @(posedge clk_i or negedge rst_ni) begin : input_reg_key_share1\n      if (!rst_ni) begin\n        key_share1_in_q[i] <= '{default: '0};\n      end else if (reg2hw.key_share1[i].qe) begin\n        key_share1_in_q[i] <= key_share1_in_d[i];\n      end\n    end\n    assign hw2reg.key_share1[i].d = '0;\n  end\n```\n\nThis is the upstream OpenTitan ASCON (ascon package / ascon accelerator) code. Let me recall the actual upstream code from OpenTitan's `hw/ip/ascon/rtl/ascon_core.sv`.\n\nThe actual upstream code (from OpenTitan repository, hw/ip/ascon/rtl/ascon_core.sv):\n\n```systemverilog\n  // TODO Add logic to provide inputs unmasked.\n  //      Atm both shares must be written.\n  logic  unused_masked_msg_input;\n  logic  unused_masked_ad_input;\n  assign unused_masked_ad_input  = masked_ad_input;\n  assign unused_masked_msg_input = masked_msg_input;\n\n  // TODO Add escalation Input\n  assign unused_lc_escalate_en_i = lc_escalate_en_i;\n\n  // DATA REGISTERS\n\n  for (genvar i = 0; i < NumRegsKey; i++) begin : gen_hw_ext_key_regs\n    // Input conversion\n    assign key_share0_in_d[i] = reg2hw.key_share0[i].q;\n    assign key_share",
+    "mode": "api-deep",
+    "model": "zai-org/GLM-5.3-Flash"
+   }
+  },
+  {
+   "oracle": "O-A-residual",
+   "signal": "ascon_core.key_share0_in_q",
+   "word": 0,
+   "value": "0xdead03be",
+   "marker": "0xdead03be",
+   "trial": 3,
+   "desc": "敏感信号 ascon_core.key_share0_in_q[0] 在清除/操作序列后残留写入标记值",
+   "llm_deep": {
+    "verdict": "needs-review",
+    "confidence": 50,
+    "evidence": "Let me analyze this carefully.\n\nThe candidate is about `ascon_core.key_share0_in_q` in the OpenTitan ASCON module. The oracle O-A-residual flags that sensitive data (key) remains after clear/erase operations.\n\nLooking at the RTL context provided:\n\n```systemverilog\n// hw/ip/ascon/rtl/ascon_core.sv:158\n  128:   keymgr_pkg::hw_key_req_t  unused_keymgr_key_i;\n...\n  148:   // DATA REGISTERS\n  149: \n  150:   for (genvar i = 0; i < NumRegsKey; i++) begin : gen_hw_ext_key_regs\n  151:     // Input conversion\n  152:     assign key_share0_in_d[i] = reg2hw.key_share0[i].q;\n  153:     assign key_share1_in_d[i] = reg2hw.key_share1[i].q;\n  154: \n  155:     // hwext input key registers\n  156:     always_ff @(posedge clk_i or negedge rst_ni) begin : input_reg_key_share0\n  157:       if (!rst_ni) begin\n  158:         key_share0_in_q[i] <= '{default: '0};\n  159:       end else if (reg2hw.key_share0[i].qe) begin\n  160:         key_share0_in_q[i] <= key_share0_in_d[i];\n  161:       end\n  162:     end\n  163:     assign hw2reg.key_share0[i].d = '0;\n```\n\nThis is the upstream OpenTitan ASCON (ascon accelerator) code. Let me recall the actual OpenTitan ascon_core.sv. The ASCON crypto accelerator in OpenTitan (hw/ip/ascon) has key registers that are hwext — meaning the storage is in the hardware block itself, not in the register file. The `key_share0_in_q` registers capture the key when written via `reg2hw.key_share0[i].qe`.\n\nIn the original OpenTitan code, I recall there's a mechanism to clear the key registers. Let me think about what the original code looks like.\n\nLooking at the actual OpenTitan ascon repository (it's a work-in-progress IP from the \"ascon\" integration), the ascon_core.sv has:\n\n```systemverilog\n  // Input conversion\n  assign key_share0_in_d[i] = reg2hw.key_share0[i].q;\n  assign key_share1_in_d[i] = reg2hw.key_share1[i].q;\n\n  // hwext input key registers\n  always_ff @(posedge clk_i or negedge rst_ni) begin : input_reg_key_share0\n    if (!rst_ni) begin\n      key_share0_in_q[i",
+    "mode": "api-deep",
+    "model": "zai-org/GLM-5.3-Flash"
+   }
+  },
+  {
+   "oracle": "O-A-residual",
+   "signal": "ascon_core.key_share1_in_q",
+   "word": 0,
+   "value": "0xdead03bf",
+   "marker": "0xdead03be",
+   "trial": 3,
+   "desc": "敏感信号 ascon_core.key_share1_in_q[0] 在清除/操作序列后残留写入标记值",
+   "llm_deep": {
+    "verdict": "needs-review",
+    "confidence": 50,
+    "evidence": "Let me analyze this carefully.\n\nThe candidate is about `ascon_core.key_share1_in_q` in the OpenTitan ASCON module. The oracle O-A-residual flags that sensitive data (key) remains after clear/erase operations.\n\nLooking at the RTL context provided:\n\n```systemverilog\n// hw/ip/ascon/rtl/ascon_core.sv:167\n  // DATA REGISTERS\n  for (genvar i = 0; i < NumRegsKey; i++) begin : gen_hw_ext_key_regs\n    // Input conversion\n    assign key_share0_in_d[i] = reg2hw.key_share0[i].q;\n    assign key_share1_in_d[i] = reg2hw.key_share1[i].q;\n\n    // hwext input key registers\n    always_ff @(posedge clk_i or negedge rst_ni) begin : input_reg_key_share0\n      if (!rst_ni) begin\n        key_share0_in_q[i] <= '{default: '0};\n      end else if (reg2hw.key_share0[i].qe) begin\n        key_share0_in_q[i] <= key_share0_in_d[i];\n      end\n    end\n    assign hw2reg.key_share0[i].d = '0;\n\n    always_ff @(posedge clk_i or negedge rst_ni) begin : input_reg_key_share1\n      if (!rst_ni) begin\n        key_share1_in_q[i] <= '{default: '0};\n      end else if (reg2hw.key_share1[i].qe) begin\n        key_share1_in_q[i] <= key_share1_in_d[i];\n      end\n    end\n    assign hw2reg.key_share1[i].d = '0;\n  end\n```\n\nThis is the upstream OpenTitan ASCON (ascon package / ascon accelerator) code. Let me recall the actual upstream code from OpenTitan's `hw/ip/ascon/rtl/ascon_core.sv`.\n\nThe actual upstream code (from OpenTitan repository, hw/ip/ascon/rtl/ascon_core.sv):\n\n```systemverilog\n  // TODO Add logic to provide inputs unmasked.\n  //      Atm both shares must be written.\n  logic  unused_masked_msg_input;\n  logic  unused_masked_ad_input;\n  assign unused_masked_ad_input  = masked_ad_input;\n  assign unused_masked_msg_input = masked_msg_input;\n\n  // TODO Add escalation Input\n  assign unused_lc_escalate_en_i = lc_escalate_en_i;\n\n  // DATA REGISTERS\n\n  for (genvar i = 0; i < NumRegsKey; i++) begin : gen_hw_ext_key_regs\n    // Input conversion\n    assign key_share0_in_d[i] = reg2hw.key_share0[i].q;\n    assign key_share",
+    "mode": "api-deep",
+    "model": "zai-org/GLM-5.3-Flash"
+   }
+  },
+  {
+   "oracle": "O-A-residual",
+   "signal": "ascon_core.key_share0_in_q",
+   "word": 0,
+   "value": "0xdead04be",
+   "marker": "0xdead04be",
+   "trial": 4,
+   "desc": "敏感信号 ascon_core.key_share0_in_q[0] 在清除/操作序列后残留写入标记值",
+   "llm_deep": {
+    "verdict": "needs-review",
+    "confidence": 50,
+    "evidence": "Let me analyze this carefully.\n\nThe candidate is about `ascon_core.key_share0_in_q` in the OpenTitan ASCON module. The oracle O-A-residual flags that sensitive data (key) remains after clear/erase operations.\n\nLooking at the RTL context provided:\n\n```systemverilog\n// hw/ip/ascon/rtl/ascon_core.sv:158\n  128:   keymgr_pkg::hw_key_req_t  unused_keymgr_key_i;\n...\n  148:   // DATA REGISTERS\n  149: \n  150:   for (genvar i = 0; i < NumRegsKey; i++) begin : gen_hw_ext_key_regs\n  151:     // Input conversion\n  152:     assign key_share0_in_d[i] = reg2hw.key_share0[i].q;\n  153:     assign key_share1_in_d[i] = reg2hw.key_share1[i].q;\n  154: \n  155:     // hwext input key registers\n  156:     always_ff @(posedge clk_i or negedge rst_ni) begin : input_reg_key_share0\n  157:       if (!rst_ni) begin\n  158:         key_share0_in_q[i] <= '{default: '0};\n  159:       end else if (reg2hw.key_share0[i].qe) begin\n  160:         key_share0_in_q[i] <= key_share0_in_d[i];\n  161:       end\n  162:     end\n  163:     assign hw2reg.key_share0[i].d = '0;\n```\n\nThis is the upstream OpenTitan ASCON (ascon accelerator) code. Let me recall the actual OpenTitan ascon_core.sv. The ASCON crypto accelerator in OpenTitan (hw/ip/ascon) has key registers that are hwext — meaning the storage is in the hardware block itself, not in the register file. The `key_share0_in_q` registers capture the key when written via `reg2hw.key_share0[i].qe`.\n\nIn the original OpenTitan code, I recall there's a mechanism to clear the key registers. Let me think about what the original code looks like.\n\nLooking at the actual OpenTitan ascon repository (it's a work-in-progress IP from the \"ascon\" integration), the ascon_core.sv has:\n\n```systemverilog\n  // Input conversion\n  assign key_share0_in_d[i] = reg2hw.key_share0[i].q;\n  assign key_share1_in_d[i] = reg2hw.key_share1[i].q;\n\n  // hwext input key registers\n  always_ff @(posedge clk_i or negedge rst_ni) begin : input_reg_key_share0\n    if (!rst_ni) begin\n      key_share0_in_q[i",
+    "mode": "api-deep",
+    "model": "zai-org/GLM-5.3-Flash"
+   }
+  },
+  {
+   "oracle": "O-A-residual",
+   "signal": "ascon_core.key_share1_in_q",
+   "word": 0,
+   "value": "0xdead04bf",
+   "marker": "0xdead04be",
+   "trial": 4,
+   "desc": "敏感信号 ascon_core.key_share1_in_q[0] 在清除/操作序列后残留写入标记值",
+   "llm_deep": {
+    "verdict": "needs-review",
+    "confidence": 50,
+    "evidence": "Let me analyze this carefully.\n\nThe candidate is about `ascon_core.key_share1_in_q` in the OpenTitan ASCON module. The oracle O-A-residual flags that sensitive data (key) remains after clear/erase operations.\n\nLooking at the RTL context provided:\n\n```systemverilog\n// hw/ip/ascon/rtl/ascon_core.sv:167\n  // DATA REGISTERS\n  for (genvar i = 0; i < NumRegsKey; i++) begin : gen_hw_ext_key_regs\n    // Input conversion\n    assign key_share0_in_d[i] = reg2hw.key_share0[i].q;\n    assign key_share1_in_d[i] = reg2hw.key_share1[i].q;\n\n    // hwext input key registers\n    always_ff @(posedge clk_i or negedge rst_ni) begin : input_reg_key_share0\n      if (!rst_ni) begin\n        key_share0_in_q[i] <= '{default: '0};\n      end else if (reg2hw.key_share0[i].qe) begin\n        key_share0_in_q[i] <= key_share0_in_d[i];\n      end\n    end\n    assign hw2reg.key_share0[i].d = '0;\n\n    always_ff @(posedge clk_i or negedge rst_ni) begin : input_reg_key_share1\n      if (!rst_ni) begin\n        key_share1_in_q[i] <= '{default: '0};\n      end else if (reg2hw.key_share1[i].qe) begin\n        key_share1_in_q[i] <= key_share1_in_d[i];\n      end\n    end\n    assign hw2reg.key_share1[i].d = '0;\n  end\n```\n\nThis is the upstream OpenTitan ASCON (ascon package / ascon accelerator) code. Let me recall the actual upstream code from OpenTitan's `hw/ip/ascon/rtl/ascon_core.sv`.\n\nThe actual upstream code (from OpenTitan repository, hw/ip/ascon/rtl/ascon_core.sv):\n\n```systemverilog\n  // TODO Add logic to provide inputs unmasked.\n  //      Atm both shares must be written.\n  logic  unused_masked_msg_input;\n  logic  unused_masked_ad_input;\n  assign unused_masked_ad_input  = masked_ad_input;\n  assign unused_masked_msg_input = masked_msg_input;\n\n  // TODO Add escalation Input\n  assign unused_lc_escalate_en_i = lc_escalate_en_i;\n\n  // DATA REGISTERS\n\n  for (genvar i = 0; i < NumRegsKey; i++) begin : gen_hw_ext_key_regs\n    // Input conversion\n    assign key_share0_in_d[i] = reg2hw.key_share0[i].q;\n    assign key_share",
+    "mode": "api-deep",
+    "model": "zai-org/GLM-5.3-Flash"
+   }
+  },
+  {
+   "oracle": "O-A-residual",
+   "signal": "ascon_core.key_share0_in_q",
+   "word": 0,
+   "value": "0xdead05be",
+   "marker": "0xdead05be",
+   "trial": 5,
+   "desc": "敏感信号 ascon_core.key_share0_in_q[0] 在清除/操作序列后残留写入标记值",
+   "llm_deep": {
+    "verdict": "needs-review",
+    "confidence": 50,
+    "evidence": "Let me analyze this carefully.\n\nThe candidate is about `ascon_core.key_share0_in_q` in the OpenTitan ASCON module. The oracle O-A-residual flags that sensitive data (key) remains after clear/erase operations.\n\nLooking at the RTL context provided:\n\n```systemverilog\n// hw/ip/ascon/rtl/ascon_core.sv:158\n  128:   keymgr_pkg::hw_key_req_t  unused_keymgr_key_i;\n...\n  148:   // DATA REGISTERS\n  149: \n  150:   for (genvar i = 0; i < NumRegsKey; i++) begin : gen_hw_ext_key_regs\n  151:     // Input conversion\n  152:     assign key_share0_in_d[i] = reg2hw.key_share0[i].q;\n  153:     assign key_share1_in_d[i] = reg2hw.key_share1[i].q;\n  154: \n  155:     // hwext input key registers\n  156:     always_ff @(posedge clk_i or negedge rst_ni) begin : input_reg_key_share0\n  157:       if (!rst_ni) begin\n  158:         key_share0_in_q[i] <= '{default: '0};\n  159:       end else if (reg2hw.key_share0[i].qe) begin\n  160:         key_share0_in_q[i] <= key_share0_in_d[i];\n  161:       end\n  162:     end\n  163:     assign hw2reg.key_share0[i].d = '0;\n```\n\nThis is the upstream OpenTitan ASCON (ascon accelerator) code. Let me recall the actual OpenTitan ascon_core.sv. The ASCON crypto accelerator in OpenTitan (hw/ip/ascon) has key registers that are hwext — meaning the storage is in the hardware block itself, not in the register file. The `key_share0_in_q` registers capture the key when written via `reg2hw.key_share0[i].qe`.\n\nIn the original OpenTitan code, I recall there's a mechanism to clear the key registers. Let me think about what the original code looks like.\n\nLooking at the actual OpenTitan ascon repository (it's a work-in-progress IP from the \"ascon\" integration), the ascon_core.sv has:\n\n```systemverilog\n  // Input conversion\n  assign key_share0_in_d[i] = reg2hw.key_share0[i].q;\n  assign key_share1_in_d[i] = reg2hw.key_share1[i].q;\n\n  // hwext input key registers\n  always_ff @(posedge clk_i or negedge rst_ni) begin : input_reg_key_share0\n    if (!rst_ni) begin\n      key_share0_in_q[i",
+    "mode": "api-deep",
+    "model": "zai-org/GLM-5.3-Flash"
+   }
+  },
+  {
+   "oracle": "O-A-residual",
+   "signal": "ascon_core.key_share1_in_q",
+   "word": 0,
+   "value": "0xdead05bf",
+   "marker": "0xdead05be",
+   "trial": 5,
+   "desc": "敏感信号 ascon_core.key_share1_in_q[0] 在清除/操作序列后残留写入标记值",
+   "llm_deep": {
+    "verdict": "needs-review",
+    "confidence": 50,
+    "evidence": "Let me analyze this carefully.\n\nThe candidate is about `ascon_core.key_share1_in_q` in the OpenTitan ASCON module. The oracle O-A-residual flags that sensitive data (key) remains after clear/erase operations.\n\nLooking at the RTL context provided:\n\n```systemverilog\n// hw/ip/ascon/rtl/ascon_core.sv:167\n  // DATA REGISTERS\n  for (genvar i = 0; i < NumRegsKey; i++) begin : gen_hw_ext_key_regs\n    // Input conversion\n    assign key_share0_in_d[i] = reg2hw.key_share0[i].q;\n    assign key_share1_in_d[i] = reg2hw.key_share1[i].q;\n\n    // hwext input key registers\n    always_ff @(posedge clk_i or negedge rst_ni) begin : input_reg_key_share0\n      if (!rst_ni) begin\n        key_share0_in_q[i] <= '{default: '0};\n      end else if (reg2hw.key_share0[i].qe) begin\n        key_share0_in_q[i] <= key_share0_in_d[i];\n      end\n    end\n    assign hw2reg.key_share0[i].d = '0;\n\n    always_ff @(posedge clk_i or negedge rst_ni) begin : input_reg_key_share1\n      if (!rst_ni) begin\n        key_share1_in_q[i] <= '{default: '0};\n      end else if (reg2hw.key_share1[i].qe) begin\n        key_share1_in_q[i] <= key_share1_in_d[i];\n      end\n    end\n    assign hw2reg.key_share1[i].d = '0;\n  end\n```\n\nThis is the upstream OpenTitan ASCON (ascon package / ascon accelerator) code. Let me recall the actual upstream code from OpenTitan's `hw/ip/ascon/rtl/ascon_core.sv`.\n\nThe actual upstream code (from OpenTitan repository, hw/ip/ascon/rtl/ascon_core.sv):\n\n```systemverilog\n  // TODO Add logic to provide inputs unmasked.\n  //      Atm both shares must be written.\n  logic  unused_masked_msg_input;\n  logic  unused_masked_ad_input;\n  assign unused_masked_ad_input  = masked_ad_input;\n  assign unused_masked_msg_input = masked_msg_input;\n\n  // TODO Add escalation Input\n  assign unused_lc_escalate_en_i = lc_escalate_en_i;\n\n  // DATA REGISTERS\n\n  for (genvar i = 0; i < NumRegsKey; i++) begin : gen_hw_ext_key_regs\n    // Input conversion\n    assign key_share0_in_d[i] = reg2hw.key_share0[i].q;\n    assign key_share",
+    "mode": "api-deep",
+    "model": "zai-org/GLM-5.3-Flash"
+   }
+  }
+ ]
+}

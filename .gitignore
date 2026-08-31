@@ -1,0 +1,18 @@
+# 编译产物（可由 filelist + harness 重建）
+perip/*/obj_so/
+perip/*/obj_*/
+perip/*/obj*/
+*.o
+*.a
+*.so
+*.d
+__pycache__/
+*.pyc
+
+# 大型 RTL 副本（构建脚本可从 opentitan 重新收集）
+perip/*/hw/
+
+# 临时/日志
+logs/
+*.log
+.DS_Store

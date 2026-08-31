@@ -1,0 +1,19 @@
+{
+ "intr_state": 0,
+ "intr_enable": 4,
+ "intr_test": 8,
+ "alert_test": 12,
+ "ctrl_cfg_regwen": 16,
+ "control": 20,
+ "cfg_cdc_sync": 24,
+ "wakeup_en_regwen": 28,
+ "wakeup_en": 32,
+ "wake_status": 36,
+ "reset_en_regwen": 40,
+ "reset_en": 44,
+ "reset_status": 48,
+ "escalate_reset_status": 52,
+ "wake_info_capture_dis": 56,
+ "wake_info": 60,
+ "fault_status": 64
+}

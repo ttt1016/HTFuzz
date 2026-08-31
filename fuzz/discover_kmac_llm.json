@@ -1,0 +1,31 @@
+{
+ "module": "kmac",
+ "findings": [
+  {
+   "oracle": "O-B-determinism",
+   "signal": "u_dut.msg_data_masked",
+   "value": "0xffffffff 0xffffffff 0xffffffff 0xffffffff",
+   "trial": 3,
+   "desc": "掩码/熵信号 u_dut.msg_data_masked 两次独立执行逐位相同 → 无随机性（静态掩码/PRNG 不动）",
+   "llm_verdict": {
+    "verdict": "likely-bug",
+    "score": 65,
+    "reason": "oracle O-B-determinism 基础分 35; 信号名含敏感关键词 +25",
+    "mode": "mock"
+   }
+  },
+  {
+   "oracle": "O-B-determinism",
+   "signal": "u_dut.msg_data_masked",
+   "value": "0xffffffff 0xffffffff 0xffffffff 0xffffffff",
+   "trial": 4,
+   "desc": "掩码/熵信号 u_dut.msg_data_masked 两次独立执行逐位相同 → 无随机性（静态掩码/PRNG 不动）",
+   "llm_verdict": {
+    "verdict": "likely-bug",
+    "score": 65,
+    "reason": "oracle O-B-determinism 基础分 35; 信号名含敏感关键词 +25",
+    "mode": "mock"
+   }
+  }
+ ]
+}

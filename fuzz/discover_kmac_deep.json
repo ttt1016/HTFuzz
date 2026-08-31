@@ -1,0 +1,33 @@
+{
+ "module": "kmac",
+ "findings": [
+  {
+   "oracle": "O-B-determinism",
+   "signal": "u_dut.msg_data_masked",
+   "value": "0xffffffff 0xffffffff 0xffffffff 0xffffffff",
+   "trial": 3,
+   "desc": "掩码/熵信号 u_dut.msg_data_masked 两次独立执行逐位相同 → 无随机性（静态掩码/PRNG 不动）",
+   "llm_deep": {
+    "verdict": "needs-review",
+    "confidence": 50,
+    "evidence": "Let me analyze this carefully.\n\nThe candidate is:\n- Module: kmac\n- Oracle: O-B-determinism — a signal that should be random (mask/entropy) is identical across two executions — check if random source was replaced with a constant\n- Signal: u_dut.msg_data_masked\n- Phenomenon: mask/entropy signal u_dut.msg_data_masked is bit-identical across two independent runs → no randomness (static mask/PRNG not moving)\n- Confidence: None\n\nThe RTL context shows declarations in kmac.sv around lines 222-282:\n- `msg_data_masked [Share]` is declared at line 252 as a signal between KMAC core and SHA3 core.\n- The context only shows declarations, not the driving logic.\n\nI need to reason about the actual OpenTitan KMAC design. In the real OpenTitan KMAC:\n\n```systemverilog\n  // KMAC to SHA3 core\n  logic                          msg_valid       ;\n  logic [kmac_pkg::MsgWidth-1:0] msg_data [Share];\n  logic [kmac_pkg::MsgWidth-1:0] msg_data_masked [Share];\n  logic [kmac_pkg::MsgStrbW-1:0] msg_strb        ;\n  logic                          msg_ready       ;\n```\n\nAnd later in kmac.sv:\n\n```systemverilog\n  // Masking message\n  //   Two shares of message data are XORed with the same mask... Actually:\n```\n\nLet me recall the actual code. In OpenTitan kmac.sv (around the SHA3 core instantiation):\n\n```systemverilog\n  // SHA3 core\n  sha3 #(\n    ...\n  ) u_sha3 (\n    ...\n    .msg_valid_i (msg_valid),\n    .msg_data_i  (msg_data_masked),\n    .msg_strb_i  (msg_strb),\n    ...\n  );\n```\n\nAnd the masking logic:\n\n```systemverilog\n  // Mask the message with entropy if keccak masking is enabled\n  for (genvar i = 0 ; i < Share ; i++) begin: gen_msg_mask\n    assign msg_data_masked[i] = msg_data[i] ^ entropy_masked; // something like this\n  end\n```\n\nActually, let me recall more precisely. In kmac.sv:\n\n```systemverilog\n  logic [kmac_pkg::MsgWidth-1:0] entropy_masked;\n  ...\n  // Entropy handling\n  ...\n```\n\nHmm, actually in the real code:\n\n```systemverilog\n  // Masked message path\n  // If Keccak masking is enabled, the mes",
+    "mode": "api-deep",
+    "model": "zai-org/GLM-5.3-Flash"
+   }
+  },
+  {
+   "oracle": "O-B-determinism",
+   "signal": "u_dut.msg_data_masked",
+   "value": "0xffffffff 0xffffffff 0xffffffff 0xffffffff",
+   "trial": 4,
+   "desc": "掩码/熵信号 u_dut.msg_data_masked 两次独立执行逐位相同 → 无随机性（静态掩码/PRNG 不动）",
+   "llm_deep": {
+    "verdict": "needs-review",
+    "confidence": 50,
+    "evidence": "Let me analyze this carefully.\n\nThe candidate is:\n- Module: kmac\n- Oracle: O-B-determinism — a signal that should be random (mask/entropy) is identical across two executions — check if random source was replaced with a constant\n- Signal: u_dut.msg_data_masked\n- Phenomenon: mask/entropy signal u_dut.msg_data_masked is bit-identical across two independent runs → no randomness (static mask/PRNG not moving)\n- Confidence: None\n\nThe RTL context shows declarations in kmac.sv around lines 222-282:\n- `msg_data_masked [Share]` is declared at line 252 as a signal between KMAC core and SHA3 core.\n- The context only shows declarations, not the driving logic.\n\nI need to reason about the actual OpenTitan KMAC design. In the real OpenTitan KMAC:\n\n```systemverilog\n  // KMAC to SHA3 core\n  logic                          msg_valid       ;\n  logic [kmac_pkg::MsgWidth-1:0] msg_data [Share];\n  logic [kmac_pkg::MsgWidth-1:0] msg_data_masked [Share];\n  logic [kmac_pkg::MsgStrbW-1:0] msg_strb        ;\n  logic                          msg_ready       ;\n```\n\nAnd later in kmac.sv:\n\n```systemverilog\n  // Masking message\n  //   Two shares of message data are XORed with the same mask... Actually:\n```\n\nLet me recall the actual code. In OpenTitan kmac.sv (around the SHA3 core instantiation):\n\n```systemverilog\n  // SHA3 core\n  sha3 #(\n    ...\n  ) u_sha3 (\n    ...\n    .msg_valid_i (msg_valid),\n    .msg_data_i  (msg_data_masked),\n    .msg_strb_i  (msg_strb),\n    ...\n  );\n```\n\nAnd the masking logic:\n\n```systemverilog\n  // Mask the message with entropy if keccak masking is enabled\n  for (genvar i = 0 ; i < Share ; i++) begin: gen_msg_mask\n    assign msg_data_masked[i] = msg_data[i] ^ entropy_masked; // something like this\n  end\n```\n\nActually, let me recall more precisely. In kmac.sv:\n\n```systemverilog\n  logic [kmac_pkg::MsgWidth-1:0] entropy_masked;\n  ...\n  // Entropy handling\n  ...\n```\n\nHmm, actually in the real code:\n\n```systemverilog\n  // Masked message path\n  // If Keccak masking is enabled, the mes",
+    "mode": "api-deep",
+    "model": "zai-org/GLM-5.3-Flash"
+   }
+  }
+ ]
+}

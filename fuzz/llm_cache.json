@@ -1,0 +1,165 @@
+{
+ "6315a473ca19": {
+  "verdict": "known-safe",
+  "confidence": 0.8,
+  "reason": "低权重状态信号模式"
+ },
+ "6c4bde7c52a7": {
+  "verdict": "known-safe",
+  "confidence": 0.8,
+  "reason": "低权重状态信号模式"
+ },
+ "01e2d5865241": {
+  "verdict": "known-safe",
+  "confidence": 0.8,
+  "reason": "低权重状态信号模式"
+ },
+ "3c62053a83f1": {
+  "verdict": "known-safe",
+  "confidence": 0.8,
+  "reason": "低权重状态信号模式"
+ },
+ "6bb78fe8980e": {
+  "verdict": "known-safe",
+  "confidence": 0.8,
+  "reason": "低权重状态信号模式"
+ },
+ "2a19d4fa6edf": {
+  "verdict": "known-safe",
+  "confidence": 0.8,
+  "reason": "低权重状态信号模式"
+ },
+ "fe2d06bfab13": {
+  "verdict": "known-safe",
+  "confidence": 0.8,
+  "reason": "低权重状态信号模式"
+ },
+ "2fececb2974b": {
+  "verdict": "known-safe",
+  "confidence": 0.8,
+  "reason": "低权重状态信号模式"
+ },
+ "5291e2ee32cb": {
+  "verdict": "known-safe",
+  "confidence": 0.8,
+  "reason": "低权重状态信号模式"
+ },
+ "9444bb3fea3c": {
+  "verdict": "known-safe",
+  "confidence": 0.8,
+  "reason": "低权重状态信号模式"
+ },
+ "d2c145efefd5": {
+  "verdict": "known-safe",
+  "confidence": 0.8,
+  "reason": "低权重状态信号模式"
+ },
+ "67ab54e64ecc": {
+  "verdict": "known-safe",
+  "confidence": 0.8,
+  "reason": "低权重状态信号模式"
+ },
+ "5095afbfb395": {
+  "verdict": "known-safe",
+  "confidence": 0.8,
+  "reason": "低权重状态信号模式"
+ },
+ "6179e3fed995": {
+  "verdict": "known-safe",
+  "confidence": 0.8,
+  "reason": "低权重状态信号模式"
+ },
+ "26e173951d39": {
+  "verdict": "known-safe",
+  "confidence": 0.8,
+  "reason": "低权重状态信号模式"
+ },
+ "83281e638ada": {
+  "verdict": "known-safe",
+  "confidence": 0.8,
+  "reason": "低权重状态信号模式"
+ },
+ "a1e62e00ae04": {
+  "verdict": "known-safe",
+  "confidence": 0.8,
+  "reason": "低权重状态信号模式"
+ },
+ "b5b98fb8ce9b": {
+  "verdict": "known-safe",
+  "confidence": 0.8,
+  "reason": "低权重状态信号模式"
+ },
+ "803c99362d8c": {
+  "verdict": "likely-bug",
+  "confidence": 0.6,
+  "reason": "密钥相关残留"
+ },
+ "c9e9a0e29f1c": {
+  "verdict": "known-safe",
+  "confidence": 0.8,
+  "reason": "低权重状态信号模式"
+ },
+ "859e5f1c0818": {
+  "verdict": "known-safe",
+  "confidence": 0.8,
+  "reason": "低权重状态信号模式"
+ },
+ "7e66b9b7807a": {
+  "verdict": "known-safe",
+  "confidence": 0.8,
+  "reason": "低权重状态信号模式"
+ },
+ "8cf01f4e41a6": {
+  "verdict": "known-safe",
+  "confidence": 0.8,
+  "reason": "低权重状态信号模式"
+ },
+ "bf820bb37adebd578ccfc53742316cee": {
+  "verdict": "likely-bug",
+  "score": 85,
+  "reason": "oracle O-A-residual 基础分 40; 信号名含敏感关键词 +25; SEC_CM 关联 ['BUS.INTEGRITY'] +20",
+  "mode": "mock"
+ },
+ "0c80f44665a8857a8453b6f6d151f652": {
+  "verdict": "likely-bug",
+  "score": 85,
+  "reason": "oracle O-A-residual 基础分 40; 信号名含敏感关键词 +25; SEC_CM 关联 ['BUS.INTEGRITY'] +20",
+  "mode": "mock"
+ },
+ "47411bd99a7252746bdda5d57255be7d": {
+  "verdict": "needs-review",
+  "score": 35,
+  "reason": "oracle O-D-fsm 基础分 15; SEC_CM 关联 ['BUS.INTEGRITY'] +20",
+  "mode": "mock"
+ },
+ "54a99ec69cba30dddd8caa720a4f5c4c": {
+  "verdict": "likely-bug",
+  "score": 85,
+  "reason": "oracle O-A-residual 基础分 40; 信号名含敏感关键词 +25; SEC_CM 关联 ['IV.CONFIG.SEC_WIPE', 'MAIN.CONFIG.SPARSE'] +20",
+  "mode": "mock"
+ },
+ "d33116af4e8d60f2592088847c5082d6": {
+  "verdict": "needs-review",
+  "score": 50,
+  "reason": "oracle O-C-equivclass 基础分 30; SEC_CM 关联 ['IV.CONFIG.SEC_WIPE', 'DATA_REG.SEC_WIPE'] +20",
+  "mode": "mock"
+ },
+ "99d9160a5e58cc32726c86bbaf2d5c08": {
+  "verdict": "likely-bug",
+  "score": 65,
+  "reason": "oracle O-B-determinism 基础分 35; 信号名含敏感关键词 +25",
+  "mode": "mock"
+ },
+ "8f58e9cd856e79bbc8632633f308ad94": {
+  "verdict": "likely-bug",
+  "score": 65,
+  "reason": "oracle O-A-residual 基础分 40; 信号名含敏感关键词 +25",
+  "mode": "mock"
+ },
+ "9e2c940e577bb0598bba7ffd4abef88a": {
+  "verdict": "likely-bug",
+  "score": 65,
+  "reason": "oracle O-A-residual 基础分 40; 信号名含敏感关键词 +25",
+  "mode": "mock"
+ }
+}

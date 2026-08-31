@@ -1,0 +1,11 @@
+{
+ "alert_test": 0,
+ "status": 4,
+ "exec_regwen": 8,
+ "exec": 12,
+ "ctrl_regwen": 16,
+ "ctrl": 20,
+ "scr_key_rotated": 24,
+ "readback_regwen": 28,
+ "readback": 32
+}

@@ -1,0 +1,34 @@
+{
+ "_comment": "Copy this file as new chip profile. Required: rtl_path; others optional with defaults",
+ "name": "my-chip",
+ "rtl_path": "/path/to/your/rtl",
+ "perip_base": 1073741824,
+ "module_base": {},
+ "signal_patterns": {
+  "sensitive": [
+   "key",
+   "secret",
+   "seed",
+   "digest",
+   "mask",
+   "entropy",
+   "token"
+  ],
+  "control": [
+   "state_q",
+   "_q",
+   "fsm",
+   "ctrl",
+   "cfg",
+   "en",
+   "status"
+  ]
+ },
+ "security_annotations": {
+  "format": "none",
+  "pattern": null,
+  "strategy_map": {}
+ },
+ "regmap_dir": ".",
+ "bus": "generic"
+}

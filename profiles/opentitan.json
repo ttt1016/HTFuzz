@@ -1,0 +1,79 @@
+{
+ "name": "opentitan-earlgrey",
+ "rtl_path": "/workspace/opentitan",
+ "perip_base": 1073741824,
+ "module_base": {
+  "uart": 1073741824,
+  "aes": 1091567616,
+  "hmac": 1091633152,
+  "kmac": 1091633152,
+  "keymgr": 1091764224,
+  "lc_ctrl": 1091829760,
+  "csrng": 1091633152,
+  "entropy_src": 1091633152
+ },
+ "signal_patterns": {
+  "sensitive": [
+   "key",
+   "secret",
+   "seed",
+   "digest",
+   "hash",
+   "mask",
+   "entropy",
+   "priv",
+   "credential",
+   "otp",
+   "token",
+   "nonce",
+   "rand",
+   "cipher",
+   "plain",
+   "wipe",
+   "msg_data",
+   "keccak",
+   "esfinal",
+   "esrng",
+   "rdata_capt"
+  ],
+  "control": [
+   "state_q",
+   "_q",
+   "fsm",
+   "ctrl",
+   "cfg",
+   "en",
+   "status",
+   "done",
+   "valid",
+   "ready",
+   "start",
+   "state",
+   "sm_",
+   "cnt"
+  ]
+ },
+ "security_annotations": {
+  "format": "SEC_CM",
+  "pattern": "SEC_CM:\\\\s*([A-Z_.0-9]+)",
+  "strategy_map": {
+   "SEC_WIPE": "O-A-residual",
+   "KEY.MASKING": "O-B-determinism",
+   "MASKING": "O-B-determinism",
+   "CONFIG.SHADOW": "O-C-equivclass",
+   "TOKEN.DIGEST": "O-C-equivclass",
+   "INTEGRITY": "O-C-equivclass",
+   "SPARSE": "O-C-equivclass",
+   "REDUN": "O-C-equivclass",
+   "GLOBAL_ESC": "O-C-equivclass",
+   "LOCAL_ESC": "O-C-equivclass",
+   "REGWEN": "O-C-equivclass",
+   "SCA": "O-B-determinism",
+   "BKGN_CHK": "O-B-determinism",
+   "SCRAMBLE": "O-A-residual",
+   "MUBI": "O-C-equivclass"
+  }
+ },
+ "regmap_dir": "/workspace/pickerfuzz/traces",
+ "bus": "tlul"
+}

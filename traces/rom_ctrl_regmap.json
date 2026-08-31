@@ -1,0 +1,20 @@
+{
+ "alert_test": 0,
+ "fatal_alert_cause": 4,
+ "digest_0": 8,
+ "digest_1": 12,
+ "digest_2": 16,
+ "digest_3": 20,
+ "digest_4": 24,
+ "digest_5": 28,
+ "digest_6": 32,
+ "digest_7": 36,
+ "exp_digest_0": 40,
+ "exp_digest_1": 44,
+ "exp_digest_2": 48,
+ "exp_digest_3": 52,
+ "exp_digest_4": 56,
+ "exp_digest_5": 60,
+ "exp_digest_6": 64,
+ "exp_digest_7": 68
+}

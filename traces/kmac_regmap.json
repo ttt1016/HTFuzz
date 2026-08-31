@@ -1,0 +1,440 @@
+[
+ {
+  "kind": "reg",
+  "name": "INTR_STATE",
+  "offset": 0,
+  "swaccess": "rw1c",
+  "fields": [
+   {
+    "name": "kmac_done",
+    "bits": "0",
+    "swaccess": "rw1c",
+    "resval": "False"
+   },
+   {
+    "name": "fifo_empty",
+    "bits": "1",
+    "swaccess": "rw1c",
+    "resval": "False"
+   },
+   {
+    "name": "kmac_err",
+    "bits": "2",
+    "swaccess": "rw1c",
+    "resval": "False"
+   }
+  ]
+ },
+ {
+  "kind": "reg",
+  "name": "INTR_ENABLE",
+  "offset": 4,
+  "swaccess": "rw",
+  "fields": [
+   {
+    "name": "kmac_done",
+    "bits": "0",
+    "swaccess": "rw",
+    "resval": "False"
+   },
+   {
+    "name": "fifo_empty",
+    "bits": "1",
+    "swaccess": "rw",
+    "resval": "False"
+   },
+   {
+    "name": "kmac_err",
+    "bits": "2",
+    "swaccess": "rw",
+    "resval": "False"
+   }
+  ]
+ },
+ {
+  "kind": "reg",
+  "name": "INTR_TEST",
+  "offset": 8,
+  "swaccess": "wo",
+  "fields": [
+   {
+    "name": "kmac_done",
+    "bits": "0",
+    "swaccess": "wo",
+    "resval": "False"
+   },
+   {
+    "name": "fifo_empty",
+    "bits": "1",
+    "swaccess": "wo",
+    "resval": "False"
+   },
+   {
+    "name": "kmac_err",
+    "bits": "2",
+    "swaccess": "wo",
+    "resval": "False"
+   }
+  ]
+ },
+ {
+  "kind": "reg",
+  "name": "ALERT_TEST",
+  "offset": 12,
+  "swaccess": "wo",
+  "fields": [
+   {
+    "name": "recov_operation_err",
+    "bits": "0",
+    "swaccess": "wo",
+    "resval": "False"
+   },
+   {
+    "name": "fatal_fault_err",
+    "bits": "1",
+    "swaccess": "wo",
+    "resval": "False"
+   }
+  ]
+ },
+ {
+  "kind": "reg",
+  "name": "CFG_REGWEN",
+  "offset": 16,
+  "swaccess": null,
+  "fields": [
+   {
+    "name": "en",
+    "bits": "0",
+    "swaccess": null,
+    "resval": "1"
+   }
+  ],
+  "regwen": null
+ },
+ {
+  "kind": "reg",
+  "name": "CFG_SHADOWED",
+  "offset": 20,
+  "swaccess": null,
+  "fields": [
+   {
+    "name": "kmac_en",
+    "bits": "0",
+    "swaccess": null,
+    "resval": null
+   },
+   {
+    "name": "kstrength",
+    "bits": "3:1",
+    "swaccess": null,
+    "resval": null
+   },
+   {
+    "name": "mode",
+    "bits": "5:4",
+    "swaccess": null,
+    "resval": null
+   },
+   {
+    "name": "msg_endianness",
+    "bits": "8",
+    "swaccess": null,
+    "resval": "0"
+   },
+   {
+    "name": "state_endianness",
+    "bits": "9",
+    "swaccess": null,
+    "resval": null
+   },
+   {
+    "name": "sideload",
+    "bits": "12",
+    "swaccess": null,
+    "resval": null
+   },
+   {
+    "name": "entropy_mode",
+    "bits": "17:16",
+    "swaccess": null,
+    "resval": null
+   },
+   {
+    "name": "entropy_fast_process",
+    "bits": "19",
+    "swaccess": null,
+    "resval": null
+   },
+   {
+    "name": "msg_mask",
+    "bits": "20",
+    "swaccess": null,
+    "resval": null
+   },
+   {
+    "name": "entropy_ready",
+    "bits": "24",
+    "swaccess": null,
+    "resval": null
+   },
+   {
+    "name": "en_unsupported_modestrength",
+    "bits": "26",
+    "swaccess": null,
+    "resval": null
+   }
+  ],
+  "regwen": "CFG_REGWEN"
+ },
+ {
+  "kind": "reg",
+  "name": "CMD",
+  "offset": 24,
+  "swaccess": null,
+  "fields": [
+   {
+    "name": "cmd",
+    "bits": "5:0",
+    "swaccess": null,
+    "resval": null
+   },
+   {
+    "name": "entropy_req",
+    "bits": "8",
+    "swaccess": null,
+    "resval": null
+   },
+   {
+    "name": "hash_cnt_clr",
+    "bits": "9",
+    "swaccess": null,
+    "resval": null
+   },
+   {
+    "name": "err_processed",
+    "bits": "10",
+    "swaccess": null,
+    "resval": null
+   }
+  ],
+  "regwen": null
+ },
+ {
+  "kind": "reg",
+  "name": "STATUS",
+  "offset": 28,
+  "swaccess": null,
+  "fields": [
+   {
+    "name": "sha3_idle",
+    "bits": "0",
+    "swaccess": null,
+    "resval": "1"
+   },
+   {
+    "name": "sha3_absorb",
+    "bits": "1",
+    "swaccess": null,
+    "resval": null
+   },
+   {
+    "name": "sha3_squeeze",
+    "bits": "2",
+    "swaccess": null,
+    "resval": null
+   },
+   {
+    "name": "fifo_depth",
+    "bits": "12:8",
+    "swaccess": null,
+    "resval": null
+   },
+   {
+    "name": "fifo_empty",
+    "bits": "14",
+    "swaccess": null,
+    "resval": "1"
+   },
+   {
+    "name": "fifo_full",
+    "bits": "15",
+    "swaccess": null,
+    "resval": null
+   },
+   {
+    "name": "ALERT_FATAL_FAULT",
+    "bits": "16",
+    "swaccess": null,
+    "resval": "0"
+   },
+   {
+    "name": "ALERT_RECOV_CTRL_UPDATE_ERR",
+    "bits": "17",
+    "swaccess": null,
+    "resval": "0"
+   }
+  ],
+  "regwen": null
+ },
+ {
+  "kind": "reg",
+  "name": "ENTROPY_PERIOD",
+  "offset": 32,
+  "swaccess": null,
+  "fields": [
+   {
+    "name": "prescaler",
+    "bits": "9:0",
+    "swaccess": null,
+    "resval": null
+   },
+   {
+    "name": "wait_timer",
+    "bits": "31:16",
+    "swaccess": null,
+    "resval": null
+   }
+  ],
+  "regwen": "CFG_REGWEN"
+ },
+ {
+  "kind": "reg",
+  "name": "ENTROPY_REFRESH_HASH_CNT",
+  "offset": 36,
+  "swaccess": null,
+  "fields": [
+   {
+    "name": "hash_cnt",
+    "bits": "HashCntW-1:0",
+    "swaccess": null,
+    "resval": null
+   }
+  ],
+  "regwen": null
+ },
+ {
+  "kind": "reg",
+  "name": "ENTROPY_REFRESH_THRESHOLD_SHADOWED",
+  "offset": 40,
+  "swaccess": null,
+  "fields": [
+   {
+    "name": "threshold",
+    "bits": "HashCntW-1:0",
+    "swaccess": null,
+    "resval": null
+   }
+  ],
+  "regwen": "CFG_REGWEN"
+ },
+ {
+  "kind": "reg",
+  "name": "ENTROPY_SEED",
+  "offset": 44,
+  "swaccess": null,
+  "fields": [
+   {
+    "name": "seed",
+    "bits": "31:0",
+    "swaccess": null,
+    "resval": null
+   }
+  ],
+  "regwen": null
+ },
+ {
+  "kind": "multireg",
+  "name": "KEY_SHARE0",
+  "offset": 48,
+  "count": 16,
+  "stride": 4,
+  "swaccess": null,
+  "fields": [
+   {
+    "name": "key",
+    "bits": "31:0",
+    "swaccess": null,
+    "resval": null
+   }
+  ]
+ },
+ {
+  "kind": "multireg",
+  "name": "KEY_SHARE1",
+  "offset": 112,
+  "count": 16,
+  "stride": 4,
+  "swaccess": null,
+  "fields": [
+   {
+    "name": "key",
+    "bits": "31:0",
+    "swaccess": null,
+    "resval": null
+   }
+  ]
+ },
+ {
+  "kind": "reg",
+  "name": "KEY_LEN",
+  "offset": 176,
+  "swaccess": null,
+  "fields": [
+   {
+    "name": "len",
+    "bits": "2:0",
+    "swaccess": null,
+    "resval": null
+   }
+  ],
+  "regwen": "CFG_REGWEN"
+ },
+ {
+  "kind": "multireg",
+  "name": "PREFIX",
+  "offset": 180,
+  "count": 11,
+  "stride": 4,
+  "swaccess": null,
+  "fields": [
+   {
+    "name": "prefix",
+    "bits": "31:0",
+    "swaccess": null,
+    "resval": null
+   }
+  ]
+ },
+ {
+  "kind": "reg",
+  "name": "ERR_CODE",
+  "offset": 224,
+  "swaccess": null,
+  "fields": [
+   {
+    "name": "err_code",
+    "bits": "31:0",
+    "swaccess": null,
+    "resval": null
+   }
+  ],
+  "regwen": null
+ },
+ {
+  "kind": "window",
+  "name": "STATE",
+  "offset": 1024,
+  "items": 128,
+  "swaccess": "ro",
+  "byte_write": false
+ },
+ {
+  "kind": "window",
+  "name": "MSG_FIFO",
+  "offset": 2048,
+  "items": 512,
+  "swaccess": "wo",
+  "byte_write": true
+ }
+]

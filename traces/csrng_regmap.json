@@ -1,0 +1,92 @@
+[
+ {
+  "kind": "reg",
+  "name": "INTR_STATE",
+  "offset": 0
+ },
+ {
+  "kind": "reg",
+  "name": "INTR_ENABLE",
+  "offset": 4
+ },
+ {
+  "kind": "reg",
+  "name": "INTR_TEST",
+  "offset": 8
+ },
+ {
+  "kind": "reg",
+  "name": "ALERT_TEST",
+  "offset": 12
+ },
+ {
+  "kind": "reg",
+  "name": "REGWEN",
+  "offset": 16
+ },
+ {
+  "kind": "reg",
+  "name": "CTRL",
+  "offset": 20
+ },
+ {
+  "kind": "reg",
+  "name": "CMD_REQ",
+  "offset": 24
+ },
+ {
+  "kind": "reg",
+  "name": "RESEED_INTERVAL",
+  "offset": 28
+ },
+ {
+  "kind": "reg",
+  "name": "RESEED_COUNTER_0",
+  "offset": 32
+ },
+ {
+  "kind": "reg",
+  "name": "RESEED_COUNTER_1",
+  "offset": 36
+ },
+ {
+  "kind": "reg",
+  "name": "RESEED_COUNTER_2",
+  "offset": 40
+ },
+ {
+  "kind": "reg",
+  "name": "SW_CMD_STS",
+  "offset": 44
+ },
+ {
+  "kind": "reg",
+  "name": "GENBITS_VLD",
+  "offset": 48
+ },
+ {
+  "kind": "reg",
+  "name": "GENBITS",
+  "offset": 52
+ },
+ {
+  "kind": "reg",
+  "name": "INT_STATE_READ_ENABLE",
+  "offset": 56
+ },
+ {
+  "kind": "reg",
+  "name": "INT_STATE_READ_ENABLE_REGWEN",
+  "offset": 60
+ },
+ {
+  "kind": "reg",
+  "name": "INT_STATE_NUM",
+  "offset": 64
+ },
+ {
+  "kind": "reg",
+  "name": "INT_STATE_VAL",
+  "offset": 68
+ }
+]

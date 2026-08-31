@@ -1,0 +1,163 @@
+[
+ {
+  "mode": "P1-constancy",
+  "signal": "u_dut.invalid_config_atstart",
+  "value": "0x00000000",
+  "weight": 4,
+  "desc": "\u5168\u7a0b\u6052\u5b9a 0x00000000"
+ },
+ {
+  "mode": "P1-constancy",
+  "signal": "u_dut.hash_start",
+  "value": "0x00000000",
+  "weight": 2,
+  "desc": "\u5168\u7a0b\u6052\u5b9a 0x00000000"
+ },
+ {
+  "mode": "P1-constancy",
+  "signal": "u_dut.hash_start_active",
+  "value": "0x00000000",
+  "weight": 2,
+  "desc": "\u5168\u7a0b\u6052\u5b9a 0x00000000"
+ },
+ {
+  "mode": "P2-stuck-at",
+  "signal": "u_dut.digest_size_started_q",
+  "value": "0x00000001",
+  "weight": 2,
+  "desc": "wipe \u540e\u672a\u53d8\u5316 0x00000001"
+ },
+ {
+  "mode": "P1-constancy",
+  "signal": "u_dut.reg_hash_done",
+  "value": "0x00000000",
+  "weight": 2,
+  "desc": "\u5168\u7a0b\u6052\u5b9a 0x00000000"
+ },
+ {
+  "mode": "P1-constancy",
+  "signal": "u_dut.sha_hash_start",
+  "value": "0x00000000",
+  "weight": 2,
+  "desc": "\u5168\u7a0b\u6052\u5b9a 0x00000000"
+ },
+ {
+  "mode": "P1-constancy",
+  "signal": "u_dut.sha_hash_done",
+  "value": "0x00000000",
+  "weight": 2,
+  "desc": "\u5168\u7a0b\u6052\u5b9a 0x00000000"
+ },
+ {
+  "mode": "P1-constancy",
+  "signal": "u_dut.hmac_fifo_wvalid",
+  "value": "0x00000000",
+  "weight": 2,
+  "desc": "\u5168\u7a0b\u6052\u5b9a 0x00000000"
+ },
+ {
+  "mode": "P1-constancy",
+  "signal": "u_dut.fifo_rvalid",
+  "value": "0x00000000",
+  "weight": 2,
+  "desc": "\u5168\u7a0b\u6052\u5b9a 0x00000000"
+ },
+ {
+  "mode": "P1-constancy",
+  "signal": "u_dut.shaf_rvalid",
+  "value": "0x00000000",
+  "weight": 2,
+  "desc": "\u5168\u7a0b\u6052\u5b9a 0x00000000"
+ },
+ {
+  "mode": "P1-constancy",
+  "signal": "u_dut.hash_continue",
+  "value": "0x00000000",
+  "weight": 0,
+  "desc": "\u5168\u7a0b\u6052\u5b9a 0x00000000"
+ },
+ {
+  "mode": "P1-constancy",
+  "signal": "u_dut.fifo_full_q",
+  "value": "0x00000000",
+  "weight": 0,
+  "desc": "\u5168\u7a0b\u6052\u5b9a 0x00000000"
+ },
+ {
+  "mode": "P1-constancy",
+  "signal": "u_dut.fifo_full_seen_q",
+  "value": "0x00000000",
+  "weight": 0,
+  "desc": "\u5168\u7a0b\u6052\u5b9a 0x00000000"
+ },
+ {
+  "mode": "P1-constancy",
+  "signal": "u_dut.message_length",
+  "value": "0x00000000",
+  "weight": 0,
+  "desc": "\u5168\u7a0b\u6052\u5b9a 0x00000000"
+ },
+ {
+  "mode": "P1-constancy",
+  "signal": "u_dut.message_length_d",
+  "value": "0x00000000",
+  "weight": 0,
+  "desc": "\u5168\u7a0b\u6052\u5b9a 0x00000000"
+ },
+ {
+  "mode": "P1-constancy",
+  "signal": "u_dut.msg_push_not_allowed",
+  "value": "0x00000000",
+  "weight": 0,
+  "desc": "\u5168\u7a0b\u6052\u5b9a 0x00000000"
+ },
+ {
+  "mode": "P1-constancy",
+  "signal": "u_dut.sha_hash_process",
+  "value": "0x00000000",
+  "weight": 0,
+  "desc": "\u5168\u7a0b\u6052\u5b9a 0x00000000"
+ },
+ {
+  "mode": "P1-constancy",
+  "signal": "u_dut.sha_hash_continue",
+  "value": "0x00000000",
+  "weight": 0,
+  "desc": "\u5168\u7a0b\u6052\u5b9a 0x00000000"
+ },
+ {
+  "mode": "P1-constancy",
+  "signal": "u_dut.update_seckey_inprocess",
+  "value": "0x00000000",
+  "weight": 0,
+  "desc": "\u5168\u7a0b\u6052\u5b9a 0x00000000"
+ },
+ {
+  "mode": "P1-constancy",
+  "signal": "u_dut.digest_on_blk",
+  "value": "0x00000000",
+  "weight": 0,
+  "desc": "\u5168\u7a0b\u6052\u5b9a 0x00000000"
+ },
+ {
+  "mode": "P1-constancy",
+  "signal": "u_dut.hmac_fifo_wsel",
+  "value": "0x00000000",
+  "weight": 0,
+  "desc": "\u5168\u7a0b\u6052\u5b9a 0x00000000"
+ },
+ {
+  "mode": "P1-constancy",
+  "signal": "u_dut.hmac_fifo_wdata_sel",
+  "value": "0x00000000",
+  "weight": 0,
+  "desc": "\u5168\u7a0b\u6052\u5b9a 0x00000000"
+ },
+ {
+  "mode": "P1-constancy",
+  "signal": "u_dut.fifo_wdata",
+  "value": "0x00000000",
+  "weight": 0,
+  "desc": "\u5168\u7a0b\u6052\u5b9a 0x00000000"
+ }
+]

@@ -1,0 +1,14 @@
+{
+ "intr_state": 0,
+ "intr_enable": 4,
+ "intr_test": 8,
+ "alert_test": 12,
+ "ctrl": 16,
+ "prediv_ch0": 20,
+ "prediv_ch1": 24,
+ "data_ch0_0": 28,
+ "data_ch0_1": 32,
+ "data_ch1_0": 36,
+ "data_ch1_1": 40,
+ "size": 44
+}

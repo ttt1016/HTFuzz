@@ -1,0 +1,172 @@
+{
+ "runs": 6,
+ "txns": 113,
+ "reg_coverage": {
+  "hit": 21,
+  "total": 60,
+  "pct": 35.0
+ },
+ "regs": {
+  "INTR_TEST": {
+   "R": 0,
+   "W": 2
+  },
+  "CFG": {
+   "R": 0,
+   "W": 11
+  },
+  "CMD": {
+   "R": 0,
+   "W": 17
+  },
+  "INTR_ENABLE": {
+   "R": 0,
+   "W": 1
+  },
+  "MSG_LENGTH_LOWER": {
+   "R": 0,
+   "W": 6
+  },
+  "MSG_LENGTH_UPPER": {
+   "R": 0,
+   "W": 1
+  },
+  "STATUS": {
+   "R": 11,
+   "W": 0
+  },
+  "MSG_FIFO": {
+   "R": 0,
+   "W": 26
+  },
+  "ERR_CODE": {
+   "R": 2,
+   "W": 0
+  },
+  "DIGEST[0]": {
+   "R": 4,
+   "W": 0
+  },
+  "DIGEST[15]": {
+   "R": 0,
+   "W": 1
+  },
+  "DIGEST[2]": {
+   "R": 3,
+   "W": 0
+  },
+  "KEY[18]": {
+   "R": 1,
+   "W": 0
+  },
+  "KEY[24]": {
+   "R": 1,
+   "W": 0
+  },
+  "INTR_STATE": {
+   "R": 12,
+   "W": 2
+  },
+  "DIGEST[1]": {
+   "R": 2,
+   "W": 0
+  },
+  "DIGEST[3]": {
+   "R": 2,
+   "W": 0
+  },
+  "DIGEST[4]": {
+   "R": 2,
+   "W": 0
+  },
+  "DIGEST[5]": {
+   "R": 2,
+   "W": 0
+  },
+  "DIGEST[6]": {
+   "R": 2,
+   "W": 0
+  },
+  "DIGEST[7]": {
+   "R": 2,
+   "W": 0
+  }
+ },
+ "fields": {
+  "INTR_TEST.hmac_err": [
+   1
+  ],
+  "CFG.hmac_en": [
+   1
+  ],
+  "CFG.digest_size": [
+   1,
+   8,
+   10,
+   15
+  ],
+  "CFG.key_length": [
+   2,
+   63
+  ],
+  "CMD.hash_process": [
+   1
+  ],
+  "CMD.hash_continue": [
+   1
+  ],
+  "INTR_TEST.hmac_done": [
+   1
+  ],
+  "INTR_ENABLE.fifo_empty": [
+   1
+  ],
+  "MSG_LENGTH_LOWER.v": [
+   1,
+   256,
+   1048576,
+   268435456
+  ],
+  "CFG.sha_en": [
+   1
+  ],
+  "CFG.endian_swap": [
+   1
+  ],
+  "CFG.digest_swap": [
+   1
+  ],
+  "CFG.key_swap": [
+   1
+  ],
+  "CMD.hash_start": [
+   1
+  ],
+  "CMD.hash_stop": [
+   1
+  ],
+  "MSG_LENGTH_UPPER.v": [
+   4294967295
+  ],
+  "INTR_STATE.hmac_done": [
+   1
+  ]
+ },
+ "oob": [],
+ "oracles": {
+  "O1": 0,
+  "O2": 0,
+  "O3": 0,
+  "O4": 0
+ },
+ "results": {
+  "pickerfuzz_bitflip_1": "PASS",
+  "pickerfuzz_illegal_2": "PASS",
+  "pickerfuzz_boundary_3": "PASS",
+  "pickerfuzz_window_4": "BLOCKED",
+  "pickerfuzz_fsm_5": "PASS",
+  "pickerfuzz_meta_6": "PASS"
+ },
+ "blocked": 1,
+ "pass": 5
+}

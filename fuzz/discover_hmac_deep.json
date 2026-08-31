@@ -1,0 +1,278 @@
+{
+ "module": "hmac",
+ "findings": [
+  {
+   "oracle": "O-A-residual",
+   "signal": "u_dut.secret_key",
+   "word": 28,
+   "value": "0xdead00c1",
+   "marker": "0xdead00be",
+   "trial": 0,
+   "desc": "敏感信号 u_dut.secret_key[28] 在清除/操作序列后残留写入标记值",
+   "llm_deep": {
+    "verdict": "likely-bug",
+    "confidence": 70,
+    "injection_type": "极性反转",
+    "evidence": "提供的 hmac.sv:210-232 擦除路径本身与上游语义一致且无篡改痕迹：hmac.sv:210-211 wipe_secret=reg2hw.wipe_secret.qe / wipe_v=q；hmac.sv:216-217 擦除分支无条件全宽覆盖 secret_key_d={32{wipe_v}}（1024bit 全清），且优先级高于 cfg_block 与 KEY 写入（hmac.sv:218），即擦除不受引擎忙态阻断——这是设计意图。hmac.sv:229-232 复位清零也正常。该文件中不存在任何 we/reg_error 门控，说明 reg2hw.wipe_secret.qe 完全由 reg_top 侧生成。oracle 动态观测到'擦除序列后 secret_key[28] 仍残留写入标记值'，而本地组合逻辑在 qe 脉冲到达时不可能产生残留 ⇒ 注入必在 fanin（上游生成）：需追踪 hmac_reg_top.sv 中 WIPE_SECRET 的写使能 assign wipe_secret_we = addr_hit[N] & reg_we & !reg_error 是否被改为 & reg_error（极性反转）或追加条件门控；其次检查 addr_hit 映射目标是否被改写（写 WIPE_SECRET 落到别的寄存器）、prim_subreg_ext 的 qe=we 直通路径、以及 hmac_reg_pkg.sv 中 reg2hw.wipe_secret 字段映射。全字擦除失效（而非某字/某位残留）与'qe 从未脉冲'的假设完全吻合。次要排除项：若 fuzz 序列的'清除'是引擎忙时(cfg_block=1)写 KEY 而非 WIPE_SECRET，则属测试计划 write_config_and_secret_key_during_msg_wr 声明的设计内访问阻断，为误报——需用 PoC 序列判别。",
+    "impact": "软件写 WIPE_SECRET 的密钥零化操作被静默绕过，密钥与内部状态在'擦除'后仍以明文残留于触发器中，可经扫描链/探测/故障注入回收，违背密钥残留清除安全目标。",
+    "suggested_poc": "1) 依序写 KEY0..KEY31=标记值（含 bit28=1，如 0x10000000 模式）；2) 写 WIPE_SECRET=0x00000000；3) 仿真在下一 clk_i 上升沿采样 u_dut.secret_key：期望等于 {32{0}}，若标记残留即复现；4) 同时 dump TLUL 事务：该写无 error 应答但 reg2hw.wipe_secret.qe 无脉冲 ⇒ 直接定位 hmac_reg_top.sv 的 wipe_secret_we 极性/addr_hit 映射；5) 功能旁证：擦除后对同一消息发起 HMAC，若摘要仍依赖旧密钥则确认残留；6) 对照实验：在引擎 Idle(cfg_block=0) 时重复上述序列以排除设计内 KEY 写阻断造成的误报。",
+    "mode": "api-deep",
+    "model": "zai-org/GLM-5.3-Flash"
+   }
+  },
+  {
+   "oracle": "O-A-residual",
+   "signal": "u_dut.secret_key_d",
+   "word": 28,
+   "value": "0xdead00c1",
+   "marker": "0xdead00be",
+   "trial": 0,
+   "desc": "敏感信号 u_dut.secret_key_d[28] 在清除/操作序列后残留写入标记值",
+   "llm_deep": {
+    "verdict": "likely-safe",
+    "confidence": 80,
+    "injection_type": "无",
+    "evidence": "hmac.sv:210-211：wipe_secret = reg2hw.wipe_secret.qe，正极性 qe，无任何 reg_error/异常条件门控；hmac.sv:216-217：`if (wipe_secret) secret_key_d = {32{wipe_v}}` —— 擦除分支优先级最高，先于密钥更新分支；hmac.sv:218-226：密钥更新被 `!cfg_block` 正确门控（仅引擎 Idle 时可写，极性正确）；hmac.sv:229-232：复位将 secret_key 清 0；hmac.sv:234-236：KEY 寄存器读回恒 0（wo）。该段与上游 OpenTitan 逐行一致，无极性反转/条件篡改/常量替换。关键语义：OpenTitan 的 WIPE_SECRET 是数据驱动擦除——将 SW 写入的 wipe_v 复制到全部 1024bit 密钥（hjson 注明 Write this value to wipe secret key, 0x0 is recommended），并非强制清零。因此 fuzzer 向 WIPE_SECRET 写入非零标记后，组合信号 secret_key_d（默认保持 secret_key）合法地等于 {32{标记值}}，bit28 观测到写入标记值正是该规范语义的表现，属 residual oracle 的典型误报，而非旧密钥残留。",
+    "impact": "无实际安全影响：旧密钥被 wipe_v 全宽覆盖，擦除按设计生效；仅当写入 WIPE_SECRET=0 后密钥仍残留旧值时才构成真实密钥泄露路径。",
+    "suggested_poc": "① 写 KEY_0..31=0xDEADBEEF；② 写 WIPE_SECRET=0x0，层级探测 dut.secret_key 应为全 0——若仍为 0xDEADBEEF 则为真注入，转查上游 fanin：hmac_reg_top.sv 中 wipe_secret_we = addr_hit & reg_we & !reg_error 的极性（重点确认未被改成 & reg_error）以及 reg2hw.wipe_secret.qe 脉冲是否被抑制；③ 写 WIPE_SECRET=0x10000000（bit28=1），探测 secret_key_d[28]=1 属正常 wipe_v 复制而非残留，可据此区分误报与真 bug；④ 置 CFG.hmac_en=1 启动引擎使 cfg_block=1 后写 KEY 应被拒绝，验证 218 行门控未被绕过。",
+    "mode": "api-deep",
+    "model": "zai-org/GLM-5.3-Flash"
+   }
+  },
+  {
+   "oracle": "O-A-residual",
+   "signal": "u_dut.secret_key",
+   "word": 28,
+   "value": "0xdead01c1",
+   "marker": "0xdead01be",
+   "trial": 1,
+   "desc": "敏感信号 u_dut.secret_key[28] 在清除/操作序列后残留写入标记值",
+   "llm_deep": {
+    "verdict": "likely-bug",
+    "confidence": 70,
+    "injection_type": "极性反转",
+    "evidence": "提供的 hmac.sv:210-232 擦除路径本身与上游语义一致且无篡改痕迹：hmac.sv:210-211 wipe_secret=reg2hw.wipe_secret.qe / wipe_v=q；hmac.sv:216-217 擦除分支无条件全宽覆盖 secret_key_d={32{wipe_v}}（1024bit 全清），且优先级高于 cfg_block 与 KEY 写入（hmac.sv:218），即擦除不受引擎忙态阻断——这是设计意图。hmac.sv:229-232 复位清零也正常。该文件中不存在任何 we/reg_error 门控，说明 reg2hw.wipe_secret.qe 完全由 reg_top 侧生成。oracle 动态观测到'擦除序列后 secret_key[28] 仍残留写入标记值'，而本地组合逻辑在 qe 脉冲到达时不可能产生残留 ⇒ 注入必在 fanin（上游生成）：需追踪 hmac_reg_top.sv 中 WIPE_SECRET 的写使能 assign wipe_secret_we = addr_hit[N] & reg_we & !reg_error 是否被改为 & reg_error（极性反转）或追加条件门控；其次检查 addr_hit 映射目标是否被改写（写 WIPE_SECRET 落到别的寄存器）、prim_subreg_ext 的 qe=we 直通路径、以及 hmac_reg_pkg.sv 中 reg2hw.wipe_secret 字段映射。全字擦除失效（而非某字/某位残留）与'qe 从未脉冲'的假设完全吻合。次要排除项：若 fuzz 序列的'清除'是引擎忙时(cfg_block=1)写 KEY 而非 WIPE_SECRET，则属测试计划 write_config_and_secret_key_during_msg_wr 声明的设计内访问阻断，为误报——需用 PoC 序列判别。",
+    "impact": "软件写 WIPE_SECRET 的密钥零化操作被静默绕过，密钥与内部状态在'擦除'后仍以明文残留于触发器中，可经扫描链/探测/故障注入回收，违背密钥残留清除安全目标。",
+    "suggested_poc": "1) 依序写 KEY0..KEY31=标记值（含 bit28=1，如 0x10000000 模式）；2) 写 WIPE_SECRET=0x00000000；3) 仿真在下一 clk_i 上升沿采样 u_dut.secret_key：期望等于 {32{0}}，若标记残留即复现；4) 同时 dump TLUL 事务：该写无 error 应答但 reg2hw.wipe_secret.qe 无脉冲 ⇒ 直接定位 hmac_reg_top.sv 的 wipe_secret_we 极性/addr_hit 映射；5) 功能旁证：擦除后对同一消息发起 HMAC，若摘要仍依赖旧密钥则确认残留；6) 对照实验：在引擎 Idle(cfg_block=0) 时重复上述序列以排除设计内 KEY 写阻断造成的误报。",
+    "mode": "api-deep",
+    "model": "zai-org/GLM-5.3-Flash"
+   }
+  },
+  {
+   "oracle": "O-A-residual",
+   "signal": "u_dut.secret_key_d",
+   "word": 28,
+   "value": "0xdead01c1",
+   "marker": "0xdead01be",
+   "trial": 1,
+   "desc": "敏感信号 u_dut.secret_key_d[28] 在清除/操作序列后残留写入标记值",
+   "llm_deep": {
+    "verdict": "likely-safe",
+    "confidence": 80,
+    "injection_type": "无",
+    "evidence": "hmac.sv:210-211：wipe_secret = reg2hw.wipe_secret.qe，正极性 qe，无任何 reg_error/异常条件门控；hmac.sv:216-217：`if (wipe_secret) secret_key_d = {32{wipe_v}}` —— 擦除分支优先级最高，先于密钥更新分支；hmac.sv:218-226：密钥更新被 `!cfg_block` 正确门控（仅引擎 Idle 时可写，极性正确）；hmac.sv:229-232：复位将 secret_key 清 0；hmac.sv:234-236：KEY 寄存器读回恒 0（wo）。该段与上游 OpenTitan 逐行一致，无极性反转/条件篡改/常量替换。关键语义：OpenTitan 的 WIPE_SECRET 是数据驱动擦除——将 SW 写入的 wipe_v 复制到全部 1024bit 密钥（hjson 注明 Write this value to wipe secret key, 0x0 is recommended），并非强制清零。因此 fuzzer 向 WIPE_SECRET 写入非零标记后，组合信号 secret_key_d（默认保持 secret_key）合法地等于 {32{标记值}}，bit28 观测到写入标记值正是该规范语义的表现，属 residual oracle 的典型误报，而非旧密钥残留。",
+    "impact": "无实际安全影响：旧密钥被 wipe_v 全宽覆盖，擦除按设计生效；仅当写入 WIPE_SECRET=0 后密钥仍残留旧值时才构成真实密钥泄露路径。",
+    "suggested_poc": "① 写 KEY_0..31=0xDEADBEEF；② 写 WIPE_SECRET=0x0，层级探测 dut.secret_key 应为全 0——若仍为 0xDEADBEEF 则为真注入，转查上游 fanin：hmac_reg_top.sv 中 wipe_secret_we = addr_hit & reg_we & !reg_error 的极性（重点确认未被改成 & reg_error）以及 reg2hw.wipe_secret.qe 脉冲是否被抑制；③ 写 WIPE_SECRET=0x10000000（bit28=1），探测 secret_key_d[28]=1 属正常 wipe_v 复制而非残留，可据此区分误报与真 bug；④ 置 CFG.hmac_en=1 启动引擎使 cfg_block=1 后写 KEY 应被拒绝，验证 218 行门控未被绕过。",
+    "mode": "api-deep",
+    "model": "zai-org/GLM-5.3-Flash"
+   }
+  },
+  {
+   "oracle": "O-A-residual",
+   "signal": "u_dut.secret_key",
+   "word": 28,
+   "value": "0xdead02c1",
+   "marker": "0xdead02be",
+   "trial": 2,
+   "desc": "敏感信号 u_dut.secret_key[28] 在清除/操作序列后残留写入标记值",
+   "llm_deep": {
+    "verdict": "likely-bug",
+    "confidence": 70,
+    "injection_type": "极性反转",
+    "evidence": "提供的 hmac.sv:210-232 擦除路径本身与上游语义一致且无篡改痕迹：hmac.sv:210-211 wipe_secret=reg2hw.wipe_secret.qe / wipe_v=q；hmac.sv:216-217 擦除分支无条件全宽覆盖 secret_key_d={32{wipe_v}}（1024bit 全清），且优先级高于 cfg_block 与 KEY 写入（hmac.sv:218），即擦除不受引擎忙态阻断——这是设计意图。hmac.sv:229-232 复位清零也正常。该文件中不存在任何 we/reg_error 门控，说明 reg2hw.wipe_secret.qe 完全由 reg_top 侧生成。oracle 动态观测到'擦除序列后 secret_key[28] 仍残留写入标记值'，而本地组合逻辑在 qe 脉冲到达时不可能产生残留 ⇒ 注入必在 fanin（上游生成）：需追踪 hmac_reg_top.sv 中 WIPE_SECRET 的写使能 assign wipe_secret_we = addr_hit[N] & reg_we & !reg_error 是否被改为 & reg_error（极性反转）或追加条件门控；其次检查 addr_hit 映射目标是否被改写（写 WIPE_SECRET 落到别的寄存器）、prim_subreg_ext 的 qe=we 直通路径、以及 hmac_reg_pkg.sv 中 reg2hw.wipe_secret 字段映射。全字擦除失效（而非某字/某位残留）与'qe 从未脉冲'的假设完全吻合。次要排除项：若 fuzz 序列的'清除'是引擎忙时(cfg_block=1)写 KEY 而非 WIPE_SECRET，则属测试计划 write_config_and_secret_key_during_msg_wr 声明的设计内访问阻断，为误报——需用 PoC 序列判别。",
+    "impact": "软件写 WIPE_SECRET 的密钥零化操作被静默绕过，密钥与内部状态在'擦除'后仍以明文残留于触发器中，可经扫描链/探测/故障注入回收，违背密钥残留清除安全目标。",
+    "suggested_poc": "1) 依序写 KEY0..KEY31=标记值（含 bit28=1，如 0x10000000 模式）；2) 写 WIPE_SECRET=0x00000000；3) 仿真在下一 clk_i 上升沿采样 u_dut.secret_key：期望等于 {32{0}}，若标记残留即复现；4) 同时 dump TLUL 事务：该写无 error 应答但 reg2hw.wipe_secret.qe 无脉冲 ⇒ 直接定位 hmac_reg_top.sv 的 wipe_secret_we 极性/addr_hit 映射；5) 功能旁证：擦除后对同一消息发起 HMAC，若摘要仍依赖旧密钥则确认残留；6) 对照实验：在引擎 Idle(cfg_block=0) 时重复上述序列以排除设计内 KEY 写阻断造成的误报。",
+    "mode": "api-deep",
+    "model": "zai-org/GLM-5.3-Flash"
+   }
+  },
+  {
+   "oracle": "O-A-residual",
+   "signal": "u_dut.secret_key_d",
+   "word": 28,
+   "value": "0xdead02c1",
+   "marker": "0xdead02be",
+   "trial": 2,
+   "desc": "敏感信号 u_dut.secret_key_d[28] 在清除/操作序列后残留写入标记值",
+   "llm_deep": {
+    "verdict": "likely-safe",
+    "confidence": 80,
+    "injection_type": "无",
+    "evidence": "hmac.sv:210-211：wipe_secret = reg2hw.wipe_secret.qe，正极性 qe，无任何 reg_error/异常条件门控；hmac.sv:216-217：`if (wipe_secret) secret_key_d = {32{wipe_v}}` —— 擦除分支优先级最高，先于密钥更新分支；hmac.sv:218-226：密钥更新被 `!cfg_block` 正确门控（仅引擎 Idle 时可写，极性正确）；hmac.sv:229-232：复位将 secret_key 清 0；hmac.sv:234-236：KEY 寄存器读回恒 0（wo）。该段与上游 OpenTitan 逐行一致，无极性反转/条件篡改/常量替换。关键语义：OpenTitan 的 WIPE_SECRET 是数据驱动擦除——将 SW 写入的 wipe_v 复制到全部 1024bit 密钥（hjson 注明 Write this value to wipe secret key, 0x0 is recommended），并非强制清零。因此 fuzzer 向 WIPE_SECRET 写入非零标记后，组合信号 secret_key_d（默认保持 secret_key）合法地等于 {32{标记值}}，bit28 观测到写入标记值正是该规范语义的表现，属 residual oracle 的典型误报，而非旧密钥残留。",
+    "impact": "无实际安全影响：旧密钥被 wipe_v 全宽覆盖，擦除按设计生效；仅当写入 WIPE_SECRET=0 后密钥仍残留旧值时才构成真实密钥泄露路径。",
+    "suggested_poc": "① 写 KEY_0..31=0xDEADBEEF；② 写 WIPE_SECRET=0x0，层级探测 dut.secret_key 应为全 0——若仍为 0xDEADBEEF 则为真注入，转查上游 fanin：hmac_reg_top.sv 中 wipe_secret_we = addr_hit & reg_we & !reg_error 的极性（重点确认未被改成 & reg_error）以及 reg2hw.wipe_secret.qe 脉冲是否被抑制；③ 写 WIPE_SECRET=0x10000000（bit28=1），探测 secret_key_d[28]=1 属正常 wipe_v 复制而非残留，可据此区分误报与真 bug；④ 置 CFG.hmac_en=1 启动引擎使 cfg_block=1 后写 KEY 应被拒绝，验证 218 行门控未被绕过。",
+    "mode": "api-deep",
+    "model": "zai-org/GLM-5.3-Flash"
+   }
+  },
+  {
+   "oracle": "O-A-residual",
+   "signal": "u_dut.secret_key",
+   "word": 28,
+   "value": "0xdead03c1",
+   "marker": "0xdead03be",
+   "trial": 3,
+   "desc": "敏感信号 u_dut.secret_key[28] 在清除/操作序列后残留写入标记值",
+   "llm_deep": {
+    "verdict": "likely-bug",
+    "confidence": 70,
+    "injection_type": "极性反转",
+    "evidence": "提供的 hmac.sv:210-232 擦除路径本身与上游语义一致且无篡改痕迹：hmac.sv:210-211 wipe_secret=reg2hw.wipe_secret.qe / wipe_v=q；hmac.sv:216-217 擦除分支无条件全宽覆盖 secret_key_d={32{wipe_v}}（1024bit 全清），且优先级高于 cfg_block 与 KEY 写入（hmac.sv:218），即擦除不受引擎忙态阻断——这是设计意图。hmac.sv:229-232 复位清零也正常。该文件中不存在任何 we/reg_error 门控，说明 reg2hw.wipe_secret.qe 完全由 reg_top 侧生成。oracle 动态观测到'擦除序列后 secret_key[28] 仍残留写入标记值'，而本地组合逻辑在 qe 脉冲到达时不可能产生残留 ⇒ 注入必在 fanin（上游生成）：需追踪 hmac_reg_top.sv 中 WIPE_SECRET 的写使能 assign wipe_secret_we = addr_hit[N] & reg_we & !reg_error 是否被改为 & reg_error（极性反转）或追加条件门控；其次检查 addr_hit 映射目标是否被改写（写 WIPE_SECRET 落到别的寄存器）、prim_subreg_ext 的 qe=we 直通路径、以及 hmac_reg_pkg.sv 中 reg2hw.wipe_secret 字段映射。全字擦除失效（而非某字/某位残留）与'qe 从未脉冲'的假设完全吻合。次要排除项：若 fuzz 序列的'清除'是引擎忙时(cfg_block=1)写 KEY 而非 WIPE_SECRET，则属测试计划 write_config_and_secret_key_during_msg_wr 声明的设计内访问阻断，为误报——需用 PoC 序列判别。",
+    "impact": "软件写 WIPE_SECRET 的密钥零化操作被静默绕过，密钥与内部状态在'擦除'后仍以明文残留于触发器中，可经扫描链/探测/故障注入回收，违背密钥残留清除安全目标。",
+    "suggested_poc": "1) 依序写 KEY0..KEY31=标记值（含 bit28=1，如 0x10000000 模式）；2) 写 WIPE_SECRET=0x00000000；3) 仿真在下一 clk_i 上升沿采样 u_dut.secret_key：期望等于 {32{0}}，若标记残留即复现；4) 同时 dump TLUL 事务：该写无 error 应答但 reg2hw.wipe_secret.qe 无脉冲 ⇒ 直接定位 hmac_reg_top.sv 的 wipe_secret_we 极性/addr_hit 映射；5) 功能旁证：擦除后对同一消息发起 HMAC，若摘要仍依赖旧密钥则确认残留；6) 对照实验：在引擎 Idle(cfg_block=0) 时重复上述序列以排除设计内 KEY 写阻断造成的误报。",
+    "mode": "api-deep",
+    "model": "zai-org/GLM-5.3-Flash"
+   }
+  },
+  {
+   "oracle": "O-A-residual",
+   "signal": "u_dut.secret_key_d",
+   "word": 28,
+   "value": "0xdead03c1",
+   "marker": "0xdead03be",
+   "trial": 3,
+   "desc": "敏感信号 u_dut.secret_key_d[28] 在清除/操作序列后残留写入标记值",
+   "llm_deep": {
+    "verdict": "likely-safe",
+    "confidence": 80,
+    "injection_type": "无",
+    "evidence": "hmac.sv:210-211：wipe_secret = reg2hw.wipe_secret.qe，正极性 qe，无任何 reg_error/异常条件门控；hmac.sv:216-217：`if (wipe_secret) secret_key_d = {32{wipe_v}}` —— 擦除分支优先级最高，先于密钥更新分支；hmac.sv:218-226：密钥更新被 `!cfg_block` 正确门控（仅引擎 Idle 时可写，极性正确）；hmac.sv:229-232：复位将 secret_key 清 0；hmac.sv:234-236：KEY 寄存器读回恒 0（wo）。该段与上游 OpenTitan 逐行一致，无极性反转/条件篡改/常量替换。关键语义：OpenTitan 的 WIPE_SECRET 是数据驱动擦除——将 SW 写入的 wipe_v 复制到全部 1024bit 密钥（hjson 注明 Write this value to wipe secret key, 0x0 is recommended），并非强制清零。因此 fuzzer 向 WIPE_SECRET 写入非零标记后，组合信号 secret_key_d（默认保持 secret_key）合法地等于 {32{标记值}}，bit28 观测到写入标记值正是该规范语义的表现，属 residual oracle 的典型误报，而非旧密钥残留。",
+    "impact": "无实际安全影响：旧密钥被 wipe_v 全宽覆盖，擦除按设计生效；仅当写入 WIPE_SECRET=0 后密钥仍残留旧值时才构成真实密钥泄露路径。",
+    "suggested_poc": "① 写 KEY_0..31=0xDEADBEEF；② 写 WIPE_SECRET=0x0，层级探测 dut.secret_key 应为全 0——若仍为 0xDEADBEEF 则为真注入，转查上游 fanin：hmac_reg_top.sv 中 wipe_secret_we = addr_hit & reg_we & !reg_error 的极性（重点确认未被改成 & reg_error）以及 reg2hw.wipe_secret.qe 脉冲是否被抑制；③ 写 WIPE_SECRET=0x10000000（bit28=1），探测 secret_key_d[28]=1 属正常 wipe_v 复制而非残留，可据此区分误报与真 bug；④ 置 CFG.hmac_en=1 启动引擎使 cfg_block=1 后写 KEY 应被拒绝，验证 218 行门控未被绕过。",
+    "mode": "api-deep",
+    "model": "zai-org/GLM-5.3-Flash"
+   }
+  },
+  {
+   "oracle": "O-A-residual",
+   "signal": "u_dut.secret_key",
+   "word": 28,
+   "value": "0xdead04c1",
+   "marker": "0xdead04be",
+   "trial": 4,
+   "desc": "敏感信号 u_dut.secret_key[28] 在清除/操作序列后残留写入标记值",
+   "llm_deep": {
+    "verdict": "likely-bug",
+    "confidence": 70,
+    "injection_type": "极性反转",
+    "evidence": "提供的 hmac.sv:210-232 擦除路径本身与上游语义一致且无篡改痕迹：hmac.sv:210-211 wipe_secret=reg2hw.wipe_secret.qe / wipe_v=q；hmac.sv:216-217 擦除分支无条件全宽覆盖 secret_key_d={32{wipe_v}}（1024bit 全清），且优先级高于 cfg_block 与 KEY 写入（hmac.sv:218），即擦除不受引擎忙态阻断——这是设计意图。hmac.sv:229-232 复位清零也正常。该文件中不存在任何 we/reg_error 门控，说明 reg2hw.wipe_secret.qe 完全由 reg_top 侧生成。oracle 动态观测到'擦除序列后 secret_key[28] 仍残留写入标记值'，而本地组合逻辑在 qe 脉冲到达时不可能产生残留 ⇒ 注入必在 fanin（上游生成）：需追踪 hmac_reg_top.sv 中 WIPE_SECRET 的写使能 assign wipe_secret_we = addr_hit[N] & reg_we & !reg_error 是否被改为 & reg_error（极性反转）或追加条件门控；其次检查 addr_hit 映射目标是否被改写（写 WIPE_SECRET 落到别的寄存器）、prim_subreg_ext 的 qe=we 直通路径、以及 hmac_reg_pkg.sv 中 reg2hw.wipe_secret 字段映射。全字擦除失效（而非某字/某位残留）与'qe 从未脉冲'的假设完全吻合。次要排除项：若 fuzz 序列的'清除'是引擎忙时(cfg_block=1)写 KEY 而非 WIPE_SECRET，则属测试计划 write_config_and_secret_key_during_msg_wr 声明的设计内访问阻断，为误报——需用 PoC 序列判别。",
+    "impact": "软件写 WIPE_SECRET 的密钥零化操作被静默绕过，密钥与内部状态在'擦除'后仍以明文残留于触发器中，可经扫描链/探测/故障注入回收，违背密钥残留清除安全目标。",
+    "suggested_poc": "1) 依序写 KEY0..KEY31=标记值（含 bit28=1，如 0x10000000 模式）；2) 写 WIPE_SECRET=0x00000000；3) 仿真在下一 clk_i 上升沿采样 u_dut.secret_key：期望等于 {32{0}}，若标记残留即复现；4) 同时 dump TLUL 事务：该写无 error 应答但 reg2hw.wipe_secret.qe 无脉冲 ⇒ 直接定位 hmac_reg_top.sv 的 wipe_secret_we 极性/addr_hit 映射；5) 功能旁证：擦除后对同一消息发起 HMAC，若摘要仍依赖旧密钥则确认残留；6) 对照实验：在引擎 Idle(cfg_block=0) 时重复上述序列以排除设计内 KEY 写阻断造成的误报。",
+    "mode": "api-deep",
+    "model": "zai-org/GLM-5.3-Flash"
+   }
+  },
+  {
+   "oracle": "O-A-residual",
+   "signal": "u_dut.secret_key_d",
+   "word": 28,
+   "value": "0xdead04c1",
+   "marker": "0xdead04be",
+   "trial": 4,
+   "desc": "敏感信号 u_dut.secret_key_d[28] 在清除/操作序列后残留写入标记值",
+   "llm_deep": {
+    "verdict": "likely-safe",
+    "confidence": 80,
+    "injection_type": "无",
+    "evidence": "hmac.sv:210-211：wipe_secret = reg2hw.wipe_secret.qe，正极性 qe，无任何 reg_error/异常条件门控；hmac.sv:216-217：`if (wipe_secret) secret_key_d = {32{wipe_v}}` —— 擦除分支优先级最高，先于密钥更新分支；hmac.sv:218-226：密钥更新被 `!cfg_block` 正确门控（仅引擎 Idle 时可写，极性正确）；hmac.sv:229-232：复位将 secret_key 清 0；hmac.sv:234-236：KEY 寄存器读回恒 0（wo）。该段与上游 OpenTitan 逐行一致，无极性反转/条件篡改/常量替换。关键语义：OpenTitan 的 WIPE_SECRET 是数据驱动擦除——将 SW 写入的 wipe_v 复制到全部 1024bit 密钥（hjson 注明 Write this value to wipe secret key, 0x0 is recommended），并非强制清零。因此 fuzzer 向 WIPE_SECRET 写入非零标记后，组合信号 secret_key_d（默认保持 secret_key）合法地等于 {32{标记值}}，bit28 观测到写入标记值正是该规范语义的表现，属 residual oracle 的典型误报，而非旧密钥残留。",
+    "impact": "无实际安全影响：旧密钥被 wipe_v 全宽覆盖，擦除按设计生效；仅当写入 WIPE_SECRET=0 后密钥仍残留旧值时才构成真实密钥泄露路径。",
+    "suggested_poc": "① 写 KEY_0..31=0xDEADBEEF；② 写 WIPE_SECRET=0x0，层级探测 dut.secret_key 应为全 0——若仍为 0xDEADBEEF 则为真注入，转查上游 fanin：hmac_reg_top.sv 中 wipe_secret_we = addr_hit & reg_we & !reg_error 的极性（重点确认未被改成 & reg_error）以及 reg2hw.wipe_secret.qe 脉冲是否被抑制；③ 写 WIPE_SECRET=0x10000000（bit28=1），探测 secret_key_d[28]=1 属正常 wipe_v 复制而非残留，可据此区分误报与真 bug；④ 置 CFG.hmac_en=1 启动引擎使 cfg_block=1 后写 KEY 应被拒绝，验证 218 行门控未被绕过。",
+    "mode": "api-deep",
+    "model": "zai-org/GLM-5.3-Flash"
+   }
+  },
+  {
+   "oracle": "O-A-residual",
+   "signal": "u_dut.secret_key",
+   "word": 28,
+   "value": "0xdead05c1",
+   "marker": "0xdead05be",
+   "trial": 5,
+   "desc": "敏感信号 u_dut.secret_key[28] 在清除/操作序列后残留写入标记值",
+   "llm_deep": {
+    "verdict": "likely-bug",
+    "confidence": 70,
+    "injection_type": "极性反转",
+    "evidence": "提供的 hmac.sv:210-232 擦除路径本身与上游语义一致且无篡改痕迹：hmac.sv:210-211 wipe_secret=reg2hw.wipe_secret.qe / wipe_v=q；hmac.sv:216-217 擦除分支无条件全宽覆盖 secret_key_d={32{wipe_v}}（1024bit 全清），且优先级高于 cfg_block 与 KEY 写入（hmac.sv:218），即擦除不受引擎忙态阻断——这是设计意图。hmac.sv:229-232 复位清零也正常。该文件中不存在任何 we/reg_error 门控，说明 reg2hw.wipe_secret.qe 完全由 reg_top 侧生成。oracle 动态观测到'擦除序列后 secret_key[28] 仍残留写入标记值'，而本地组合逻辑在 qe 脉冲到达时不可能产生残留 ⇒ 注入必在 fanin（上游生成）：需追踪 hmac_reg_top.sv 中 WIPE_SECRET 的写使能 assign wipe_secret_we = addr_hit[N] & reg_we & !reg_error 是否被改为 & reg_error（极性反转）或追加条件门控；其次检查 addr_hit 映射目标是否被改写（写 WIPE_SECRET 落到别的寄存器）、prim_subreg_ext 的 qe=we 直通路径、以及 hmac_reg_pkg.sv 中 reg2hw.wipe_secret 字段映射。全字擦除失效（而非某字/某位残留）与'qe 从未脉冲'的假设完全吻合。次要排除项：若 fuzz 序列的'清除'是引擎忙时(cfg_block=1)写 KEY 而非 WIPE_SECRET，则属测试计划 write_config_and_secret_key_during_msg_wr 声明的设计内访问阻断，为误报——需用 PoC 序列判别。",
+    "impact": "软件写 WIPE_SECRET 的密钥零化操作被静默绕过，密钥与内部状态在'擦除'后仍以明文残留于触发器中，可经扫描链/探测/故障注入回收，违背密钥残留清除安全目标。",
+    "suggested_poc": "1) 依序写 KEY0..KEY31=标记值（含 bit28=1，如 0x10000000 模式）；2) 写 WIPE_SECRET=0x00000000；3) 仿真在下一 clk_i 上升沿采样 u_dut.secret_key：期望等于 {32{0}}，若标记残留即复现；4) 同时 dump TLUL 事务：该写无 error 应答但 reg2hw.wipe_secret.qe 无脉冲 ⇒ 直接定位 hmac_reg_top.sv 的 wipe_secret_we 极性/addr_hit 映射；5) 功能旁证：擦除后对同一消息发起 HMAC，若摘要仍依赖旧密钥则确认残留；6) 对照实验：在引擎 Idle(cfg_block=0) 时重复上述序列以排除设计内 KEY 写阻断造成的误报。",
+    "mode": "api-deep",
+    "model": "zai-org/GLM-5.3-Flash"
+   }
+  },
+  {
+   "oracle": "O-A-residual",
+   "signal": "u_dut.secret_key_d",
+   "word": 28,
+   "value": "0xdead05c1",
+   "marker": "0xdead05be",
+   "trial": 5,
+   "desc": "敏感信号 u_dut.secret_key_d[28] 在清除/操作序列后残留写入标记值",
+   "llm_deep": {
+    "verdict": "likely-safe",
+    "confidence": 80,
+    "injection_type": "无",
+    "evidence": "hmac.sv:210-211：wipe_secret = reg2hw.wipe_secret.qe，正极性 qe，无任何 reg_error/异常条件门控；hmac.sv:216-217：`if (wipe_secret) secret_key_d = {32{wipe_v}}` —— 擦除分支优先级最高，先于密钥更新分支；hmac.sv:218-226：密钥更新被 `!cfg_block` 正确门控（仅引擎 Idle 时可写，极性正确）；hmac.sv:229-232：复位将 secret_key 清 0；hmac.sv:234-236：KEY 寄存器读回恒 0（wo）。该段与上游 OpenTitan 逐行一致，无极性反转/条件篡改/常量替换。关键语义：OpenTitan 的 WIPE_SECRET 是数据驱动擦除——将 SW 写入的 wipe_v 复制到全部 1024bit 密钥（hjson 注明 Write this value to wipe secret key, 0x0 is recommended），并非强制清零。因此 fuzzer 向 WIPE_SECRET 写入非零标记后，组合信号 secret_key_d（默认保持 secret_key）合法地等于 {32{标记值}}，bit28 观测到写入标记值正是该规范语义的表现，属 residual oracle 的典型误报，而非旧密钥残留。",
+    "impact": "无实际安全影响：旧密钥被 wipe_v 全宽覆盖，擦除按设计生效；仅当写入 WIPE_SECRET=0 后密钥仍残留旧值时才构成真实密钥泄露路径。",
+    "suggested_poc": "① 写 KEY_0..31=0xDEADBEEF；② 写 WIPE_SECRET=0x0，层级探测 dut.secret_key 应为全 0——若仍为 0xDEADBEEF 则为真注入，转查上游 fanin：hmac_reg_top.sv 中 wipe_secret_we = addr_hit & reg_we & !reg_error 的极性（重点确认未被改成 & reg_error）以及 reg2hw.wipe_secret.qe 脉冲是否被抑制；③ 写 WIPE_SECRET=0x10000000（bit28=1），探测 secret_key_d[28]=1 属正常 wipe_v 复制而非残留，可据此区分误报与真 bug；④ 置 CFG.hmac_en=1 启动引擎使 cfg_block=1 后写 KEY 应被拒绝，验证 218 行门控未被绕过。",
+    "mode": "api-deep",
+    "model": "zai-org/GLM-5.3-Flash"
+   }
+  },
+  {
+   "oracle": "O-D-fsm",
+   "signal": "u_dut.done_state_q",
+   "value": "0x2",
+   "trial": 0,
+   "confidence": "MEDIUM",
+   "desc": "FSM 信号 u_dut.done_state_q 在边界输入后 100 拍保持 0x2 不变，且该稳态在正常操作中未出现 → 疑似卡死/无超时恢复",
+   "llm_deep": {
+    "verdict": "needs-review",
+    "confidence": 50,
+    "evidence": "Let me analyze this carefully.\n\nThe candidate is in the OpenTitan HMAC module, signal `u_dut.done_state_q`, oracle O-D-fsm reports that the FSM signal stays at 0x2 for 100 cycles after a boundary input, and this steady state doesn't appear in normal operation → suspected stuck/no timeout recovery.\n\nLooking at the RTL context provided:\n\n```systemverilog\n// hw/ip/hmac/rtl/hmac.sv:199\n  169:         end\n  170:       end\n  171: \n  172:       DoneAwaitMessageComplete: begin\n  173:         if (digest_on_blk) begin\n  174:             done_state_d = DoneAwaitHashComplete;\n  175:           end\n  176:       end\n  177: \n  180:       DoneAwaitHashComplete: begin\n  181:         if (!hash_running) begin\n  182:           if (cool_down_ct_q < 8'd127) begin\n  183:             cool_down_ct_d = cool_down_ct_q + 1'b1;\n  184:             hash_done_event = 1'b0;\n  185:             done_state_d = DoneAwaitHashComplete;\n  186:           end else begin\n  187:             hash_done_event = 1'b1;\n  188:             done_state_d = DoneAwaitCmd;\n  189:           end\n  190:         end\n  191:       end\n```\n\nLet me recall the actual OpenTitan HMAC RTL. The original code in hw/ip/hmac/rtl/hmac.sv has a done_state FSM:\n\n```systemverilog\n  // FSM to handle the done process\n  typedef enum logic [1:0] {\n    DoneAwaitCmd,\n    DoneAwaitMessageComplete,\n    DoneAwaitHashComplete\n  } done_state_e;\n\n  done_state_e done_state, done_state_d;\n\n  always_comb begin\n    done_state_d = done_state;\n    hash_done_event = 1'b0;\n\n    unique case (done_state)\n      DoneAwaitCmd: begin\n        if (hash_start || hash_process) begin\n          done_state_d = DoneAwaitMessageComplete;\n        end\n      end\n\n      DoneAwaitMessageComplete: begin\n        if (digest_on_blk) begin\n          // Once the digest is being computed for the complete message block, wait for the hash to\n          // complete.\n          done_state_d = DoneAwaitHashComplete;\n        end\n      end\n\n      DoneAwaitHashComplete: begin\n        if (!hash_run",
+    "mode": "api-deep",
+    "model": "zai-org/GLM-5.3-Flash"
+   }
+  },
+  {
+   "oracle": "O-D-fsm",
+   "signal": "u_dut.done_state_q",
+   "value": "0x2",
+   "trial": 2,
+   "confidence": "MEDIUM",
+   "desc": "FSM 信号 u_dut.done_state_q 在边界输入后 100 拍保持 0x2 不变，且该稳态在正常操作中未出现 → 疑似卡死/无超时恢复",
+   "llm_deep": {
+    "verdict": "needs-review",
+    "confidence": 50,
+    "evidence": "Let me analyze this carefully.\n\nThe candidate is in the OpenTitan HMAC module, signal `u_dut.done_state_q`, oracle O-D-fsm reports that the FSM signal stays at 0x2 for 100 cycles after a boundary input, and this steady state doesn't appear in normal operation → suspected stuck/no timeout recovery.\n\nLooking at the RTL context provided:\n\n```systemverilog\n// hw/ip/hmac/rtl/hmac.sv:199\n  169:         end\n  170:       end\n  171: \n  172:       DoneAwaitMessageComplete: begin\n  173:         if (digest_on_blk) begin\n  174:             done_state_d = DoneAwaitHashComplete;\n  175:           end\n  176:       end\n  177: \n  180:       DoneAwaitHashComplete: begin\n  181:         if (!hash_running) begin\n  182:           if (cool_down_ct_q < 8'd127) begin\n  183:             cool_down_ct_d = cool_down_ct_q + 1'b1;\n  184:             hash_done_event = 1'b0;\n  185:             done_state_d = DoneAwaitHashComplete;\n  186:           end else begin\n  187:             hash_done_event = 1'b1;\n  188:             done_state_d = DoneAwaitCmd;\n  189:           end\n  190:         end\n  191:       end\n```\n\nLet me recall the actual OpenTitan HMAC RTL. The original code in hw/ip/hmac/rtl/hmac.sv has a done_state FSM:\n\n```systemverilog\n  // FSM to handle the done process\n  typedef enum logic [1:0] {\n    DoneAwaitCmd,\n    DoneAwaitMessageComplete,\n    DoneAwaitHashComplete\n  } done_state_e;\n\n  done_state_e done_state, done_state_d;\n\n  always_comb begin\n    done_state_d = done_state;\n    hash_done_event = 1'b0;\n\n    unique case (done_state)\n      DoneAwaitCmd: begin\n        if (hash_start || hash_process) begin\n          done_state_d = DoneAwaitMessageComplete;\n        end\n      end\n\n      DoneAwaitMessageComplete: begin\n        if (digest_on_blk) begin\n          // Once the digest is being computed for the complete message block, wait for the hash to\n          // complete.\n          done_state_d = DoneAwaitHashComplete;\n        end\n      end\n\n      DoneAwaitHashComplete: begin\n        if (!hash_run",
+    "mode": "api-deep",
+    "model": "zai-org/GLM-5.3-Flash"
+   }
+  },
+  {
+   "oracle": "O-D-fsm",
+   "signal": "u_dut.done_state_q",
+   "value": "0x2",
+   "trial": 5,
+   "confidence": "MEDIUM",
+   "desc": "FSM 信号 u_dut.done_state_q 在边界输入后 100 拍保持 0x2 不变，且该稳态在正常操作中未出现 → 疑似卡死/无超时恢复",
+   "llm_deep": {
+    "verdict": "needs-review",
+    "confidence": 50,
+    "evidence": "Let me analyze this carefully.\n\nThe candidate is in the OpenTitan HMAC module, signal `u_dut.done_state_q`, oracle O-D-fsm reports that the FSM signal stays at 0x2 for 100 cycles after a boundary input, and this steady state doesn't appear in normal operation → suspected stuck/no timeout recovery.\n\nLooking at the RTL context provided:\n\n```systemverilog\n// hw/ip/hmac/rtl/hmac.sv:199\n  169:         end\n  170:       end\n  171: \n  172:       DoneAwaitMessageComplete: begin\n  173:         if (digest_on_blk) begin\n  174:             done_state_d = DoneAwaitHashComplete;\n  175:           end\n  176:       end\n  177: \n  180:       DoneAwaitHashComplete: begin\n  181:         if (!hash_running) begin\n  182:           if (cool_down_ct_q < 8'd127) begin\n  183:             cool_down_ct_d = cool_down_ct_q + 1'b1;\n  184:             hash_done_event = 1'b0;\n  185:             done_state_d = DoneAwaitHashComplete;\n  186:           end else begin\n  187:             hash_done_event = 1'b1;\n  188:             done_state_d = DoneAwaitCmd;\n  189:           end\n  190:         end\n  191:       end\n```\n\nLet me recall the actual OpenTitan HMAC RTL. The original code in hw/ip/hmac/rtl/hmac.sv has a done_state FSM:\n\n```systemverilog\n  // FSM to handle the done process\n  typedef enum logic [1:0] {\n    DoneAwaitCmd,\n    DoneAwaitMessageComplete,\n    DoneAwaitHashComplete\n  } done_state_e;\n\n  done_state_e done_state, done_state_d;\n\n  always_comb begin\n    done_state_d = done_state;\n    hash_done_event = 1'b0;\n\n    unique case (done_state)\n      DoneAwaitCmd: begin\n        if (hash_start || hash_process) begin\n          done_state_d = DoneAwaitMessageComplete;\n        end\n      end\n\n      DoneAwaitMessageComplete: begin\n        if (digest_on_blk) begin\n          // Once the digest is being computed for the complete message block, wait for the hash to\n          // complete.\n          done_state_d = DoneAwaitHashComplete;\n        end\n      end\n\n      DoneAwaitHashComplete: begin\n        if (!hash_run",
+    "mode": "api-deep",
+    "model": "zai-org/GLM-5.3-Flash"
+   }
+  }
+ ]
+}

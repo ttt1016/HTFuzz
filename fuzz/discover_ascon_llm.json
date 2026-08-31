@@ -1,0 +1,185 @@
+{
+ "module": "ascon",
+ "findings": [
+  {
+   "oracle": "O-A-residual",
+   "signal": "ascon_core.key_share0_in_q",
+   "word": 0,
+   "value": "0xdead00be",
+   "marker": "0xdead00be",
+   "trial": 0,
+   "desc": "敏感信号 ascon_core.key_share0_in_q[0] 在清除/操作序列后残留写入标记值",
+   "llm_verdict": {
+    "verdict": "likely-bug",
+    "score": 65,
+    "reason": "oracle O-A-residual 基础分 40; 信号名含敏感关键词 +25",
+    "mode": "mock"
+   }
+  },
+  {
+   "oracle": "O-A-residual",
+   "signal": "ascon_core.key_share1_in_q",
+   "word": 0,
+   "value": "0xdead00bf",
+   "marker": "0xdead00be",
+   "trial": 0,
+   "desc": "敏感信号 ascon_core.key_share1_in_q[0] 在清除/操作序列后残留写入标记值",
+   "llm_verdict": {
+    "verdict": "likely-bug",
+    "score": 65,
+    "reason": "oracle O-A-residual 基础分 40; 信号名含敏感关键词 +25",
+    "mode": "mock"
+   }
+  },
+  {
+   "oracle": "O-A-residual",
+   "signal": "ascon_core.key_share0_in_q",
+   "word": 0,
+   "value": "0xdead01be",
+   "marker": "0xdead01be",
+   "trial": 1,
+   "desc": "敏感信号 ascon_core.key_share0_in_q[0] 在清除/操作序列后残留写入标记值",
+   "llm_verdict": {
+    "verdict": "likely-bug",
+    "score": 65,
+    "reason": "oracle O-A-residual 基础分 40; 信号名含敏感关键词 +25",
+    "mode": "mock"
+   }
+  },
+  {
+   "oracle": "O-A-residual",
+   "signal": "ascon_core.key_share1_in_q",
+   "word": 0,
+   "value": "0xdead01bf",
+   "marker": "0xdead01be",
+   "trial": 1,
+   "desc": "敏感信号 ascon_core.key_share1_in_q[0] 在清除/操作序列后残留写入标记值",
+   "llm_verdict": {
+    "verdict": "likely-bug",
+    "score": 65,
+    "reason": "oracle O-A-residual 基础分 40; 信号名含敏感关键词 +25",
+    "mode": "mock"
+   }
+  },
+  {
+   "oracle": "O-A-residual",
+   "signal": "ascon_core.key_share0_in_q",
+   "word": 0,
+   "value": "0xdead02be",
+   "marker": "0xdead02be",
+   "trial": 2,
+   "desc": "敏感信号 ascon_core.key_share0_in_q[0] 在清除/操作序列后残留写入标记值",
+   "llm_verdict": {
+    "verdict": "likely-bug",
+    "score": 65,
+    "reason": "oracle O-A-residual 基础分 40; 信号名含敏感关键词 +25",
+    "mode": "mock"
+   }
+  },
+  {
+   "oracle": "O-A-residual",
+   "signal": "ascon_core.key_share1_in_q",
+   "word": 0,
+   "value": "0xdead02bf",
+   "marker": "0xdead02be",
+   "trial": 2,
+   "desc": "敏感信号 ascon_core.key_share1_in_q[0] 在清除/操作序列后残留写入标记值",
+   "llm_verdict": {
+    "verdict": "likely-bug",
+    "score": 65,
+    "reason": "oracle O-A-residual 基础分 40; 信号名含敏感关键词 +25",
+    "mode": "mock"
+   }
+  },
+  {
+   "oracle": "O-A-residual",
+   "signal": "ascon_core.key_share0_in_q",
+   "word": 0,
+   "value": "0xdead03be",
+   "marker": "0xdead03be",
+   "trial": 3,
+   "desc": "敏感信号 ascon_core.key_share0_in_q[0] 在清除/操作序列后残留写入标记值",
+   "llm_verdict": {
+    "verdict": "likely-bug",
+    "score": 65,
+    "reason": "oracle O-A-residual 基础分 40; 信号名含敏感关键词 +25",
+    "mode": "mock"
+   }
+  },
+  {
+   "oracle": "O-A-residual",
+   "signal": "ascon_core.key_share1_in_q",
+   "word": 0,
+   "value": "0xdead03bf",
+   "marker": "0xdead03be",
+   "trial": 3,
+   "desc": "敏感信号 ascon_core.key_share1_in_q[0] 在清除/操作序列后残留写入标记值",
+   "llm_verdict": {
+    "verdict": "likely-bug",
+    "score": 65,
+    "reason": "oracle O-A-residual 基础分 40; 信号名含敏感关键词 +25",
+    "mode": "mock"
+   }
+  },
+  {
+   "oracle": "O-A-residual",
+   "signal": "ascon_core.key_share0_in_q",
+   "word": 0,
+   "value": "0xdead04be",
+   "marker": "0xdead04be",
+   "trial": 4,
+   "desc": "敏感信号 ascon_core.key_share0_in_q[0] 在清除/操作序列后残留写入标记值",
+   "llm_verdict": {
+    "verdict": "likely-bug",
+    "score": 65,
+    "reason": "oracle O-A-residual 基础分 40; 信号名含敏感关键词 +25",
+    "mode": "mock"
+   }
+  },
+  {
+   "oracle": "O-A-residual",
+   "signal": "ascon_core.key_share1_in_q",
+   "word": 0,
+   "value": "0xdead04bf",
+   "marker": "0xdead04be",
+   "trial": 4,
+   "desc": "敏感信号 ascon_core.key_share1_in_q[0] 在清除/操作序列后残留写入标记值",
+   "llm_verdict": {
+    "verdict": "likely-bug",
+    "score": 65,
+    "reason": "oracle O-A-residual 基础分 40; 信号名含敏感关键词 +25",
+    "mode": "mock"
+   }
+  },
+  {
+   "oracle": "O-A-residual",
+   "signal": "ascon_core.key_share0_in_q",
+   "word": 0,
+   "value": "0xdead05be",
+   "marker": "0xdead05be",
+   "trial": 5,
+   "desc": "敏感信号 ascon_core.key_share0_in_q[0] 在清除/操作序列后残留写入标记值",
+   "llm_verdict": {
+    "verdict": "likely-bug",
+    "score": 65,
+    "reason": "oracle O-A-residual 基础分 40; 信号名含敏感关键词 +25",
+    "mode": "mock"
+   }
+  },
+  {
+   "oracle": "O-A-residual",
+   "signal": "ascon_core.key_share1_in_q",
+   "word": 0,
+   "value": "0xdead05bf",
+   "marker": "0xdead05be",
+   "trial": 5,
+   "desc": "敏感信号 ascon_core.key_share1_in_q[0] 在清除/操作序列后残留写入标记值",
+   "llm_verdict": {
+    "verdict": "likely-bug",
+    "score": 65,
+    "reason": "oracle O-A-residual 基础分 40; 信号名含敏感关键词 +25",
+    "mode": "mock"
+   }
+  }
+ ]
+}

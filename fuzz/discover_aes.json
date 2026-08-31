@@ -1,0 +1,87 @@
+{
+ "module": "aes",
+ "findings": [
+  {
+   "oracle": "O-A-residual",
+   "signal": "u_dut.key_init",
+   "word": 0,
+   "value": "0xdead00be",
+   "marker": "0xdead00be",
+   "trial": 0,
+   "desc": "敏感信号 u_dut.key_init[0] 在清除/操作序列后残留写入标记值"
+  },
+  {
+   "oracle": "O-A-residual",
+   "signal": "u_dut.key_init",
+   "word": 0,
+   "value": "0xdead01be",
+   "marker": "0xdead01be",
+   "trial": 1,
+   "desc": "敏感信号 u_dut.key_init[0] 在清除/操作序列后残留写入标记值"
+  },
+  {
+   "oracle": "O-C-equivclass",
+   "signal": "u_dut.data_out_q",
+   "detail": "寄存器 CTRL_SHADOWED 两阶段写 vs 中间插读，控制信号 u_dut.data_out_q 终态不同",
+   "seq0": [
+    "0x0",
+    "0x0",
+    "0x0"
+   ],
+   "seq1": [
+    "0x26122612",
+    "0xb15bb15b",
+    "0x924b924b"
+   ],
+   "desc": "语义等价序列产生不同控制状态 → 可能存在中间读副作用/相位错误"
+  },
+  {
+   "oracle": "O-C-equivclass",
+   "signal": "u_dut.data_out_q",
+   "detail": "寄存器 CTRL_AUX_SHADOWED 两阶段写 vs 中间插读，控制信号 u_dut.data_out_q 终态不同",
+   "seq0": [
+    "0x0",
+    "0x0",
+    "0x0"
+   ],
+   "seq1": [
+    "0x26122612",
+    "0xb15bb15b",
+    "0x924b924b"
+   ],
+   "desc": "语义等价序列产生不同控制状态 → 可能存在中间读副作用/相位错误"
+  },
+  {
+   "oracle": "O-C-equivclass",
+   "signal": "u_dut.data_out_q",
+   "detail": "寄存器 CTRL_AUX_REGWEN 两阶段写 vs 中间插读，控制信号 u_dut.data_out_q 终态不同",
+   "seq0": [
+    "0x0",
+    "0x0",
+    "0x0"
+   ],
+   "seq1": [
+    "0x26122612",
+    "0xb15bb15b",
+    "0x924b924b"
+   ],
+   "desc": "语义等价序列产生不同控制状态 → 可能存在中间读副作用/相位错误"
+  },
+  {
+   "oracle": "O-C-equivclass",
+   "signal": "u_dut.data_out_q",
+   "detail": "寄存器 CTRL_GCM_SHADOWED 两阶段写 vs 中间插读，控制信号 u_dut.data_out_q 终态不同",
+   "seq0": [
+    "0x0",
+    "0x0",
+    "0x0"
+   ],
+   "seq1": [
+    "0x26122612",
+    "0xb15bb15b",
+    "0x924b924b"
+   ],
+   "desc": "语义等价序列产生不同控制状态 → 可能存在中间读副作用/相位错误"
+  }
+ ]
+}

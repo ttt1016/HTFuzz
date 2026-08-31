@@ -1,0 +1,38 @@
+[
+ {
+  "id": 1,
+  "type": "bitflip",
+  "target": "pickerfuzz_bitflip_1",
+  "n_txn": 8
+ },
+ {
+  "id": 2,
+  "type": "illegal",
+  "target": "pickerfuzz_illegal_2",
+  "n_txn": 5
+ },
+ {
+  "id": 3,
+  "type": "boundary",
+  "target": "pickerfuzz_boundary_3",
+  "n_txn": 8
+ },
+ {
+  "id": 4,
+  "type": "window",
+  "target": "pickerfuzz_window_4",
+  "n_txn": 6
+ },
+ {
+  "id": 5,
+  "type": "fsm",
+  "target": "pickerfuzz_fsm_5",
+  "n_txn": 16
+ },
+ {
+  "id": 6,
+  "type": "meta",
+  "target": "pickerfuzz_meta_6",
+  "n_txn": 43
+ }
+]

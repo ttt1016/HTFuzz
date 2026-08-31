@@ -1,0 +1,125 @@
+{
+ "module": "ibex",
+ "triaged": [
+  {
+   "level": "LOW",
+   "oracle": "O-D-fsm",
+   "signal": "u_dut.ctrl_fsm_cs",
+   "sec_cm": [],
+   "sensitive": false,
+   "cross_oracle": 0,
+   "rtl_wipe_nearby": false,
+   "evidence": "FSM 信号 u_dut.ctrl_fsm_cs 在边界输入后 100 拍保持非零不变 → 疑似卡死/无超时恢复"
+  },
+  {
+   "level": "LOW",
+   "oracle": "O-D-fsm",
+   "signal": "u_dut.ctrl_fsm_ns",
+   "sec_cm": [],
+   "sensitive": false,
+   "cross_oracle": 0,
+   "rtl_wipe_nearby": false,
+   "evidence": "FSM 信号 u_dut.ctrl_fsm_ns 在边界输入后 100 拍保持非零不变 → 疑似卡死/无超时恢复"
+  },
+  {
+   "level": "LOW",
+   "oracle": "O-D-fsm",
+   "signal": "u_dut.ctrl_fsm_cs",
+   "sec_cm": [],
+   "sensitive": false,
+   "cross_oracle": 0,
+   "rtl_wipe_nearby": false,
+   "evidence": "FSM 信号 u_dut.ctrl_fsm_cs 在边界输入后 100 拍保持非零不变 → 疑似卡死/无超时恢复"
+  },
+  {
+   "level": "LOW",
+   "oracle": "O-D-fsm",
+   "signal": "u_dut.ctrl_fsm_ns",
+   "sec_cm": [],
+   "sensitive": false,
+   "cross_oracle": 0,
+   "rtl_wipe_nearby": false,
+   "evidence": "FSM 信号 u_dut.ctrl_fsm_ns 在边界输入后 100 拍保持非零不变 → 疑似卡死/无超时恢复"
+  },
+  {
+   "level": "LOW",
+   "oracle": "O-D-fsm",
+   "signal": "u_dut.ctrl_fsm_cs",
+   "sec_cm": [],
+   "sensitive": false,
+   "cross_oracle": 0,
+   "rtl_wipe_nearby": false,
+   "evidence": "FSM 信号 u_dut.ctrl_fsm_cs 在边界输入后 100 拍保持非零不变 → 疑似卡死/无超时恢复"
+  },
+  {
+   "level": "LOW",
+   "oracle": "O-D-fsm",
+   "signal": "u_dut.ctrl_fsm_ns",
+   "sec_cm": [],
+   "sensitive": false,
+   "cross_oracle": 0,
+   "rtl_wipe_nearby": false,
+   "evidence": "FSM 信号 u_dut.ctrl_fsm_ns 在边界输入后 100 拍保持非零不变 → 疑似卡死/无超时恢复"
+  },
+  {
+   "level": "LOW",
+   "oracle": "O-D-fsm",
+   "signal": "u_dut.ctrl_fsm_cs",
+   "sec_cm": [],
+   "sensitive": false,
+   "cross_oracle": 0,
+   "rtl_wipe_nearby": false,
+   "evidence": "FSM 信号 u_dut.ctrl_fsm_cs 在边界输入后 100 拍保持非零不变 → 疑似卡死/无超时恢复"
+  },
+  {
+   "level": "LOW",
+   "oracle": "O-D-fsm",
+   "signal": "u_dut.ctrl_fsm_ns",
+   "sec_cm": [],
+   "sensitive": false,
+   "cross_oracle": 0,
+   "rtl_wipe_nearby": false,
+   "evidence": "FSM 信号 u_dut.ctrl_fsm_ns 在边界输入后 100 拍保持非零不变 → 疑似卡死/无超时恢复"
+  },
+  {
+   "level": "LOW",
+   "oracle": "O-D-fsm",
+   "signal": "u_dut.ctrl_fsm_cs",
+   "sec_cm": [],
+   "sensitive": false,
+   "cross_oracle": 0,
+   "rtl_wipe_nearby": false,
+   "evidence": "FSM 信号 u_dut.ctrl_fsm_cs 在边界输入后 100 拍保持非零不变 → 疑似卡死/无超时恢复"
+  },
+  {
+   "level": "LOW",
+   "oracle": "O-D-fsm",
+   "signal": "u_dut.ctrl_fsm_ns",
+   "sec_cm": [],
+   "sensitive": false,
+   "cross_oracle": 0,
+   "rtl_wipe_nearby": false,
+   "evidence": "FSM 信号 u_dut.ctrl_fsm_ns 在边界输入后 100 拍保持非零不变 → 疑似卡死/无超时恢复"
+  },
+  {
+   "level": "LOW",
+   "oracle": "O-D-fsm",
+   "signal": "u_dut.ctrl_fsm_cs",
+   "sec_cm": [],
+   "sensitive": false,
+   "cross_oracle": 0,
+   "rtl_wipe_nearby": false,
+   "evidence": "FSM 信号 u_dut.ctrl_fsm_cs 在边界输入后 100 拍保持非零不变 → 疑似卡死/无超时恢复"
+  },
+  {
+   "level": "LOW",
+   "oracle": "O-D-fsm",
+   "signal": "u_dut.ctrl_fsm_ns",
+   "sec_cm": [],
+   "sensitive": false,
+   "cross_oracle": 0,
+   "rtl_wipe_nearby": false,
+   "evidence": "FSM 信号 u_dut.ctrl_fsm_ns 在边界输入后 100 拍保持非零不变 → 疑似卡死/无超时恢复"
+  }
+ ]
+}

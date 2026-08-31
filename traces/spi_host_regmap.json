@@ -1,0 +1,16 @@
+{
+ "intr_state": 0,
+ "intr_enable": 4,
+ "intr_test": 8,
+ "alert_test": 12,
+ "control": 16,
+ "status": 20,
+ "configopts": 24,
+ "csid": 28,
+ "command": 32,
+ "error_enable": 44,
+ "error_status": 48,
+ "event_enable": 52,
+ "rxdata": 36,
+ "txdata": 40
+}

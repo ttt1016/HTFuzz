@@ -1,0 +1,268 @@
+[
+ {
+  "kind": "multireg",
+  "name": "KEY_SHARE0",
+  "offset": 4,
+  "count": 8,
+  "stride": 4,
+  "swaccess": null,
+  "fields": [
+   {
+    "name": "key_share0",
+    "bits": "31:0",
+    "swaccess": null,
+    "resval": null
+   }
+  ]
+ },
+ {
+  "kind": "multireg",
+  "name": "KEY_SHARE1",
+  "offset": 36,
+  "count": 8,
+  "stride": 4,
+  "swaccess": null,
+  "fields": [
+   {
+    "name": "key_share1",
+    "bits": "31:0",
+    "swaccess": null,
+    "resval": null
+   }
+  ]
+ },
+ {
+  "kind": "multireg",
+  "name": "IV",
+  "offset": 68,
+  "count": 4,
+  "stride": 4,
+  "swaccess": null,
+  "fields": [
+   {
+    "name": "iv",
+    "bits": "31:0",
+    "swaccess": null,
+    "resval": null
+   }
+  ]
+ },
+ {
+  "kind": "multireg",
+  "name": "DATA_IN",
+  "offset": 84,
+  "count": 4,
+  "stride": 4,
+  "swaccess": null,
+  "fields": [
+   {
+    "name": "data_in",
+    "bits": "31:0",
+    "swaccess": null,
+    "resval": null
+   }
+  ]
+ },
+ {
+  "kind": "multireg",
+  "name": "DATA_OUT",
+  "offset": 100,
+  "count": 4,
+  "stride": 4,
+  "swaccess": null,
+  "fields": [
+   {
+    "name": "data_out",
+    "bits": "31:0",
+    "swaccess": null,
+    "resval": null
+   }
+  ]
+ },
+ {
+  "kind": "reg",
+  "name": "CTRL_SHADOWED",
+  "offset": 116,
+  "swaccess": null,
+  "fields": [
+   {
+    "name": "OPERATION",
+    "bits": "1:0",
+    "swaccess": null,
+    "resval": "0x1"
+   },
+   {
+    "name": "MODE",
+    "bits": "7:2",
+    "swaccess": null,
+    "resval": "0x3f"
+   },
+   {
+    "name": "KEY_LEN",
+    "bits": "10:8",
+    "swaccess": null,
+    "resval": "1"
+   },
+   {
+    "name": "SIDELOAD",
+    "bits": "11",
+    "swaccess": null,
+    "resval": "0"
+   },
+   {
+    "name": "PRNG_RESEED_RATE",
+    "bits": "14:12",
+    "swaccess": null,
+    "resval": "1"
+   },
+   {
+    "name": "MANUAL_OPERATION",
+    "bits": "15",
+    "swaccess": null,
+    "resval": "0"
+   }
+  ],
+  "regwen": null
+ },
+ {
+  "kind": "reg",
+  "name": "CTRL_AUX_SHADOWED",
+  "offset": 120,
+  "swaccess": null,
+  "fields": [
+   {
+    "name": "KEY_TOUCH_FORCES_RESEED",
+    "bits": "0",
+    "swaccess": null,
+    "resval": 1
+   },
+   {
+    "name": "FORCE_MASKS",
+    "bits": "1",
+    "swaccess": null,
+    "resval": "0"
+   }
+  ],
+  "regwen": "CTRL_AUX_REGWEN"
+ },
+ {
+  "kind": "reg",
+  "name": "CTRL_AUX_REGWEN",
+  "offset": 124,
+  "swaccess": null,
+  "fields": [
+   {
+    "name": "unnamed_0",
+    "bits": "0",
+    "swaccess": null,
+    "resval": 1
+   }
+  ],
+  "regwen": null
+ },
+ {
+  "kind": "reg",
+  "name": "TRIGGER",
+  "offset": 128,
+  "swaccess": null,
+  "fields": [
+   {
+    "name": "START",
+    "bits": "0",
+    "swaccess": null,
+    "resval": "0"
+   },
+   {
+    "name": "KEY_IV_DATA_IN_CLEAR",
+    "bits": "1",
+    "swaccess": null,
+    "resval": "1"
+   },
+   {
+    "name": "DATA_OUT_CLEAR",
+    "bits": "2",
+    "swaccess": null,
+    "resval": "1"
+   },
+   {
+    "name": "PRNG_RESEED",
+    "bits": "3",
+    "swaccess": null,
+    "resval": "1"
+   }
+  ],
+  "regwen": null
+ },
+ {
+  "kind": "reg",
+  "name": "STATUS",
+  "offset": 132,
+  "swaccess": null,
+  "fields": [
+   {
+    "name": "IDLE",
+    "bits": "0",
+    "swaccess": null,
+    "resval": "0"
+   },
+   {
+    "name": "STALL",
+    "bits": "1",
+    "swaccess": null,
+    "resval": "0"
+   },
+   {
+    "name": "OUTPUT_LOST",
+    "bits": "2",
+    "swaccess": null,
+    "resval": "0"
+   },
+   {
+    "name": "OUTPUT_VALID",
+    "bits": "3",
+    "swaccess": null,
+    "resval": "0"
+   },
+   {
+    "name": "INPUT_READY",
+    "bits": "4",
+    "swaccess": null,
+    "resval": "0"
+   },
+   {
+    "name": "ALERT_RECOV_CTRL_UPDATE_ERR",
+    "bits": "5",
+    "swaccess": null,
+    "resval": "0"
+   },
+   {
+    "name": "ALERT_FATAL_FAULT",
+    "bits": "6",
+    "swaccess": null,
+    "resval": "0"
+   }
+  ],
+  "regwen": null
+ },
+ {
+  "kind": "reg",
+  "name": "CTRL_GCM_SHADOWED",
+  "offset": 136,
+  "swaccess": null,
+  "fields": [
+   {
+    "name": "PHASE",
+    "bits": "5:0",
+    "swaccess": null,
+    "resval": "0x01"
+   },
+   {
+    "name": "NUM_VALID_BYTES",
+    "bits": "10:6",
+    "swaccess": null,
+    "resval": "16"
+   }
+  ],
+  "regwen": null
+ }
+]
