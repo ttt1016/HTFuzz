@@ -1,0 +1,292 @@
+{
+ "module": "hmac",
+ "iterations": 30,
+ "exec_count": 36,
+ "final_coverage": 22,
+ "corpus_size": 12,
+ "new_coverage_events": [
+  {
+   "iter": 4,
+   "mut_type": "data",
+   "ops": [
+    [
+     "write",
+     "0x10",
+     "0x0"
+    ],
+    [
+     "write",
+     "0xe4",
+     "0xffffffff"
+    ],
+    [
+     "write",
+     "0x14",
+     "0x2"
+    ],
+    [
+     "step",
+     "0x64",
+     "0x0"
+    ]
+   ],
+   "new_cov": 3
+  },
+  {
+   "iter": 6,
+   "mut_type": "data",
+   "ops": [
+    [
+     "write",
+     "0x10",
+     "0x81eeadd7"
+    ],
+    [
+     "step",
+     "0x14",
+     0
+    ],
+    [
+     "write",
+     "0x14",
+     "0x1"
+    ],
+    [
+     "step",
+     "0x64",
+     0
+    ],
+    [
+     "write",
+     "0x20",
+     "0xdeadbeef"
+    ],
+    [
+     "step",
+     "0x32",
+     0
+    ]
+   ],
+   "new_cov": 1
+  },
+  {
+   "iter": 7,
+   "mut_type": "data",
+   "ops": [
+    [
+     "write",
+     "0x10",
+     "0x2"
+    ],
+    [
+     "write",
+     "0xe4",
+     "0xdeadbeef"
+    ],
+    [
+     "write",
+     "0x14",
+     "0x2"
+    ],
+    [
+     "step",
+     "0x64",
+     "0x0"
+    ]
+   ],
+   "new_cov": 3
+  },
+  {
+   "iter": 10,
+   "mut_type": "addr",
+   "ops": [
+    [
+     "write",
+     "0x64",
+     "0x1"
+    ],
+    [
+     "step",
+     "0x14",
+     0
+    ],
+    [
+     "write",
+     "0x14",
+     "0x1"
+    ],
+    [
+     "step",
+     "0x64",
+     0
+    ],
+    [
+     "write",
+     "0x20",
+     "0xdeadbeef"
+    ],
+    [
+     "step",
+     "0x32",
+     0
+    ]
+   ],
+   "new_cov": 2
+  },
+  {
+   "iter": 12,
+   "mut_type": "data",
+   "ops": [
+    [
+     "write",
+     "0x10",
+     "0x2"
+    ],
+    [
+     "write",
+     "0xe4",
+     "0xdead6e58"
+    ],
+    [
+     "write",
+     "0x14",
+     "0x2"
+    ],
+    [
+     "step",
+     "0x64",
+     "0x0"
+    ]
+   ],
+   "new_cov": 3
+  },
+  {
+   "iter": 13,
+   "mut_type": "insert",
+   "ops": [
+    [
+     "write",
+     "0x64",
+     "0x1"
+    ],
+    [
+     "step",
+     "0x14",
+     0
+    ],
+    [
+     "write",
+     "0x14",
+     "0x1"
+    ],
+    [
+     "step",
+     "0x64",
+     0
+    ],
+    [
+     "write",
+     "0x4c",
+     "0x8aa18f43"
+    ],
+    [
+     "write",
+     "0x20",
+     "0xdeadbeef"
+    ],
+    [
+     "step",
+     "0x32",
+     0
+    ]
+   ],
+   "new_cov": 4
+  },
+  {
+   "iter": 23,
+   "mut_type": "insert",
+   "ops": [
+    [
+     "write",
+     "0x10",
+     "0x0"
+    ],
+    [
+     "write",
+     "0xe4",
+     "0xffffffff"
+    ],
+    [
+     "write",
+     "0x14",
+     "0x2"
+    ],
+    [
+     "write",
+     "0x74",
+     "0x3d71d058"
+    ],
+    [
+     "step",
+     "0x64",
+     "0x0"
+    ]
+   ],
+   "new_cov": 5
+  },
+  {
+   "iter": 24,
+   "mut_type": "addr",
+   "ops": [
+    [
+     "write",
+     "0xe4",
+     "0x2"
+    ],
+    [
+     "write",
+     "0xe4",
+     "0xffffffff"
+    ],
+    [
+     "write",
+     "0x14",
+     "0x2"
+    ],
+    [
+     "step",
+     "0x64",
+     "0x0"
+    ]
+   ],
+   "new_cov": 4
+  },
+  {
+   "iter": 25,
+   "mut_type": "addr",
+   "ops": [
+    [
+     "write",
+     "0x10",
+     "0x2"
+    ],
+    [
+     "write",
+     "0x24",
+     "0xdeadbeef"
+    ],
+    [
+     "write",
+     "0x14",
+     "0x2"
+    ],
+    [
+     "step",
+     "0x64",
+     "0x0"
+    ]
+   ],
+   "new_cov": 3
+  }
+ ]
+}

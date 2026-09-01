@@ -1,0 +1,102 @@
+{
+ "module": "ascon",
+ "iterations": 30,
+ "exec_count": 35,
+ "final_coverage": 14,
+ "corpus_size": 7,
+ "new_coverage_events": [
+  {
+   "iter": 1,
+   "mut_type": "data",
+   "ops": [
+    [
+     "write",
+     "0x4",
+     "0xdeadbeef"
+    ],
+    [
+     "write",
+     "0x4",
+     "0x30cffdda"
+    ],
+    [
+     "step",
+     "0xa",
+     "0x0"
+    ]
+   ],
+   "new_cov": 3
+  },
+  {
+   "iter": 15,
+   "mut_type": "data",
+   "ops": [
+    [
+     "write",
+     "0x4",
+     "0xdead30a9"
+    ],
+    [
+     "write",
+     "0x4",
+     "0x0"
+    ],
+    [
+     "step",
+     "0xa",
+     "0x0"
+    ]
+   ],
+   "new_cov": 3
+  },
+  {
+   "iter": 20,
+   "mut_type": "addr",
+   "ops": [
+    [
+     "write",
+     "0x4",
+     "0xdeadbeef"
+    ],
+    [
+     "write",
+     "0x8",
+     "0x30cffdda"
+    ],
+    [
+     "step",
+     "0xa",
+     "0x0"
+    ]
+   ],
+   "new_cov": 3
+  },
+  {
+   "iter": 26,
+   "mut_type": "insert",
+   "ops": [
+    [
+     "write",
+     "0x4",
+     "0xdeadbeef"
+    ],
+    [
+     "write",
+     "0x4",
+     "0x30cffdda"
+    ],
+    [
+     "step",
+     "0xa",
+     "0x0"
+    ],
+    [
+     "write",
+     "0x1c",
+     "0xa34be96a"
+    ]
+   ],
+   "new_cov": 5
+  }
+ ]
+}
