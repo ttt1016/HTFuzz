@@ -1,0 +1,220 @@
+{
+ "module": "otbn",
+ "invariants": [
+  {
+   "name": "u_dut.dmem_sec_wipe_wipe_clears",
+   "signal": "u_dut.dmem_sec_wipe",
+   "rule": "wipe_clears",
+   "trigger_regs": [
+    {
+     "reg": "wipe_secret",
+     "data": "0x1"
+    }
+   ],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "u_dut.dmem_sec_wipe_urnd_key_changes_across_runs",
+   "signal": "u_dut.dmem_sec_wipe_urnd_key",
+   "rule": "changes_across_runs",
+   "trigger_regs": [],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "busy_secure_wipe_wipe_clears",
+   "signal": "busy_secure_wipe",
+   "rule": "wipe_clears",
+   "trigger_regs": [
+    {
+     "reg": "wipe_secret",
+     "data": "0x1"
+    }
+   ],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "u_dut.u_dmem.scramble_key_i_changes_across_runs",
+   "signal": "u_dut.u_dmem.scramble_key_i",
+   "rule": "changes_across_runs",
+   "trigger_regs": [],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "u_dut.u_dmem.u_prim_ram_1p_scr.ram_rdata_q_reg_core_consistent",
+   "signal": "u_dut.u_dmem.u_prim_ram_1p_scr.ram_rdata_q",
+   "rule": "reg_core_consistent",
+   "trigger_regs": [],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "u_dut.insn_cnt_reg_core_consistent",
+   "signal": "u_dut.insn_cnt",
+   "rule": "reg_core_consistent",
+   "trigger_regs": [],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "u_dut.req_sec_wipe_urnd_keys_wipe_clears",
+   "signal": "u_dut.req_sec_wipe_urnd_keys",
+   "rule": "wipe_clears",
+   "trigger_regs": [
+    {
+     "reg": "wipe_secret",
+     "data": "0x1"
+    }
+   ],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "req_sec_wipe_urnd_keys_wipe_clears",
+   "signal": "req_sec_wipe_urnd_keys",
+   "rule": "wipe_clears",
+   "trigger_regs": [
+    {
+     "reg": "wipe_secret",
+     "data": "0x1"
+    }
+   ],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "u_dut.u_otbn_core.u_otbn_controller.urnd_reseed_req_o_changes_across_runs",
+   "signal": "u_dut.u_otbn_core.u_otbn_controller.urnd_reseed_req_o",
+   "rule": "changes_across_runs",
+   "trigger_regs": [],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "status_q_reg_core_consistent",
+   "signal": "status_q",
+   "rule": "reg_core_consistent",
+   "trigger_regs": [],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "u_dut.u_dmem.ram_rdata_reg_core_consistent",
+   "signal": "u_dut.u_dmem.ram_rdata",
+   "rule": "reg_core_consistent",
+   "trigger_regs": [],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "u_dut.u_dmem.tl_i.a_data_reg_core_consistent",
+   "signal": "u_dut.u_dmem.tl_i.a_data",
+   "rule": "reg_core_consistent",
+   "trigger_regs": [],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "u_dut.dmem_rdata_bus_reg_core_consistent",
+   "signal": "u_dut.dmem_rdata_bus",
+   "rule": "reg_core_consistent",
+   "trigger_regs": [],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "u_dut.imem_sec_wipe_wipe_clears",
+   "signal": "u_dut.imem_sec_wipe",
+   "rule": "wipe_clears",
+   "trigger_regs": [
+    {
+     "reg": "wipe_secret",
+     "data": "0x1"
+    }
+   ],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "u_dut.busy_secure_wipe_wipe_clears",
+   "signal": "u_dut.busy_secure_wipe",
+   "rule": "wipe_clears",
+   "trigger_regs": [
+    {
+     "reg": "wipe_secret",
+     "data": "0x1"
+    }
+   ],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "u_dut.status_q_wipe_clears",
+   "signal": "u_dut.status_q",
+   "rule": "wipe_clears",
+   "trigger_regs": [
+    {
+     "reg": "wipe_secret",
+     "data": "0x1"
+    }
+   ],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "u_dut.mems_sec_wipe_wipe_clears",
+   "signal": "u_dut.mems_sec_wipe",
+   "rule": "wipe_clears",
+   "trigger_regs": [
+    {
+     "reg": "wipe_secret",
+     "data": "0x1"
+    }
+   ],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "u_dut.imem_sec_wipe_urnd_key_changes_across_runs",
+   "signal": "u_dut.imem_sec_wipe_urnd_key",
+   "rule": "changes_across_runs",
+   "trigger_regs": [],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "u_dut.u_otbn_core.rnd_data_changes_across_runs",
+   "signal": "u_dut.u_otbn_core.rnd_data",
+   "rule": "changes_across_runs",
+   "trigger_regs": [],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "u_dut.u_otbn_core.urnd_data_changes_across_runs",
+   "signal": "u_dut.u_otbn_core.urnd_data",
+   "rule": "changes_across_runs",
+   "trigger_regs": [],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "u_dut.err_bits_reg_core_consistent",
+   "signal": "u_dut.err_bits",
+   "rule": "reg_core_consistent",
+   "trigger_regs": [],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "u_dut.u_dmem.rdata_o_reg_core_consistent",
+   "signal": "u_dut.u_dmem.rdata_o",
+   "rule": "reg_core_consistent",
+   "trigger_regs": [],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "u_dut.u_otbn_core.u_otbn_rnd.rnd_repdata_q_changes_across_runs",
+   "signal": "u_dut.u_otbn_core.u_otbn_rnd.rnd_repdata_q",
+   "rule": "changes_across_runs",
+   "trigger_regs": [],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "rnd_repdata_q_changes_across_runs",
+   "signal": "rnd_repdata_q",
+   "rule": "changes_across_runs",
+   "trigger_regs": [],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "u_dut.u_imem.rdata_o_reg_core_consistent",
+   "signal": "u_dut.u_imem.rdata_o",
+   "rule": "reg_core_consistent",
+   "trigger_regs": [],
+   "rationale": "LLM 提取（文本模式）"
+  }
+ ]
+}

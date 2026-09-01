@@ -1,0 +1,47 @@
+{
+ "module": "alert_handler",
+ "invariants": [
+  {
+   "name": "u_dut.classa_ctrl_q_reg_core_consistent",
+   "signal": "u_dut.classa_ctrl_q",
+   "rule": "reg_core_consistent",
+   "trigger_regs": [],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "u_dut.u_core.alert_en_q_reg_core_consistent",
+   "signal": "u_dut.u_core.alert_en_q",
+   "rule": "reg_core_consistent",
+   "trigger_regs": [],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "esc_sig_req_reg_core_consistent",
+   "signal": "esc_sig_req",
+   "rule": "reg_core_consistent",
+   "trigger_regs": [],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "u_dut.u_core.esc_tx_int_reg_core_consistent",
+   "signal": "u_dut.u_core.esc_tx_int",
+   "rule": "reg_core_consistent",
+   "trigger_regs": [],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "esc_trig_reg_core_consistent",
+   "signal": "esc_trig",
+   "rule": "reg_core_consistent",
+   "trigger_regs": [],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "class_ctrl_reg_core_consistent",
+   "signal": "class_ctrl",
+   "rule": "reg_core_consistent",
+   "trigger_regs": [],
+   "rationale": "LLM 提取（文本模式）"
+  }
+ ]
+}

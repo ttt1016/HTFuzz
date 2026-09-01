@@ -1,0 +1,11 @@
+{
+ "module": "flash_ctrl",
+ "findings": [
+  {
+   "signal": "class0.esc_state",
+   "rule": "wipe_clears",
+   "desc": "擦除触发后 class0.esc_state 残留非零值 ['0xda']",
+   "confidence": 80
+  }
+ ]
+}

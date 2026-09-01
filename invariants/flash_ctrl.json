@@ -1,0 +1,179 @@
+{
+ "module": "flash_ctrl",
+ "invariants": [
+  {
+   "name": "LIFE_CYCLE_wipe_clears",
+   "signal": "LIFE_CYCLE",
+   "rule": "wipe_clears",
+   "trigger_regs": [
+    {
+     "reg": "wipe_secret",
+     "data": "0x1"
+    }
+   ],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "u_flash.u_core.state_wipe_clears",
+   "signal": "u_flash.u_core.state",
+   "rule": "wipe_clears",
+   "trigger_regs": [
+    {
+     "reg": "wipe_secret",
+     "data": "0x1"
+    }
+   ],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "ctrl_fsm_st_wipe_clears",
+   "signal": "ctrl_fsm_st",
+   "rule": "wipe_clears",
+   "trigger_regs": [
+    {
+     "reg": "wipe_secret",
+     "data": "0x1"
+    }
+   ],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "u_dut.u_lcmgr.rma_wipe_digest_reg_core_consistent",
+   "signal": "u_dut.u_lcmgr.rma_wipe_digest",
+   "rule": "reg_core_consistent",
+   "trigger_regs": [],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "u_dut.u_flash_ctrl_keymgr.data_key_wipe_clears",
+   "signal": "u_dut.u_flash_ctrl_keymgr.data_key",
+   "rule": "wipe_clears",
+   "trigger_regs": [
+    {
+     "reg": "wipe_secret",
+     "data": "0x1"
+    }
+   ],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "u_dut.u_flash_ctrl_keymgr.addr_key_wipe_clears",
+   "signal": "u_dut.u_flash_ctrl_keymgr.addr_key",
+   "rule": "wipe_clears",
+   "trigger_regs": [
+    {
+     "reg": "wipe_secret",
+     "data": "0x1"
+    }
+   ],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "u_dut.u_lcmgr.seed_data_wipe_clears",
+   "signal": "u_dut.u_lcmgr.seed_data",
+   "rule": "wipe_clears",
+   "trigger_regs": [
+    {
+     "reg": "wipe_secret",
+     "data": "0x1"
+    }
+   ],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "u_dut.u_lcmgr.seed_rd_data_wipe_clears",
+   "signal": "u_dut.u_lcmgr.seed_rd_data",
+   "rule": "wipe_clears",
+   "trigger_regs": [
+    {
+     "reg": "wipe_secret",
+     "data": "0x1"
+    }
+   ],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "u_dut.u_flash_ctrl_keymgr.keymgr_flash_i.seeds_changes_across_runs",
+   "signal": "u_dut.u_flash_ctrl_keymgr.keymgr_flash_i.seeds",
+   "rule": "changes_across_runs",
+   "trigger_regs": [],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "keymgr_flash_i.seeds_changes_across_runs",
+   "signal": "keymgr_flash_i.seeds",
+   "rule": "changes_across_runs",
+   "trigger_regs": [],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "u_flash.u_phy.u_scramble.mask_o_changes_across_runs",
+   "signal": "u_flash.u_phy.u_scramble.mask_o",
+   "rule": "changes_across_runs",
+   "trigger_regs": [],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "EraseVal_wipe_clears",
+   "signal": "EraseVal",
+   "rule": "wipe_clears",
+   "trigger_regs": [
+    {
+     "reg": "wipe_secret",
+     "data": "0x1"
+    }
+   ],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "u_dut.u_ctrl_arb.ctrl_fsm_st_wipe_clears",
+   "signal": "u_dut.u_ctrl_arb.ctrl_fsm_st",
+   "rule": "wipe_clears",
+   "trigger_regs": [
+    {
+     "reg": "wipe_secret",
+     "data": "0x1"
+    }
+   ],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "u_dut.u_ctrl_arb.u_prog_fifo.fifo_data_wipe_clears",
+   "signal": "u_dut.u_ctrl_arb.u_prog_fifo.fifo_data",
+   "rule": "wipe_clears",
+   "trigger_regs": [
+    {
+     "reg": "wipe_secret",
+     "data": "0x1"
+    }
+   ],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "u_flash.u_phy.u_scramble.key_i_reg_core_consistent",
+   "signal": "u_flash.u_phy.u_scramble.key_i",
+   "rule": "reg_core_consistent",
+   "trigger_regs": [],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "mp_cfg_reg_core_consistent",
+   "signal": "mp_cfg",
+   "rule": "reg_core_consistent",
+   "trigger_regs": [],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "creator_seed_wipe_clears",
+   "signal": "creator_seed",
+   "rule": "wipe_clears",
+   "trigger_regs": [
+    {
+     "reg": "wipe_secret",
+     "data": "0x1"
+    }
+   ],
+   "rationale": "LLM 提取（文本模式）"
+  }
+ ]
+}

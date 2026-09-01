@@ -1,0 +1,106 @@
+{
+ "module": "clkmgr",
+ "invariants": [
+  {
+   "name": "u_reg.u_meas_ctrl_shadowed_main_val_..._reg_core_consistent",
+   "signal": "u_reg.u_meas_ctrl_shadowed_main_val_...",
+   "rule": "reg_core_consistent",
+   "trigger_regs": [],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "u_reg.u_meas_ctrl_shadowed_main_val_0.hi_q_reg_core_consistent",
+   "signal": "u_reg.u_meas_ctrl_shadowed_main_val_0.hi_q",
+   "rule": "reg_core_consistent",
+   "trigger_regs": [],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "reg2hw_reg_core_consistent",
+   "signal": "reg2hw",
+   "rule": "reg_core_consistent",
+   "trigger_regs": [],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "reg2hw.extclk_sel_reg_core_consistent",
+   "signal": "reg2hw.extclk_sel",
+   "rule": "reg_core_consistent",
+   "trigger_regs": [],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "dut.reg2hw.measure_ctrl_shadowed_0_hi.q_reg_core_consistent",
+   "signal": "dut.reg2hw.measure_ctrl_shadowed_0_hi.q",
+   "rule": "reg_core_consistent",
+   "trigger_regs": [],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "lc_clk_byp_req_wipe_clears",
+   "signal": "lc_clk_byp_req",
+   "rule": "wipe_clears",
+   "trigger_regs": [
+    {
+     "reg": "wipe_secret",
+     "data": "0x1"
+    }
+   ],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "u_reg.u_meas_ctrl_shadowed_0.committed_q_reg_core_consistent",
+   "signal": "u_reg.u_meas_ctrl_shadowed_0.committed_q",
+   "rule": "reg_core_consistent",
+   "trigger_regs": [],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "u_prim_meas_main_clk.max_cnt_i_reg_core_consistent",
+   "signal": "u_prim_meas_main_clk.max_cnt_i",
+   "rule": "reg_core_consistent",
+   "trigger_regs": [],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "hw2reg.clk_hints_status.clk_main_val.q_reg_core_consistent",
+   "signal": "hw2reg.clk_hints_status.clk_main_val.q",
+   "rule": "reg_core_consistent",
+   "trigger_regs": [],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "u_dut.lc_hw_debug_en_reg_core_consistent",
+   "signal": "u_dut.lc_hw_debug_en",
+   "rule": "reg_core_consistent",
+   "trigger_regs": [],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "ERR_CODE_TEST_wipe_clears",
+   "signal": "ERR_CODE_TEST",
+   "rule": "wipe_clears",
+   "trigger_regs": [
+    {
+     "reg": "wipe_secret",
+     "data": "0x1"
+    }
+   ],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "u_dut.div_step_down_req_reg_core_consistent",
+   "signal": "u_dut.div_step_down_req",
+   "rule": "reg_core_consistent",
+   "trigger_regs": [],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "intg_err_o_reg_core_consistent",
+   "signal": "intg_err_o",
+   "rule": "reg_core_consistent",
+   "trigger_regs": [],
+   "rationale": "LLM 提取（文本模式）"
+  }
+ ]
+}
