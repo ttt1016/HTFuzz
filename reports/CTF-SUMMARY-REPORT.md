@@ -1048,3 +1048,32 @@ KEY wipe 失效），且无需任何人工分析——LLM 提取不变量 → �
 
 **O-K 是发现新漏洞的可持续引擎**：新模块只需一次 LLM gen（产出 JSON 配置）+
 一次 check，零代码。比赛合规（不依赖 clean DUT）。
+
+### 23.4 补测：kmac harness 修复 + ascon 不变量重试
+
+**kmac**：harness 补 pf_sig_read/pf_reset API 后重编译，O-K 检查 3 条
+reg_core_consistent 全 ok（kmac 的注入在掩码静态性，属 changes_across_runs
+类但 LLM 未给对应信号——已知 Bug#26 由 O-B 检出，无遗漏）。
+
+**ascon**：重试后 LLM 产出 29 条不变量（文本模式提取），检查发现 **2 条
+VIOLATION**：
+- ascon_core.key_share0_in_q (wipe_clears)：擦除触发后残留 0xdeadbeef
+- ascon_core.key_share0_in_q (changes_across_runs)：触发后仍为常量
+
+→ **Bug#43（TRIGGER.wipe 完全无效）的又一独立检出路径**：O-K 不变量违反
+与 O-A 残留、agent 动态确认三重印证。
+
+### 23.5 O-K 最终覆盖
+
+| 模块 | 不变量 | VIOLATION |
+|------|--------|-----------|
+| aes | 19 | 3（Bug#32/82）|
+| ascon | 29 | 2（Bug#43 复现）|
+| hmac | 7 | 1（Bug#20/60）|
+| rom_ctrl | 9 | 0 |
+| aon_timer | 6 | 0 |
+| rv_timer | 5 | 0 |
+| kmac | 3 | 0 |
+| pattgen/sram_ctrl | 1+1 | 0 |
+
+**10 模块 82 条不变量，6 条 VIOLATION 全部对应已知注入，0 误报。**

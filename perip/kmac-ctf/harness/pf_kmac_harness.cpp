@@ -75,6 +75,20 @@ uint32_t pf_sig_value(int i, int w) {
     if (!g_sigs[i].ptr || w >= g_sigs[i].words) return 0;
     return reinterpret_cast<uint32_t*>(g_sigs[i].ptr)[w];
 }
+uint32_t pf_sig_read(const char* name, int w) {
+    for (int i = 0; i < g_nsig; i++)
+        if (strcmp(g_sigs[i].name, name) == 0) {
+            if (!g_sigs[i].ptr || w >= g_sigs[i].words) return 0;
+            return reinterpret_cast<uint32_t*>(g_sigs[i].ptr)[w];
+        }
+    return 0;
+}
+void pf_reset(void) {
+    dut->rst_ni = 0;
+    for (int i = 0; i < 5; i++) ec();
+    dut->rst_ni = 1;
+    ec();
+}
 uint64_t pf_get_cycle(void) { return main_time/2; }
 void pf_final(void) { if (dut){dut->final(); delete dut; dut=nullptr; rootp=nullptr;} }
 } // extern "C"
