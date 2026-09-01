@@ -1,0 +1,26 @@
+{
+ "module": "kmac",
+ "invariants": [
+  {
+   "name": "u_dut.u_core.key_data_reg_core_consistent",
+   "signal": "u_dut.u_core.key_data",
+   "rule": "reg_core_consistent",
+   "trigger_regs": [],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "u_dut.u_app.key_reg_core_consistent",
+   "signal": "u_dut.u_app.key",
+   "rule": "reg_core_consistent",
+   "trigger_regs": [],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "u_dut.key_data_reg_core_consistent",
+   "signal": "u_dut.key_data",
+   "rule": "reg_core_consistent",
+   "trigger_regs": [],
+   "rationale": "LLM 提取（文本模式）"
+  }
+ ]
+}

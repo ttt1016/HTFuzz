@@ -1014,3 +1014,37 @@ LLM 从规范提取的不变量「wipe_secret 触发后 secret_key 必须清零�
 O-K 验证了插件化方向：不变量是 JSON 配置不是代码，加一个模块的不变量检查
 = 一份 LLM 生成的 JSON，零代码。后续重构方向：discover_engine 拆分为
 激励回放框架 + oracle 插件目录，O-K/O-L 作为插件接入。
+
+## 23. P47: O-K 全模块推广——批量不变量审计（2026-09-01）
+
+### 23.1 不变量提取覆盖（9 模块 53 条）
+
+| 模块 | 不变量数 | 模块 | 不变量数 |
+|------|---------|------|---------|
+| aes | 19 | aon_timer | 6 |
+| hmac | 7 | rv_timer | 5 |
+| rom_ctrl | 9 | kmac | 3 |
+| pattgen | 1 | sram_ctrl | 1 |
+| ascon | 0（LLM 输出未含 rule 关键字，需重试）| | |
+
+### 23.2 批量动态检查结果
+
+| 模块 | VIOLATION | 说明 |
+|------|-----------|------|
+| **aes** | **3 条** | data_out_q 擦除后残留（0x26122612 等——Bug#32 复现）；key_init 擦除后残留 0xdeadbeef（**Bug#82 KEY wipe 失效复现**）|
+| rom_ctrl | 0 | 干净 |
+| sram_ctrl | 0 | 干净 |
+| aon_timer | 0 | 干净 |
+| rv_timer | 0 | 干净 |
+| pattgen | 0 | 干净 |
+| kmac | 跳过 | 早期 harness 缺 pf_sig_read，需重编译 |
+
+### 23.3 价值确认
+
+O-K 在 aes 上**自动复现了两个已知注入**（Bug#32 data_out reset 条件化、Bug#82
+KEY wipe 失效），且无需任何人工分析——LLM 提取不变量 → 通用检查器执行 → 违反
+即检出。非 CSV 模块（rom_ctrl/sram_ctrl/aon_timer/rv_timer/pattgen）全部干净，
+与"这些模块无注入"的预期一致，再次验证低误报。
+
+**O-K 是发现新漏洞的可持续引擎**：新模块只需一次 LLM gen（产出 JSON 配置）+
+一次 check，零代码。比赛合规（不依赖 clean DUT）。

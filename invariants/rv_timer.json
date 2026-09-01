@@ -1,0 +1,55 @@
+{
+ "module": "rv_timer",
+ "invariants": [
+  {
+   "name": "mtimecmp_reg_core_consistent",
+   "signal": "mtimecmp",
+   "rule": "reg_core_consistent",
+   "trigger_regs": [],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "intg_err_q_wipe_clears",
+   "signal": "intg_err_q",
+   "rule": "wipe_clears",
+   "trigger_regs": [
+    {
+     "reg": "wipe_secret",
+     "data": "0x1"
+    }
+   ],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "intg_err_reg_core_consistent",
+   "signal": "intg_err",
+   "rule": "reg_core_consistent",
+   "trigger_regs": [],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "u_reg.intg_err_q_wipe_clears",
+   "signal": "u_reg.intg_err_q",
+   "rule": "wipe_clears",
+   "trigger_regs": [
+    {
+     "reg": "wipe_secret",
+     "data": "0x1"
+    }
+   ],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "intr_state0_q_wipe_clears",
+   "signal": "intr_state0_q",
+   "rule": "wipe_clears",
+   "trigger_regs": [
+    {
+     "reg": "wipe_secret",
+     "data": "0x1"
+    }
+   ],
+   "rationale": "LLM 提取（文本模式）"
+  }
+ ]
+}

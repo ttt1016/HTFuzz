@@ -1,0 +1,67 @@
+{
+ "module": "aon_timer",
+ "invariants": [
+  {
+   "name": "u_wdog.u_counter_count_reg_core_consistent",
+   "signal": "u_wdog.u_counter_count",
+   "rule": "reg_core_consistent",
+   "trigger_regs": [],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "u_dut.u_watchdog.u_counter.count_q_wipe_clears",
+   "signal": "u_dut.u_watchdog.u_counter.count_q",
+   "rule": "wipe_clears",
+   "trigger_regs": [
+    {
+     "reg": "wipe_secret",
+     "data": "0x1"
+    }
+   ],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "u_dut.u_watchdog.bark_q_wipe_clears",
+   "signal": "u_dut.u_watchdog.bark_q",
+   "rule": "wipe_clears",
+   "trigger_regs": [
+    {
+     "reg": "wipe_secret",
+     "data": "0x1"
+    }
+   ],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "u_dut.u_wakeup.cause_q_wipe_clears",
+   "signal": "u_dut.u_wakeup.cause_q",
+   "rule": "wipe_clears",
+   "trigger_regs": [
+    {
+     "reg": "wipe_secret",
+     "data": "0x1"
+    }
+   ],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "u_dut.u_reg.u_intr_state_wkup_timer_expired.q_wipe_clears",
+   "signal": "u_dut.u_reg.u_intr_state_wkup_timer_expired.q",
+   "rule": "wipe_clears",
+   "trigger_regs": [
+    {
+     "reg": "wipe_secret",
+     "data": "0x1"
+    }
+   ],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "hw2reg.wdog_count.d_reg_core_consistent",
+   "signal": "hw2reg.wdog_count.d",
+   "rule": "reg_core_consistent",
+   "trigger_regs": [],
+   "rationale": "LLM 提取（文本模式）"
+  }
+ ]
+}

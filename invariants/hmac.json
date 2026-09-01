@@ -2,8 +2,8 @@
  "module": "hmac",
  "invariants": [
   {
-   "name": "u_core.secret_key_q_wipe_clears",
-   "signal": "u_core.secret_key_q",
+   "name": "secret_key_wipe_clears",
+   "signal": "secret_key",
    "rule": "wipe_clears",
    "trigger_regs": [
     {
@@ -14,31 +14,60 @@
    "rationale": "LLM 提取（文本模式）"
   },
   {
-   "name": "secret_key_q_reg_core_consistent",
-   "signal": "secret_key_q",
+   "name": "u_dut.u_core.secret_key_i_wipe_clears",
+   "signal": "u_dut.u_core.secret_key_i",
+   "rule": "wipe_clears",
+   "trigger_regs": [
+    {
+     "reg": "wipe_secret",
+     "data": "0x1"
+    }
+   ],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "u_dut.u_reg.key_0_q_reg_core_consistent",
+   "signal": "u_dut.u_reg.key_0_q",
    "rule": "reg_core_consistent",
    "trigger_regs": [],
    "rationale": "LLM 提取（文本模式）"
   },
   {
-   "name": "u_dut.u_core.i_pad_256_reg_core_consistent",
-   "signal": "u_dut.u_core.i_pad_256",
+   "name": "u_dut.u_core.digest_value_reg_core_consistent",
+   "signal": "u_dut.u_core.digest_value",
    "rule": "reg_core_consistent",
    "trigger_regs": [],
    "rationale": "LLM 提取（文本模式）"
   },
   {
-   "name": "reg2hw.wipe_secret.q_changes_across_runs",
-   "signal": "reg2hw.wipe_secret.q",
+   "name": "u_dut.u_core.st_q_changes_across_runs",
+   "signal": "u_dut.u_core.st_q",
    "rule": "changes_across_runs",
    "trigger_regs": [],
    "rationale": "LLM 提取（文本模式）"
   },
   {
-   "name": "u_dut.u_reg.hw2reg.status.idle.d_reg_core_consistent",
-   "signal": "u_dut.u_reg.hw2reg.status.idle.d",
-   "rule": "reg_core_consistent",
-   "trigger_regs": [],
+   "name": "u_dut.secret_key_wipe_clears",
+   "signal": "u_dut.secret_key",
+   "rule": "wipe_clears",
+   "trigger_regs": [
+    {
+     "reg": "wipe_secret",
+     "data": "0x1"
+    }
+   ],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "u_dut.u_core.i_pad_256_wipe_clears",
+   "signal": "u_dut.u_core.i_pad_256",
+   "rule": "wipe_clears",
+   "trigger_regs": [
+    {
+     "reg": "wipe_secret",
+     "data": "0x1"
+    }
+   ],
    "rationale": "LLM 提取（文本模式）"
   }
  ]

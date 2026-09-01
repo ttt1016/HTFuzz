@@ -1,0 +1,173 @@
+{
+ "module": "aes",
+ "invariants": [
+  {
+   "name": "wipe_secret_wipe_clears",
+   "signal": "wipe_secret",
+   "rule": "wipe_clears",
+   "trigger_regs": [
+    {
+     "reg": "wipe_secret",
+     "data": "0x1"
+    }
+   ],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "u_dut.u_reg2hw.key_share0_reg_core_consistent",
+   "signal": "u_dut.u_reg2hw.key_share0",
+   "rule": "reg_core_consistent",
+   "trigger_regs": [],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "u_dut.u_aes_core.u_aes_cipher_core.u_prng_masking.lfsr_state_changes_across_runs",
+   "signal": "u_dut.u_aes_core.u_aes_cipher_core.u_prng_masking.lfsr_state",
+   "rule": "changes_across_runs",
+   "trigger_regs": [],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "u_dut.u_aes_core.data_out_q_wipe_clears",
+   "signal": "u_dut.u_aes_core.data_out_q",
+   "rule": "wipe_clears",
+   "trigger_regs": [
+    {
+     "reg": "wipe_secret",
+     "data": "0x1"
+    }
+   ],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "u_dut.u_aes_core.iv_q_wipe_clears",
+   "signal": "u_dut.u_aes_core.iv_q",
+   "rule": "wipe_clears",
+   "trigger_regs": [
+    {
+     "reg": "wipe_secret",
+     "data": "0x1"
+    }
+   ],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "u_dut.u_aes_core.ctrl_q_reg_core_consistent",
+   "signal": "u_dut.u_aes_core.ctrl_q",
+   "rule": "reg_core_consistent",
+   "trigger_regs": [],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "mode_q_wipe_clears",
+   "signal": "mode_q",
+   "rule": "wipe_clears",
+   "trigger_regs": [
+    {
+     "reg": "wipe_secret",
+     "data": "0x1"
+    }
+   ],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "u_dut.u_aes_core.key_init_q_wipe_clears",
+   "signal": "u_dut.u_aes_core.key_init_q",
+   "rule": "wipe_clears",
+   "trigger_regs": [
+    {
+     "reg": "wipe_secret",
+     "data": "0x1"
+    }
+   ],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "key_init_q_wipe_clears",
+   "signal": "key_init_q",
+   "rule": "wipe_clears",
+   "trigger_regs": [
+    {
+     "reg": "wipe_secret",
+     "data": "0x1"
+    }
+   ],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "u_dut.u_aes_core.u_aes_cipher_core.u_prng_masking.lfsr_state_q_changes_across_runs",
+   "signal": "u_dut.u_aes_core.u_aes_cipher_core.u_prng_masking.lfsr_state_q",
+   "rule": "changes_across_runs",
+   "trigger_regs": [],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "u_dut.u_aes_core.u_aes_cipher_core.u_prng_data.lfsr_state_q_changes_across_runs",
+   "signal": "u_dut.u_aes_core.u_aes_cipher_core.u_prng_data.lfsr_state_q",
+   "rule": "changes_across_runs",
+   "trigger_regs": [],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "u_dut.u_aes_core.u_aes_cipher_core.u_prng_masking.force_zero_masks_q_reg_core_consistent",
+   "signal": "u_dut.u_aes_core.u_aes_cipher_core.u_prng_masking.force_zero_masks_q",
+   "rule": "reg_core_consistent",
+   "trigger_regs": [],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "u_dut.u_aes_core.ctrl_aux_q_reg_core_consistent",
+   "signal": "u_dut.u_aes_core.ctrl_aux_q",
+   "rule": "reg_core_consistent",
+   "trigger_regs": [],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "u_dut.u_aes_core.u_aes_cipher_core.u_state_init.state_q_wipe_clears",
+   "signal": "u_dut.u_aes_core.u_aes_cipher_core.u_state_init.state_q",
+   "rule": "wipe_clears",
+   "trigger_regs": [
+    {
+     "reg": "wipe_secret",
+     "data": "0x1"
+    }
+   ],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "u_dut.u_aes_core.ctrl_q.mode_reg_core_consistent",
+   "signal": "u_dut.u_aes_core.ctrl_q.mode",
+   "rule": "reg_core_consistent",
+   "trigger_regs": [],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "u_dut.u_aes_core.u_aes_control.u_state_q_reg_core_consistent",
+   "signal": "u_dut.u_aes_core.u_aes_control.u_state_q",
+   "rule": "reg_core_consistent",
+   "trigger_regs": [],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "u_state_q.state_o_reg_core_consistent",
+   "signal": "u_state_q.state_o",
+   "rule": "reg_core_consistent",
+   "trigger_regs": [],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "u_state_q_reg_core_consistent",
+   "signal": "u_state_q",
+   "rule": "reg_core_consistent",
+   "trigger_regs": [],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "u_dut.u_aes_core.u_aes_cipher_core.u_aes_cipher_control.u_aes_cipher_control_fsm.u_state_q.state_o_reg_core_consistent",
+   "signal": "u_dut.u_aes_core.u_aes_cipher_core.u_aes_cipher_control.u_aes_cipher_control_fsm.u_state_q.state_o",
+   "rule": "reg_core_consistent",
+   "trigger_regs": [],
+   "rationale": "LLM 提取（文本模式）"
+  }
+ ]
+}

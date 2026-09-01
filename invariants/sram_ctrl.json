@@ -1,0 +1,17 @@
+{
+ "module": "sram_ctrl",
+ "invariants": [
+  {
+   "name": "key_valid_q_wipe_clears",
+   "signal": "key_valid_q",
+   "rule": "wipe_clears",
+   "trigger_regs": [
+    {
+     "reg": "wipe_secret",
+     "data": "0x1"
+    }
+   ],
+   "rationale": "LLM 提取（文本模式）"
+  }
+ ]
+}

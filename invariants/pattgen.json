@@ -1,0 +1,12 @@
+{
+ "module": "pattgen",
+ "invariants": [
+  {
+   "name": "pattgen.sv_reg_core_consistent",
+   "signal": "pattgen.sv",
+   "rule": "reg_core_consistent",
+   "trigger_regs": [],
+   "rationale": "LLM 提取（文本模式）"
+  }
+ ]
+}

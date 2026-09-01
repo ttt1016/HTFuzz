@@ -1,0 +1,83 @@
+{
+ "module": "rom_ctrl",
+ "invariants": [
+  {
+   "name": "u_dut.u_rom_ctrl_fsm.exp_digest_q_reg_core_consistent",
+   "signal": "u_dut.u_rom_ctrl_fsm.exp_digest_q",
+   "rule": "reg_core_consistent",
+   "trigger_regs": [],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "u_dut.digest_o_reg_core_consistent",
+   "signal": "u_dut.digest_o",
+   "rule": "reg_core_consistent",
+   "trigger_regs": [],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "u_dut.keymgr_data_o.data_reg_core_consistent",
+   "signal": "u_dut.keymgr_data_o.data",
+   "rule": "reg_core_consistent",
+   "trigger_regs": [],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "u_dut.u_rom_ctrl_compare.ctr_q_wipe_clears",
+   "signal": "u_dut.u_rom_ctrl_compare.ctr_q",
+   "rule": "wipe_clears",
+   "trigger_regs": [
+    {
+     "reg": "wipe_secret",
+     "data": "0x1"
+    }
+   ],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "u_dut.u_rom_ctrl_fsm.rom_ctr_q_wipe_clears",
+   "signal": "u_dut.u_rom_ctrl_fsm.rom_ctr_q",
+   "rule": "wipe_clears",
+   "trigger_regs": [
+    {
+     "reg": "wipe_secret",
+     "data": "0x1"
+    }
+   ],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "u_dut.u_rom_ctrl_fsm.good_q_reg_core_consistent",
+   "signal": "u_dut.u_rom_ctrl_fsm.good_q",
+   "rule": "reg_core_consistent",
+   "trigger_regs": [],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "u_dut.key_i_changes_across_runs",
+   "signal": "u_dut.key_i",
+   "rule": "changes_across_runs",
+   "trigger_regs": [],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "u_dut.u_rom_ctrl_fsm.state_q_reg_core_consistent",
+   "signal": "u_dut.u_rom_ctrl_fsm.state_q",
+   "rule": "reg_core_consistent",
+   "trigger_regs": [],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "u_dut.u_rom_ctrl_fsm.check_notified_wipe_clears",
+   "signal": "u_dut.u_rom_ctrl_fsm.check_notified",
+   "rule": "wipe_clears",
+   "trigger_regs": [
+    {
+     "reg": "wipe_secret",
+     "data": "0x1"
+    }
+   ],
+   "rationale": "LLM 提取（文本模式）"
+  }
+ ]
+}
