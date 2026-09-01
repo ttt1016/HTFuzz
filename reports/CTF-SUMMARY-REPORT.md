@@ -968,3 +968,49 @@ target_gen → discover_engine(10 oracles) → 候选+动态现象
 注：ascon Bug#43（TRIGGER.wipe 完全无效）需要先写 TRIGGER 寄存器再观测——agent
 第一轮用了直接写 0 清除（正常路径），未触发 wipe 命令，属 PoC 序列偏差而非工具缺陷。
 kmac DUT 缺 pf_sig_read 符号（早期 harness 版本），需重编译后补测。
+
+## 22. P46: O-K 不变量 oracle（第 11 个 oracle）—— 发现新漏洞的合规路径（2026-09-01）
+
+### 21.6 背景与约束
+
+比赛规则禁止使用 clean 版 DUT 做差分（判作弊）。发现 CSV 之外新漏洞的路径只剩
+『无参考的异常检测』。O-K 白盒不变量是最佳方案：
+- 不变量来自规范语义（SEC_CM + hjson），不需要预知注入手法
+- 不需要 clean DUT，完全比赛合规
+- LLM 提取不变量（语义理解），fuzzing 引擎执行检查（执行能力）——正确分工
+
+### 21.6 O-K 实现（scripts/ok_invariant.py）
+
+两步流程：
+1. `gen`：LLM 读 SEC_CM + hjson 寄存器描述 → 产出不变量 JSON 配置
+   （rule: wipe_clears / changes_across_runs / reg_core_consistent + trigger 序列）
+2. `check`：通用检查器执行不变量——写标记值 → 触发 → 观测白盒信号 → 判定违反
+
+不变量是**数据不是代码**：新模块只需一份 JSON 配置，零代码。
+
+### 21.7 hmac 实测：抓到 Bug#20/60
+
+```
+=== O-K 不变量检查: hmac（5 条）===
+  [VIOLATION] u_dut.secret_key (wipe_clears):
+    擦除触发后 u_dut.secret_key 残留非零值 ['0xdeadbeef', ...]
+  [ok] × 4
+```
+LLM 从规范提取的不变量「wipe_secret 触发后 secret_key 必须清零」被动态检查违反
+——正是 Bug#20/60 的注入效果。**LLM 提取的不变量 + 通用检查器 = 无需预知注入
+模式的检出能力**。
+
+### 21.6 调试记录
+
+- regmap 的 multireg（key[0..31] @ 0x24 stride 4）必须展开成独立寄存器，
+  否则标记值写不进 KEY → 擦除后全 0 → 假阴性
+- LLM 输出是 reasoning 文本（分析过程），JSON 可能被截断 → 文本模式兜底：
+  从文本提取 wipe_clears/changes_across_runs/reg_core_consistent 关键字 + 信号名
+- 信号名模糊匹配：LLM 给的层次名（u_core.secret_key_q）与 dut.sigs 实际名
+  （u_dut.secret_key）不一致 → tail 匹配 + _q 变体
+
+### 21.6 架构结论（回应"oracle 臃肿"担忧）
+
+O-K 验证了插件化方向：不变量是 JSON 配置不是代码，加一个模块的不变量检查
+= 一份 LLM 生成的 JSON，零代码。后续重构方向：discover_engine 拆分为
+激励回放框架 + oracle 插件目录，O-K/O-L 作为插件接入。

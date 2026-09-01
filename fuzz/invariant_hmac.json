@@ -1,0 +1,11 @@
+{
+ "module": "hmac",
+ "findings": [
+  {
+   "signal": "u_dut.secret_key",
+   "rule": "wipe_clears",
+   "desc": "擦除触发后 u_dut.secret_key 残留非零值 ['0xdeadbeef', '0xdeadbeef', '0xdeadbeef']",
+   "confidence": 80
+  }
+ ]
+}
