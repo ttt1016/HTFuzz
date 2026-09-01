@@ -909,3 +909,44 @@ reg_top 的 we 门控，不在观测点）。改进后：
   工作量从 36 条候选收敛到 2 个高置信点
 - 局限：纯数据面注入（ascon wipe 完全无效）静态分析不可见，仍需 O-A 动态确认
 - 流水线闭环：fuzzing 候选 → LLM 深度分析（定位注入点）→ 语义 oracle（动态确认）
+
+## 21. P36-P41: HTFuzz Agent（LLM 驱动的动态验证闭环）（2026-09-01）
+
+### 21.1 设计：ReAct agent 把 LLM 的静态推断变成动态证据
+
+`scripts/llm_agent.py`——LLM 作为策略层，工具 API 作为 action space：
+```
+write(addr,data) / read(addr) / step(n) / sig_read(name) / reset / conclude
+```
+输入 fuzzing 候选（含 LLM 深度分析的 PoC 建议），agent 自主设计寄存器序列，
+观测白盒信号，输出 confirmed/refuted/inconclusive。
+
+### 21.2 调试修复（4 项）
+
+1. **网络**：容器内 host.docker.internal 的 IPv6/IPv4 双栈导致 python 先试 ::1
+   被拒（curl 因 happy-eyeballs 正常）→ 域名预解析为 IP + 显式禁代理 opener
+2. **URL 重写丢 path**：域名→IP 替换时丢失 /v1 → 保留 path
+3. **reasoning 模型截断**：思考占 token 导致 JSON 缺失 → max_tokens 16384 +
+   解析三级兜底（```json 块/裸 JSON/文本提取）
+4. **不收敛**：agent 探索不止 → prompt 加"立即 conclude"约束 + 系统自动检测
+   非零标记值时注入提示
+
+### 21.3 实测结果（hmac 2 候选）
+
+| 候选 | agent 行为 | 结论 |
+|------|-----------|------|
+| u_dut.secret_key | 自主设计：写标记 0x10000000 到 KEY/0xb0 → 观测 secret_key[24] 残留 → 写 wipe(0x20) → 再观测仍残留 | **confirmed**（8 步收敛）|
+| u_dut.done_state_q | 写 CTRL/触发 → 观测 done_state_q 恒 0 | inconclusive（LLM 服务断连）|
+
+agent 的 confirmed 证据链：标记值写入后出现在 secret_key[24]（与写入地址不对应的
+落点 = 解码/重定向异常特征），wipe 触发后仍残留——动态复现 Bug#20/60。
+
+### 21.4 完整流水线（最终形态）
+
+```
+target_gen → discover_engine(10 oracles) → 候选+动态现象
+  → llm_deep_audit（LLM 静态分析：定位注入点 + PoC 建议）
+  → llm_agent（LLM 动态验证：自主执行 PoC，输出 confirmed/refuted）
+  → 人工复核（仅处理 confirmed 项）
+```
+三层自动化：fuzzing 出现象 → LLM 静态定位 → agent 动态确认。人工只看最终结论。

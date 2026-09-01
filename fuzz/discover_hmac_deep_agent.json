@@ -279,10 +279,179 @@
   {
    "signal": "u_dut.secret_key",
    "agent_verdict": {
-    "verdict": "inconclusive",
-    "evidence": "步数耗尽"
+    "action": "conclude",
+    "verdict": "confirmed",
+    "evidence": "注入确认：写入标记值 0x10000000 至 0x40/0xB0 后，u_dut.secret_key[24] 出现该标记值（该地址按映射不应落入密钥存储，且落点 word24 与写入地址不对应，存在解码/重定向异常）。随后向 wipe_secret(0x20) 写入触发密钥清除并推进 8 个时钟周期，再次观测 u_dut.secret_key，word24 仍残留 0x10000000，密钥未被清零。标记值在触发清除操作后持续残留，满足'非零标记值+触发后残留'的直接证据标准，判定该 fuzzing 候选为真实硬件注入（密钥清除失效/密钥残留漏洞）。"
    },
-   "trace": []
+   "trace": [
+    {
+     "step": 0,
+     "action": {
+      "action": "reset"
+     },
+     "obs": {
+      "desc": "reset"
+     }
+    },
+    {
+     "step": 1,
+     "action": {
+      "action": "write",
+      "addr": "0x40",
+      "data": "0x10000000"
+     },
+     "obs": {
+      "error": false,
+      "desc": "write 0x40 <= 0x10000000"
+     }
+    },
+    {
+     "step": 2,
+     "action": {
+      "action": "write",
+      "addr": "0xB0",
+      "data": "0x10000000"
+     },
+     "obs": {
+      "error": false,
+      "desc": "write 0xb0 <= 0x10000000"
+     }
+    },
+    {
+     "step": 3,
+     "action": {
+      "action": "sig_read",
+      "name": "u_dut.secret_key"
+     },
+     "obs": {
+      "name": "u_dut.secret_key",
+      "words": [
+       "0x0",
+       "0x0",
+       "0x0",
+       "0x0",
+       "0x0",
+       "0x0",
+       "0x0",
+       "0x0",
+       "0x0",
+       "0x0",
+       "0x0",
+       "0x0",
+       "0x0",
+       "0x0",
+       "0x0",
+       "0x0",
+       "0x0",
+       "0x0",
+       "0x0",
+       "0x0",
+       "0x0",
+       "0x0",
+       "0x0",
+       "0x0",
+       "0x10000000",
+       "0x0",
+       "0x0",
+       "0x0",
+       "0x0",
+       "0x0",
+       "0x0",
+       "0x0"
+      ],
+      "desc": "sig_read u_dut.secret_key -> ['0x0', '0x0', '0x0', '0x0', '0x0', '0x0', '0x0', '0x0', '0x0', '0x0', '0x0', '0x0', '0x0', '0x0', '0x0', '0x0', '0x0', '0x0', '0x0', '0x0', '0x0', '0x0', '0x0', '0x0', '0x10000000', '0x0', '0x0', '0x0', '0x0', '0x0', '0x0', '0x0']"
+     }
+    },
+    {
+     "step": 4,
+     "action": {
+      "action": "sig_read",
+      "name": "u_dut.cfg_block"
+     },
+     "obs": {
+      "name": "u_dut.cfg_block",
+      "words": [
+       "0x0"
+      ],
+      "desc": "sig_read u_dut.cfg_block -> ['0x0']"
+     }
+    },
+    {
+     "step": 5,
+     "action": {
+      "action": "write",
+      "addr": "0x20",
+      "data": "0x00000000"
+     },
+     "obs": {
+      "error": false,
+      "desc": "write 0x20 <= 0x0"
+     }
+    },
+    {
+     "step": 6,
+     "action": {
+      "action": "step",
+      "n": 8
+     },
+     "obs": {
+      "desc": "step 8"
+     }
+    },
+    {
+     "step": 7,
+     "action": {
+      "action": "sig_read",
+      "name": "u_dut.secret_key"
+     },
+     "obs": {
+      "name": "u_dut.secret_key",
+      "words": [
+       "0x0",
+       "0x0",
+       "0x0",
+       "0x0",
+       "0x0",
+       "0x0",
+       "0x0",
+       "0x0",
+       "0x0",
+       "0x0",
+       "0x0",
+       "0x0",
+       "0x0",
+       "0x0",
+       "0x0",
+       "0x0",
+       "0x0",
+       "0x0",
+       "0x0",
+       "0x0",
+       "0x0",
+       "0x0",
+       "0x0",
+       "0x0",
+       "0x10000000",
+       "0x0",
+       "0x0",
+       "0x0",
+       "0x0",
+       "0x0",
+       "0x0",
+       "0x0"
+      ],
+      "desc": "sig_read u_dut.secret_key -> ['0x0', '0x0', '0x0', '0x0', '0x0', '0x0', '0x0', '0x0', '0x0', '0x0', '0x0', '0x0', '0x0', '0x0', '0x0', '0x0', '0x0', '0x0', '0x0', '0x0', '0x0', '0x0', '0x0', '0x0', '0x10000000', '0x0', '0x0', '0x0', '0x0', '0x0', '0x0', '0x0']"
+     }
+    },
+    {
+     "step": 8,
+     "action": {
+      "action": "conclude",
+      "verdict": "confirmed",
+      "evidence": "注入确认：写入标记值 0x10000000 至 0x40/0xB0 后，u_dut.secret_key[24] 出现该标记值（该地址按映射不应落入密钥存储，且落点 word24 与写入地址不对应，存在解码/重定向异常）。随后向 wipe_secret(0x20) 写入触发密钥清除并推进 8 个时钟周期，再次观测 u_dut.secret_key，word24 仍残留 0x10000000，密钥未被清零。标记值在触发清除操作后持续残留，满足'非零标记值+触发后残留'的直接证据标准，判定该 fuzzing 候选为真实硬件注入（密钥清除失效/密钥残留漏洞）。"
+     }
+    }
+   ]
   },
   {
    "signal": "u_dut.done_state_q",
@@ -290,7 +459,93 @@
     "verdict": "inconclusive",
     "evidence": "步数耗尽"
    },
-   "trace": []
+   "trace": [
+    {
+     "step": 0,
+     "action": {
+      "action": "sig_read",
+      "name": "u_dut.done_state_q"
+     },
+     "obs": {
+      "name": "u_dut.done_state_q",
+      "words": [
+       "0x0"
+      ],
+      "desc": "sig_read u_dut.done_state_q -> ['0x0']"
+     }
+    },
+    {
+     "step": 1,
+     "action": {
+      "action": "write",
+      "addr": "0x10",
+      "data": "0x2"
+     },
+     "obs": {
+      "error": false,
+      "desc": "write 0x10 <= 0x2"
+     }
+    },
+    {
+     "step": 2,
+     "action": {
+      "action": "write",
+      "addr": "0xe4",
+      "data": "0xffffffff"
+     },
+     "obs": {
+      "error": false,
+      "desc": "write 0xe4 <= 0xffffffff"
+     }
+    },
+    {
+     "step": 3,
+     "action": {
+      "action": "write",
+      "addr": "0x14",
+      "data": "0x2"
+     },
+     "obs": {
+      "error": false,
+      "desc": "write 0x14 <= 0x2"
+     }
+    },
+    {
+     "step": 4,
+     "action": {
+      "action": "step",
+      "n": 100
+     },
+     "obs": {
+      "desc": "step 100"
+     }
+    },
+    {
+     "step": 5,
+     "action": {
+      "action": "sig_read",
+      "name": "u_dut.done_state_q"
+     },
+     "obs": {
+      "name": "u_dut.done_state_q",
+      "words": [
+       "0x0"
+      ],
+      "desc": "sig_read u_dut.done_state_q -> ['0x0']"
+     }
+    },
+    {
+     "step": 6,
+     "action": {
+      "action": "read",
+      "addr": "0x1c"
+     },
+     "obs": {
+      "desc": "read 0x1c -> 0x0",
+      "value": 0
+     }
+    }
+   ]
   }
  ]
 }

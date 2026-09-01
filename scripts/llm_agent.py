@@ -125,6 +125,11 @@ SYSTEM_PROMPT = """你是硬件安全验证 agent，任务是**动态验证**一
 4. 对照实验：正常路径下同样操作，确认行为差异
 5. 最多 {max_steps} 步，每步都要有明确目的
 
+## 重要约束
+- 观测到关键证据后**立即 conclude**，不要继续探索
+- 步数预算有限：规划好序列（写标记→触发→观测→conclude 约 5-8 步）
+- sig_read 返回非零标记值且触发操作后仍残留 = confirmed 的直接证据
+
 ## 输出格式
 只输出一个 JSON 动作，不要其他文本。"""
 
@@ -138,16 +143,30 @@ def llm_chat(prompt):
     base = os.environ.get("PF_LLM_BASE", "http://127.0.0.1:18000/v1")
     key = os.environ.get("PF_LLM_KEY", "")
     model = os.environ.get("PF_LLM_MODEL", "zai-org/GLM-5.3-Flash")
-    maxtok = int(os.environ.get("PF_LLM_MAXTOK", "4096"))
+    maxtok = int(os.environ.get("PF_LLM_MAXTOK", "16384"))
     body = json.dumps({"model": model,
                        "messages": [{"role": "user", "content": prompt}],
                        "temperature": 0, "max_tokens": maxtok}).encode()
     headers = {"Content-Type": "application/json"}
     if key:
         headers["Authorization"] = f"Bearer {key}"
+    # 域名→IP 预解析（容器内 host.docker.internal 的 IPv6/IPv4 双栈会导致
+    # python 先试 ::1 被拒；curl 正常是因为 happy-eyeballs）
+    import socket as _socket
+    m = re.match(r"(http://)([^/:]+)(:\d+)?(/.*)?$", base.rstrip("/"))
+    if m:
+        scheme, host, port, path = m.groups()
+        try:
+            ip = _socket.gethostbyname(host)
+            if host not in ("localhost", "127.0.0.1"):
+                base = f"{scheme}{ip}{port or ''}{path or ''}"
+        except Exception:
+            pass
     req = urllib.request.Request(base.rstrip("/") + "/chat/completions",
                                  data=body, headers=headers)
-    resp = json.load(urllib.request.urlopen(req, timeout=180))
+    # 显式禁代理的 opener（容器内 http_proxy 会劫持 host.docker.internal）
+    opener = urllib.request.build_opener(urllib.request.ProxyHandler({}))
+    resp = json.load(opener.open(req, timeout=180))
     msg = resp["choices"][0]["message"]
     content = msg.get("content") or ""
     if not content.strip():
@@ -156,18 +175,35 @@ def llm_chat(prompt):
 
 
 def parse_action(content):
-    m = re.search(r"```(?:json)?\s*(\{.*?\})\s*```", content, re.S)
-    if m:
+    # 1) ```json 块（取最后一个——reasoning 模型可能先举例后给答案）
+    blocks = re.findall(r"```(?:json)?\s*(\{.*?\})\s*```", content, re.S)
+    for b in reversed(blocks):
         try:
-            return json.loads(m.group(1))
+            v = json.loads(b)
+            if isinstance(v, dict) and "action" in v:
+                return v
         except Exception:
             pass
-    m = re.search(r"\{[^{}]*\"action\"[^{}]*\}", content, re.S)
-    if m:
+    # 2) 含 action 的裸 JSON（取最后一个）
+    cands = re.findall(r"\{[^{}]*\"action\"[^{}]*\}", content, re.S)
+    for b in reversed(cands):
         try:
-            return json.loads(m.group(0))
+            v = json.loads(b)
+            if isinstance(v, dict) and "action" in v:
+                return v
         except Exception:
             pass
+    # 3) 兜底: 从文本中提取 "action": "xxx" 行构造动作
+    m = re.search(r"\"action\"\s*:\s*\"(\w+)\"", content)
+    if m:
+        act = m.group(1)
+        v = {"action": act}
+        # 提取常见参数
+        for key in ("addr", "data", "name", "n", "verdict", "evidence"):
+            m2 = re.search(r"\"%s\"\s*:\s*\"?([^,\"}]+)\"?" % key, content)
+            if m2:
+                v[key] = m2.group(1).strip()
+        return v
     return None
 
 
@@ -226,7 +262,13 @@ def run_agent(dut, regmap, finding, max_steps=25):
         except Exception as e:
             obs = {"error": str(e)[:150]}
         print(f"  [agent] step{step_i}: {obs.get('desc', obs)}")
-        history.append(f"### 动作\n```json\n{json.dumps(act)}\n```\n### 观测\n{json.dumps(obs, ensure_ascii=False)}")
+        # 自动证据检测: sig_read 观测到非零标记值时提示 LLM 可以 conclude
+        hint = ""
+        if action == "sig_read" and isinstance(obs.get("words"), list):
+            nz = [w for w in obs["words"] if w != "0x0"]
+            if nz:
+                hint = f"\n\n（系统提示：观测到非零值 {nz[:3]}。若这符合注入特征且已充分验证，请立即输出 conclude 动作。）"
+        history.append(f"### 动作\n```json\n{json.dumps(act)}\n```\n### 观测\n{json.dumps(obs, ensure_ascii=False)}{hint}")
         trace.append({"step": step_i, "action": act, "obs": obs})
     return {"verdict": "inconclusive", "evidence": "步数耗尽"}, trace
 

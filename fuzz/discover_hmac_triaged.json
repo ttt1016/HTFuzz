@@ -120,6 +120,36 @@
    "cross_oracle": 0,
    "rtl_wipe_nearby": true,
    "evidence": "敏感信号 u_dut.secret_key_d[28] 在清除/操作序列后残留写入标记值"
+  },
+  {
+   "level": "LOW",
+   "oracle": "O-D-fsm",
+   "signal": "u_dut.done_state_q",
+   "sec_cm": [],
+   "sensitive": false,
+   "cross_oracle": 0,
+   "rtl_wipe_nearby": true,
+   "evidence": "FSM 信号 u_dut.done_state_q 在边界输入后 100 拍保持 0x2 不变，且该稳态在正常操作中未出现 → 疑似卡死/无超时恢复"
+  },
+  {
+   "level": "LOW",
+   "oracle": "O-D-fsm",
+   "signal": "u_dut.done_state_q",
+   "sec_cm": [],
+   "sensitive": false,
+   "cross_oracle": 0,
+   "rtl_wipe_nearby": true,
+   "evidence": "FSM 信号 u_dut.done_state_q 在边界输入后 100 拍保持 0x2 不变，且该稳态在正常操作中未出现 → 疑似卡死/无超时恢复"
+  },
+  {
+   "level": "LOW",
+   "oracle": "O-D-fsm",
+   "signal": "u_dut.done_state_q",
+   "sec_cm": [],
+   "sensitive": false,
+   "cross_oracle": 0,
+   "rtl_wipe_nearby": true,
+   "evidence": "FSM 信号 u_dut.done_state_q 在边界输入后 100 拍保持 0x2 不变，且该稳态在正常操作中未出现 → 疑似卡死/无超时恢复"
   }
  ]
 }
