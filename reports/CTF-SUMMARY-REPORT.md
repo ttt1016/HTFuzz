@@ -1123,3 +1123,51 @@ FSM——sig_read 模糊匹配跨模块命中。esc_state=0xDA 是 esc_timer 的
 2. **CSV 26 个 bug 全部检出**（100% 覆盖）
 3. O-K 不变量引擎已验证可持续性：新模块 = 一次 gen + 一次 check，零代码
 4. 后续若有新版本比赛 RTL，直接重跑全流程即可（工具链完全自动化）
+
+## 25. P51: HitFuzz 论文研读——闭环 fuzzing 演进方向（2026-09-02）
+
+### 25.1 HitFuzz 核心思想（师兄论文，LibAFL + VeeR-EL2）
+
+| 机制 | 内容 | 效果 |
+|------|------|------|
+| Coverage-guided | Verilator toggle coverage → LibAFL bitmap → MaxMapFeedback | 闭环引导变异走向未探索区域 |
+| Historical bug seeds | 之前 campaign 的 bug 触发输入做种子 | 语义相近模式跨目标迁移（Ibex 种子对 VeeR-EL2 有效）|
+| Decode-tree generation | 解码树生成合法+非法指令，CSR 提升到 20% | 覆盖率比纯随机高 56% |
+| Pairwise privilege coverage | 特权信号两两组合 O(n²) | 特权边界多信号交互 = 严重 bug 高发区 |
+| Co-sim semantic check | Spike 逐指令比对 PC/GPR/trap | 发现不 crash 的语义 bug |
+| Plateau pruning | 覆盖率平台期随机剪枝 5-95% | 避免 input shadowing |
+
+关键 bug 案例：SMEPMP pmpcfg 写约束绕过——历史种子（Ibex PMP 配置模式）+ co-sim
+语义检查发现，crash-only fuzzer 无法检出。
+
+### 25.2 HitFuzz vs HTFuzz 对比
+
+| 维度 | HitFuzz | HTFuzz | 可借鉴 |
+|------|---------|--------|--------|
+| 反馈 | toggle coverage 闭环 | 开环（无反馈）| ★★★ |
+| 种子 | 历史 bug 种子库 | 无 | ★★★ |
+| 语义检查 | Spike co-sim（ISA 级，仅 CPU）| O-K 不变量（寄存器级，全模块）| 已超越 |
+| 组合覆盖 | pairwise 特权信号 | 无 | ★★ |
+| DUT 依赖 | 单核+RAM（极轻）| per-IP（需自建，一次性成本）| — |
+
+### 25.3 关键洞察
+
+1. **真正的局限不是 DUT，是开环 fuzzing**——HitFuzz 的 DUT 更轻（单核+RAM），
+   但我们的 24 个 DUT 是一次性成本已付。缺的是覆盖率反馈闭环。
+2. **O-K 不变量是 co-simulation 的泛化**：HitFuzz 用 Spike 做 ISA 级语义检查
+   （仅限 CPU），我们的 O-K 用 LLM 不变量做寄存器级语义检查（全模块类型）——
+   本质相同（无 golden RTL 的语义 oracle），覆盖面更广。
+3. **历史 bug 种子可迁移**：26 个 bug 的触发序列（agent trace + findings）是
+   现成种子库。wipe 极性反转等注入模式适用于所有有擦除机制的模块。
+
+### 25.4 演进方向：闭环 fuzzing（覆盖率引导 + 历史种子）
+
+实现路径（复用现有资产）：
+1. Verilator 编译加 `--coverage-toggle`（一行改动）
+2. harness 加 `update_stats()`：每次 run 后提取 toggle bitmap 到共享内存
+3. 种子库：26 个 bug 的 agent trace + findings 序列化
+4. 变异循环：对种子做寄存器/值/时序变异 → coverage 增量驱动保留（MaxMap）
+5. 新发现：coverage 引导到未探索区域 → 新候选（不依赖 CSV 先验）
+
+预期收益：从"验证已知注入模式"升级为"系统性探索未知状态空间"——
+这是发现 CSV 之外漏洞的根本路径。
