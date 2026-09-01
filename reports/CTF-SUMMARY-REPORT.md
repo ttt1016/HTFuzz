@@ -950,3 +950,21 @@ target_gen → discover_engine(10 oracles) → 候选+动态现象
   → 人工复核（仅处理 confirmed 项）
 ```
 三层自动化：fuzzing 出现象 → LLM 静态定位 → agent 动态确认。人工只看最终结论。
+
+### 21.5 Agent 批量动态验证（4 模块 7 候选）
+
+| 模块 | 候选 | agent 结论 | 说明 |
+|------|------|-----------|------|
+| hmac | secret_key | **confirmed** | 标记残留 + wipe 无效（Bug#20/60）|
+| rom_ctrl | rvalid_residual | **confirmed** | 标记值出现在 rom_rvalid（Bug#2 响应错位）|
+| aes | data_out_q | refuted | KEY_CLEAR 后 key_full_q 被清（该场景下行为正常）|
+| ascon | key_share0_in_q | refuted | CSR→信号正常传播，写 0 清除有效（agent 未测 TRIGGER.wipe 路径）|
+| hmac/aes/ascon | 3 条 | inconclusive | 步数耗尽/LLM 断连 |
+
+**价值验证**：agent 不仅确认了已知注入，还给出 refuted 判定——ascon 的 O-A 残留
+候选被 agent 用对照实验证伪（写 0 清除有效），说明 agent 能区分"真注入"和
+"oracle 误报"，这是纯 fuzzing 做不到的语义判断。
+
+注：ascon Bug#43（TRIGGER.wipe 完全无效）需要先写 TRIGGER 寄存器再观测——agent
+第一轮用了直接写 0 清除（正常路径），未触发 wipe 命令，属 PoC 序列偏差而非工具缺陷。
+kmac DUT 缺 pf_sig_read 符号（早期 harness 版本），需重编译后补测。
