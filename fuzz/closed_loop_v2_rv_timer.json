@@ -1,0 +1,9 @@
+{
+ "module": "rv_timer",
+ "iterations": 40,
+ "exec_count": 1,
+ "final_coverage": 0,
+ "pairwise_count": 0,
+ "corpus_size": 0,
+ "violations": []
+}
