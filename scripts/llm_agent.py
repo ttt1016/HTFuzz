@@ -219,8 +219,11 @@ def run_agent(dut, regmap, finding, max_steps=25):
                f"- LLM 静态分析建议: {str(finding.get('llm_deep', {}).get('suggested_poc', ''))[:400]}"]
 
     trace = []
+    format_errors = 0
+    MAX_FORMAT_ERRORS = 3
     for step_i in range(max_steps):
-        prompt = sys_prompt + "\n\n" + "\n\n".join(history[-8:])
+        # P1.1: 全量历史回传（不截断）
+        prompt = sys_prompt + "\n\n" + "\n\n".join(history)
         try:
             content = llm_chat(prompt)
         except Exception as e:
@@ -228,8 +231,17 @@ def run_agent(dut, regmap, finding, max_steps=25):
             break
         act = parse_action(content)
         if act is None:
-            print(f"  [agent] step{step_i}: 无法解析动作，终止")
-            break
+            format_errors += 1
+            if format_errors >= MAX_FORMAT_ERRORS:
+                print(f"  [agent] step{step_i}: 连续 {format_errors} 次解析失败，终止")
+                break
+            # P1.2: 格式错误回传给 LLM 修正
+            print(f"  [agent] step{step_i}: 解析失败（{format_errors}/{MAX_FORMAT_ERRORS}），回传修正")
+            history.append(f"### 系统错误\n你的输出无法解析为 JSON 动作。"
+                           f"请严格输出一个 JSON 动作（不要其他文本），"
+                           f"格式如: {{\"action\": \"write\", \"addr\": \"0x28\", \"data\": \"0x10\"}}")
+            continue
+        format_errors = 0  # 成功解析后重置
         action = act.get("action", "")
         if action == "conclude":
             print(f"  [agent] 结论: {act.get('verdict')} — {str(act.get('evidence'))[:150]}")

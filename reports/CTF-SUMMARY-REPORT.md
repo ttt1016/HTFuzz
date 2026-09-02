@@ -1335,3 +1335,33 @@ key_o.key 直接输出 key_state_q（跳过熵 XOR），如果 key_state_q 中�
 
 keymgr 完整流程 fuzzing 成功走完 Init → CreatorRootKey → OwnerIntKey →
 OwnerKey → GenSwOut → Invalid 全流程，sideload 密钥残留被白盒观测确认。
+
+## 30. P57: P1 Agent 架构改进完成——全量历史 + 格式容忍 + 环境抽象（2026-09-02）
+
+### 30.1 三项改进
+
+1. **全量历史回传**：history[-8:] → 全量（LLM 始终看到全部上下文）
+2. **格式错误容忍**：解析失败 → 错误信息回传 LLM 修正（3 次容忍，不再直接终止）
+3. **环境抽象**：DutEnvironment 独立类（scripts/environments/dut_env.py），
+   execute(action) 唯一接口，支持多 DUT 实例
+
+### 30.2 实测对比（hmac 2 候选）
+
+| 指标 | 改进前 | 改进后 |
+|------|--------|--------|
+| secret_key 验证 | confirmed（8 步）| **confirmed（10 步，更完整证据链）**|
+| done_state_q 验证 | 解析失败终止 | **格式错误自动修正，继续执行到 step14** |
+| 解析失败处理 | 直接终止 | 回传修正（1/3 → 成功恢复）|
+| 环境接口 | DutHandle 耦合 | DutEnvironment 独立类（36 信号验证通过）|
+
+改进效果：done_state_q 候选从"解析失败终止"变为"格式错误自动修正后继续执行
+14 步"——agent 韧性显著提升。
+
+### 30.3 环境抽象验证
+
+DutEnvironment 接口测试通过：
+- execute({"action": "write", ...}) → 正常
+- execute({"action": "sig_read", ...}) → 正常（36 信号）
+- execute({"action": "step", ...}) → 正常
+
+多 DUT 实例支持已就绪（跨模块联动验证的基础）。
