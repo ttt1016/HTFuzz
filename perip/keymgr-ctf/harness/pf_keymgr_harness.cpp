@@ -126,7 +126,30 @@ uint32_t pf_read(uint32_t addr) {
   return result;
 }
 
-uint32_t pf_sig_read(int sig, int idx) {
+int pf_sig_count(void) { return 10; }
+const char* pf_sig_name(int i) {
+  static const char* names[] = {
+    "aes_key_en", "aes_key_word", "kmac_key_en", "kmac_key_word",
+    "otbn_key_en", "otbn_key_word", "state", "op_done",
+    "key_state_word", "d_error"
+  };
+  if (i >= 0 && i < 10) return names[i];
+  return "";
+}
+int pf_sig_words(int i) { return 1; }
+uint32_t pf_sig_read_idx(int sig, int idx);
+uint32_t pf_sig_read(const char* name, int w) {
+  // 字符串接口：映射到数字接口
+  if (strstr(name, "state") && !strstr(name, "fsm")) return pf_sig_read_idx(6, 0);
+  if (strstr(name, "op_done")) return pf_sig_read_idx(7, 0);
+  if (strstr(name, "key_state")) return pf_sig_read_idx(8, w);
+  if (strstr(name, "aes_key")) return pf_sig_read_idx(1, w);
+  if (strstr(name, "kmac_key")) return pf_sig_read_idx(3, w);
+  if (strstr(name, "otbn_key")) return pf_sig_read_idx(5, w);
+  if (strstr(name, "d_error")) return pf_sig_read_idx(9, 0);
+  return 0;
+}
+uint32_t pf_sig_read_idx(int sig, int idx) {
   switch (sig) {
     case 0: return (uint32_t)pf_wb_aes_key_en();
     case 1: return (uint32_t)pf_wb_aes_key_word(idx);
