@@ -1384,3 +1384,39 @@ wrapper 内部时钟生成已注释（harness 外部驱动）。
 
 **Bug#21/64 注入代码已确认**（keymgr_ctrl.sv:291-297 注释直接标注），
 动态触发需要完整 derivation 流程（依赖 EDN 熵），留作后续优化。
+
+## 30. P60: P1+P2 xlsx 完整分析——HTFuzz 覆盖率 88%（2026-09-02）
+
+### 30.1 P2 去重后 56 个 bug（最新提交）
+
+P2 包含 P1 全部 + 新发现，去重后 56 个 bug，总预期分数 1280。
+
+### 30.2 HTFuzz 检出状态
+
+| 状态 | 数量 | 分数 | 占比 |
+|------|------|------|------|
+| **已确认检出** | **39** | **1130** | **88%** |
+| 未确认 | 17 | 150 | 12% |
+
+### 30.3 未确认的 17 个分类
+
+| 类别 | 数量 | 根因 | 改进方向 |
+|------|------|------|---------|
+| OTBN 细粒度 | 3 | 缺 dmem/imem 总线白盒信号 | harness 加信号 |
+| HMAC 细粒度 | 4 | 缺 cfg_block/ERR_CODE/interrupt 路径 | harness 加信号 |
+| AES 细粒度 | 2 | 缺 key_expand PRD 清零路径 | harness 加信号 |
+| LC/OTP 类 | 3 | 缺 hash/debug-lock/scrambling 路径 | harness 加信号 |
+| MBX/spi_tpm | 2 | DUT 未建 | 建新 DUT |
+| ASCON 掩码 | 1 | 仿真层面难触发 | 需侧信道仿真 |
+| 自动化工具 | 1 | 非 bug（工具条目）| — |
+| csrng 存疑 | 1 | 存疑状态 | — |
+
+### 30.4 关键洞察
+
+1. **HTFuzz 覆盖率 88%（按分数）**——39/56 个 bug 已确认检出
+2. **未确认的 17 个中，大部分是 harness 白盒信号粒度问题**——
+   不是工具能力问题，是信号绑定不够细
+3. **最有价值的改进**：给 hmac/aes/otbn 的 harness 加更多白盒信号
+   （cfg_block/ERR_CODE/dmem_bus/imem_bus 等），即可覆盖剩余 17 个中的 12 个
+4. **真正需要新 DUT 的只有 MBX 和 spi_tpm**（2 个模块）
+5. **ASCON Two-Share Masking** 需要侧信道仿真，超出 RTL fuzzing 范围
