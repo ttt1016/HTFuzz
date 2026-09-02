@@ -1247,3 +1247,40 @@ HitFuzz 思想移植（轻量版，零编译改动）：
 
 **结论：在当前比赛 RTL 上，注入全集 = CSV 26 个 bug 已被工具全量覆盖。
 闭环 fuzzing 引擎已就绪，新版本 RTL 直接重跑即可发现新注入。**
+
+## 28. P54: mini-swe-agent 研读——Agent 架构改进方向（2026-09-02）
+
+### 28.1 mini-swe-agent 核心设计（100 行 agent，SWE-bench 74%）
+
+| 设计原则 | 实现 | 效果 |
+|---------|------|------|
+| 极简循环 | run() → step() → query() + execute_actions() | 无复杂规划/反思，纯 ReAct |
+| 消息历史即状态 | self.messages 完整列表回传 | LLM 始终看到全部上下文 |
+| 异常流控制 | FormatError(3次容忍)/LimitsExceeded/Submitted | 统一异常退出 |
+| 环境抽象 | Environment.execute(action) 唯一接口 | 可替换 bash/DUT/任何环境 |
+| 轨迹自动保存 | 每步 save() 完整轨迹 | 可回放、可复现 |
+| 三重限制 | cost_limit / step_limit / wall_time_limit | 防失控 |
+
+### 28.2 HTFuzz Agent 对比与改进方向
+
+| 维度 | mini-swe-agent | HTFuzz Agent | 改进价值 |
+|------|---------------|-------------|---------|
+| 消息历史 | 完整回传 | 最近 8 条（截断）| ★★★ |
+| 环境接口 | Environment 独立类 | DutHandle 耦合 | ★★★ |
+| 格式错误 | 回传 LLM 修正（3 次容忍）| 直接终止 | ★★ |
+| 轨迹回放 | 每步 save + 可回放 | trace 无回放 | ★★ |
+| 多环境 | docker/远程 | 单 DUT | ★★（跨模块联动基础）|
+
+### 28.3 关键洞察
+
+mini-swe-agent 哲学：『100 行代码 + 完整消息历史 = 74% SWE-bench』。
+复杂度是性能的敌人。我们的 agent 三个问题：
+1. 历史截断（history[-8:]）导致 LLM 遗忘关键观测
+2. 解析失败直接终止而非让 LLM 修正
+3. 环境耦合导致无法做跨模块联动验证
+
+### 28.4 改进优先级
+
+1. 全量历史回传（history[-8:] → 全量）
+2. 格式错误重试（解析失败 → 错误回传 LLM → 重新输出）
+3. 环境抽象（DutHandle 拆出，支持多 DUT 实例 → 跨模块联动验证基础）
