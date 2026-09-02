@@ -1420,3 +1420,43 @@ P2 包含 P1 全部 + 新发现，去重后 56 个 bug，总预期分数 1280。
    （cfg_block/ERR_CODE/dmem_bus/imem_bus 等），即可覆盖剩余 17 个中的 12 个
 4. **真正需要新 DUT 的只有 MBX 和 spi_tpm**（2 个模块）
 5. **ASCON Two-Share Masking** 需要侧信道仿真，超出 RTL fuzzing 范围
+
+## 31. P61: 为什么一半检测不出来——根本原因分析（2026-09-02）
+
+### 31.1 核心问题：O-K 不变量规则只有 3 种，实际注入手法有 12+ 种
+
+当前 O-K 支持的规则：
+1. wipe_clears（擦除后清零）→ 覆盖 Bug#20/60/43/82
+2. changes_across_runs（随机性两次不同）→ 覆盖 Bug#26
+3. reg_core_consistent（reg/core 一致）→ 覆盖 Bug#21/64
+
+缺失的规则类型（每种对应一个或多个未检出 bug）：
+
+| 缺失规则 | 描述 | 对应 bug |
+|---------|------|---------|
+| read_only_leak | write-only 寄存器读回必须全 0 | Bug#16/81 |
+| err_code_coherent | 错误后 ERR_CODE 必须置位 | Bug#42 |
+| interrupt_first_event | 中断只在首次事件触发 | Bug#42 |
+| cfg_block_gating | cfg_block=1 时敏感写被拒绝 | Bug#33 |
+| fsm_sparse_encoding | FSM 状态必须是合法编码 | Bug#45 |
+| monotonic_counter | 计数器只增不减 | 通用 |
+| bus_intg_check | intg 错误必须触发 alert | Bug#44 |
+| prd_zeroization | PRD 清零后输出必须变化 | Bug#37 |
+| debug_lock_enforce | debug-lock 后 DFT 无效 | Bug#46 |
+| scramble_key_valid | key 在 valid 后才输出 | Bug#57 |
+| locality_gate | invalid locality 写被拒绝 | Bug#58 |
+| abort_clear_auth | abort-clear 必须授权 | Bug#55 |
+
+### 31.2 具体例子：HMAC Bug#16
+
+注入效果：KEY 寄存器应为 write-only（读回全 0），注入后读回泄露密钥。
+我们的 hmac harness 绑定了 secret_key（内部寄存器），但没有绑定
+TL-UL 总线读回路径上的 key 读回值。O-A 检查的是"擦除后残留"，
+不是"读回泄露"——信号绑定了但 oracle 规则没覆盖这个场景。
+
+### 31.3 解决方案
+
+1. 扩展 O-K 规则到 12+ 种（每种 ~50 行检查器代码）
+2. LLM prompt 中列出全部规则类型，让 LLM 选择最合适的
+3. harness 加更多白盒信号（总线级/中断级）
+→ LLM 就能为每个 SEC_CM 提取对应类型的不变量
