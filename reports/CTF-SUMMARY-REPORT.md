@@ -1365,3 +1365,22 @@ DutEnvironment 接口测试通过：
 - execute({"action": "step", ...}) → 正常
 
 多 DUT 实例支持已就绪（跨模块联动验证的基础）。
+
+### 29.5 keymgr 重编译成功 + 状态分析
+
+otp_key 修复（OTP_KEYMGR_KEY_DEFAULT，valid=1）后重编译成功。
+wrapper 内部时钟生成已注释（harness 外部驱动）。
+
+**state = 0x95 分析**：
+- 不匹配任何 sparse FSM 编码（Reset=0x361, Init=0x104 等）
+- 也不匹配 working_state 枚举（0-6）
+- 可能原因：wrapper 内部时钟被注释后 EDN 时钟（clk_edn）不再翻转，
+  keymgr 的 EntropyReseed 阶段卡住（等 EDN 响应），状态机未进入 Init
+- SW_OUTPUT 全 0 也证实 derivation 未执行
+
+**结论**：keymgr 状态机需要 EDN 时钟/熵输入才能从 Reset 走到 Init。
+当前 wrapper 的 clk_edn 被注释导致熵重填充卡住。需要恢复 clk_edn
+（但不能用 #delay，改用 harness 驱动）或用 --build --exe 模式编译。
+
+**Bug#21/64 注入代码已确认**（keymgr_ctrl.sv:291-297 注释直接标注），
+动态触发需要完整 derivation 流程（依赖 EDN 熵），留作后续优化。

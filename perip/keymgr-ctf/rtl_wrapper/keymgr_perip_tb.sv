@@ -5,8 +5,8 @@ module keymgr_perip_tb;
   import keymgr_reg_pkg::*;
 
   logic clk = 0, rst_n = 0, rst_shadowed_n = 0, clk_edn = 0, rst_edn_n = 0;
-  always #5 clk = ~clk;
-  always #3.5 clk_edn = ~clk_edn;
+  // always #5 clk = ~clk; // harness drives clk_i
+  // always #3.5 clk_edn = ~clk_edn; // harness drives
 
   tl_h2d_t tl_h2d;
   tl_d2h_t tl_d2h;
@@ -58,7 +58,7 @@ module keymgr_perip_tb;
     tl_h2d = 0;
     lc_keymgr_en = lc_ctrl_pkg::On;
     lc_keymgr_div = 64'hDEADBEEFCAFEBABE;
-    otp_key = 0;
+    otp_key = otp_ctrl_pkg::OTP_KEYMGR_KEY_DEFAULT;
     otp_device_id = 0;
     flash = 0;
     rom_digest = 0;
