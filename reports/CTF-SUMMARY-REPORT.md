@@ -1742,3 +1742,9 @@ ascon 2、kmac 2、keymgr/rom_ctrl/ibex/clkmgr/entropy_src/rstmgr 各 1；另 O-
 - 依赖修复链: prim_assert.sv 文件序（**宏定义必须排最前**，已固化进 autobuild gen_filelist）、
   prim_secded_pkg/prim_util_pkg、prim_buf（TraceFuzz 生成件）+ prim_flop/prim_generic_flop 最小 shim。
 - 引擎 11 oracle 跑通，0 条（良性基线）；白盒表待 SEC_CM 扩充。
+
+### 37.7 tlul DUT 建成（第 23 个，2026-09-03）
+- wrapper: tlul_adapter_reg（AccessLatency=0）+ 最小寄存器块（含越界判定→rsp_error，
+  **专门针对 P1 #34 地址截断 bug**: 若 adapter 截断地址则越界访问不会报错，O-K bus_intg/O-J 可检出）。
+- 端口名对齐教训: adapter_reg 是 re_o/we_o 分离 + error_i（非 rvalid/rerror）——
+  **新 wrapper 实例化前必须 grep 实际端口名**。
