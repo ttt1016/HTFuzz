@@ -1767,3 +1767,25 @@ ascon 2、kmac 2、keymgr/rom_ctrl/ibex/clkmgr/entropy_src/rstmgr 各 1；另 O-
 对应清单: hmac #2/#20-60、aes #20/#21/#22/#25/#28-31、ascon #43、kmac #26/#53、
 rom_ctrl #26、keymgr #45/#5、ibex #8/#9/#24、uart #1、prim #7、lc #28、csrng #45 族、
 entropy_src #35 类、rstmgr/clkmgr alert 类。
+
+## 39. 最终全量验证（2026-09-04）
+
+### 39.1 结果
+| oracle 层 | 检出 |
+|-----------|------|
+| 引擎 O-A~O-M（21 DUT） | 22 条 / 12 模块（aes 8 / hmac 2 / ascon 2 / kmac 2 / 其余各 1）|
+| O-K 不变量（12 模块） | 12 条：**10 条真检出**（aes #32、ascon #43×2、hmac #20/60×2、**新增 sha2.hash_q/digest_q 擦除残留 ×3**——wipe bug 家族新表现）+ **2 条误报** |
+| 单元 TB | lc #28、uart #1、prim #7 全部确认 |
+| 闭环（16 模块，80 迭代） | 2 条 + 覆盖率数据 |
+| **合计** | **41 条记录 / 约 14 个独立 bug 特征 / 0 漏报已知 bug** |
+
+### 39.2 新增误报根因与处置
+hmac 的 sha2.hash_q 与 u_reg.reg_rdata_next 被 LLM gen 贴上 read_only_leak 标签——
+但 hash_q 是核心内部状态（非 CSR）、reg_rdata_next 是读数据寄存器（非 write-only），
+属**不变量标签错误**（LLM gen 语义校验不足），非工具检出错误。处置：这两条不变量
+标记为 invalid；长期修复 = gen 后置校验（write-only 标签仅接受 CSR 名单内的信号）。
+
+### 39.3 分类学有效性验证状态
+- 回溯审计（清单 bug → 十大属性族映射）与变异测试（合成变异体杀伤率）：**待下轮执行**
+- 权威引用核实（CAV'21/CC/FIPS/800-193/MITRE）：待检索核实后补入 ORACLE-TAXONOMY.md
+- 当前结论的边界：十大族经 14 个已知 bug 特征回测无遗漏，但样本外有效性待变异测试证明

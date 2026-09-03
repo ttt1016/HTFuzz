@@ -68,27 +68,12 @@
  "hmac": {
   "elapsed_s": 0.1,
   "rc": 0,
-  "raw": 17,
+  "raw": 2,
   "findings": [
-   {
-    "oracle": "O-A-residual",
-    "signal": "u_dut.secret_key",
-    "desc": "敏感信号 u_dut.secret_key[28] 在清除/操作序列后残留写入标记值"
-   },
-   {
-    "oracle": "O-A-residual",
-    "signal": "u_dut.secret_key_d",
-    "desc": "敏感信号 u_dut.secret_key_d[28] 在清除/操作序列后残留写入标记值"
-   },
-   {
-    "oracle": "O-D-fsm",
-    "signal": "u_dut.done_state_q",
-    "desc": "FSM 信号 u_dut.done_state_q 在边界输入后 100 拍保持 0x2 不变，且该稳态在正常操作中未出现 → 疑似卡死/无超时恢复"
-   },
    {
     "oracle": "O-J-errprop",
     "signal": "u_dut.u_reg.reg_error,u_dut.u_reg.intg_err,u_dut.u_reg.u_err_code.q",
-    "desc": "错误传播不完整: 静默触发 ['T1-invalid-cfg', 'T3-locked-write', 'T4-shadow-conflict']（1 类已传播）→ 疑似部分错误路径被吞没"
+    "desc": "全部 4 类错误触发均未引起任何 alert/err 信号置位 → 错误传播链断裂"
    },
    {
     "oracle": "O-L-kat",
@@ -274,6 +259,6 @@
   "rc": 1,
   "raw": 0,
   "findings": [],
-  "err_head": "Traceback (most recent call last):\n  File \"/workspace/HTFuzz/scripts/discover_engine.py\", line 1059, in <module>\n    main()\n  File \"/workspace/HTFuzz/scripts/discover_engine.py\", line 998, in main\n   "
+  "err_head": "Traceback (most recent call last):\n  File \"/workspace/HTFuzz/scripts/discover_engine.py\", line 1064, in <module>\n    main()\n  File \"/workspace/HTFuzz/scripts/discover_engine.py\", line 998, in main\n   "
  }
 }
