@@ -1787,7 +1787,7 @@ hmac 的 sha2.hash_q 与 u_reg.reg_rdata_next 被 LLM gen 贴上 read_only_leak 
 
 ### 39.3 分类学有效性验证状态
 - 回溯审计（清单 bug → 十大属性族映射）与变异测试（合成变异体杀伤率）：**待下轮执行**
-- 权威引用核实（CAV'21/CC/FIPS/800-193/MITRE）：待检索核实后补入 ORACLE-TAXONOMY.md
+- 权威引用核实（ITC 2019/CC/FIPS/800-193/MITRE）：待检索核实后补入 ORACLE-TAXONOMY.md
 - 当前结论的边界：十大族经 14 个已知 bug 特征回测无遗漏，但样本外有效性待变异测试证明
 
 ### 39.4 otp_ctrl DUT 构建状态（进行中，复杂依赖）
