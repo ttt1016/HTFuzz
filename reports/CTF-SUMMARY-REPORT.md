@@ -1736,3 +1736,9 @@ ascon 2、kmac 2、keymgr/rom_ctrl/ibex/clkmgr/entropy_src/rstmgr 各 1；另 O-
   预种子从 uart-ctf 拷贝，规避 prim_assert 宏缺失的解析错误）。
 - 引擎 11 oracle 全跑通（gpio 首扫 0 条=良性基线）；白盒表待 SEC_CM 脚本扩充。
 - autobuild.sh 修复：`-Wno-fatal` 下必须检查退出码而非 grep %Error（错误降级为 %Warning）。
+
+### 37.6 adc_ctrl DUT 建成（第 22 个，2026-09-03）
+- 双时钟 wrapper（clk_aon 由 clk_i 4 分频 assign 生成；AST ADC stub 周期供数）。
+- 依赖修复链: prim_assert.sv 文件序（**宏定义必须排最前**，已固化进 autobuild gen_filelist）、
+  prim_secded_pkg/prim_util_pkg、prim_buf（TraceFuzz 生成件）+ prim_flop/prim_generic_flop 最小 shim。
+- 引擎 11 oracle 跑通，0 条（良性基线）；白盒表待 SEC_CM 扩充。
