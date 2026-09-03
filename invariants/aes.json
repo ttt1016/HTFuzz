@@ -2,8 +2,50 @@
  "module": "aes",
  "invariants": [
   {
-   "name": "wipe_secret_wipe_clears",
-   "signal": "wipe_secret",
+   "name": "u_dut.u_aes_core.u_aes_control.u_aes_control_fsm.aes_ctrl_fsm_cs_fsm_sparse_encoding",
+   "signal": "u_dut.u_aes_core.u_aes_control.u_aes_control_fsm.aes_ctrl_fsm_cs",
+   "rule": "fsm_sparse_encoding",
+   "trigger_regs": [],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "u_dut.u_aes_core.u_aes_cipher_core.u_aes_cipher_control.u_aes_cipher_control_fsm.aes_cipher_ctrl_fsm_cs_fsm_sparse_encoding",
+   "signal": "u_dut.u_aes_core.u_aes_cipher_core.u_aes_cipher_control.u_aes_cipher_control_fsm.aes_cipher_ctrl_fsm_cs",
+   "rule": "fsm_sparse_encoding",
+   "trigger_regs": [],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "u_dut.u_aes_core.u_aes_cipher_core.u_aes_ctr._fsm_sparse_encoding",
+   "signal": "u_dut.u_aes_core.u_aes_cipher_core.u_aes_ctr.",
+   "rule": "fsm_sparse_encoding",
+   "trigger_regs": [],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "u_dut.u_aes_core.u_aes_cipher_core.u_aes_ctr.u_aes_ctr_fsm.aes_ctr_fsm_cs_fsm_sparse_encoding",
+   "signal": "u_dut.u_aes_core.u_aes_cipher_core.u_aes_ctr.u_aes_ctr_fsm.aes_ctr_fsm_cs",
+   "rule": "fsm_sparse_encoding",
+   "trigger_regs": [],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "u_dut.u_aes_core.u_aes_cipher_core.u_aes_sub_bytes.ctrl_sparse_fsm_sparse_encoding",
+   "signal": "u_dut.u_aes_core.u_aes_cipher_core.u_aes_sub_bytes.ctrl_sparse",
+   "rule": "fsm_sparse_encoding",
+   "trigger_regs": [],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "u_dut.u_aes_core.u_aes_cipher_core.key_init_q_fsm_sparse_encoding",
+   "signal": "u_dut.u_aes_core.u_aes_cipher_core.key_init_q",
+   "rule": "fsm_sparse_encoding",
+   "trigger_regs": [],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "u_dut.u_aes_core.u_aes_cipher_core.data_out_q_wipe_clears",
+   "signal": "u_dut.u_aes_core.u_aes_cipher_core.data_out_q",
    "rule": "wipe_clears",
    "trigger_regs": [
     {
@@ -14,160 +56,127 @@
    "rationale": "LLM 提取（文本模式）"
   },
   {
-   "name": "u_dut.u_reg2hw.key_share0_reg_core_consistent",
-   "signal": "u_dut.u_reg2hw.key_share0",
+   "name": "u_dut.u_aes_core.u_aes_cipher_core.data_in_prev_q_wipe_clears",
+   "signal": "u_dut.u_aes_core.u_aes_cipher_core.data_in_prev_q",
+   "rule": "wipe_clears",
+   "trigger_regs": [
+    {
+     "reg": "wipe_secret",
+     "data": "0x1"
+    }
+   ],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "u_dut.u_reg.key_share0_0.qs_wipe_clears",
+   "signal": "u_dut.u_reg.key_share0_0.qs",
+   "rule": "wipe_clears",
+   "trigger_regs": [
+    {
+     "reg": "wipe_secret",
+     "data": "0x1"
+    }
+   ],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "u_dut.u_reg.key_share1_0.qs_read_only_leak",
+   "signal": "u_dut.u_reg.key_share1_0.qs",
+   "rule": "read_only_leak",
+   "trigger_regs": [],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "u_dut.u_reg.iv_0.qs_read_only_leak",
+   "signal": "u_dut.u_reg.iv_0.qs",
+   "rule": "read_only_leak",
+   "trigger_regs": [],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "u_dut.u_reg.data_in_0.qs_read_only_leak",
+   "signal": "u_dut.u_reg.data_in_0.qs",
+   "rule": "read_only_leak",
+   "trigger_regs": [],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "u_dut.u_aes_core.u_aes_ctrl_reg_shadowed.cipher_mode_q_read_only_leak",
+   "signal": "u_dut.u_aes_core.u_aes_ctrl_reg_shadowed.cipher_mode_q",
+   "rule": "read_only_leak",
+   "trigger_regs": [],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "u_dut.u_aes_core.u_aes_cipher_core.u_aes_prng_masking.prng_state_q_reg_core_consistent",
+   "signal": "u_dut.u_aes_core.u_aes_cipher_core.u_aes_prng_masking.prng_state_q",
    "rule": "reg_core_consistent",
    "trigger_regs": [],
    "rationale": "LLM 提取（文本模式）"
   },
   {
-   "name": "u_dut.u_aes_core.u_aes_cipher_core.u_prng_masking.lfsr_state_changes_across_runs",
-   "signal": "u_dut.u_aes_core.u_aes_cipher_core.u_prng_masking.lfsr_state",
+   "name": "u_dut.u_aes_core.u_aes_cipher_core.u_aes_prng_masking.prng_state_q_changes_across_runs",
+   "signal": "u_dut.u_aes_core.u_aes_cipher_core.u_aes_prng_masking.prng_state_q",
    "rule": "changes_across_runs",
    "trigger_regs": [],
    "rationale": "LLM 提取（文本模式）"
   },
   {
-   "name": "u_dut.u_aes_core.data_out_q_wipe_clears",
-   "signal": "u_dut.u_aes_core.data_out_q",
-   "rule": "wipe_clears",
-   "trigger_regs": [
-    {
-     "reg": "wipe_secret",
-     "data": "0x1"
-    }
-   ],
-   "rationale": "LLM 提取（文本模式）"
-  },
-  {
-   "name": "u_dut.u_aes_core.iv_q_wipe_clears",
-   "signal": "u_dut.u_aes_core.iv_q",
-   "rule": "wipe_clears",
-   "trigger_regs": [
-    {
-     "reg": "wipe_secret",
-     "data": "0x1"
-    }
-   ],
-   "rationale": "LLM 提取（文本模式）"
-  },
-  {
-   "name": "u_dut.u_aes_core.ctrl_q_reg_core_consistent",
-   "signal": "u_dut.u_aes_core.ctrl_q",
-   "rule": "reg_core_consistent",
-   "trigger_regs": [],
-   "rationale": "LLM 提取（文本模式）"
-  },
-  {
-   "name": "mode_q_wipe_clears",
-   "signal": "mode_q",
-   "rule": "wipe_clears",
-   "trigger_regs": [
-    {
-     "reg": "wipe_secret",
-     "data": "0x1"
-    }
-   ],
-   "rationale": "LLM 提取（文本模式）"
-  },
-  {
-   "name": "u_dut.u_aes_core.key_init_q_wipe_clears",
-   "signal": "u_dut.u_aes_core.key_init_q",
-   "rule": "wipe_clears",
-   "trigger_regs": [
-    {
-     "reg": "wipe_secret",
-     "data": "0x1"
-    }
-   ],
-   "rationale": "LLM 提取（文本模式）"
-  },
-  {
-   "name": "key_init_q_wipe_clears",
-   "signal": "key_init_q",
-   "rule": "wipe_clears",
-   "trigger_regs": [
-    {
-     "reg": "wipe_secret",
-     "data": "0x1"
-    }
-   ],
-   "rationale": "LLM 提取（文本模式）"
-  },
-  {
-   "name": "u_dut.u_aes_core.u_aes_cipher_core.u_prng_masking.lfsr_state_q_changes_across_runs",
-   "signal": "u_dut.u_aes_core.u_aes_cipher_core.u_prng_masking.lfsr_state_q",
+   "name": "u_dut.intg_error_changes_across_runs",
+   "signal": "u_dut.intg_error",
    "rule": "changes_across_runs",
    "trigger_regs": [],
    "rationale": "LLM 提取（文本模式）"
   },
   {
-   "name": "u_dut.u_aes_core.u_aes_cipher_core.u_prng_data.lfsr_state_q_changes_across_runs",
-   "signal": "u_dut.u_aes_core.u_aes_cipher_core.u_prng_data.lfsr_state_q",
-   "rule": "changes_across_runs",
+   "name": "u_dut.u_aes_core.u_aes_control.u_aes_control_fsm.ctrl_fsm_err_bus_intg_check",
+   "signal": "u_dut.u_aes_core.u_aes_control.u_aes_control_fsm.ctrl_fsm_err",
+   "rule": "bus_intg_check",
    "trigger_regs": [],
    "rationale": "LLM 提取（文本模式）"
   },
   {
-   "name": "u_dut.u_aes_core.u_aes_cipher_core.u_prng_masking.force_zero_masks_q_reg_core_consistent",
-   "signal": "u_dut.u_aes_core.u_aes_cipher_core.u_prng_masking.force_zero_masks_q",
-   "rule": "reg_core_consistent",
+   "name": "u_dut.u_aes_core.u_aes_cipher_core.u_aes_cipher_control.u_aes_cipher_control_fsm.cipher_ctrl_fsm_err_err_code_coherent",
+   "signal": "u_dut.u_aes_core.u_aes_cipher_core.u_aes_cipher_control.u_aes_cipher_control_fsm.cipher_ctrl_fsm_err",
+   "rule": "err_code_coherent",
    "trigger_regs": [],
    "rationale": "LLM 提取（文本模式）"
   },
   {
-   "name": "u_dut.u_aes_core.ctrl_aux_q_reg_core_consistent",
-   "signal": "u_dut.u_aes_core.ctrl_aux_q",
-   "rule": "reg_core_consistent",
+   "name": "u_dut.u_aes_core.u_aes_control.config_write_enable_err_code_coherent",
+   "signal": "u_dut.u_aes_core.u_aes_control.config_write_enable",
+   "rule": "err_code_coherent",
    "trigger_regs": [],
    "rationale": "LLM 提取（文本模式）"
   },
   {
-   "name": "u_dut.u_aes_core.u_aes_cipher_core.u_state_init.state_q_wipe_clears",
-   "signal": "u_dut.u_aes_core.u_aes_cipher_core.u_state_init.state_q",
-   "rule": "wipe_clears",
-   "trigger_regs": [
-    {
-     "reg": "wipe_secret",
-     "data": "0x1"
-    }
-   ],
-   "rationale": "LLM 提取（文本模式）"
-  },
-  {
-   "name": "u_dut.u_aes_core.ctrl_q.mode_reg_core_consistent",
-   "signal": "u_dut.u_aes_core.ctrl_q.mode",
-   "rule": "reg_core_consistent",
+   "name": "u_dut.u_aes_core.u_aes_control.key_init_we_cfg_block_gating",
+   "signal": "u_dut.u_aes_core.u_aes_control.key_init_we",
+   "rule": "cfg_block_gating",
    "trigger_regs": [],
    "rationale": "LLM 提取（文本模式）"
   },
   {
-   "name": "u_dut.u_aes_core.u_aes_control.u_state_q_reg_core_consistent",
-   "signal": "u_dut.u_aes_core.u_aes_control.u_state_q",
-   "rule": "reg_core_consistent",
+   "name": "u_dut.u_aes_core.u_aes_cipher_core.u_aes_prng_masking.prng_reseed_counter_q_access_control",
+   "signal": "u_dut.u_aes_core.u_aes_cipher_core.u_aes_prng_masking.prng_reseed_counter_q",
+   "rule": "access_control",
    "trigger_regs": [],
    "rationale": "LLM 提取（文本模式）"
   },
   {
-   "name": "u_state_q.state_o_reg_core_consistent",
-   "signal": "u_state_q.state_o",
-   "rule": "reg_core_consistent",
+   "name": "u_dut.u_aes_core.u_aes_ctrl_reg_shadowed.cipher_mode_q_monotonic_counter",
+   "signal": "u_dut.u_aes_core.u_aes_ctrl_reg_shadowed.cipher_mode_q",
+   "rule": "monotonic_counter",
    "trigger_regs": [],
    "rationale": "LLM 提取（文本模式）"
   },
   {
-   "name": "u_state_q_reg_core_consistent",
-   "signal": "u_state_q",
-   "rule": "reg_core_consistent",
-   "trigger_regs": [],
-   "rationale": "LLM 提取（文本模式）"
-  },
-  {
-   "name": "u_dut.u_aes_core.u_aes_cipher_core.u_aes_cipher_control.u_aes_cipher_control_fsm.u_state_q.state_o_reg_core_consistent",
-   "signal": "u_dut.u_aes_core.u_aes_cipher_core.u_aes_cipher_control.u_aes_cipher_control_fsm.u_state_q.state_o",
-   "rule": "reg_core_consistent",
+   "name": "u_dut.u_aes_core.u_aes_ctrl_reg_shadowed.key_len_q_fsm_sparse_encoding",
+   "signal": "u_dut.u_aes_core.u_aes_ctrl_reg_shadowed.key_len_q",
+   "rule": "fsm_sparse_encoding",
    "trigger_regs": [],
    "rationale": "LLM 提取（文本模式）"
   }
- ]
+ ],
+ "raw": "```json\n{\n  \"invariants\": [\n    {\n      \"name\": \"main_fsm_sparse_encoding\",\n      \"signal\": \"u_dut.u_aes_core.u_aes_control.u_aes_control_fsm.aes_ctrl_fsm_cs\",\n      \"rule\": \"fsm_sparse_encoding\",\n      \"trigger_regs\": [\n        {\"reg\": \"CTRL_SHADOWED\", \"data\": \"0x1\"},\n        {\"reg\": \"TRIGGER\", \"data\": \"0x1\"}\n      ],\n      \"rationale\": \"MAIN.FSM.SPARSE: 主控制FSM状态必须始终为合法sparse编码值（IDLE/LOAD/CALC/FINISH等），任何偏离合法编码的状态都表示故障注入攻击或设计缺陷，需立即触发local escalation\"\n    },\n    {\n      \"name\": \"cipher_fsm_sparse_encoding\",\n      \"signal\": \"u_dut.u_aes_core.u_aes_cipher_core.u_aes_cipher_control.u_aes_cipher_control_fsm.aes_cipher_ctrl_fsm_cs\",\n      \"rule\": \"fsm_sparse_encoding\",\n      \"trigger_regs\": [\n        {\"reg\": \"CTRL_SHADOWED\", \"data\": \"0x1\"},\n        {\"reg\": \"TRIGGER\", \"data\": \"0x1\"}\n      ],\n      \"rationale\": \"CIPHER.FSM.SPARSE: 密码运算FSM状态必须始终为合法sparse编码值，防止故障注入使FSM进入未定义状态导致密钥泄露或跳过加密轮次\"\n    },\n    {\n      \"name\": \"ctr_fsm_sparse_encoding\",\n      \"signal\": \"u_dut.u_aes_core.u_aes_cipher_core.u_aes_ctr.u_aes_ctr_fsm.aes_ctr_fsm_cs\",\n      \"rule\": \"fsm_sparse_encoding\",\n      \"trigger_regs\": [\n        {\"reg\": \"CTRL_SHADOWED\", \"data\": \"0x1\"},\n        {\"reg\": \"TRIGGER\", \"data\": \"0x1\"}\n      ],\n      \"rationale\": \"CTR.FSM.SPARSE: CTR模式FSM状态必须始终为合法sparse编码值，防止计数器模式状态机被故障注入后产生重复nonce或跳过块\"\n    },\n    {\n      \"name\": \"sub_bytes_ctrl_sparse\",\n      \"signal\": \"u_dut.u_aes_core.u_aes_cipher_core.u_aes_sub_bytes.ctrl_sparse\",\n      \"rule\": \"fsm_sparse_encoding\",\n      \"trigger_regs\": [\n        {\"reg\": \"CTRL_SHADOWED\", \"data\": \"0x1\"},\n        {\"reg\": \"TRIGGER\", \"data\": \"0x1\"}\n      ],\n      \"rationale\": \"CTRL.SPARSE: SubBytes模块控制信号必须为合法sparse编码，确保SBox操作在正确的安全域中执行\"\n    },\n    {\n      \"name\": \"key_init_wipe_on_clear_trigger\",\n      \"signal\": \"u_dut.u_aes_core.u_aes_cipher_core.key_init_q\",\n      \"rule\": \"wipe_clears\",\n      \"trigger_regs\": [\n        {\"reg\": \"KEY_SHARE0_0\", \"data\": \"0xDEADBEEF\"},\n        {\"reg\": \"KEY_SHARE0_1\", \"data\": \"0x01234567\"},\n        {\"reg\": \"TRIGGER\", \"data\": \"0x2\"}\n      ],\n      \"rationale\": \"DATA_REG.SEC_WIPE: KEY_IV_DATA_IN_CLEAR触发后密钥寄存器key_init_q必须全部归零，确保密钥材料不会在操作间残留\"\n    },\n    {\n      \"name\": \"data_out_wipe_on_clear_trigger\",\n      \"signal\": \"u_dut.u_aes_core.u_aes_cipher_core.data_out_q\",\n      \"rule\": \"wipe_clears\",\n      \"trigger_regs\": [\n        {\"reg\": \"TRIGGER\", \"data\": \"0x4\"}\n      ],\n      \"rationale\": \"DATA_REG.SEC_WIPE: DATA_OUT_CLEAR触发后输出数据寄存器data_out_q必须全部归零，防止上一操作的密文/明文泄露给下一个使用者\"\n    },\n    {\n      \"name\": \"data_in_prev_wipe_on_clear\",\n      \"signal\": \"u_dut.u_aes_core.u_aes_cipher_core.data_in_prev_q\",\n      \"rule\": \"wipe_clears\",\n      \"trigger_regs\": [\n        {\"reg\": \"DATA_IN_0\", \"data\": \"0xAABBCCDD\"},\n        {\"reg\": \"TRIGGER\", \"data\": \"0x2\"}\n      ],\n      \"rationale\": \"DATA_REG.SEC_WIPE: KEY_IV_DATA_IN_CLEAR后前一轮数据寄存器data_in_prev_q必须归零，防止CBC/CFB模式中链式数据残留\"\n    },\n    {\n      \"name\": \"key_share0_readback_zero\",\n      \"signal\": \"u_dut.u_reg.key_share0_0.qs\",\n      \"rule\": \"read_only_leak\",\n      \"trigger_regs\": [\n        {\"reg\": \"KEY_SHARE0_0\", \"data\": \"0xDEADBEEF\"}\n      ],\n      \"rationale\": \"KEY_SHARE0为write-only寄存器，读回必须返回全0。若读回非零则密钥通过TL-UL总线泄露给任意特权软件\"\n    },\n    {\n      \"name\": \"key_share1_readback_zero\",\n      \"signal\": \"u_dut.u_reg.key_share1_0.qs\",\n      \"rule\": \"read_only_leak\",\n      \"trigger_regs\": [\n        {\"reg\": \"KEY_SHARE1_0\", \"data\": \"0xCAFEBABE\"}\n      ],\n      \"rationale\": \"KEY_SHARE1为write-only寄存器，读回必须返回全0。KEY_SHARE1存储掩码份额，泄露后结合SHARE0可恢复完整密钥\"\n    },\n    {\n      \"name\": \"iv_readback_zero\",\n      \"signal\": \"u_dut.u_reg.iv_0.qs\",\n      \"rule\": \"read_only_leak\",\n      \"trigger_regs\": [\n        {\"reg\": \"IV_0\", \"data\": \"0x11223344\"}\n      ],\n      \"rationale\": \"IV为write-only寄存器，读回必须返回全0。IV泄露可能导致某些模式下密文被预测\"\n    },\n    {\n      \"name\": \"data_in_readback_zero\",\n      \"signal\": \"u_dut.u_reg.data_in_0.qs\",\n      \"rule\": \"read_only_leak\",\n      \"trigger_regs\": [\n        {\"reg\": \"DATA_IN_0\", \"data\": \"0x55667788\"}\n      ],\n      \"rationale\": \"DATA_IN为write-only寄存器，读回必须返回全0。明文输入数据不应通过读回操作泄露\"\n    },\n    {\n      \"name\": \"shadowed_ctrl_reg_consistent\",\n      \"signal\": \"u_dut.u_aes_core.u_aes_ctrl_reg_shadowed.cipher_mode_q\",\n      \"rule\": \"reg_core_consistent\",\n      \"trigger_regs\": [\n        {\"reg\": \"CTRL_SHADOWED\", \"data\": \"0x1\"},\n        {\"reg\": \"CTRL_SHADOWED\", \"data\": \"0x1\"}\n      ],\n      \"rationale\": \"MAIN.CONFIG.SHADOW: 影子寄存器committed值必须与active值一致（两次写相同值后commit生效），不一致表示shadow register攻击\"\n    },\n    {\n      \"name\": \"masking_prng_changes_across_runs\",\n      \"signal\": \"u_dut.u_aes_core.u_aes_cipher_core.u_aes_prng_masking.prng_state_q\",\n      \"rule\": \"changes_across_runs\",\n      \"trigger_regs\": [\n        {\"reg\": \"CTRL_SHADOWED\", \"data\": \"0x1\"},\n        {\"reg\": \"TRIGGER\", \"data\": \"0x1\"},\n        {\"reg\": \"TRIGGER\", \"data\": \"0x8\"}\n      ],\n      \"rationale\": \"KEY.MASKING: 掩码PRNG状态在两次独立运行/重播种之间必须不同，掩码重用将使一阶SCA防护失效\"\n    },\n    {\n      \"name\": \"bus_intg_error_detection\",\n      \"signal\": \"u_dut.intg_error\",\n      \"rule\": \"bus_intg_check\",\n      \"trigger_regs\": [\n        {\"reg\": \"CTRL_SHADOWED\", \"data\": \"0x1\"}\n      ],\n      \"rationale\": \"BUS.INTEGRITY: TL-UL总线完整性错误（intg字段校验失败）必须被检测并置位intg_error信号，触发fatal_alert\"\n    },\n    {\n      \"name\": \"fsm_err_sets_error_signal\",\n      \"signal\": \"u_dut.u_aes_core.u_aes_control.u_aes_control_fsm.ctrl_fsm_err\",\n      \"rule\": \"err_code_coherent\",\n      \"trigger_regs\": [\n        {\"reg\": \"CTRL_SHADOWED\", \"data\": \"0x1\"},\n        {\"reg\": \"TRIGGER\", \"data\": \"0x1\"}\n      ],\n      \"rationale\": \"MAIN.FSM.LOCAL_ESC: 当主FSM检测到sparse编码错误时，ctrl_fsm_err必须置位，触发本地escalation清除敏感状态\"\n    },\n    {\n      \"name\": \"cipher_fsm_err_sets_error\",\n      \"signal\": \"u_dut.u_aes_core.u_aes_cipher_core.u_aes_cipher_control.u_aes_cipher_control_fsm.cipher_ctrl_fsm_err\",\n      \"rule\": \"err_code_coherent\",\n      \"trigger_regs\": [\n        {\"reg\": \"CTRL_SHADOWED\", \"data\": \"0x1\"},\n        {\"reg\": \"TRIGGER\", \"data\": \"0x1\"}\n      ],\n      \"rationale\": \"CIPHER.FSM.LOCAL_ESC: 密码FSM sparse编码错误必须置位cipher_ctrl_fsm_err，触发数据寄存器擦除和FSM进入安全状态\"\n    },\n    {\n      \"name\": \"cfg_block_during_operation\",\n      \"signal\": \"u_dut.u_aes_core.u_aes_control.config_write_enable\",\n      \"rule\": \"cfg_block_gating\",\n      \"trigger_regs\": [\n        {\"reg\": \"CTRL_SHADOWED\", \"data\": \"0x1\"},\n        {\"reg\": \"TRIGGER\", \"data\": \"0x1\"}\n      ],\n      \"rationale\": \"加密操作进行中（非IDLE状态）时配置写使能必须被门控为无效，防止运行时修改模式/密钥长度导致不可预测行为\"\n    },\n    {\n      \"name\": \"key_write_block_during_operation\",\n      \"signal\": \"u_dut.u_aes_core.u_aes_control.key_init_we\",\n      \"rule\": \"access_control\",\n      \"trigger_regs\": [\n        {\"reg\": \"CTRL_SHADOWED\", \"data\": \"0x1\"},\n        {\"reg\": \"TRIGGER\", \"data\": \"0x1\"},\n        {\"reg\": \"KEY_SHARE0_0\", \"data\": \"0x41414141\"}\n      ],\n      \"rationale\": \"加密操作进行中时密钥写使能key_init_we必须被拒绝，防止攻击者在运算中途替换密钥导致密钥泄露或密文可预测\"\n    },\n    {\n      \"name\": \"prng_reseed_counter_monotonic\",\n      \"signal\": \"u_dut.u_aes_core.u_aes_cipher_core.u_aes_prng_masking.prng_reseed_counter_q\",\n      \"rule\": \"monotonic_counter\",\n      \"trigger_regs\": [\n        {\"reg\": \"CTRL_SHADOWED\", \"data\": \"0x1\"},\n        {\"reg\": \"TRIGGER\", \"data\": \"0x1\"}\n      ],\n      \"rationale\": \"PRNG重播种计数器必须单调递增，确保掩码按配置的reseed_rate定期更新，计数器回退表示掩码重用攻击\"\n    },\n    {\n      \"name\": \"config_mode_sparse_encoding\",\n      \"signal\": \"u_dut.u_aes_core.u_aes_ctrl_reg_shadowed.cipher_mode_q\",\n      \"rule\": \"fsm_sparse_encoding\",\n      \"trigger_regs\": [\n        {\"reg\": \"CTRL_SHADOWED\", \"data\": \"0x1\"}\n      ],\n      \"rationale\": \"MAIN.CONFIG.SPARSE: 配置模式字段（cipher_mode）必须为合法sparse编码值（ECB/CBC/CFB/OFB/CTR），非法编码表示配置被篡改\"\n    },\n    {\n      \"name\": \"config_key_len_sparse_encoding\",\n      \"signal\": \"u_dut.u_aes_core.u_aes_ctrl_reg_shadowed.key_len_q\",\n      \"rule\": \"fsm_sparse_encoding\",\n      \"trigger_regs\": [\n        {\"reg\": \"CTRL_SHADOWED\", \"data\": \"0x1\"}\n      ],\n      \"rationale\": \"MAIN.CONFIG.SPARSE: 密钥长度字段（key_len）必须为合法sparse编码值（128/256），非法编码可能导致密钥调度错误\"\n    }\n  ]\n}\n```"
 }

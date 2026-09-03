@@ -2,8 +2,20 @@
  "module": "ascon",
  "invariants": [
   {
-   "name": "u_dut.key_reg_wipe_clears",
-   "signal": "u_dut.key_reg",
+   "name": "u_dut.key_q_wipe_clears",
+   "signal": "u_dut.key_q",
+   "rule": "wipe_clears",
+   "trigger_regs": [
+    {
+     "reg": "wipe_secret",
+     "data": "0x1"
+    }
+   ],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "ascon_core.sv_wipe_clears",
+   "signal": "ascon_core.sv",
    "rule": "wipe_clears",
    "trigger_regs": [
     {
@@ -26,8 +38,8 @@
    "rationale": "LLM 提取（文本模式）"
   },
   {
-   "name": "u_dut.tag_q_wipe_clears",
-   "signal": "u_dut.tag_q",
+   "name": "u_dut.msg_data_q_wipe_clears",
+   "signal": "u_dut.msg_data_q",
    "rule": "wipe_clears",
    "trigger_regs": [
     {
@@ -38,8 +50,8 @@
    "rationale": "LLM 提取（文本模式）"
   },
   {
-   "name": "u_dut.msg_fifo_q_wipe_clears",
-   "signal": "u_dut.msg_fifo_q",
+   "name": "u_dut.err_status_q_wipe_clears",
+   "signal": "u_dut.err_status_q",
    "rule": "wipe_clears",
    "trigger_regs": [
     {
@@ -47,13 +59,6 @@
      "data": "0x1"
     }
    ],
-   "rationale": "LLM 提取（文本模式）"
-  },
-  {
-   "name": "reg2hw.trigger.wipe.q_reg_core_consistent",
-   "signal": "reg2hw.trigger.wipe.q",
-   "rule": "reg_core_consistent",
-   "trigger_regs": [],
    "rationale": "LLM 提取（文本模式）"
   },
   {
@@ -69,37 +74,16 @@
    "rationale": "LLM 提取（文本模式）"
   },
   {
-   "name": "u_dut.mask_prng.q_changes_across_runs",
-   "signal": "u_dut.mask_prng.q",
+   "name": "u_dut.lfsr_state_q_read_only_leak",
+   "signal": "u_dut.lfsr_state_q",
+   "rule": "read_only_leak",
+   "trigger_regs": [],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "u_dut.key_q_changes_across_runs",
+   "signal": "u_dut.key_q",
    "rule": "changes_across_runs",
-   "trigger_regs": [],
-   "rationale": "LLM 提取（文本模式）"
-  },
-  {
-   "name": "u_dut.mask_prng_q_changes_across_runs",
-   "signal": "u_dut.mask_prng_q",
-   "rule": "changes_across_runs",
-   "trigger_regs": [],
-   "rationale": "LLM 提取（文本模式）"
-  },
-  {
-   "name": "u_reg.reg2hw.key_0.q_reg_core_consistent",
-   "signal": "u_reg.reg2hw.key_0.q",
-   "rule": "reg_core_consistent",
-   "trigger_regs": [],
-   "rationale": "LLM 提取（文本模式）"
-  },
-  {
-   "name": "u_reg.key_0_qs_reg_core_consistent",
-   "signal": "u_reg.key_0_qs",
-   "rule": "reg_core_consistent",
-   "trigger_regs": [],
-   "rationale": "LLM 提取（文本模式）"
-  },
-  {
-   "name": "u_dut.fsm_state_q_reg_core_consistent",
-   "signal": "u_dut.fsm_state_q",
-   "rule": "reg_core_consistent",
    "trigger_regs": [],
    "rationale": "LLM 提取（文本模式）"
   },
@@ -111,168 +95,68 @@
    "rationale": "LLM 提取（文本模式）"
   },
   {
-   "name": "u_dut.nonce_q_wipe_clears",
-   "signal": "u_dut.nonce_q",
-   "rule": "wipe_clears",
-   "trigger_regs": [
-    {
-     "reg": "wipe_secret",
-     "data": "0x1"
-    }
-   ],
-   "rationale": "LLM 提取（文本模式）"
-  },
-  {
-   "name": "u_dut.secret_key_wipe_clears",
-   "signal": "u_dut.secret_key",
-   "rule": "wipe_clears",
-   "trigger_regs": [
-    {
-     "reg": "wipe_secret",
-     "data": "0x1"
-    }
-   ],
-   "rationale": "LLM 提取（文本模式）"
-  },
-  {
-   "name": "wipe_clears_assoc_data_wipe_clears",
-   "signal": "wipe_clears_assoc_data",
-   "rule": "wipe_clears",
-   "trigger_regs": [
-    {
-     "reg": "wipe_secret",
-     "data": "0x1"
-    }
-   ],
-   "rationale": "LLM 提取（文本模式）"
-  },
-  {
-   "name": "u_reg.trigger_wipe_qs_reg_core_consistent",
-   "signal": "u_reg.trigger_wipe_qs",
-   "rule": "reg_core_consistent",
-   "trigger_regs": [],
-   "rationale": "LLM 提取（文本模式）"
-  },
-  {
-   "name": "u_dut.prng_state_q_changes_across_runs",
-   "signal": "u_dut.prng_state_q",
-   "rule": "changes_across_runs",
-   "trigger_regs": [],
-   "rationale": "LLM 提取（文本模式）"
-  },
-  {
-   "name": "u_dut.tag_reg_core_consistent",
-   "signal": "u_dut.tag",
-   "rule": "reg_core_consistent",
-   "trigger_regs": [],
-   "rationale": "LLM 提取（文本模式）"
-  },
-  {
-   "name": "u_dut.error_q_wipe_clears",
-   "signal": "u_dut.error_q",
-   "rule": "wipe_clears",
-   "trigger_regs": [
-    {
-     "reg": "wipe_secret",
-     "data": "0x1"
-    }
-   ],
-   "rationale": "LLM 提取（文本模式）"
-  },
-  {
-   "name": "u_dut.fsm_state_wipe_clears",
-   "signal": "u_dut.fsm_state",
-   "rule": "wipe_clears",
-   "trigger_regs": [
-    {
-     "reg": "wipe_secret",
-     "data": "0x1"
-    }
-   ],
-   "rationale": "LLM 提取（文本模式）"
-  },
-  {
-   "name": "u_dut.start_ok_wipe_clears",
+   "name": "u_dut.start_ok_reg_core_consistent",
    "signal": "u_dut.start_ok",
-   "rule": "wipe_clears",
-   "trigger_regs": [
-    {
-     "reg": "wipe_secret",
-     "data": "0x1"
-    }
-   ],
-   "rationale": "LLM 提取（文本模式）"
-  },
-  {
-   "name": "u_dut.nonce_reg_core_consistent",
-   "signal": "u_dut.nonce",
    "rule": "reg_core_consistent",
    "trigger_regs": [],
    "rationale": "LLM 提取（文本模式）"
   },
   {
-   "name": "u_dut.wipe_reg_core_consistent",
-   "signal": "u_dut.wipe",
-   "rule": "reg_core_consistent",
+   "name": "ascon_core.sv_access_control",
+   "signal": "ascon_core.sv",
+   "rule": "access_control",
    "trigger_regs": [],
    "rationale": "LLM 提取（文本模式）"
   },
   {
-   "name": "u_dut.ascon_state_wipe_clears",
-   "signal": "u_dut.ascon_state",
-   "rule": "wipe_clears",
-   "trigger_regs": [
-    {
-     "reg": "wipe_secret",
-     "data": "0x1"
-    }
-   ],
-   "rationale": "LLM 提取（文本模式）"
-  },
-  {
-   "name": "u_dut.msg_buffer_wipe_clears",
-   "signal": "u_dut.msg_buffer",
-   "rule": "wipe_clears",
-   "trigger_regs": [
-    {
-     "reg": "wipe_secret",
-     "data": "0x1"
-    }
-   ],
-   "rationale": "LLM 提取（文本模式）"
-  },
-  {
-   "name": "u_dut.prng_state_changes_across_runs",
-   "signal": "u_dut.prng_state",
-   "rule": "changes_across_runs",
+   "name": "u_dut.busy_q_access_control",
+   "signal": "u_dut.busy_q",
+   "rule": "access_control",
    "trigger_regs": [],
    "rationale": "LLM 提取（文本模式）"
   },
   {
-   "name": "msg_0_wipe_clears",
-   "signal": "msg_0",
-   "rule": "wipe_clears",
-   "trigger_regs": [
-    {
-     "reg": "wipe_secret",
-     "data": "0x1"
-    }
-   ],
-   "rationale": "LLM 提取（文本模式）"
-  },
-  {
-   "name": "u_dut.mask_q_reg_core_consistent",
-   "signal": "u_dut.mask_q",
-   "rule": "reg_core_consistent",
+   "name": "u_dut.fsm_state_q_cfg_block_gating",
+   "signal": "u_dut.fsm_state_q",
+   "rule": "cfg_block_gating",
    "trigger_regs": [],
    "rationale": "LLM 提取（文本模式）"
   },
   {
-   "name": "u_dut.reg2hw.key_0.q_reg_core_consistent",
-   "signal": "u_dut.reg2hw.key_0.q",
-   "rule": "reg_core_consistent",
+   "name": "u_dut.err_code_q_fsm_sparse_encoding",
+   "signal": "u_dut.err_code_q",
+   "rule": "fsm_sparse_encoding",
+   "trigger_regs": [],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "u_dut.intr_output_valid_q_err_code_coherent",
+   "signal": "u_dut.intr_output_valid_q",
+   "rule": "err_code_coherent",
+   "trigger_regs": [],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "u_dut.reseed_cnt_q_bus_intg_check",
+   "signal": "u_dut.reseed_cnt_q",
+   "rule": "bus_intg_check",
+   "trigger_regs": [],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "u_dut.scanmode_i_monotonic_counter",
+   "signal": "u_dut.scanmode_i",
+   "rule": "monotonic_counter",
+   "trigger_regs": [],
+   "rationale": "LLM 提取（文本模式）"
+  },
+  {
+   "name": "u_dut.state_q_debug_lock_enforce",
+   "signal": "u_dut.state_q",
+   "rule": "debug_lock_enforce",
    "trigger_regs": [],
    "rationale": "LLM 提取（文本模式）"
   }
- ]
+ ],
+ "raw": "{\n  \"invariants\": [\n    {\n      \"name\": \"wipe_clears_key\",\n      \"signal\": \"u_dut.key_q\",\n      \"rule\": \"wipe_clears\",\n      \"trigger_regs\": [\n        {\"reg\": \"KEY_0\", \"data\": \"0xDEADBEEF\"},\n        {\"reg\": \"KEY_1\", \"data\": \"0xCAFEBABE\"},\n        {\"reg\": \"KEY_2\", \"data\": \"0x10553344\"},\n        {\"reg\": \"KEY_3\", \"data\": \"0x99AA55FF\"},\n        {\"reg\": \"TRIGGER\", \"data\": \"0x2\"}\n      ],\n      \"rationale\": \"WIPE 必须安全擦除密钥（hjson: 'Performs a secure wipe of sensitive data'）。注意 ascon_core.sv:305-309 显示 wipe 目前仅接入 unused_wipe（TODO），该不变量用于运行时捕获'擦除未实现'缺口，防止密钥残留被后续运行或故障注入读取。\"\n    },\n    {\n      \"name\": \"wipe_clears_ascon_state\",\n      \"signal\": \"u_dut.state_q\",\n      \"rule\": \"wipe_clears\",\n      \"trigger_regs\": [\n        {\"reg\": \"TRIGGER\", \"data\": \"0x1\"},\n        {\"reg\": \"TRIGGER\", \"data\": \"0x2\"}\n      ],\n      \"rationale\": \"WIPE 后 320-bit Ascon 内部状态（含中间摘要/标签材料）必须归零或置为安全常量，防止上一会话的中间态/标签跨会话泄露。\"\n    },\n    {\n      \"name\": \"wipe_clears_msg_ad_data\",\n      \"signal\": \"u_dut.msg_data_q\",\n      \"rule\": \"wipe_clears\",\n      \"trigger_regs\": [\n        {\"reg\": \"MSG_DATA\", \"data\": \"0xA5A5A5A5\"},\n        {\"reg\": \"TRIGGER\", \"data\": \"0x2\"}\n      ],\n      \"rationale\": \"hjson:575 明确 'data will be cleared if a WIPE operation is performed'：消息/关联数据寄存器在 WIPE 后必须归零，防止明文残留。\"\n    },\n    {\n      \"name\": \"wipe_clears_err_status\",\n      \"signal\": \"u_dut.err_status_q\",\n      \"rule\": \"wipe_clears\",\n      \"trigger_regs\": [\n        {\"reg\": \"TRIGGER\", \"data\": \"0x2\"}\n      ],\n      \"rationale\": \"hjson:725 'To clear the error, a wipe must be triggered'：WIPE 后错误状态必须为 0；反向检查：未触发 WIPE 时 err_status 不得自行清零，保证错误不可被掩盖。\"\n    },\n    {\n      \"name\": \"wipe_trigger_self_clears\",\n      \"signal\": \"u_dut.reg2hw.trigger.wipe.q\",\n      \"rule\": \"wipe_clears\",\n      \"trigger_regs\": [\n        {\"reg\": \"TRIGGER\", \"data\": \"0x2\"}\n      ],\n      \"rationale\": \"ascon_core.sv:306-307（d=0, de=1）意味着 WIPE 触发位写后一拍必须自动清零；粘滞触发位会导致重复擦除或状态错乱。\"\n    },\n    {\n      \"name\": \"key_writeonly_reads_zero\",\n      \"signal\": \"u_reg_top.reg_rdata_next[KEY_*]\",\n      \"rule\": \"read_only_leak\",\n      \"trigger_regs\": [\n        {\"reg\": \"KEY_0\", \"data\": \"0xDEADBEEF\"}\n      ],\n      \"rationale\": \"KEY 为 write-only：任何读回路径必须返回全 0，防止软件/调试通过总线读命令把密钥读出（信息泄露）。\"\n    },\n    {\n      \"name\": \"msgdata_writeonly_reads_zero\",\n      \"signal\": \"u_reg_top.reg_rdata_next[MSG_DATA]\",\n      \"rule\": \"read_only_leak\",\n      \"trigger_regs\": [\n        {\"reg\": \"MSG_DATA\", \"data\": \"0xA5A5A5A5\"}\n      ],\n      \"rationale\": \"消息/关联数据输入寄存器为 write-only，读回必须为 0，避免明文经读路径泄露。\"\n    },\n    {\n      \"name\": \"mask_prng_differs_across_runs\",\n      \"signal\": \"u_dut.lfsr_state_q\",\n      \"rule\": \"changes_across_runs\",\n      \"trigger_regs\": [\n        {\"reg\": \"TRIGGER\", \"data\": \"0x2\"},\n        {\"reg\": \"TRIGGER\", \"data\": \"0x1\"},\n        {\"reg\": \"TRIGGER\", \"data\": \"0x2\"},\n        {\"reg\": \"TRIGGER\", \"data\": \"0x1\"}\n      ],\n      \"rationale\": \"掩码/PRNG 状态在两次独立运行（WIPE→START→WIPE→START，相同输入）中必须不同；若重复则掩码可预测，抗 DPA/故障注入能力失效。\"\n    },\n    {\n      \"name\": \"key_reg_core_consistent\",\n      \"signal\": \"u_dut.key_q == u_dut.reg2hw.key\",\n      \"rule\": \"reg_core_consistent\",\n      \"trigger_regs\": [\n        {\"reg\": \"KEY_0\", \"data\": \"0x11223344\"},\n        {\"reg\": \"KEY_1\", \"data\": \"0x55667788\"},\n        {\"reg\": \"KEY_2\", \"data\": \"0x99AABBCC\"},\n        {\"reg\": \"KEY_3\", \"data\": \"0xDDEEFF00\"}\n      ],\n      \"rationale\": \"空闲态下 core 侧密钥副本必须与 reg 侧一致；不一致意味着写通路被破坏或遭故障注入，加密将使用错误密钥。\"\n    },\n    {\n      \"name\": \"start_rejected_when_busy\",\n      \"signal\": \"u_dut.start_ok\",\n      \"rule\": \"access_control\",\n      \"trigger_regs\": [\n        {\"reg\": \"TRIGGER\", \"data\": \"0x1\"},\n        {\"reg\": \"TRIGGER\", \"data\": \"0x1\"}\n      ],\n      \"rationale\": \"ascon_core.sv:81 的 start_ok 握手：busy 期间第二次 START 必须被拒绝（start_ok=0），防止重入破坏状态机和密钥调度。\"\n    },\n    {\n      \"name\": \"tag_gated_until_output_valid\",\n      \"signal\": \"u_dut.output_valid_q\",\n      \"rule\": \"access_control\",\n      \"trigger_regs\": [\n        {\"reg\": \"TRIGGER\", \"data\": \"0x1\"}\n      ],\n      \"rationale\": \"TAG/DIGEST 输出必须由 output_valid 门控：运算未完成时读出为 0 或被拒绝，防止部分摘要/中间标签泄露。\"\n    },\n    {\n      \"name\": \"busy_blocks_sensitive_writes\",\n      \"signal\": \"u_dut.busy_q\",\n      \"rule\": \"cfg_block_gating\",\n      \"trigger_regs\": [\n        {\"reg\": \"TRIGGER\", \"data\": \"0x1\"},\n        {\"reg\": \"KEY_0\", \"data\": \"0x0BADF00D\"}\n      ],\n      \"rationale\": \"busy（cfg_block=1）期间对 KEY/NONCE/MSG_DATA 的写必须被拒绝（core 副本不变），防止运行中篡改密钥/消息导致认证绕过。\"\n    },\n    {\n      \"name\": \"fsm_state_sparse_valid\",\n      \"signal\": \"u_dut.fsm_state_q\",\n      \"rule\": \"fsm_sparse_encoding\",\n      \"trigger_regs\": [\n        {\"reg\": \"TRIGGER\", \"data\": \"0x1\"}\n      ],\n      \"rationale\": \"FSM 采用 sparse 编码：运行中任意周期 sig_read 到的状态必须属于合法编码集合；非法编码表明故障注入，必须转入错误并告警。\"\n    },\n    {\n      \"name\": \"err_code_set_on_fsm_error\",\n      \"signal\": \"u_dut.err_code_q\",\n      \"rule\": \"err_code_coherent\",\n      \"trigger_regs\": [\n        {\"reg\": \"TRIGGER\", \"data\": \"0x1\"}\n      ],\n      \"rationale\": \"一旦 FSM 进入 ERROR/非法 sparse 态（可在运行中注入），ERR_CODE/STATUS.err 必须同拍或下一拍置位，保证错误可报告、可追溯。\"\n    },\n    {\n      \"name\": \"output_valid_intr_once_per_event\",\n      \"signal\": \"u_dut.intr_output_valid_q\",\n      \"rule\": \"interrupt_first_event\",\n      \"trigger_regs\": [\n        {\"reg\": \"TRIGGER\", \"data\": \"0x1\"},\n        {\"reg\": \"INTR_STATUS\", \"data\": \"0x1\"}\n      ],\n      \"rationale\": \"output_valid/error 中断只在首次事件置位；软件清 INTR_STATUS 后，无新事件时不得重复置位，防止中断风暴掩盖真实事件序列。\"\n    },\n    {\n      \"name\": \"tl_intg_err_raises_alert\",\n      \"signal\": \"u_reg_top.intg_err_q\",\n      \"rule\": \"bus_intg_check\",\n      \"trigger_regs\": [\n        {\"reg\": \"TRIGGER\", \"data\": \"0x2\"}\n      ],\n      \"rationale\": \"检查器在该写事务上注入 TL-UL a_intg 错误：intg_err 必须置位并触发 alert/fatal_bus_intg_error；总线完整性错误不得被静默吞掉。\"\n    },\n    {\n      \"name\": \"reseed_cnt_monotonic\",\n      \"signal\": \"u_dut.reseed_cnt_q\",\n      \"rule\": \"monotonic_counter\",\n      \"trigger_regs\": [\n        {\"reg\": \"TRIGGER\", \"data\": \"0x1\"},\n        {\"reg\": \"TRIGGER\", \"data\": \"0x1\"}\n      ],\n      \"rationale\": \"掩码/PRNG 重播种计数器只能随操作递增（仅 WIPE/复位可清）；回退意味着熵使用可预测或计数器被篡改。\"\n    },\n    {\n      \"name\": \"debug_lock_gates_scan_signals\",\n      \"signal\": \"u_dut.scanmode_i\",\n      \"rule\": \"debug_lock_enforce\",\n      \"trigger_regs\": [\n        {\"reg\": \"TRIGGER\", \"data\": \"0x1\"}\n      ],\n      \"rationale\": \"生命周期 debug-lock（LC DFT 关闭）下运行时，scanmode/scan_rst 及 DFT 数据通路必须被强制无效，防止经 scan/DFT 旁路读出 u_dut.state_q/u_dut.key_q。\"\n    }\n  ]\n}"
 }

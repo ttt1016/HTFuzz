@@ -3,6 +3,12 @@
  "findings": [
   {
    "signal": "u_dut.secret_key",
+   "rule": "read_only_leak",
+   "desc": "write-only 寄存器 u_dut.secret_key 读回非零值 ['0xdeadbeef', '0xdeadbeef', '0xdeadbeef']（信息泄露）",
+   "confidence": 85
+  },
+  {
+   "signal": "u_dut.secret_key",
    "rule": "wipe_clears",
    "desc": "擦除触发后 u_dut.secret_key 残留非零值 ['0xdeadbeef', '0xdeadbeef', '0xdeadbeef']",
    "confidence": 80

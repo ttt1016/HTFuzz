@@ -1536,3 +1536,38 @@ LLM prompt 列出 12 种通用不变量类型（来自安全规范标准），
 
 比赛方换注入手法？只要还是硬件安全 bug，
 就必须违反 7 大类中的至少一条 → O-K 就能检出。
+
+## 33. P65: O-K 规则扩展 3→12 种完成（2026-09-03）
+
+### 33.1 扩展的 12 种规则（来自硬件安全通用分类学）
+
+1. wipe_clears - 数据擦除后必须清零
+2. read_only_leak - write-only 寄存器读回必须全 0
+3. changes_across_runs - 随机性信号必须随熵变化
+4. reg_core_consistent - 同一数据副本必须一致
+5. access_control - 权限/锁/门控必须生效
+6. cfg_block_gating - cfg_block=1 时敏感写被拒绝
+7. fsm_sparse_encoding - FSM 状态必须是合法编码
+8. err_code_coherent - 错误必须被正确报告
+9. interrupt_first_event - 中断只在首次事件触发
+10. bus_intg_check - 总线完整性错误必须被检测
+11. monotonic_counter - 计数器只增不减
+12. debug_lock_enforce - debug-lock 后调试信号无效
+
+### 33.2 重新 gen 结果
+
+| 模块 | 不变量数 | 变化 |
+|------|---------|------|
+| hmac | 11 | 新增 read_only_leak/bus_intg_check/access_control/interrupt_first_event/err_code_coherent |
+| aes | 23 | 新增多种规则类型 |
+| ascon | 18 | 新增多种规则类型 |
+
+### 33.3 check 结果
+
+| 模块 | VIOLATION |
+|------|-----------|
+| hmac | 2（wipe_clears + read_only_leak）|
+| aes | 1（wipe_clears）|
+| ascon | 3（wipe_clears×2 + changes_across_runs）|
+
+read_only_leak 新规则成功检出 u_dut.secret_key 读回泄露——这是之前 3 种规则无法检出的。

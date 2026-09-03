@@ -330,30 +330,33 @@ def main():
                         inv = {"module": args.module, "invariants": arr}
                 except Exception:
                     pass
-        if inv is None:
-            # 兜底: 从 reasoning 文本提取不变量（wipe_clears/changes_across_runs/reg_core_consistent）
+            # 兜底: 从 LLM 分析文本提取不变量（匹配 12 种规则关键字 + 信号名）
             invariants = []
             seen_sig = set()
-            for m in re.finditer(r"(wipe_clears|changes_across_runs|reg_core_consistent)[:\s]*[^\n]*?`([\w.]+)`", content):
-                sig = m.group(2)
-                if sig in seen_sig:
-                    continue
-                seen_sig.add(sig)
+            all_rules = ["wipe_clears", "read_only_leak", "changes_across_runs",
+                         "reg_core_consistent", "access_control", "cfg_block_gating",
+                         "fsm_sparse_encoding", "err_code_coherent",
+                         "interrupt_first_event", "bus_intg_check",
+                         "monotonic_counter", "debug_lock_enforce"]
+            rule_pattern = "|".join(all_rules)
+            for m in re.finditer(r"(" + rule_pattern + r")", content):
                 rule = m.group(1)
-                trig = []
-                if rule == "wipe_clears":
-                    trig = [{"reg": "wipe_secret", "data": "0x1"}]
-                invariants_item = {"name": f"{sig}_{rule}", "signal": sig,
-                                    "rule": rule, "trigger_regs": trig,
-                                    "rationale": "LLM 提取（文本模式）"}
-                invariants_item and seen_sig.add(sig)
-                # 修正: append dict
-                findings_item = {"name": f"{sig}_{rule}", "signal": sig, "rule": rule, "trigger_regs": trig}
-                invariants_list = inv.get("invariants", []) if inv else []
-                invariants_list.append(invariants_item)
-                inv = {"module": args.module, "invariants": invariants_list}
-        if inv is None:
-            inv = {"module": args.module, "invariants": [], "raw": content[:3000]}
+                ctx = content[m.end():m.end()+500]
+                sigs = re.findall(r"(u_dut\.[\w.]+|u_hmac_core\.[\w.]+|u_aes_core\.[\w.]+|ascon_core\.[\w.]+)", ctx)
+                for sig in sigs:
+                    key = sig + "_" + rule
+                    if key not in seen_sig:
+                        seen_sig.add(key)
+                        trig = [{"reg": "wipe_secret", "data": "0x1"}] if rule == "wipe_clears" else []
+                        invariants.append({
+                            "name": sig + "_" + rule,
+                            "signal": sig, "rule": rule,
+                            "trigger_regs": trig,
+                            "rationale": "LLM 提取（文本模式）"
+                        })
+                        break
+            inv = {"module": args.module, "invariants": invariants, "raw": content}
+
         json.dump(inv, open(inv_path, "w"), indent=1, ensure_ascii=False)
         print(f"=== O-K 不变量提取: {args.module} → {len(inv.get('invariants', []))} 条 ===")
         for i in inv.get("invariants", []):
