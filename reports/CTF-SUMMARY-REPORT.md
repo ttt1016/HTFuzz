@@ -1801,3 +1801,10 @@ standalone verilator 编译需要特殊处理。
   OpenTitan 构建系统的类型提升或手写 shim package）
 - wrapper/harness 模板已就绪，解决依赖后即可构建
 - 建议: 下次会话用 OpenTitan Bazel 生成独立 DUT 或写 shim package
+
+### 39.5 otp_ctrl DUT 构建状态（2026-09-04，95% 完成）
+- 模型编译 ✓（libpf_otp_ctrl_ctf.so 由 mk 构建，Votp_ctrl_perip_tb.o + 全部 root 模块）
+- wrapper ✓（edn/lc/pwr/flash/sram/otbn 全部 tie-off 修正）
+- harness 模板 ✓（sed uart→otp，需编译 .o 并链入）
+- **剩余一步**: 编译 harness .o 并链入 .so（`g++ -shared -o libpf_otp_ctrl_ctf.so V*.o pf_otp_ctrl_ctf.o pf_otp_ctrl_harness.o verilated*.o -pthread`）
+- 依赖闭包已完成（otp_macro/otp_ctrl autogen/lc_ctrl/pwrmgr/edn/csrng/entropy_src/keymgr/prim 全套 48 个 .sv）

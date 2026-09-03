@@ -91,7 +91,7 @@ module otp_ctrl_perip_tb (
 
   lc_otp_program_req_t lc_prog_in;
   lc_otp_program_rsp_t lc_prog_out;
-  assign lc_prog_in.valid = 1'b0;
+  assign lc_prog_in.req = 1'b0;
 
   otp_ctrl_pkg::flash_otp_key_req_t flash_key_in;
   otp_ctrl_pkg::flash_otp_key_rsp_t flash_key_out;
@@ -121,11 +121,11 @@ module otp_ctrl_perip_tb (
     .lc_check_byp_en_i(lc_ctrl_pkg::Off),
     .otp_lc_data_o(),
     .otp_keymgr_key_o(),
-    .flash_otp_key_i('{req: 1'b0, sec_part: 1'b0, addr: 0}),
+    .flash_otp_key_i('{data_req: 1'b0, addr_req: 1'b0}),
     .flash_otp_key_o(flash_key_out),
-    .sram_otp_key_i('{default: '{req: 1'b0, addr: 0}}),
+    .sram_otp_key_i('{default: '{req: 1'b0}}),
     .sram_otp_key_o(sram_key_out),
-    .otbn_otp_key_i('{req: 1'b0, addr: 0}),
+    .otbn_otp_key_i('{req: 1'b0}),
     .otbn_otp_key_o(otbn_key_out)
   );
 
@@ -135,6 +135,6 @@ module otp_ctrl_perip_tb (
 
   // 防剪除
   logic unused_otp;
-  assign unused_otp = ^{intr_done, intr_err, pwr_otp_out.otp_init_done,
+  assign unused_otp = ^{intr_done, intr_err, pwr_otp_out.otp_done,
                         lc_prog_out, flash_key_out, sram_key_out, otbn_key_out};
 endmodule
