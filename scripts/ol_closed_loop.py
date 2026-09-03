@@ -12,7 +12,7 @@ O-L 闭环 fuzzing —— 覆盖率引导的寄存器序列变异（HitFuzz 思�
 """
 import json, os, re, sys, random, ctypes, glob
 
-PF = os.environ.get("PF_ROOT", "/workspace/pickerfuzz")
+PF = os.environ.get("PF_ROOT", "/workspace/HTFuzz")
 OT = os.environ.get("PF_TARGET_RTL", "/workspace/opentitan")
 
 

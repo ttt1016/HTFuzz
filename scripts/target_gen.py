@@ -161,7 +161,7 @@ def main():
     t3 = scan_params()
     print(f"T3 危险参数值: {len(t3)} 条")
     all_t = t1 + t2 + t3
-    out = "/workspace/pickerfuzz/fuzz/targets.json"
+    out = "/workspace/HTFuzz/fuzz/targets.json"
     json.dump({"targets": all_t}, open(out, "w"), indent=1, ensure_ascii=False)
     print(f"\n总靶点: {len(all_t)} → {out}")
     # 按策略统计

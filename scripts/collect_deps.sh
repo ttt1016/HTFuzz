@@ -2,7 +2,7 @@
 # 自动递归收集 per-IP RTL 依赖（迭代 grep 模块实例化直到无 MODMISSING）
 # 用法: collect_deps.sh <ip> <top_sv> ...
 IP=$1; shift
-PERIP=/workspace/pickerfuzz/perip/$IP
+PERIP=/workspace/HTFuzz/perip/$IP
 OT=${PF_TARGET_RTL:-/workspace/opentitan}  # 比赛提供的 RTL
 cd $OT
 for round in 1 2 3 4 5 6 7 8; do

@@ -21,7 +21,7 @@ LLM 深度审计器 —— 把 fuzzing 候选连同完整 RTL 上下文喂给大
 import json, os, re, sys, hashlib, glob
 
 OT = os.environ.get("PF_TARGET_RTL", "/workspace/opentitan")
-PF = os.environ.get("PF_ROOT", "/workspace/pickerfuzz")
+PF = os.environ.get("PF_ROOT", "/workspace/HTFuzz")
 CACHE_FILE = os.path.join(PF, "fuzz", "llm_deep_cache.json")
 
 # ---------------------------------------------------------------------------

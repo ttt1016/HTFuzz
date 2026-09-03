@@ -20,8 +20,8 @@ import hashlib
 import re
 from pathlib import Path
 
-KNOWN_SAFE_DB = Path("/workspace/pickerfuzz/fuzz/known_safe.json")
-LLM_CACHE = Path("/workspace/pickerfuzz/fuzz/llm_cache.json")
+KNOWN_SAFE_DB = Path("/workspace/HTFuzz/fuzz/known_safe.json")
+LLM_CACHE = Path("/workspace/HTFuzz/fuzz/llm_cache.json")
 
 # ---------------------------------------------------------------------------
 # 一级: 规则引擎——静态已知安全模式
@@ -202,7 +202,7 @@ def triage_alerts(alerts, use_llm=False, verbose=True):
 # ---------------------------------------------------------------------------
 
 def main():
-    findings = json.load(open("/workspace/pickerfuzz/fuzz/o4_findings.json"))
+    findings = json.load(open("/workspace/HTFuzz/fuzz/o4_findings.json"))
     print("=" * 60)
     print("M7 三级漏斗演示: O4 的 %d 个发现" % len(findings))
     print("=" * 60)

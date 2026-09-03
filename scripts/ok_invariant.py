@@ -12,7 +12,7 @@ check 需要: --dut-dir perip/hmac-ctf --regmap traces/hmac_regmap.json
 """
 import json, os, re, sys, ctypes
 
-PF = os.environ.get("PF_ROOT", "/workspace/pickerfuzz")
+PF = os.environ.get("PF_ROOT", "/workspace/HTFuzz")
 OT = os.environ.get("PF_TARGET_RTL", "/workspace/opentitan")
 INV_DIR = os.path.join(PF, "invariants")
 

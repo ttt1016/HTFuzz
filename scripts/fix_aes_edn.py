@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """修 aes-ctf wrapper: EDN auto-ack（AES PRNG 初始化需要 entropy）"""
-path = "/workspace/pickerfuzz/perip/aes-ctf/rtl_wrapper/aes_perip_tb.sv"
+path = "/workspace/HTFuzz/perip/aes-ctf/rtl_wrapper/aes_perip_tb.sv"
 src = open(path).read()
 old = """  edn_pkg::edn_rsp_t edn_i;
   assign edn_i = 0;"""

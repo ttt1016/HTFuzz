@@ -45,7 +45,7 @@ def main():
 
     # regmap 先读（DUT 会 chdir）
     regmap = None
-    for cand in [f"/workspace/pickerfuzz/traces/{module}_regmap.json"]:
+    for cand in [f"/workspace/HTFuzz/traces/{module}_regmap.json"]:
         if os.path.exists(cand):
             regmap = json.load(open(cand))
             break
@@ -148,7 +148,7 @@ def main():
         if k not in seen:
             seen.add(k)
             uniq.append(f)
-    out = f"/workspace/pickerfuzz/fuzz/discoverfuzz_{module}.json"
+    out = f"/workspace/HTFuzz/fuzz/discoverfuzz_{module}.json"
     json.dump({"module": module, "n_seqs": n_seqs, "findings": uniq}, open(out, "w"), indent=1, ensure_ascii=False)
     print(f"\n=== 结果: {len(findings)} 命中 → 去重 {len(uniq)} 条 → {out} ===")
     from collections import Counter

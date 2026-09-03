@@ -1,6 +1,6 @@
 import json, re
 
-rm = json.load(open("/workspace/pickerfuzz/traces/hmac_regmap.json"))
+rm = json.load(open("/workspace/HTFuzz/traces/hmac_regmap.json"))
 base = 0x41110000
 
 reg_by_off = {}
@@ -29,7 +29,7 @@ def decode_fields(reg, data):
     return ",".join(out) if out else "0"
 
 events = []
-with open("/workspace/pickerfuzz/traces/hmac_smoketest_tlul.log") as f:
+with open("/workspace/HTFuzz/traces/hmac_smoketest_tlul.log") as f:
     for line in f:
         m = re.match(r"\[TLUL\] (\d+) A op=(\d) addr=([0-9a-f]+) data=([0-9a-f]+)", line)
         if not m: continue

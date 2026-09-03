@@ -3,8 +3,8 @@
 import re
 import subprocess
 
-path = "/workspace/pickerfuzz/perip/hmac-ctf/harness/pf_hmac_harness.cpp"
-hdr = "/workspace/pickerfuzz/perip/hmac-ctf/obj_so/Vhmac_perip_tb___024root.h"
+path = "/workspace/HTFuzz/perip/hmac-ctf/harness/pf_hmac_harness.cpp"
+hdr = "/workspace/HTFuzz/perip/hmac-ctf/obj_so/Vhmac_perip_tb___024root.h"
 
 r = subprocess.run(["grep", "-oE", r"hmac_perip_tb__DOT__u_dut__DOT__[a-zA-Z_0-9]+", hdr],
                    capture_output=True, text=True)

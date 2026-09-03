@@ -16,7 +16,7 @@ LLM 主动安全审计 —— 不依赖 fuzzing 候选，直接对模块的安�
 import json, os, re, sys, glob, hashlib
 
 OT = os.environ.get("PF_TARGET_RTL", "/workspace/opentitan")
-PF = os.environ.get("PF_ROOT", "/workspace/pickerfuzz")
+PF = os.environ.get("PF_ROOT", "/workspace/HTFuzz")
 CACHE_FILE = os.path.join(PF, "fuzz", "llm_proactive_cache.json")
 
 # 高价值模块（安全机制密集）

@@ -9,7 +9,7 @@
 # ============================================================================
 set +e
 
-PF_DIR="/workspace/pickerfuzz"
+PF_DIR="/workspace/HTFuzz"
 OT_DIR="/workspace/opentitan-fresh"
 OUT_DIR="$PF_DIR/fuzz/out"
 LOG_DIR="$PF_DIR/fuzz/logs"

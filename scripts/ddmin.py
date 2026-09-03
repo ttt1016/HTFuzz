@@ -80,8 +80,8 @@ def make_replay_fn(lib, rm, check_fn):
 def main():
     import argparse
     ap = argparse.ArgumentParser()
-    ap.add_argument("--findings", default="/workspace/pickerfuzz/fuzz/mass/findings.jsonl")
-    ap.add_argument("--out", default="/workspace/pickerfuzz/fuzz/minimized.jsonl")
+    ap.add_argument("--findings", default="/workspace/HTFuzz/fuzz/mass/findings.jsonl")
+    ap.add_argument("--out", default="/workspace/HTFuzz/fuzz/minimized.jsonl")
     ap.add_argument("--demo", action="store_true", help="用合成违规序列演示")
     args = ap.parse_args()
 
@@ -110,7 +110,7 @@ def main():
         print("M8 ddmin 演示: 120-op 合成序列（触发条件: KEY 写 + WIPE）")
         print("=" * 60)
         import ctypes
-        lib = ctypes.CDLL("/workspace/pickerfuzz/perip/hmac/obj_so/liblibpf_hmac.so")
+        lib = ctypes.CDLL("/workspace/HTFuzz/perip/hmac/obj_so/liblibpf_hmac.so")
         lib.pf_init.argtypes = [ctypes.c_uint]
         lib.pf_write.argtypes = [ctypes.c_uint32, ctypes.c_uint32, ctypes.c_uint32]
         lib.pf_read.argtypes = [ctypes.c_uint32]

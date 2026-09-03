@@ -17,9 +17,9 @@ import time
 import hashlib
 from pathlib import Path
 
-LIB = "/workspace/pickerfuzz/perip/hmac/obj_so/liblibpf_hmac.so"
-REGMAP = "/workspace/pickerfuzz/traces/hmac_regmap.json"
-OUT_DIR = Path("/workspace/pickerfuzz/fuzz/mass")
+LIB = "/workspace/HTFuzz/perip/hmac/obj_so/liblibpf_hmac.so"
+REGMAP = "/workspace/HTFuzz/traces/hmac_regmap.json"
+OUT_DIR = Path("/workspace/HTFuzz/fuzz/mass")
 
 HMAC_BASE = 0x41110000
 OP_PUT_FULL, OP_PUT_PARTIAL, OP_GET, OP_WAIT_DONE = 0, 1, 4, 15
@@ -229,7 +229,7 @@ def main():
     ap.add_argument("--iters", type=int, default=100)
     ap.add_argument("--seed-base", type=int, default=1000)
     ap.add_argument("--quick", action="store_true")
-    ap.add_argument("--out", default="/workspace/pickerfuzz/fuzz/mass")
+    ap.add_argument("--out", default="/workspace/HTFuzz/fuzz/mass")
     args = ap.parse_args()
 
     outdir = Path(args.out)

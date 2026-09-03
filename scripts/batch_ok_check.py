@@ -2,7 +2,7 @@
 """全量 O-K 不变量检查: 有 invariants 且有 -ctf DUT 的模块"""
 import json, os, subprocess, re, sys
 
-PF = "/workspace/pickerfuzz"
+PF = "/workspace/HTFuzz"
 MODS = ["aes", "ascon", "hmac", "kmac", "rom_ctrl", "pattgen",
         "rv_timer", "sram_ctrl", "aon_timer", "clkmgr", "rstmgr", "alert_handler"]
 

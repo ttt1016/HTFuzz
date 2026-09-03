@@ -15,7 +15,7 @@ import ctypes
 import json
 import sys
 
-LIB = "/workspace/pickerfuzz/perip/hmac/obj_so/liblibpf_hmac.so"
+LIB = "/workspace/HTFuzz/perip/hmac/obj_so/liblibpf_hmac.so"
 
 # 特殊值表（计划书 M3: 从 pkg 自动提取；此处预置 hmac 相关）
 SPECIAL_VALUES = {6: "MuBi4True", 9: "MuBi4False", 5: "LC_On", 10: "LC_Off"}
@@ -162,7 +162,7 @@ def main():
     # 保存 JSON
     out = [{"mode": m, "signal": n, "value": "0x%08x" % v, "weight": w, "desc": d}
            for m, n, v, w, d in findings]
-    json.dump(out, open("/workspace/pickerfuzz/fuzz/o4_findings.json", "w"), indent=1)
+    json.dump(out, open("/workspace/HTFuzz/fuzz/o4_findings.json", "w"), indent=1)
     print("详情: fuzz/o4_findings.json")
 
 

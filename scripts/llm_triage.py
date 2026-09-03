@@ -21,7 +21,7 @@ LLM 分诊器 —— 把 fuzzing 候选喂给 LLM 做 RTL 语义确认
 import json, os, re, sys, hashlib
 
 OT = os.environ.get("PF_TARGET_RTL", "/workspace/opentitan")
-CACHE_FILE = "/workspace/pickerfuzz/fuzz/llm_cache.json"
+CACHE_FILE = "/workspace/HTFuzz/fuzz/llm_cache.json"
 
 # ---------------------------------------------------------------------------
 # RTL 上下文提取: 找到候选信号在 RTL 里的驱动赋值

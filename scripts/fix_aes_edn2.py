@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """修 edn_rsp_t 字段（只有 edn_ack/edn_fips/edn_bus）"""
-path = "/workspace/pickerfuzz/perip/aes-ctf/rtl_wrapper/aes_perip_tb.sv"
+path = "/workspace/HTFuzz/perip/aes-ctf/rtl_wrapper/aes_perip_tb.sv"
 src = open(path).read()
 old = """    edn_i.csrng_req_ready = 1'b1;
     edn_i.csrng_rsp_ack   = 1'b1;

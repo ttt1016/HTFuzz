@@ -27,7 +27,7 @@ Profile 格式（JSON）:
       ...
     }
   },
-  "regmap_dir": "/workspace/pickerfuzz/traces",
+  "regmap_dir": "/workspace/HTFuzz/traces",
   "bus": "tlul"                   // 或 "apb"/"axi" — 影响 intg 计算方式
 }
 

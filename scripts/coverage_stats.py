@@ -15,7 +15,7 @@ import sys
 from pathlib import Path
 
 HMAC_BASE = 0x41110000
-LOG_DIR = Path("/workspace/pickerfuzz/fuzz/logs")
+LOG_DIR = Path("/workspace/HTFuzz/fuzz/logs")
 RUNFILES_ROOT = Path("/root/.cache/bazel/_bazel_root/03a1af92d3fbbb38fde0b168dde284dc/execroot/_main/bazel-out")
 
 
@@ -31,7 +31,7 @@ def find_traces():
 
 
 def load_regmap():
-    return json.load(open("/workspace/pickerfuzz/traces/hmac_regmap.json"))
+    return json.load(open("/workspace/HTFuzz/traces/hmac_regmap.json"))
 
 
 def build_field_map(regmap):
@@ -160,7 +160,7 @@ def analyze():
         "oob": [{"run": n, "addr": "0x%08x" % a} for n, a in oob_hits],
         "oracles": oracle_hits,
     }
-    outp = Path("/workspace/pickerfuzz/fuzz/coverage.json")
+    outp = Path("/workspace/HTFuzz/fuzz/coverage.json")
     outp.write_text(json.dumps(out, indent=1))
     print("详细数据: %s" % outp)
 

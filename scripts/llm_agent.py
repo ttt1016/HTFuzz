@@ -19,7 +19,7 @@ LLM 作为策略层，工具 API 作为 action space：
 """
 import json, os, re, sys, ctypes, glob
 
-PF = os.environ.get("PF_ROOT", "/workspace/pickerfuzz")
+PF = os.environ.get("PF_ROOT", "/workspace/HTFuzz")
 OT = os.environ.get("PF_TARGET_RTL", "/workspace/opentitan")
 
 

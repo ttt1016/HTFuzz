@@ -13,7 +13,7 @@ HTFuzz M10: 报告生成器（CWE 映射 + 安全影响分析）
 import json
 from pathlib import Path
 
-REPORT_DIR = Path("/workspace/pickerfuzz/reports_new/bugs")
+REPORT_DIR = Path("/workspace/HTFuzz/reports_new/bugs")
 
 # 硬件 CWE 映射表（计划书 M10 预置）
 CWE_MAP = {
@@ -128,7 +128,7 @@ def gen_bug_report(finding, minimized_seq=None, idx=1):
 def main():
     import argparse
     ap = argparse.ArgumentParser()
-    ap.add_argument("--findings", default="/workspace/pickerfuzz/fuzz/mass/findings.jsonl")
+    ap.add_argument("--findings", default="/workspace/HTFuzz/fuzz/mass/findings.jsonl")
     ap.add_argument("--demo", action="store_true")
     args = ap.parse_args()
 

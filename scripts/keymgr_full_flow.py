@@ -13,7 +13,7 @@ keymgr 完整 key derivation 流程 fuzzing —— 走完 6 个操作状态后�
 """
 import json, os, re, sys, ctypes
 
-PF = os.environ.get("PF_ROOT", "/workspace/pickerfuzz")
+PF = os.environ.get("PF_ROOT", "/workspace/HTFuzz")
 OT = os.environ.get("PF_TARGET_RTL", "/workspace/opentitan")
 
 # 寄存器偏移（从 reg_pkg.sv 提取）

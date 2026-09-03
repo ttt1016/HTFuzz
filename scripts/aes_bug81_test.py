@@ -2,7 +2,7 @@
 """AES-ctf Bug#81 精确检测: KEY_SHARE0 写后读回（q 直通）"""
 import ctypes
 
-lib = ctypes.CDLL("/workspace/pickerfuzz/perip/aes-ctf/obj_so/liblibpf_aes_ctf.so")
+lib = ctypes.CDLL("/workspace/HTFuzz/perip/aes-ctf/obj_so/liblibpf_aes_ctf.so")
 lib.pf_init.argtypes = [ctypes.c_uint]
 lib.pf_write.argtypes = [ctypes.c_uint32, ctypes.c_uint32, ctypes.c_uint32]
 lib.pf_write.restype = ctypes.c_int

@@ -2,7 +2,7 @@
 """全量检出扫描: per-IP DUT × O-A~G oracle 盲测引擎"""
 import json, os, re, subprocess, sys, time
 
-PF = "/workspace/pickerfuzz"
+PF = "/workspace/HTFuzz"
 DUTS = ["aes", "ascon", "hmac", "kmac", "keymgr", "lc-ctf", "rom_ctrl",
         "ibex", "uart", "prim", "pattgen", "rv_timer", "spi_host",
         "sram_ctrl", "aon_timer", "clkmgr", "csrng", "entropy_src",

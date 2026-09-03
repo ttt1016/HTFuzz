@@ -411,9 +411,9 @@ def gen_c(mtype, mut_id, txns, seed_name="hmac_smoketest", with_o2=False):
 def main():
     import argparse
     ap = argparse.ArgumentParser(description="HTFuzz mutation engine")
-    ap.add_argument("--regmap", default="/workspace/pickerfuzz/traces/hmac_regmap.json")
-    ap.add_argument("--seed", default="/workspace/pickerfuzz/traces/hmac_smoketest_tlul.log")
-    ap.add_argument("--out", default="/workspace/pickerfuzz/fuzz/out")
+    ap.add_argument("--regmap", default="/workspace/HTFuzz/traces/hmac_regmap.json")
+    ap.add_argument("--seed", default="/workspace/HTFuzz/traces/hmac_smoketest_tlul.log")
+    ap.add_argument("--out", default="/workspace/HTFuzz/fuzz/out")
     ap.add_argument("--mutations", default="bitflip,illegal,boundary,window,fsm,meta")
     ap.add_argument("--seed-num", type=int, default=1, help="random seed")
     args = ap.parse_args()

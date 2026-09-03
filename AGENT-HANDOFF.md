@@ -7,8 +7,8 @@
 
 ## 项目位置
 
-- 工具根目录: `/Users/fantasy/Desktop/home/workspace/pickerfuzz`（宿主机）
-- 容器内路径: `/workspace/pickerfuzz`（Docker 容器 `opentitan-env-fwt`）
+- 工具根目录: `/Users/fantasy/Desktop/home/workspace/HTFuzz`（宿主机；**2026-09-03 起由 `pickerfuzz` 更名，会话工作目录请用新路径**）
+- 容器内路径: `/workspace/HTFuzz`（Docker 容器 `opentitan-env-fwt`，挂载 `~/Desktop/home/workspace` → `/workspace`）
 - 比赛 RTL: `/workspace/opentitan`（容器内，含注入 bug，**禁止 diff/修改**）
 - 干净 RTL: `/workspace/opentitan-fresh`（仅开发验证用，**比赛工具链不可包含**）
 - GitHub: https://github.com/ttt1016/HTFuzz.git
@@ -25,7 +25,7 @@ export PATH=/tools/verilator/v5.050/bin:$PATH
 # LLM 配置（自建 vLLM 服务，无鉴权）
 export PF_LLM_BASE=http://host.docker.internal:18000/v1
 export PF_LLM_MODEL=zai-org/GLM-5.3-Flash
-export PF_ROOT=/workspace/pickerfuzz
+export PF_ROOT=/workspace/HTFuzz
 export PF_TARGET_RTL=/workspace/opentitan
 ```
 

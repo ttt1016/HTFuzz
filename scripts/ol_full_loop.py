@@ -14,7 +14,7 @@ O-L 闭环 fuzzing v2 —— 覆盖率引导 + O-K 不变量判定 + pairwise �
 """
 import json, os, re, sys, random, glob, itertools
 
-PF = os.environ.get("PF_ROOT", "/workspace/pickerfuzz")
+PF = os.environ.get("PF_ROOT", "/workspace/HTFuzz")
 OT = os.environ.get("PF_TARGET_RTL", "/workspace/opentitan")
 
 

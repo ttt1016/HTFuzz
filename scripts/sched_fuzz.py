@@ -17,10 +17,10 @@ import sys
 import time
 from pathlib import Path
 
-LIB = "/workspace/pickerfuzz/perip/hmac/obj_so/liblibpf_hmac.so"
-REGMAP = "/workspace/pickerfuzz/traces/hmac_regmap.json"
-SEED_TRACE = "/workspace/pickerfuzz/traces/hmac_smoketest_tlul.log"
-OUT_DIR = Path("/workspace/pickerfuzz/fuzz/sched")
+LIB = "/workspace/HTFuzz/perip/hmac/obj_so/liblibpf_hmac.so"
+REGMAP = "/workspace/HTFuzz/traces/hmac_regmap.json"
+SEED_TRACE = "/workspace/HTFuzz/traces/hmac_smoketest_tlul.log"
+OUT_DIR = Path("/workspace/HTFuzz/fuzz/sched")
 
 HMAC_BASE = 0x41110000
 
@@ -216,7 +216,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--iters", type=int, default=20000)
     ap.add_argument("--seed-base", type=int, default=31000)
-    ap.add_argument("--out", default="/workspace/pickerfuzz/fuzz/sched")
+    ap.add_argument("--out", default="/workspace/HTFuzz/fuzz/sched")
     args = ap.parse_args()
 
     outdir = Path(args.out)

@@ -641,8 +641,8 @@ def main():
     cands = []
     if regmap_path:
         cands.append(regmap_path)
-    cands += [f"/workspace/pickerfuzz/traces/{module}_regmap.json",
-              f"/workspace/pickerfuzz/traces/regmap_{module}.json"]
+    cands += [f"/workspace/HTFuzz/traces/{module}_regmap.json",
+              f"/workspace/HTFuzz/traces/regmap_{module}.json"]
     for cand in cands:
         if cand and os.path.exists(cand):
             regmap = json.load(open(cand))
@@ -708,7 +708,7 @@ def main():
     print("[O-G] 脉冲宽度 oracle...")
     oracle_pulse(dut, norm, findings, cfg)
     print("  → %d 条" % sum(1 for f in findings if f["oracle"]=="O-G-pulse"))
-    out = f"/workspace/pickerfuzz/fuzz/discover_{module}.json"
+    out = f"/workspace/HTFuzz/fuzz/discover_{module}.json"
     json.dump({"module": module, "findings": findings}, open(out, "w"), indent=1, ensure_ascii=False)
     print(f"\n=== 结果: {len(findings)} 条候选 → {out} ===")
     for f in findings[:10]:

@@ -17,8 +17,8 @@ import json
 import sys
 from pathlib import Path
 
-LIB = "/workspace/pickerfuzz/perip/hmac/obj_so/liblibpf_hmac.so"
-REGMAP = "/workspace/pickerfuzz/traces/hmac_regmap.json"
+LIB = "/workspace/HTFuzz/perip/hmac/obj_so/liblibpf_hmac.so"
+REGMAP = "/workspace/HTFuzz/traces/hmac_regmap.json"
 
 HMAC_BASE = 0x41110000
 
