@@ -1,0 +1,12 @@
+{
+ "module": "lc",
+ "findings": [
+  {
+   "oracle": "O-J-errprop",
+   "signal": "u_dut.u_lc_ctrl_fsm.state_invalid_error,u_dut.token_invalid_error_q,u_dut.fatal_state_error_q",
+   "value": "tried=1",
+   "confidence": "HIGH",
+   "desc": "全部 1 类错误触发均未引起任何 alert/err 信号置位 → 错误传播链断裂"
+  }
+ ]
+}

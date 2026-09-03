@@ -1,0 +1,177 @@
+[
+ {
+  "kind": "reg",
+  "name": "alert_test",
+  "offset": 0
+ },
+ {
+  "kind": "reg",
+  "name": "status",
+  "offset": 4
+ },
+ {
+  "kind": "reg",
+  "name": "claim_transition_if_regwen",
+  "offset": 8
+ },
+ {
+  "kind": "reg",
+  "name": "claim_transition_if",
+  "offset": 12
+ },
+ {
+  "kind": "reg",
+  "name": "transition_regwen",
+  "offset": 16
+ },
+ {
+  "kind": "reg",
+  "name": "transition_cmd",
+  "offset": 20
+ },
+ {
+  "kind": "reg",
+  "name": "transition_ctrl",
+  "offset": 24
+ },
+ {
+  "kind": "reg",
+  "name": "transition_token_0",
+  "offset": 28
+ },
+ {
+  "kind": "reg",
+  "name": "transition_token_1",
+  "offset": 32
+ },
+ {
+  "kind": "reg",
+  "name": "transition_token_2",
+  "offset": 36
+ },
+ {
+  "kind": "reg",
+  "name": "transition_token_3",
+  "offset": 40
+ },
+ {
+  "kind": "reg",
+  "name": "transition_target",
+  "offset": 44
+ },
+ {
+  "kind": "reg",
+  "name": "otp_vendor_test_ctrl",
+  "offset": 48
+ },
+ {
+  "kind": "reg",
+  "name": "otp_vendor_test_status",
+  "offset": 52
+ },
+ {
+  "kind": "reg",
+  "name": "lc_state",
+  "offset": 56
+ },
+ {
+  "kind": "reg",
+  "name": "lc_transition_cnt",
+  "offset": 60
+ },
+ {
+  "kind": "reg",
+  "name": "lc_id_state",
+  "offset": 64
+ },
+ {
+  "kind": "reg",
+  "name": "hw_revision0",
+  "offset": 68
+ },
+ {
+  "kind": "reg",
+  "name": "hw_revision1",
+  "offset": 72
+ },
+ {
+  "kind": "reg",
+  "name": "device_id_0",
+  "offset": 76
+ },
+ {
+  "kind": "reg",
+  "name": "device_id_1",
+  "offset": 80
+ },
+ {
+  "kind": "reg",
+  "name": "device_id_2",
+  "offset": 84
+ },
+ {
+  "kind": "reg",
+  "name": "device_id_3",
+  "offset": 88
+ },
+ {
+  "kind": "reg",
+  "name": "device_id_4",
+  "offset": 92
+ },
+ {
+  "kind": "reg",
+  "name": "device_id_5",
+  "offset": 96
+ },
+ {
+  "kind": "reg",
+  "name": "device_id_6",
+  "offset": 100
+ },
+ {
+  "kind": "reg",
+  "name": "device_id_7",
+  "offset": 104
+ },
+ {
+  "kind": "reg",
+  "name": "manuf_state_0",
+  "offset": 108
+ },
+ {
+  "kind": "reg",
+  "name": "manuf_state_1",
+  "offset": 112
+ },
+ {
+  "kind": "reg",
+  "name": "manuf_state_2",
+  "offset": 116
+ },
+ {
+  "kind": "reg",
+  "name": "manuf_state_3",
+  "offset": 120
+ },
+ {
+  "kind": "reg",
+  "name": "manuf_state_4",
+  "offset": 124
+ },
+ {
+  "kind": "reg",
+  "name": "manuf_state_5",
+  "offset": 128
+ },
+ {
+  "kind": "reg",
+  "name": "manuf_state_6",
+  "offset": 132
+ },
+ {
+  "kind": "reg",
+  "name": "manuf_state_7",
+  "offset": 136
+ }
+]

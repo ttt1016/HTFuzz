@@ -1,0 +1,82 @@
+[
+ {
+  "kind": "reg",
+  "name": "tpm_cfg",
+  "offset": 0
+ },
+ {
+  "kind": "reg",
+  "name": "tpm_access_lo",
+  "offset": 4
+ },
+ {
+  "kind": "reg",
+  "name": "tpm_access_hi",
+  "offset": 8
+ },
+ {
+  "kind": "reg",
+  "name": "tpm_int_enable",
+  "offset": 12
+ },
+ {
+  "kind": "reg",
+  "name": "tpm_int_vector",
+  "offset": 16
+ },
+ {
+  "kind": "reg",
+  "name": "tpm_int_status",
+  "offset": 20
+ },
+ {
+  "kind": "reg",
+  "name": "tpm_intf_capability",
+  "offset": 24
+ },
+ {
+  "kind": "reg",
+  "name": "tpm_sts",
+  "offset": 28
+ },
+ {
+  "kind": "reg",
+  "name": "tpm_did_vid",
+  "offset": 32
+ },
+ {
+  "kind": "reg",
+  "name": "tpm_rid",
+  "offset": 36
+ },
+ {
+  "kind": "reg",
+  "name": "tpm_tx",
+  "offset": 40
+ },
+ {
+  "kind": "reg",
+  "name": "tpm_xfer",
+  "offset": 44
+ },
+ {
+  "kind": "reg",
+  "name": "tpm_wdata",
+  "offset": 48
+ },
+ {
+  "kind": "reg",
+  "name": "tpm_rx",
+  "offset": 52
+ },
+ {
+  "kind": "reg",
+  "name": "tpm_upcmd",
+  "offset": 56
+ },
+ {
+  "kind": "reg",
+  "name": "tpm_status",
+  "offset": 60
+ }
+]

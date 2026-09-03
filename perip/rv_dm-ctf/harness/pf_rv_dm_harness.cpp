@@ -289,6 +289,15 @@ int pf_dmi_write(uint32_t addr, uint32_t data) {
     return (int)(r & 0x3);
 }
 
+// 引擎标准 CSR 接口: 字节地址 → DMI 字地址（dm CSRs 每 32bit 一字）
+int pf_write(uint32_t addr, uint32_t data, uint32_t mask = 0xF) {
+    int r = pf_dmi_write((addr >> 2) & 0x7F, data);
+    return r ? -1 : 0;
+}
+uint32_t pf_read(uint32_t addr) {
+    return pf_dmi_read((addr >> 2) & 0x7F);
+}
+
 uint32_t pf_read_idcode(void) {
     jtag_tlr();
     g_cur_ir = -1;                   // TLR 会重置 DMI 访问，标记需重新发 IR

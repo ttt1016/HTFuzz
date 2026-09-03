@@ -1,0 +1,157 @@
+[
+ {
+  "kind": "reg",
+  "name": "data0",
+  "offset": 16
+ },
+ {
+  "kind": "reg",
+  "name": "data1",
+  "offset": 20
+ },
+ {
+  "kind": "reg",
+  "name": "data2",
+  "offset": 24
+ },
+ {
+  "kind": "reg",
+  "name": "data3",
+  "offset": 28
+ },
+ {
+  "kind": "reg",
+  "name": "data4",
+  "offset": 32
+ },
+ {
+  "kind": "reg",
+  "name": "data5",
+  "offset": 36
+ },
+ {
+  "kind": "reg",
+  "name": "data6",
+  "offset": 40
+ },
+ {
+  "kind": "reg",
+  "name": "data7",
+  "offset": 44
+ },
+ {
+  "kind": "reg",
+  "name": "data8",
+  "offset": 48
+ },
+ {
+  "kind": "reg",
+  "name": "data9",
+  "offset": 52
+ },
+ {
+  "kind": "reg",
+  "name": "data10",
+  "offset": 56
+ },
+ {
+  "kind": "reg",
+  "name": "data11",
+  "offset": 60
+ },
+ {
+  "kind": "reg",
+  "name": "dmcontrol",
+  "offset": 64
+ },
+ {
+  "kind": "reg",
+  "name": "dmstatus",
+  "offset": 68
+ },
+ {
+  "kind": "reg",
+  "name": "hartinfo",
+  "offset": 72
+ },
+ {
+  "kind": "reg",
+  "name": "haltsum1",
+  "offset": 76
+ },
+ {
+  "kind": "reg",
+  "name": "hawsel",
+  "offset": 80
+ },
+ {
+  "kind": "reg",
+  "name": "haltsum2",
+  "offset": 84
+ },
+ {
+  "kind": "reg",
+  "name": "abstractcs",
+  "offset": 88
+ },
+ {
+  "kind": "reg",
+  "name": "command",
+  "offset": 92
+ },
+ {
+  "kind": "reg",
+  "name": "abstractauto",
+  "offset": 96
+ },
+ {
+  "kind": "reg",
+  "name": "confstrptr0",
+  "offset": 100
+ },
+ {
+  "kind": "reg",
+  "name": "confstrptr1",
+  "offset": 104
+ },
+ {
+  "kind": "reg",
+  "name": "confstrptr2",
+  "offset": 108
+ },
+ {
+  "kind": "reg",
+  "name": "confstrptr3",
+  "offset": 112
+ },
+ {
+  "kind": "reg",
+  "name": "nextdm",
+  "offset": 116
+ },
+ {
+  "kind": "reg",
+  "name": "sbcs",
+  "offset": 224
+ },
+ {
+  "kind": "reg",
+  "name": "sbaddress0",
+  "offset": 228
+ },
+ {
+  "kind": "reg",
+  "name": "sbaddress1",
+  "offset": 232
+ },
+ {
+  "kind": "reg",
+  "name": "sbdata0",
+  "offset": 240
+ },
+ {
+  "kind": "reg",
+  "name": "haltsum0",
+  "offset": 256
+ }
+]

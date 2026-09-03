@@ -3,14 +3,15 @@
 import json, os, re, subprocess, sys, time
 
 PF = "/workspace/HTFuzz"
-DUTS = ["aes", "ascon", "hmac", "kmac", "keymgr", "lc-ctf", "rom_ctrl",
+DUTS = ["aes", "ascon", "hmac", "kmac", "keymgr", "lc", "rom_ctrl",
         "ibex", "uart", "prim", "pattgen", "rv_timer", "spi_host",
         "sram_ctrl", "aon_timer", "clkmgr", "csrng", "entropy_src",
-        "alert_handler", "pwrmgr", "rstmgr", "rv_dm"]
+        "alert_handler", "pwrmgr", "rstmgr", "rv_dm",
+        "gpio", "adc_ctrl", "tlul", "otp_ctrl", "spi_tpm"]
 
 results = {}
 for d in DUTS:
-    module = "lc_ctrl" if d == "lc-ctf" else d
+    module = "lc_ctrl" if d == "lc" else d
     dut_dir = f"{PF}/perip/{d}-ctf"
     if not os.path.isdir(dut_dir) or not os.path.isdir(f"{dut_dir}/obj_so"):
         print(f"[{module}] SKIP (no obj_so)", flush=True)

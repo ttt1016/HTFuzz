@@ -114,6 +114,19 @@
   ],
   "err_head": ""
  },
+ "lc": {
+  "elapsed_s": 0.1,
+  "rc": 0,
+  "raw": 1,
+  "findings": [
+   {
+    "oracle": "O-J-errprop",
+    "signal": "u_dut.u_lc_ctrl_fsm.state_invalid_error,u_dut.token_invalid_error_q,u_dut.fatal_state_error_q",
+    "desc": "全部 1 类错误触发均未引起任何 alert/err 信号置位 → 错误传播链断裂"
+   }
+  ],
+  "err_head": ""
+ },
  "rom_ctrl": {
   "elapsed_s": 0.1,
   "rc": 0,
@@ -256,9 +269,43 @@
  },
  "rv_dm": {
   "elapsed_s": 0.1,
-  "rc": 1,
+  "rc": 0,
+  "raw": 1,
+  "findings": [
+   {
+    "oracle": "O-J-errprop",
+    "signal": "u_dm.cmderr_q,u_dm.sberror,u_jtag.error_q",
+    "desc": "全部 3 类错误触发均未引起任何 alert/err 信号置位 → 错误传播链断裂"
+   }
+  ],
+  "err_head": ""
+ },
+ "gpio": {
+  "elapsed_s": 0.1,
+  "rc": 0,
   "raw": 0,
   "findings": [],
-  "err_head": "Traceback (most recent call last):\n  File \"/workspace/HTFuzz/scripts/discover_engine.py\", line 1064, in <module>\n    main()\n  File \"/workspace/HTFuzz/scripts/discover_engine.py\", line 998, in main\n   "
+  "err_head": "regmap: /workspace/HTFuzz/traces/gpio_regmap.json\n=== 发现引擎: gpio ===\n白盒信号 0 个, 寄存器 17 个\n敏感: 0  控制: 0  其他: 0\n\n[O-A] 残留 oracle...\n  → 0 条\n[O-B] 确定性 oracle...\n  → 0 条\n[O-C] 等价类 oracle...\n  → 0 条\n[O-D] FS"
+ },
+ "adc_ctrl": {
+  "elapsed_s": 0.1,
+  "rc": 0,
+  "raw": 0,
+  "findings": [],
+  "err_head": "=== 发现引擎: adc_ctrl ===\n白盒信号 0 个, 寄存器 0 个\n敏感: 0  控制: 0  其他: 0\n\n[O-A] 残留 oracle...\n  → 0 条\n[O-B] 确定性 oracle...\n  → 0 条\n[O-C] 等价类 oracle...\n  → 0 条\n[O-D] FSM 探索 oracle...\n  → 0 条\n[O-E] FIFO 压力 oracle...\n"
+ },
+ "tlul": {
+  "elapsed_s": 0.1,
+  "rc": 0,
+  "raw": 0,
+  "findings": [],
+  "err_head": "=== 发现引擎: tlul ===\n白盒信号 0 个, 寄存器 0 个\n敏感: 0  控制: 0  其他: 0\n\n[O-A] 残留 oracle...\n  → 0 条\n[O-B] 确定性 oracle...\n  → 0 条\n[O-C] 等价类 oracle...\n  → 0 条\n[O-D] FSM 探索 oracle...\n  → 0 条\n[O-E] FIFO 压力 oracle...\n  → "
+ },
+ "otp_ctrl": {
+  "elapsed_s": 0.1,
+  "rc": 0,
+  "raw": 0,
+  "findings": [],
+  "err_head": "regmap: /workspace/HTFuzz/traces/otp_ctrl_regmap.json\n=== 发现引擎: otp_ctrl ===\n白盒信号 0 个, 寄存器 57 个\n敏感: 0  控制: 0  其他: 0\n\n[O-A] 残留 oracle...\n  → 0 条\n[O-B] 确定性 oracle...\n  → 0 条\n[O-C] 等价类 oracle...\n  → 0 条\n"
  }
 }
