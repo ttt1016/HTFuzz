@@ -1,23 +1,48 @@
 {
  "aes": {
-  "elapsed_s": 0.3,
+  "elapsed_s": 0.2,
   "rc": 0,
-  "raw": 10,
+  "raw": 31,
   "findings": [
    {
-    "oracle": "A-residual",
+    "oracle": "O-A-residual",
     "signal": "u_dut.key_init",
     "desc": "敏感信号 u_dut.key_init[0] 在清除/操作序列后残留写入标记值"
    },
    {
-    "oracle": "B-determinism",
+    "oracle": "O-B-determinism",
     "signal": "u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.prng_key",
-    "desc": "掩码/熵信号 u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking"
+    "desc": "掩码/熵信号 u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.prng_key 两次独立执行逐位相同 → 无随机性（静态掩码/PRNG 不动）"
    },
    {
-    "oracle": "B-determinism",
+    "oracle": "O-B-determinism",
     "signal": "u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.u_prim_bivium.state_q",
-    "desc": "掩码/熵信号 u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking"
+    "desc": "掩码/熵信号 u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.u_prim_bivium.state_q 两次独立执行逐位相同 → 无随机性（静态掩码/PRNG 不动）"
+   },
+   {
+    "oracle": "O-C-equivclass",
+    "signal": "u_dut.data_out_q",
+    "desc": "语义等价序列产生不同控制状态 → 可能存在中间读副作用/相位错误"
+   },
+   {
+    "oracle": "O-C-equivclass",
+    "signal": "u_dut.u_aes_core.u_aes_control.gen_fsm__BRA__1__KET__.gen_fsm_p.u_aes_control_fsm_i.u_aes_control_fsm.u_state_regs.state_raw",
+    "desc": "语义等价序列产生不同控制状态 → 可能存在中间读副作用/相位错误"
+   },
+   {
+    "oracle": "O-C-equivclass",
+    "signal": "u_dut.u_aes_core.u_aes_control.gen_fsm__BRA__0__KET__.gen_fsm_p.u_aes_control_fsm_i.u_aes_control_fsm.u_state_regs.state_raw",
+    "desc": "语义等价序列产生不同控制状态 → 可能存在中间读副作用/相位错误"
+   },
+   {
+    "oracle": "O-C-equivclass",
+    "signal": "u_dut.u_aes_core.u_aes_control.gen_fsm__BRA__2__KET__.gen_fsm_n.u_aes_control_fsm_i.u_aes_control_fsm.u_state_regs.state_raw",
+    "desc": "语义等价序列产生不同控制状态 → 可能存在中间读副作用/相位错误"
+   },
+   {
+    "oracle": "O-J-errprop",
+    "signal": "u_dut.u_aes_core.u_aes_ctr.gen_fsm__BRA__1__KET__.gen_fsm_p.u_aes_ctr_fsm_i.u_aes_ctr_fsm.alert_counter_q,u_dut.u_aes_core.u_aes_ctr.gen_fsm__BRA__0__KET__.gen_fsm_p.u_aes_ctr_fsm_i.u_aes_ctr_fsm.alert_counter_q,u_dut.u_aes_core.u_aes_ctr.gen_fsm__BRA__2__KET__.gen_fsm_n.u_aes_ctr_fsm_i.u_aes_ctr_fsm.alert_counter_q",
+    "desc": "全部 4 类错误触发均未引起任何 alert/err 信号置位 → 错误传播链断裂"
    }
   ],
   "err_head": ""
@@ -25,15 +50,15 @@
  "ascon": {
   "elapsed_s": 0.1,
   "rc": 0,
-  "raw": 10,
+  "raw": 12,
   "findings": [
    {
-    "oracle": "A-residual",
+    "oracle": "O-A-residual",
     "signal": "ascon_core.key_share0_in_q",
     "desc": "敏感信号 ascon_core.key_share0_in_q[0] 在清除/操作序列后残留写入标记值"
    },
    {
-    "oracle": "A-residual",
+    "oracle": "O-A-residual",
     "signal": "ascon_core.key_share1_in_q",
     "desc": "敏感信号 ascon_core.key_share1_in_q[0] 在清除/操作序列后残留写入标记值"
    }
@@ -43,17 +68,32 @@
  "hmac": {
   "elapsed_s": 0.1,
   "rc": 0,
-  "raw": 10,
+  "raw": 17,
   "findings": [
    {
-    "oracle": "A-residual",
+    "oracle": "O-A-residual",
     "signal": "u_dut.secret_key",
     "desc": "敏感信号 u_dut.secret_key[28] 在清除/操作序列后残留写入标记值"
    },
    {
-    "oracle": "A-residual",
+    "oracle": "O-A-residual",
     "signal": "u_dut.secret_key_d",
     "desc": "敏感信号 u_dut.secret_key_d[28] 在清除/操作序列后残留写入标记值"
+   },
+   {
+    "oracle": "O-D-fsm",
+    "signal": "u_dut.done_state_q",
+    "desc": "FSM 信号 u_dut.done_state_q 在边界输入后 100 拍保持 0x2 不变，且该稳态在正常操作中未出现 → 疑似卡死/无超时恢复"
+   },
+   {
+    "oracle": "O-J-errprop",
+    "signal": "u_dut.u_reg.reg_error,u_dut.u_reg.intg_err,u_dut.u_reg.u_err_code.q",
+    "desc": "错误传播不完整: 静默触发 ['T1-invalid-cfg', 'T3-locked-write', 'T4-shadow-conflict']（1 类已传播）→ 疑似部分错误路径被吞没"
+   },
+   {
+    "oracle": "O-L-kat",
+    "signal": "hmac.SHA-512",
+    "desc": "SHA-512 标准向量运算未完成，且 hmac_err 置位但 ERR_CODE=0（错误无成因）"
    }
   ],
   "err_head": ""
@@ -64,12 +104,12 @@
   "raw": 3,
   "findings": [
    {
-    "oracle": "B-determinism",
+    "oracle": "O-B-determinism",
     "signal": "u_dut.msg_data_masked",
     "desc": "掩码/熵信号 u_dut.msg_data_masked 两次独立执行逐位相同 → 无随机性（静态掩码/PRNG 不动）"
    },
    {
-    "oracle": "J-errprop",
+    "oracle": "O-J-errprop",
     "signal": "u_dut.err_processed",
     "desc": "全部 4 类错误触发均未引起任何 alert/err 信号置位 → 错误传播链断裂"
    }
@@ -82,7 +122,7 @@
   "raw": 1,
   "findings": [
    {
-    "oracle": "J-errprop",
+    "oracle": "O-J-errprop",
     "signal": "d_error",
     "desc": "全部 1 类错误触发均未引起任何 alert/err 信号置位 → 错误传播链断裂"
    }
@@ -95,7 +135,7 @@
   "raw": 1,
   "findings": [
    {
-    "oracle": "G-pulse",
+    "oracle": "O-G-pulse",
     "signal": "rvalid_residual",
     "desc": "事务完成后响应信号残留 10 拍（出现 24 次）→ 脉冲电平化，同一响应可能被重复采样"
    }
@@ -108,7 +148,7 @@
   "raw": 1,
   "findings": [
    {
-    "oracle": "J-errprop",
+    "oracle": "O-J-errprop",
     "signal": "u_dut.load_err_q,u_dut.store_err_q,u_dut.lsu_err_q",
     "desc": "全部 1 类错误触发均未引起任何 alert/err 信号置位 → 错误传播链断裂"
    }
@@ -156,7 +196,7 @@
   "raw": 1,
   "findings": [
    {
-    "oracle": "J-errprop",
+    "oracle": "O-J-errprop",
     "signal": "aes_trans.hold_err,aes_idle_cnt.err_q",
     "desc": "全部 3 类错误触发均未引起任何 alert/err 信号置位 → 错误传播链断裂"
    }
@@ -168,7 +208,7 @@
   "rc": 1,
   "raw": 0,
   "findings": [],
-  "err_head": "regmap: /workspace/HTFuzz/traces/csrng_regmap.json\nTraceback (most recent call last):\n  File \"/workspace/HTFuzz/scripts/discover_engine.py\", line 972, in <module>\n    main()\n  File \"/workspace/HTFuzz/"
+  "err_head": "regmap: /workspace/HTFuzz/traces/csrng_regmap.json\nTraceback (most recent call last):\n  File \"/workspace/HTFuzz/scripts/discover_engine.py\", line 1059, in <module>\n    main()\n  File \"/workspace/HTFuzz"
  },
  "entropy_src": {
   "elapsed_s": 0.2,
@@ -176,7 +216,7 @@
   "raw": 1,
   "findings": [
    {
-    "oracle": "J-errprop",
+    "oracle": "O-J-errprop",
     "signal": "u_core.es_main_sm_alert,u_core.es_ack_sm_err,u_core.es_cntr_err",
     "desc": "全部 3 类错误触发均未引起任何 alert/err 信号置位 → 错误传播链断裂"
    }
@@ -203,7 +243,7 @@
   "raw": 1,
   "findings": [
    {
-    "oracle": "J-errprop",
+    "oracle": "O-J-errprop",
     "signal": "alert_info.slots_q",
     "desc": "全部 3 类错误触发均未引起任何 alert/err 信号置位 → 错误传播链断裂"
    }
@@ -215,6 +255,6 @@
   "rc": 1,
   "raw": 0,
   "findings": [],
-  "err_head": "Traceback (most recent call last):\n  File \"/workspace/HTFuzz/scripts/discover_engine.py\", line 972, in <module>\n    main()\n  File \"/workspace/HTFuzz/scripts/discover_engine.py\", line 918, in main\n    "
+  "err_head": "Traceback (most recent call last):\n  File \"/workspace/HTFuzz/scripts/discover_engine.py\", line 1059, in <module>\n    main()\n  File \"/workspace/HTFuzz/scripts/discover_engine.py\", line 998, in main\n   "
  }
 }

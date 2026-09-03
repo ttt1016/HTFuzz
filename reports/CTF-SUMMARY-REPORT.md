@@ -1689,3 +1689,21 @@ Common Criteria FPT、FIPS 140-3），每个属性族一个通用 oracle，不�
 说明：O-N/O-M 在良性 RTL 上轨始终一致/编码合法（0 报告是正确行为）；
 其价值在注入版 RTL 上体现（轨分叉/mubi 损坏时触发）。
 遗留：csrng DUT（harness 从零写）、otbn/otp_ctrl DUT、O-K2 中途复位 oracle。
+
+## 37. O-L 密码符合性（KAT）oracle + batch 汇总修复（2026-09-03）
+
+### 37.1 第 11 属性族：密码符合性（O-L KAT）
+标准向量（SHA-256/HMAC-SHA-256/SHA-512，RFC 6234/FIPS-180 预计算）经寄存器级驱动喂入 hmac：
+- SHA-256 / HMAC-SHA-256 通过（字节序约定已实验学出：消息字小端、KEY 大端、摘要字大端）
+- **SHA-512 检出 HIGH**：规范合法配置下运算未完成 + `hmac_err` 置位但 `ERR_CODE=0`——
+  同时命中清单 P2 #43（hmac_core SHA-512 符合性）与 #42（错误中断无成因）。
+- 判定三原则：摘要必须匹配 / 运算必须完成 / 错误中断必须有 ERR_CODE 成因。
+
+### 37.2 batch 汇总管线修复（重要）
+batch_discover.py 此前从 stdout 正则提取，而引擎只打印前 10 条——**O-J/O-L/O-N 等
+后段 oracle 的发现被系统性丢弃**（此前多轮"全量汇总"数字偏低）。改为直接读引擎落盘的
+`fuzz/discover_<module>.json`。
+
+### 37.3 修正后全量：23 条 / 10 模块
+aes 8（含掩码 PRNG 确定性×2、O-J 传播断裂）、hmac 5（含 O-L KAT SHA-512）、
+ascon 2、kmac 2、keymgr/rom_ctrl/ibex/clkmgr/entropy_src/rstmgr 各 1；另 O-K 5 条、单元 TB 3 条。

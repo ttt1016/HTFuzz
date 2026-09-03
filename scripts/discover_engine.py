@@ -863,6 +863,86 @@ def oracle_mubi(dut, regmap, findings, cfg):
         })
 
 
+# ---------- O-L: 密码符合性（KAT）oracle ----------
+def _hmac_run(dut, regmap, cfg_val, key_words, msg_words, max_iter=120):
+    """驱动 hmac 完成 one-block 运算，返回 (done, digest_words, err_code)"""
+    d = dut
+    regmap = {k.lower(): v for k, v in regmap.items()}
+    d.reset(); d.step(10)
+    if key_words:
+        for i, w in enumerate(key_words):
+            d.write(regmap["key"] + 4 * i, w)
+            d.step(2)
+    d.write(regmap["cfg"], cfg_val)
+    d.step(5)
+    d.write(regmap["cmd"], 0x1)      # start
+    d.step(5)
+    fifo = regmap.get("msg_fifo", 0x1000)
+    for w in msg_words:
+        d.write(fifo, w)
+        d.step(2)
+    d.write(regmap["msg_length_lower"], len(msg_words) * 32)
+    d.write(regmap["msg_length_upper"], 0)
+    d.write(regmap["cmd"], 0x2)      # process
+    def _rd(addr):
+        v = d.read(addr)
+        return v.get("value") if isinstance(v, dict) else v
+
+    done = False
+    intr = 0
+    for _ in range(max_iter):
+        d.step(50)
+        intr = _rd(0)
+        if intr & 0x1:
+            done = True
+            break
+    d.write(0, 0x1)                  # clear intr
+    d.step(10)
+    digest = [_rd(regmap["digest"] + 4 * i) for i in range(16)]
+    err = _rd(regmap["err_code"]) if "err_code" in regmap else 0
+    return done, digest, err, intr
+
+
+def oracle_kat(dut, regmap, findings, cfg):
+    """密码符合性: 标准向量喂入 → 结果必须与规范一致且无虚假错误。
+    覆盖: 密码实现算错（P2 #43 hmac_core SHA-512）、错误中断无成因（#42）。
+    """
+    module = cfg.get("module", "")
+    if module == "hmac":
+        key = [0xDEADBEEF] * 8
+        msg = [0xA5A5A5A5] * 8
+        # (名称, CFG, key, 期望摘要前 4 字（大端字序）)
+        exp = {
+            "SHA-256":  (0x422, [0xFC8B6400, 0x1C5FDD0F, 0x2F40FB67, 0xDAE4A865]),
+            "HMAC-SHA-256": (0x423, [0xC5CEBD02, 0x246EE426, 0x0A559B72, 0x715F97D7]),
+            "SHA-512":  (0x502, [0x774B67B3, 0xA64977E9, 0xA42E4621, 0x7F17A6E8]),
+        }
+        for name, (cfg_val, expect) in exp.items():
+            kw = key if "HMAC" in name else None
+            done, digest, err, intr = _hmac_run(dut, regmap, cfg_val, kw, msg)
+            got = digest[:len(expect)]
+            if not done:
+                findings.append({
+                    "oracle": "O-L-kat",
+                    "signal": f"hmac.{name}",
+                    "value": f"err_intr={bool(intr & 0x4)} err_code={hex(err)}",
+                    "confidence": "HIGH",
+                    "desc": f"{name} 标准向量运算未完成"
+                            + ("，且 hmac_err 置位但 ERR_CODE=0（错误无成因）"
+                               if (intr & 0x4) and err == 0 else ""),
+                })
+            elif got != expect:
+                findings.append({
+                    "oracle": "O-L-kat",
+                    "signal": f"hmac.{name}",
+                    "value": "got=" + " ".join(hex(w) for w in got[:2]),
+                    "confidence": "HIGH",
+                    "desc": f"{name} 标准向量摘要不匹配（期望 {hex(expect[0])}...，密码实现算错）",
+                })
+    # 其他模块（aes/ascon/kmac）的 KAT 向量随 DUT 扩充逐步添加
+    return
+
+
 # ---------- 主流程 ----------
 def main():
     if len(sys.argv) < 3:
@@ -954,6 +1034,13 @@ def main():
         print("  → %d 条" % sum(1 for f in findings if f["oracle"]=="O-N-multirail"))
     except Exception as e:
         print(f"  [warn] O-N 执行异常: {e}")
+    cfg["module"] = module
+    print("[O-L] 密码符合性 KAT oracle...")
+    try:
+        oracle_kat(dut, norm, findings, cfg)
+        print("  → %d 条" % sum(1 for f in findings if f["oracle"]=="O-L-kat"))
+    except Exception as e:
+        print(f"  [warn] O-L 执行异常: {e}")
     print("[O-M] MUBI 合法性 oracle...")
     try:
         oracle_mubi(dut, norm, findings, cfg)

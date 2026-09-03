@@ -139,6 +139,13 @@
    "value": "fired=1 silent=3",
    "confidence": "MEDIUM",
    "desc": "错误传播不完整: 静默触发 ['T1-invalid-cfg', 'T3-locked-write', 'T4-shadow-conflict']（1 类已传播）→ 疑似部分错误路径被吞没"
+  },
+  {
+   "oracle": "O-L-kat",
+   "signal": "hmac.SHA-512",
+   "value": "err_intr=True err_code=0x0",
+   "confidence": "HIGH",
+   "desc": "SHA-512 标准向量运算未完成，且 hmac_err 置位但 ERR_CODE=0（错误无成因）"
   }
  ]
 }

@@ -30,7 +30,16 @@ for d in DUTS:
         out = so + se + "\n[TIMEOUT]"
         rc = -9
     dt = time.time() - t0
-    findings = re.findall(r"^\s{2}\[O-([A-Z]-\w+)\] (\S+) (.+)$", out, re.M)
+    # 直接读引擎落盘 JSON（stdout 只打印前 10 条，会丢后面的 oracle）
+    jf = f"{PF}/fuzz/discover_{module}.json"
+    findings = []
+    if os.path.exists(jf):
+        try:
+            for f in json.load(open(jf)).get("findings", []):
+                findings.append((f.get("oracle", "?"), f.get("signal", "?"),
+                                 f.get("desc", "")))
+        except Exception:
+            pass
     uniq, seen = [], set()
     for o, sig, desc in findings:
         key = (o, sig, desc[:60])
