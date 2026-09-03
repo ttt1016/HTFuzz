@@ -1571,3 +1571,42 @@ LLM prompt 列出 12 种通用不变量类型（来自安全规范标准），
 | ascon | 3（wipe_clears×2 + changes_across_runs）|
 
 read_only_leak 新规则成功检出 u_dut.secret_key 读回泄露——这是之前 3 种规则无法检出的。
+
+## 33. 接手任务批次：harness 扩展 / O-K 解析 / keymgr EDN / rv_dm DUT（2026-09-03）
+
+### 33.1 hmac harness 白盒信号扩展（完成）
+- `perip/hmac-ctf/harness/pf_hmac_harness.cpp`: `g_sigs[]` 末尾新增 7 个 P2 信号
+  （reg_rdata_next / reg_error / intg_err / err_code.q / reg_if.rdata_q / reg_if.error_q /
+  intr_hw_hmac_err.g_intr_event.new_event），rootp 路径自 `Vhmac_perip_tb___024root.h` 逐一确认。
+- 重编译通过，ctypes 实测绑定有效（读 STATUS 后 `rdata_q=3`）。
+- 注意：错误级信号为脉冲型，op 粒度快照在事务完成后采样，多数时刻读 0 属预期。
+
+### 33.2 O-K LLM 输出解析兜底（完成）
+- `scripts/ok_invariant.py` 重构为 `parse_llm_invariants()` 三级解析
+  （```json 块 → 裸 JSON → reasoning 文本兜底）；
+  文本兜底：规则关键字 ±400 字符窗口、层次信号优先、裸信号强制 `[a-z][a-z0-9_]*_[qd]` 形状过滤、
+  每规则 ≤3 条、总量 ≤12 条；GEN_PROMPT 限定"只输出 JSON、≤8 条"降低截断率。
+- 实测：hmac gen 从 0 条 → 12 条；check 全链路跑通，
+  唯一 VIOLATION = 已知 WIPE_SECRET 擦除 bug（Bug#20/60），0 误报。
+
+### 33.3 keymgr EDN 时钟修复（完成）
+- harness 的 C++ clk_edn 驱动已编入重编的 api 库；修复 probe 脚本 ctypes 签名（segfault 根因）。
+- 白盒 sig6 改绑 10-bit 主 FSM `u_ctrl.u_state_regs.state_raw`（原误绑 op 子 FSM 的 StIdle=0x95）。
+- 实测：复位期 StCtrlReset(0x361) → 释放后经结构 fault（疑 Bug#11 ECC 脱钩注入）→ StCtrlInvalid(0x2c7)，
+  key_state_q 白盒稳定可观测 —— Bug#21/64 目标态可经 harness 路径到达。
+
+### 33.4 rv_dm DUT 构建（里程碑达成）
+- 新建 `perip/rv_dm-ctf/`：vendor 源码（dm_*、dmi_*）+ prim 依赖闭包
+  （clock_inv/mux2/flop_2sync/fifo_sync/fifo_async_simple/sync_reqack/sparse_fsm_flop/ Generic flop/debug_rom）
+  + filelist + `rtl_wrapper/rv_dm_perip_tb.sv`（JTAG pad/TCK 全由 harness 驱动）+ `harness/pf_rv_dm_harness.cpp`
+  （JTAG bit-bang：IR/DR 移位、tdo 上升沿后采样、41-bit DMI 打包 `[40:34]=addr [33:2]=data [1:0]=op`）。
+- Verilator v5.050 编译通过；自检：**IDCODE 读回 = 0x04f54847 精确匹配** —— TAP 状态机、IR/DR 环、
+  tdo 相位全部验证通过，构成 Bug#0（JTAG 密码保护）检测的坚实基础。
+- DMI 写路径已观察到成功落地案例（data=1 → dmcontrol_q=1）；多事务间的 CDC 稳定性
+  （combined_rstn 在 TLR 复位与 clk 域同步的交互）遗留为后续优化项（见 33.5）。
+
+### 33.5 遗留与下一步
+1. rv_dm DMI 多事务写稳定性：定位 `combined_rstn`（TLR 脉冲 dmi_clear → 2FF 同步）与 req/resp FIFO 的竞态。
+2. rv_dm 白盒信号表扩充（dr_q/address_q/data_q 的稳定绑定，需在生成头文件后 grep 确认真身）。
+3. O-K 规则 gen 推广到其余模块（aes/ascon 之外）。
+4. 跨模块联动验证（环境抽象已就绪）。

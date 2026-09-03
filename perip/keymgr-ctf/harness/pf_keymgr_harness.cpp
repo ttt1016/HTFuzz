@@ -29,36 +29,37 @@ extern "C" unsigned pf_calc_cmd_intg(int op, int addr, int mask);
 extern "C" unsigned pf_calc_data_intg(unsigned data);
 
 // pf_wb_* C++ 实现（直接读 rootp 层次信号）
-static int pf_wb_aes_key_en() { return 0; }
-static int pf_wb_aes_key_word(int idx) { return 0; }
-static int pf_wb_kmac_key_en() { return 0; }
-static int pf_wb_kmac_key_word(int idx) { return 0; }
-static int pf_wb_otbn_key_en() { return 0; }
-static int pf_wb_otbn_key_word(int idx) { return 0; }
-static int pf_wb_state() {
-  return dut ? dut->rootp->keymgr_perip_tb__DOT__u_dut__DOT__u_ctrl__DOT__u_op_state__DOT__u_state_regs__DOT__state_raw : 0;
+extern "C" int pf_wb_aes_key_en() { return 0; }
+extern "C" int pf_wb_aes_key_word(int idx) { return 0; }
+extern "C" int pf_wb_kmac_key_en() { return 0; }
+extern "C" int pf_wb_kmac_key_word(int idx) { return 0; }
+extern "C" int pf_wb_otbn_key_en() { return 0; }
+extern "C" int pf_wb_otbn_key_word(int idx) { return 0; }
+extern "C" int pf_wb_state() {
+  // 主控制 FSM（10-bit sparse 编码，StCtrlReset=10'b1101100001）
+  return dut ? dut->rootp->keymgr_perip_tb__DOT__u_dut__DOT__u_ctrl__DOT__u_state_regs__DOT__state_raw : 0;
 }
-static int pf_wb_op_done() {
+extern "C" int pf_wb_op_done() {
   return dut ? dut->rootp->keymgr_perip_tb__DOT__u_dut__DOT__op_done : 0;
 }
-static int pf_wb_key_state_word(int cdi, int share, int word) {
+extern "C" int pf_wb_key_state_word(int cdi, int share, int word) {
   if (!dut) return 0;
   // key_state_q 是 VlWide<32>（1023:0），按 word 索引
   return dut->rootp->keymgr_perip_tb__DOT__u_dut__DOT__u_ctrl__DOT__key_state_q[word];
 }
-static int pf_wb_d_error() {
+extern "C" int pf_wb_d_error() {
   return 0;  // tl_d2h 在结构体内，简化为 0
 }
-static int pf_wb_d_valid() {
+extern "C" int pf_wb_d_valid() {
   return 1;  // 假定 d_valid 始终有效
 }
-static int pf_wb_a_ready() {
+extern "C" int pf_wb_a_ready() {
   return 1;  // 假定 a_ready 始终有效
 }
-static int pf_wb_d_data() {
+extern "C" int pf_wb_d_data() {
   return 0;  // 简化
 }
-static int pf_wb_clk_cnt() { return 0; }
+extern "C" int pf_wb_clk_cnt() { return 0; }
 
 
 
@@ -187,7 +188,7 @@ uint32_t pf_sig_read(const char* name, int w) {
 uint32_t pf_sig_read_idx(int sig, int idx) {
   // P1.3: 直接读 rootp 层次信号（不依赖 SV DPI export）
   switch (sig) {
-    case 6: return dut->rootp->keymgr_perip_tb__DOT__u_dut__DOT__u_ctrl__DOT__u_op_state__DOT__u_state_regs__DOT__state_raw;
+    case 6: return dut->rootp->keymgr_perip_tb__DOT__u_dut__DOT__u_ctrl__DOT__u_state_regs__DOT__state_raw;
     case 7: return dut->rootp->keymgr_perip_tb__DOT__u_dut__DOT__op_done;
     case 8: return dut->rootp->keymgr_perip_tb__DOT__u_dut__DOT__u_ctrl__DOT__key_state_q[idx];
     case 9: return dut->rootp->keymgr_perip_tb__DOT__u_dut__DOT__u_ctrl__DOT__state_intg_err_q;

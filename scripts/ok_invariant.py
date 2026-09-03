@@ -134,13 +134,110 @@ rule 类型（检查器支持的 12 种，来自硬件安全通用分类学）�
 
 每条不变量指定 trigger_regs（触发检查的寄存器写序列）。
 
-只输出 JSON：
+只输出 JSON（**不要**输出任何分析说明/推理过程，最多 8 条不变量）：
 {{"invariants": [
   {{"name": "简短名",
     "signal": "白盒信号名（如 u_dut.secret_key）",
     "rule": "从上面 12 种选一个",
     "trigger_regs": [{{"reg": "触发寄存器名", "data": "0x1"}}],
     "rationale": "对应的安全意图"}}]}}"""
+
+
+ALL_RULES = ["wipe_clears", "read_only_leak", "changes_across_runs",
+             "reg_core_consistent", "access_control", "cfg_block_gating",
+             "fsm_sparse_encoding", "err_code_coherent",
+             "interrupt_first_event", "bus_intg_check",
+             "monotonic_counter", "debug_lock_enforce"]
+
+# 层次化白盒信号: u_dut.xxx / xxx_core.xxx / backticked 名
+_SIG_RE = re.compile(
+    r"(?:u_dut|u_hmac_core|u_aes_core|ascon_core|u_kmac_core|u_core|u_reg|u_hmac|sha2|dut)"
+    r"\.[A-Za-z_]\w*(?:\.[A-Za-z_]\w*)*"
+    r"|\b[A-Za-z_]\w*_(?:q|d)\b")
+
+
+def extract_invariants_from_text(content):
+    """兜底: 从 reasoning/分析文本提取 (rule, signal) 对。
+
+    策略:
+    1. 规则关键字出现在文本中 -> 取其前后 ±400 字符窗口内的白盒信号候选。
+    2. 若窗口内无层次信号，退而取带 _q/_d 后缀的裸信号名。
+    3. 输出中若出现 \"signal\"/\"信号\" 行 + 同行或近旁的规则名，也按行配对。
+    """
+    invariants = []
+    seen = set()
+    rule_pattern = "|".join(ALL_RULES)
+
+    def add(sig, rule):
+        sig = sig.strip("`\"' ").rstrip(".")
+        if not sig:
+            return
+        hier = "." in sig
+        # 裸信号名必须像 RTL 标识符: 全小写、含下划线、_q/_d 结尾；排除英文噪声
+        if not hier and not re.fullmatch(r"[a-z][a-z0-9_]*_[qd]", sig):
+            return
+        key = (sig, rule)
+        if key in seen:
+            return
+        seen.add(key)
+        trig = [{"reg": "wipe_secret", "data": "0x1"}] if rule == "wipe_clears" else []
+        invariants.append({
+            "name": f"{sig}_{rule}",
+            "signal": sig, "rule": rule,
+            "trigger_regs": trig,
+            "rationale": "LLM 提取（文本模式）"
+        })
+
+    for m in re.finditer(rule_pattern, content):
+        rule = m.group(0)
+        lo, hi = max(0, m.start() - 400), min(len(content), m.end() + 400)
+        ctx = content[lo:hi]
+        # 优先层次化信号（u_dut.xxx 等）
+        hier = re.findall(
+            r"(?:u_dut|u_hmac_core|u_aes_core|u_kmac_core|ascon_core|u_core|u_reg|u_hmac|sha2|dut)"
+            r"\.[A-Za-z_]\w*(?:\.[A-Za-z_]\w*)*", ctx)
+        for sig in hier[:3]:
+            add(sig, rule)
+        if not hier:
+            # 退路: 窗口内带 _q/_d 后缀的裸信号名（add 内再做 RTL 形状过滤）
+            for sig in _SIG_RE.findall(ctx)[:3]:
+                add(sig, rule)
+    # 层次化信号优先，截断噪声
+    invariants.sort(key=lambda i: 0 if "." in i["signal"] else 1)
+    return invariants[:12]
+
+
+def parse_llm_invariants(content, module):
+    """三级解析: ```json 块 -> 裸 JSON -> reasoning 文本兜底"""
+    # 1. ```json 块
+    blocks = re.findall(r"```(?:json)?\s*(\[\s*\{.*?\}\s*\])\s*```", content, re.S)
+    for b in reversed(blocks):
+        try:
+            arr = json.loads(b)
+            if isinstance(arr, list) and arr and "rule" in arr[0]:
+                return {"module": module, "invariants": arr}
+        except Exception:
+            pass
+    # 2. 含 rule 的裸数组 / 裸对象
+    m = re.search(r"(\[\s*\{.*\"rule\".*\}\s*\])", content, re.S)
+    if m:
+        try:
+            arr = json.loads(m.group(1))
+            if isinstance(arr, list) and arr:
+                return {"module": module, "invariants": arr}
+        except Exception:
+            pass
+    m = re.search(r"\{.*\}", content, re.S)
+    if m:
+        try:
+            v = json.loads(m.group(0))
+            if "invariants" in v and v["invariants"]:
+                return {"module": module, "invariants": v["invariants"]}
+        except Exception:
+            pass
+    # 3. reasoning 文本兜底
+    invs = extract_invariants_from_text(content)
+    return {"module": module, "invariants": invs, "raw": content}
 
 
 def gen_invariants(module):
@@ -157,21 +254,7 @@ def gen_invariants(module):
             break
     prompt = GEN_PROMPT.format(module=module, sec_text=sec_text, reg_text=reg_text)
     content = _llm_chat(prompt)
-    # 提取 invariants 数组
-    m = re.search(r"\[\s*\{.*\"rule\".*\}\s*\]", content, re.S)
-    if m:
-        try:
-            return {"module": module, "invariants": json.loads(m.group(0))}
-        except Exception:
-            pass
-    m = re.search(r"\{.*\}", content, re.S)
-    try:
-        v = json.loads(m.group(0))
-        if "invariants" in v:
-            return {"module": module, "invariants": v["invariants"]}
-    except Exception:
-        pass
-    return {"module": module, "invariants": [], "raw": content[:2000]}
+    return parse_llm_invariants(content, module)
 
 
 class InvariantChecker:
@@ -310,52 +393,7 @@ def main():
                 break
         prompt = GEN_PROMPT.format(module=args.module, sec_text="\n".join(sec), reg_text=reg_text)
         content = _llm_chat(prompt)
-        inv = None
-        # 多级解析: ```json 块 → 含 rule 的数组 → 兜底保留全文
-        blocks = re.findall(r"```(?:json)?\s*(\[\s*\{.*?\}\s*\])\s*```", content, re.S)
-        for b in reversed(blocks):
-            try:
-                arr = json.loads(b)
-                if isinstance(arr, list) and arr and "rule" in arr[0]:
-                    inv = {"module": args.module, "invariants": arr}
-                    break
-            except Exception:
-                pass
-        if inv is None:
-            m = re.search(r"(\[\s*\{[^\[\]]*\"rule\"[^\[\]]*\}\s*(?:,\s*\{[^\[\]]*\}\s*)*\])", content, re.S)
-            if m:
-                try:
-                    arr = json.loads(m.group(1))
-                    if isinstance(arr, list) and arr:
-                        inv = {"module": args.module, "invariants": arr}
-                except Exception:
-                    pass
-            # 兜底: 从 LLM 分析文本提取不变量（匹配 12 种规则关键字 + 信号名）
-            invariants = []
-            seen_sig = set()
-            all_rules = ["wipe_clears", "read_only_leak", "changes_across_runs",
-                         "reg_core_consistent", "access_control", "cfg_block_gating",
-                         "fsm_sparse_encoding", "err_code_coherent",
-                         "interrupt_first_event", "bus_intg_check",
-                         "monotonic_counter", "debug_lock_enforce"]
-            rule_pattern = "|".join(all_rules)
-            for m in re.finditer(r"(" + rule_pattern + r")", content):
-                rule = m.group(1)
-                ctx = content[m.end():m.end()+500]
-                sigs = re.findall(r"(u_dut\.[\w.]+|u_hmac_core\.[\w.]+|u_aes_core\.[\w.]+|ascon_core\.[\w.]+)", ctx)
-                for sig in sigs:
-                    key = sig + "_" + rule
-                    if key not in seen_sig:
-                        seen_sig.add(key)
-                        trig = [{"reg": "wipe_secret", "data": "0x1"}] if rule == "wipe_clears" else []
-                        invariants.append({
-                            "name": sig + "_" + rule,
-                            "signal": sig, "rule": rule,
-                            "trigger_regs": trig,
-                            "rationale": "LLM 提取（文本模式）"
-                        })
-                        break
-            inv = {"module": args.module, "invariants": invariants, "raw": content}
+        inv = parse_llm_invariants(content, args.module)
 
         json.dump(inv, open(inv_path, "w"), indent=1, ensure_ascii=False)
         print(f"=== O-K 不变量提取: {args.module} → {len(inv.get('invariants', []))} 条 ===")

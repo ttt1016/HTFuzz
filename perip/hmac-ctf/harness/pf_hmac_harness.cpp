@@ -82,6 +82,14 @@ static SigEntry g_sigs[] = {
     {"u_dut.fifo_wdata",              nullptr, 1, false},
     {"u_dut.fifo_rvalid",             nullptr, 1, false},
     {"u_dut.shaf_rvalid",             nullptr, 1, false},
+    // --- P2 扩展: 总线级/中断级/错误级信号 ---
+    {"u_dut.u_reg.reg_rdata_next",    nullptr, 1, false},
+    {"u_dut.u_reg.reg_error",         nullptr, 1, false},
+    {"u_dut.u_reg.intg_err",          nullptr, 1, false},
+    {"u_dut.u_reg.u_err_code.q",      nullptr, 1, false},
+    {"u_dut.u_reg.u_reg_if.rdata_q",  nullptr, 1, false},
+    {"u_dut.u_reg.u_reg_if.error_q",  nullptr, 1, false},
+    {"u_dut.intr_hw_hmac_err.new_event", nullptr, 1, false},
 };
 static const int g_nsig = sizeof(g_sigs) / sizeof(g_sigs[0]);
 
@@ -124,6 +132,14 @@ static void bind_signals() {
         else if (strcmp(n, "u_dut.fifo_wdata") == 0)           p = &rootp->hmac_perip_tb__DOT__u_dut__DOT__fifo_wdata;
         else if (strcmp(n, "u_dut.fifo_rvalid") == 0)          p = &rootp->hmac_perip_tb__DOT__u_dut__DOT__fifo_rvalid;
         else if (strcmp(n, "u_dut.shaf_rvalid") == 0)          p = &rootp->hmac_perip_tb__DOT__u_dut__DOT__shaf_rvalid;
+        // --- P2 扩展: 总线级/中断级/错误级信号 ---
+        else if (strcmp(n, "u_dut.u_reg.reg_rdata_next") == 0)  p = &rootp->hmac_perip_tb__DOT__u_dut__DOT__u_reg__DOT__reg_rdata_next;
+        else if (strcmp(n, "u_dut.u_reg.reg_error") == 0)       p = &rootp->hmac_perip_tb__DOT__u_dut__DOT__u_reg__DOT__reg_error;
+        else if (strcmp(n, "u_dut.u_reg.intg_err") == 0)        p = &rootp->hmac_perip_tb__DOT__u_dut__DOT__u_reg__DOT__intg_err;
+        else if (strcmp(n, "u_dut.u_reg.u_err_code.q") == 0)    p = &rootp->hmac_perip_tb__DOT__u_dut__DOT__u_reg__DOT__u_err_code__DOT__q;
+        else if (strcmp(n, "u_dut.u_reg.u_reg_if.rdata_q") == 0) p = &rootp->hmac_perip_tb__DOT__u_dut__DOT__u_reg__DOT__u_reg_if__DOT__rdata_q;
+        else if (strcmp(n, "u_dut.u_reg.u_reg_if.error_q") == 0) p = &rootp->hmac_perip_tb__DOT__u_dut__DOT__u_reg__DOT__u_reg_if__DOT__error_q;
+        else if (strcmp(n, "u_dut.intr_hw_hmac_err.new_event") == 0) p = &rootp->hmac_perip_tb__DOT__u_dut__DOT__intr_hw_hmac_err__DOT__g_intr_event__DOT__new_event;
         g_sigs[i].ptr = p;
     }
 }

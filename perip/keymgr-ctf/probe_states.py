@@ -14,7 +14,7 @@ api.pf_read.restype = ctypes.c_uint32
 api.pf_read.argtypes = [ctypes.c_uint32]
 api.pf_step.argtypes = [ctypes.c_int]
 api.pf_sig_read.restype = ctypes.c_uint32
-api.pf_sig_read.argtypes = [ctypes.c_int, ctypes.c_int]
+api.pf_sig_read.argtypes = [ctypes.c_char_p, ctypes.c_int]
 
 # sparse 编码
 STATES = {
@@ -42,7 +42,7 @@ CONTROL_SHADOWED  = 0x1C
 api.pf_init()
 api.pf_reset()
 api.pf_step(20)
-st = api.pf_sig_read(6, 0)
+st = api.pf_sig_read(b"state", 0)
 print("after reset: %s (0x%x)" % (state_name(st), st))
 
 # 读寄存器看写入是否生效
@@ -57,5 +57,5 @@ print("CONTROL readback = 0x%x" % api.pf_read(CONTROL))
 
 for i in range(15):
     api.pf_step(200)
-    st = api.pf_sig_read(6, 0)
+    st = api.pf_sig_read(b"state", 0)
     print("step %d: %s" % (i, state_name(st)))
