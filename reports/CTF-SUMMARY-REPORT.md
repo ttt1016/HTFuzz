@@ -1719,3 +1719,14 @@ ascon 2、kmac 2、keymgr/rom_ctrl/ibex/clkmgr/entropy_src/rstmgr 各 1；另 O-
 - 经验沉淀：`--lib-create` 库名是 `libpf_<lib>`（无 liblibpf 前缀）时 VK_USER_OBJS 覆盖法
   `make libpf_csrng_ctf.so VK_USER_OBJS=pf_csrng_harness.o`；exe 链接需排除 harness.o 与
   ctf.o（重复定义）。
+
+### 37.4 DUT 扩展进度与剩余时间账（会话快照）
+- 已完成: csrng（会话 1 个单位）、uart（1 个单位）——本会话 +2，累计 20 个可用 DUT。
+- 剩余 8 个: gpio/adc_ctrl/tlul（各 ~0.5，简单新模块）、otp_ctrl（~1）、spi_tpm（~1）、
+  mbx（~1，需核侧激励）、lc_ctrl（~0.5，已有单元 TB 转 .so）、otbn（~2，最重）。
+- 合计 ≈ 7~8 个会话单位。每建成一个自动继承全部 12 个 oracle。
+- 流水线已固化: `scripts` 层的 autobuild.sh（依赖闭包自动解析：verilator 循环 →
+  MODMISSING/PKGMISS → 从 opentitan 拷贝）+ wrapper 模板（cb_* 接口）+ harness 模板。
+- 本轮踩坑沉淀: ① 悬空输出被 Verilator 死状态消除 → 用顶层输出口保留（dbg_lsio_trigger）；
+  ② `--lib-create` 库名无 liblibpf 前缀时 VK_USER_OBJS 覆盖法；③ batch 汇总必须读落盘 JSON
+  而非 stdout；④ 包文件必须排在引用者之前。
