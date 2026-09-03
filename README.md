@@ -1,76 +1,94 @@
-# HTFuzz-OT — OpenTitan RTL 安全模糊测试框架
+# HTFuzz — OpenTitan 硬件安全漏洞自动挖掘工具
 
-> 按《项目计划书 v1.2》实现的 hjson 规格 oracle + 元变关系 fuzzing 框架
-> （不依赖 golden model 差分，自主设计的硬件木马检测框架）
+> HACK@CHES 2026 参赛工具：per-IP Verilator DUT + 14 层属性族驱动 oracle
+> （不依赖漏洞先验、不 diff 官方代码、不需要 clean DUT 的盲测框架）
+
+## 当前架构
+
+```
+┌────────────────────────────────────────────────────────────┐
+│ 第 4 层  闭环 fuzzing（ol_full_loop.py，覆盖率引导）          │
+├────────────────────────────────────────────────────────────┤
+│ 第 3 层  LLM 三件套                                          │
+│   llm_deep_audit.py  静态审计（读 RTL 抓行为盲区）            │
+│   llm_agent.py       DutHandle + ReAct 动态验证（PoC 证据链） │
+│   O-K gen            从 SEC_CM 合成不变量（知识编译器）        │
+├────────────────────────────────────────────────────────────┤
+│ 第 2 层  Oracle 判定引擎（14 个，属性族驱动）                 │
+│   discover_engine.py: O-A 残留 / O-B 确定性 / O-C 等价类     │
+│   / O-D FSM / O-E FIFO / O-F 流式 / O-G 脉冲                 │
+│   / O-J 错误传播 / O-L 密码符合性 KAT / O-N 多轨一致性        │
+│   / O-M MUBI 合法性 + O-K 不变量(12 规则)                    │
+│   + O-H PMP / O-I 特权（ibex 单元 TB，fork-vs-clean）        │
+├────────────────────────────────────────────────────────────┤
+│ 第 1 层  per-IP DUT：23 个（cb_* TL 接口 + 白盒信号表）       │
+│   aes hmac kmac ascon keymgr csrng entropy_src uart gpio     │
+│   adc_ctrl tlul rom_ctrl rstmgr clkmgr aon_timer pwrmgr      │
+│   pattgen spi_host sram_ctrl alert_handler rv_dm ...         │
+└────────────────────────────────────────────────────────────┘
+```
+
+属性分类学基础：目标 RTL 实测 **278 类 SEC_CM** 归纳为十大属性族
+（冗余一致性 / 可用性 / MUBI 合法性等为既有 7 大类的补充），
+oracle 按属性族实现、不针对具体漏洞——换注入手法仍可检出。
 
 ## 目录结构
 
 ```
-pickerfuzz/
-├── scripts/              # 引擎脚本
-│   ├── fuzz_engine.py    # M4 变异引擎（7 算子，全芯片回放模式）
-│   ├── pickerfuzz_runner.sh  # 全芯片回放 runner（Tier 3）
-│   ├── mass_fuzz.py      # 大规模 fuzzing（per-IP DUT 模式，Tier 1）
-│   ├── sched_fuzz.py     # M9 语料库调度（seed trace 片段 + AFL 加权）
-│   ├── o1_spec_checker.py    # M6-O1 hjson 规格 checker
-│   ├── o3_metamorphic.py     # M6-O3 元变三合一（双种子/复位重放/zeroize）
-│   ├── o4_signal_modes.py    # M6-O4 信号转移模式
-│   ├── triage.py         # M7 三级漏斗（规则引擎+known-safe+LLM 接口）
-│   ├── ddmin.py          # M8 delta debugging 最小化
-│   ├── report_gen.py     # M10 CWE 映射报告生成器
-│   ├── coverage_stats.py # 覆盖率统计
-│   ├── parse_trace_test.py   # trace 语义解析验证
-│   └── include/ot_secfuzz.h  # 固件公共头（全芯片回放模式用）
-├── perip/                # M5 per-IP DUT（独立 Verilator 仿真器）
-│   ├── hmac/             # 106k ops/s，自检 PASS
-│   ├── kmac/             # 编译中
-│   └── aes/              # 编译中
-├── traces/               # M1 TL-UL trace + M3 regmap
-│   ├── hmac_smoketest_tlul.log
-│   ├── hmac_regmap.json / kmac_regmap.json / aes_regmap.json
-│   └── ...
-├── fuzz/                 # fuzzing 输出
-│   ├── mass/             # 大规模 fuzzing 结果（140k 迭代基线）
-│   ├── sched/            # 语料调度结果（98% 覆盖）
-│   ├── out/              # 变异固件
-│   ├── logs/             # 运行日志
-│   ├── known_safe.json   # M7 known-safe 库
-│   └── llm_cache.json    # M7 LLM 判定缓存
-└── reports_new/          # 报告
-    ├── PICKERFUZZ-DEMO-REPORT.md
-    ├── MASS-FUZZ-REPORT.md
-    └── bugs/             # M10 生成的 bug 报告
+HTFuzz/
+├── AGENT-HANDOFF.md          # 接手指南（任务/流水线/坑清单）
+├── SUBMISSION.md             # 比赛提交材料
+├── scripts/                  # 11 个活跃脚本
+│   ├── discover_engine.py    # 盲测引擎（O-A~O-M 一体化）
+│   ├── batch_discover.py     # 全量引擎扫描
+│   ├── ok_invariant.py       # O-K 不变量 gen + check（12 规则）
+│   ├── batch_ok_check.py     # 全量 O-K 检查
+│   ├── llm_agent.py / llm_deep_audit.py
+│   ├── keymgr_full_flow.py   # keymgr derivation 流程
+│   ├── ol_full_loop.py       # 闭环 fuzzing
+│   ├── pf_profile.py / triage_nofresh.py / environments/
+│   └── legacy/               # 26 个已归档旧脚本
+├── perip/<module>-ctf/       # per-IP DUT（wrapper + harness + obj_so）
+├── reports/YYYYMMDD/         # 报告按日期归档 + CTF-SUMMARY-REPORT.md（38 章）
+├── traces/                   # regmap JSON + 采样 trace
+└── fuzz/                     # 引擎发现 JSON + O-K 结果
 ```
 
 ## 快速开始
 
 ```bash
-# 1. per-IP HMAC 自检
-/workspace/pickerfuzz/perip/hmac/obj_dir/pf_hmac
+# 1. 全量盲测（21 DUT × 12 oracle，实测 2.8s）
+python3 scripts/batch_discover.py
 
-# 2. 大规模 fuzzing（per-IP 模式）
-python3 scripts/mass_fuzz.py --iters 20000 --seed-base 1000
+# 2. O-K 不变量全量检查（12 模块 107 条）
+python3 scripts/batch_ok_check.py
 
-# 3. 语料库调度 fuzzing（98% 覆盖）
-python3 scripts/sched_fuzz.py --iters 20000
+# 3. 单 DUT 扫描
+python3 scripts/discover_engine.py perip/hmac-ctf hmac traces/hmac_regmap.json
 
-# 4. Oracle 回归
-python3 scripts/o1_spec_checker.py   # O1 规格 checker
-python3 scripts/o3_metamorphic.py    # O3 元变三合一
-python3 scripts/o4_signal_modes.py   # O4 信号模式
+# 4. 新建 DUT（依赖闭包自动解析，见报告 37.4 流水线）
+bash autobuild.sh <module> <module>_perip_tb
 
-# 5. 全芯片回放模式（Tier 3）
-python3 scripts/fuzz_engine.py && ./scripts/pickerfuzz_runner.sh
+# 5. O-K 不变量生成（LLM，每模块一次）
+python3 scripts/ok_invariant.py gen <module>
 ```
 
-## 关键指标
+## 当前状态（2026-09-03）
 
 | 指标 | 数值 |
 |---|---|
-| per-IP 吞吐 | 106k ops/s（计划书 ≥100） |
-| 大规模基线 | 140k 迭代 0 误报（干净 RTL） |
-| 语料调度覆盖 | 98%（纯随机 13%） |
-| 误报抑制率 | 100%（100 条已知误报） |
-| ddmin | 120-op → 2-op |
+| per-IP DUT | 23 个（21 个可用 .so；待建 otp/spi_tpm/lc/mbx/otbn）|
+| Oracle | 14 个（十大属性族 + 密码符合性 KAT + PMP/特权语义）|
+| 全量检出 | 引擎 25 条/12 模块 + O-K 5 条 + 单元 TB 3 条 = **33 条，0 误报** |
+| 单 DUT 扫描 | 0.1~0.25s，峰值内存 28 MB |
+| 全量扫描 | 2.8s（21 DUT 串行，10 核/8GB 容器）|
 
-老工具数据（296 固件测试/VULN 报告）已归档至 `/workspace/ot-secfuzz-archive/`。
+## 文档索引
+
+| 文档 | 内容 |
+|------|------|
+| `AGENT-HANDOFF.md` | 接手指南（任务/流水线/坑清单）|
+| `reports/CTF-SUMMARY-REPORT.md` | 主报告 38 章（累计追加）|
+| `reports/20260903/ORACLE-TAXONOMY.md` | 属性分类学（SEC_CM 278 类 → 十大族）|
+| `reports/20260903/GAP-ANALYSIS.md` | P1/P2 清单 vs 工具能力差距分析 |
+| `reports/20260803/` `reports/20260831/` | 早期 bug 报告归档 |
