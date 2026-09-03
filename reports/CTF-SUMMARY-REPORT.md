@@ -1808,3 +1808,13 @@ standalone verilator 编译需要特殊处理。
 - harness 模板 ✓（sed uart→otp，需编译 .o 并链入）
 - **剩余一步**: 编译 harness .o 并链入 .so（`g++ -shared -o libpf_otp_ctrl_ctf.so V*.o pf_otp_ctrl_ctf.o pf_otp_ctrl_harness.o verilated*.o -pthread`）
 - 依赖闭包已完成（otp_macro/otp_ctrl autogen/lc_ctrl/pwrmgr/edn/csrng/entropy_src/keymgr/prim 全套 48 个 .sv）
+
+### 39.6 otp_ctrl DUT 建成（第 24 个，2026-09-04）
+- 模型编译 ✓（Votp_ctrl_perip_tb.mk，VK_USER_OBJS=pf_otp_ctrl_harness.o）
+- wrapper ✓（edn/lc/pwr/flash/sram/otbn 全部 tie-off，struct 成员逐一 grep 对齐）
+- harness ✓（清空 uart 残留 sig 表，白盒待 SEC_CM 脚本扩充）
+- 引擎 12 oracle 全跑通，0 条（良性基线）
+- 依赖闭包 48+ .sv：autogen otp_ctrl + otp_macro + lc_ctrl_pkg/reg_pkg + pwrmgr_pkg/reg_pkg
+  + edn_pkg + csrng_pkg + entropy_src_pkg + keymgr_pkg/reg_pkg + prim 全套
+- 关键排序: otp_ctrl_reg_pkg → otp_ctrl_top_specific_pkg → otp_ctrl_part_pkg
+  （part_pkg 前向引用 reg_pkg 和 top_specific 的类型）

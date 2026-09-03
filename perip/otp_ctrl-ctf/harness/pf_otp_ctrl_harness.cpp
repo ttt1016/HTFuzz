@@ -17,69 +17,12 @@ static uint64_t main_time = 0;
 struct SigEntry { const char* name; void* ptr; int words; bool is_wide; };
 
 static SigEntry g_sigs[] = {
-    // 编译后从 root 头扩充
-    {"dbg_lsio_trigger", nullptr, 1, false},
-    {"u_dut.u_reg.__Vcellout__u_intr_state_tx_watermark__q", nullptr, 1, false},
-    {"u_dut.u_reg.__Vcellout__u_intr_state_rx_watermark__q", nullptr, 1, false},
-    {"u_dut.u_reg.__Vcellout__u_intr_state_tx_done__q", nullptr, 1, false},
-    {"u_dut.u_reg.__Vcellout__u_intr_state_rx_overflow__q", nullptr, 1, false},
-    {"u_dut.u_reg.__Vcellout__u_intr_state_rx_frame_err__q", nullptr, 1, false},
-    {"u_dut.u_reg.__Vcellout__u_intr_state_rx_break_err__q", nullptr, 1, false},
-    {"u_dut.u_reg.__Vcellout__u_intr_state_rx_timeout__q", nullptr, 1, false},
-    {"u_dut.u_reg.__Vcellout__u_intr_state_rx_parity_err__q", nullptr, 1, false},
-    {"u_dut.u_reg.__Vcellout__u_intr_state_tx_empty__q", nullptr, 1, false},
-    {"u_dut.u_reg.wdata_qe", nullptr, 1, false},
-    {"u_dut.u_reg.__Vcellout__u_wdata__q", nullptr, 1, false},
-    {"u_dut.u_reg.u_wdata.wr_en", nullptr, 1, false},
-    {"u_dut.uart_core.tx_fifo_depth", nullptr, 1, false},
-    {"u_dut.uart_core.rx_fifo_depth", nullptr, 1, false},
-    {"u_dut.uart_core.rx_fifo_depth_prev_q", nullptr, 1, false},
-    {"u_dut.uart_core.event_rx_frame_err", nullptr, 1, false},
-    {"u_dut.uart_core.event_rx_break_err", nullptr, 1, false},
-    {"u_dut.uart_core.event_rx_timeout", nullptr, 1, false},
-    {"u_dut.uart_core.event_rx_parity_err", nullptr, 1, false},
-    {"u_dut.uart_core.intr_hw_rx_parity_err.g_intr_event.new_event", nullptr, 1, false},
-    {"u_dut.uart_core.intr_hw_rx_timeout.g_intr_event.new_event", nullptr, 1, false},
-    {"u_dut.uart_core.intr_hw_rx_break_err.g_intr_event.new_event", nullptr, 1, false},
-    {"u_dut.uart_core.intr_hw_rx_frame_err.g_intr_event.new_event", nullptr, 1, false},
-    {"u_dut.uart_core.intr_hw_rx_overflow.g_intr_event.new_event", nullptr, 1, false},
-    {"u_dut.uart_core.intr_hw_tx_done.g_intr_event.new_event", nullptr, 1, false},
+    // otp_ctrl 白盒表待 SEC_CM 脚本扩充
 };
 static const int g_nsig = sizeof(g_sigs) / sizeof(g_sigs[0]);
 
 static void bind_signals() {
-    for (int i = 0; i < g_nsig; i++) {
-        const char* n = g_sigs[i].name;
-        void* p = nullptr;
-        (void)n;
-        if (strcmp(n, "dbg_lsio_trigger") == 0) p = &rootp->dbg_lsio_trigger;
-        else if (strcmp(n, "u_dut.u_reg.__Vcellout__u_intr_state_tx_watermark__q") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__u_reg__DOT____Vcellout__u_intr_state_tx_watermark__q;
-        else if (strcmp(n, "u_dut.u_reg.__Vcellout__u_intr_state_rx_watermark__q") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__u_reg__DOT____Vcellout__u_intr_state_rx_watermark__q;
-        else if (strcmp(n, "u_dut.u_reg.__Vcellout__u_intr_state_tx_done__q") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__u_reg__DOT____Vcellout__u_intr_state_tx_done__q;
-        else if (strcmp(n, "u_dut.u_reg.__Vcellout__u_intr_state_rx_overflow__q") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__u_reg__DOT____Vcellout__u_intr_state_rx_overflow__q;
-        else if (strcmp(n, "u_dut.u_reg.__Vcellout__u_intr_state_rx_frame_err__q") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__u_reg__DOT____Vcellout__u_intr_state_rx_frame_err__q;
-        else if (strcmp(n, "u_dut.u_reg.__Vcellout__u_intr_state_rx_break_err__q") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__u_reg__DOT____Vcellout__u_intr_state_rx_break_err__q;
-        else if (strcmp(n, "u_dut.u_reg.__Vcellout__u_intr_state_rx_timeout__q") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__u_reg__DOT____Vcellout__u_intr_state_rx_timeout__q;
-        else if (strcmp(n, "u_dut.u_reg.__Vcellout__u_intr_state_rx_parity_err__q") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__u_reg__DOT____Vcellout__u_intr_state_rx_parity_err__q;
-        else if (strcmp(n, "u_dut.u_reg.__Vcellout__u_intr_state_tx_empty__q") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__u_reg__DOT____Vcellout__u_intr_state_tx_empty__q;
-        else if (strcmp(n, "u_dut.u_reg.wdata_qe") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__u_reg__DOT__wdata_qe;
-        else if (strcmp(n, "u_dut.u_reg.__Vcellout__u_wdata__q") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__u_reg__DOT____Vcellout__u_wdata__q;
-        else if (strcmp(n, "u_dut.u_reg.u_wdata.wr_en") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__u_reg__DOT__u_wdata__DOT__wr_en;
-        else if (strcmp(n, "u_dut.uart_core.tx_fifo_depth") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__uart_core__DOT__tx_fifo_depth;
-        else if (strcmp(n, "u_dut.uart_core.rx_fifo_depth") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__uart_core__DOT__rx_fifo_depth;
-        else if (strcmp(n, "u_dut.uart_core.rx_fifo_depth_prev_q") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__uart_core__DOT__rx_fifo_depth_prev_q;
-        else if (strcmp(n, "u_dut.uart_core.event_rx_frame_err") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__uart_core__DOT__event_rx_frame_err;
-        else if (strcmp(n, "u_dut.uart_core.event_rx_break_err") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__uart_core__DOT__event_rx_break_err;
-        else if (strcmp(n, "u_dut.uart_core.event_rx_timeout") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__uart_core__DOT__event_rx_timeout;
-        else if (strcmp(n, "u_dut.uart_core.event_rx_parity_err") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__uart_core__DOT__event_rx_parity_err;
-        else if (strcmp(n, "u_dut.uart_core.intr_hw_rx_parity_err.g_intr_event.new_event") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__uart_core__DOT__intr_hw_rx_parity_err__DOT__g_intr_event__DOT__new_event;
-        else if (strcmp(n, "u_dut.uart_core.intr_hw_rx_timeout.g_intr_event.new_event") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__uart_core__DOT__intr_hw_rx_timeout__DOT__g_intr_event__DOT__new_event;
-        else if (strcmp(n, "u_dut.uart_core.intr_hw_rx_break_err.g_intr_event.new_event") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__uart_core__DOT__intr_hw_rx_break_err__DOT__g_intr_event__DOT__new_event;
-        else if (strcmp(n, "u_dut.uart_core.intr_hw_rx_frame_err.g_intr_event.new_event") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__uart_core__DOT__intr_hw_rx_frame_err__DOT__g_intr_event__DOT__new_event;
-        else if (strcmp(n, "u_dut.uart_core.intr_hw_rx_overflow.g_intr_event.new_event") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__uart_core__DOT__intr_hw_rx_overflow__DOT__g_intr_event__DOT__new_event;
-        else if (strcmp(n, "u_dut.uart_core.intr_hw_tx_done.g_intr_event.new_event") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__uart_core__DOT__intr_hw_tx_done__DOT__g_intr_event__DOT__new_event;
-        g_sigs[i].ptr = p;
-    }
+    // 待扩充
 }
 
 static uint32_t sig_word(const SigEntry& s, int w) {
