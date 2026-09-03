@@ -1664,7 +1664,7 @@ debug_lock_enforce。全异常兜底返回 None 不误报。
 ### 36.1 属性分类学（reports/20260903/ORACLE-TAXONOMY.md）
 核验了既有 7 大类总结：方向正确但对照目标 RTL 实测的 278 个 SEC_CM 标注，
 漏了 3 个高频家族——**冗余一致性 REDUN（≈50 处）/ 可用性 BKGN_CHK(18) /
-MUBI 编码合法性(31+)**。合并为十大属性族（含权威来源：Basak CAV'21 五分类、
+MUBI 编码合法性(31+)**。合并为十大属性族（含权威来源：Farzana ITC'19 属性验证、
 Common Criteria FPT、FIPS 140-3），每个属性族一个通用 oracle，不为单个 bug 写检测。
 
 ### 36.2 新 oracle

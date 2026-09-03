@@ -15,7 +15,7 @@
 ## 1. 权威来源
 
 1. **OpenTitan SEC_CM**（比赛方注入的原始依据，目标 RTL 实测 278 个类别）——第一手。
-2. **Basak et al., CAV 2021《SoC Security Verification Using Property Checking》**——
+2. **Farzana, Rahman, Tehranipoor, Farahmandi, ITC 2019《SoC Security Verification using Property Checking》（DOI: 10.1109/ITC44170.2019.9000170）**——
    属性五分类：authentication / integrity / confidentiality / availability / isolation。
    **注意它含 availability**，7 大类缺失。
 3. **Common Criteria (ISO 15408) FPT 类**——fail-secure、防旁路、TSF 保护。

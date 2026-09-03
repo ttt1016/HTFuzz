@@ -178,15 +178,15 @@ python3 scripts/ok_invariant.py gen <module>
 | 6 | 信息泄露 | ISO/IEC 15408 FDP 类（机密性）；OpenTitan `KEY.SW_UNREADABLE` |
 | 7 | 时序安全 | CC FPT 类（安全功能时序）；比赛已知注入（alert 延迟 100 拍）|
 | 8 | **冗余一致性** | NIST SP 800-193 **Detect** 维度；TMR/双轨比较（CTR.REDUN 33 处）；经典 N-modular redundancy 理论 |
-| 9 | **可用性** | NIST SP 800-193 **Recover** 维度；Basak et al. CAV 2021 五分类含 availability |
+| 9 | **可用性** | NIST SP 800-193 **Recover** 维度；Farzana et al. ITC 2019 属性验证框架含 availability |
 | 10 | **MUBI 编码** | OpenTitan `INTERSIG.MUBI`/`CONFIG.MUBI`（31+ 处）；本质是 **Hamming 距离≥3 的容错编码**（编码理论）|
 | 11 | **密码符合性** | NIST **CAVP/FTS 已知答案测试（KAT）**制度；FIPS 140-3 §自测要求 |
 
 ### 核心学术论文
 
-- **Basak, Jha, Kumar, Shoshitaishvili et al., "SoC Security Verification Using Property Checking", CAV 2021（Springer LNCS）**
-  —— 工业级 SoC 安全属性验证框架，将属性分为 authentication / integrity /
-  confidentiality / availability / isolation 五类；**availability** 在多数安全检查单中缺失，本分类学已补。
+- **Farzana, Rahman, Tehranipoor, Farimah Farahmandi, "SoC Security Verification using Property Checking", ITC 2019（IEEE, DOI: 10.1109/ITC44170.2019.9000170）**
+  —— 工业级 SoC 安全属性验证框架（五分类含 availability 见论文正文；IEEE 付费墙内）。
+  **availability** 在多数安全检查单中缺失，本分类学已补。
 - **Common Criteria (ISO/IEC 15408)** FPT/FCS/FDP 类——国际公认的安全评估标准。
 - **NIST SP 800-193**（Platform Firmware Resiliency）——PDR（Protect/Detect/Recover）三元组，
   与本分类的"访问控制/错误检测/擦除恢复"一一对应。
