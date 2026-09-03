@@ -185,8 +185,9 @@ python3 scripts/ok_invariant.py gen <module>
 ### 核心学术论文
 
 - **Farzana, Rahman, Tehranipoor, Farimah Farahmandi, "SoC Security Verification using Property Checking", ITC 2019（IEEE, DOI: 10.1109/ITC44170.2019.9000170）**
-  —— 工业级 SoC 安全属性验证框架（五分类含 availability 见论文正文；IEEE 付费墙内）。
-  **availability** 在多数安全检查单中缺失，本分类学已补。
+  —— 工业级 SoC 安全属性验证框架，**验证了属性检查在 SoC 安全中的可扩展性**。
+  （注：论文正文的属性子分类未核实——IEEE 付费墙内，本分类学的 availability
+  来源是 NIST SP 800-193 的 Recover 维度而非此论文。）
 - **Common Criteria (ISO/IEC 15408)** FPT/FCS/FDP 类——国际公认的安全评估标准。
 - **NIST SP 800-193**（Platform Firmware Resiliency）——PDR（Protect/Detect/Recover）三元组，
   与本分类的"访问控制/错误检测/擦除恢复"一一对应。

@@ -16,7 +16,8 @@
 
 1. **OpenTitan SEC_CM**（比赛方注入的原始依据，目标 RTL 实测 278 个类别）——第一手。
 2. **Farzana, Rahman, Tehranipoor, Farahmandi, ITC 2019《SoC Security Verification using Property Checking》（DOI: 10.1109/ITC44170.2019.9000170）**——
-   属性五分类：authentication / integrity / confidentiality / availability / isolation。
+   工业 SoC 安全属性验证框架（**注**：论文正文具体分类未经核实——IEEE 付费墙内；
+   本分类学的 availability 来源是 NIST SP 800-193 Recover 维度）。
    **注意它含 availability**，7 大类缺失。
 3. **Common Criteria (ISO 15408) FPT 类**——fail-secure、防旁路、TSF 保护。
 4. **FIPS 140-3**——self-test 必须运行（↔BKGN_CHK）、密钥 zeroization（↔SEC_WIPE）、
