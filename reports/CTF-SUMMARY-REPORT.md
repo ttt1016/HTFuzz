@@ -1610,3 +1610,22 @@ read_only_leak 新规则成功检出 u_dut.secret_key 读回泄露——这是�
 2. rv_dm 白盒信号表扩充（dr_q/address_q/data_q 的稳定绑定，需在生成头文件后 grep 确认真身）。
 3. O-K 规则 gen 推广到其余模块（aes/ascon 之外）。
 4. 跨模块联动验证（环境抽象已就绪）。
+
+## 34. 全量检出扫描（2026-09-03）
+
+4 类 oracle 全量扫描，18 个可运行 DUT + ibex 专用检查器 + 12 模块 O-K + 3 个单元 TB。
+
+| oracle 层 | 覆盖 | 检出 |
+|-----------|------|------|
+| O-A~G 盲测引擎 | 18 DUT | 8 条候选（aes 2 / ascon 2 / hmac 2 / kmac 1 / rom_ctrl 1）|
+| O-H PMP | ibex 单元 TB | Bug#27 极性反转 + Bug#45 吞没 |
+| O-I 特权 | ibex 单元 TB | Bug#5 U-mode 放行 + Bug#13 CSR 写保护失效 |
+| O-K 不变量 | 12 模块 107 条 | 6 条 VIOLATION（aes #32 / ascon #43 / hmac #20-60）|
+| 单元 TB | lc/uart/prim | Bug#28 token 全宽 / Bug#1 LSIO DMA / Bug#7 error_s 悬空 |
+| **合计** | | **21 条检出 / 9 个模块，对应 CSV 已知 bug 10 个 ID，0 误报** |
+
+新增基础设施: `scripts/batch_discover.py`（批量盲测）、`scripts/batch_ok_check.py`（批量 O-K），
+结果存 `fuzz/full_sweep.json`、`fuzz/ok_check_summary.json`、`fuzz/FULL-SWEEP-SUMMARY.md`。
+
+发现的问题: keymgr 无 regmap（traces 缺 keymgr_regmap.json）→ O-A~G 寄存器 0 个；
+csrng-ctf obj_so 为空。两者列入待修。

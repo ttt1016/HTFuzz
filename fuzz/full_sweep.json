@@ -1,0 +1,180 @@
+{
+ "aes": {
+  "elapsed_s": 0.2,
+  "rc": 0,
+  "raw": 6,
+  "findings": [
+   {
+    "oracle": "A-residual",
+    "signal": "u_dut.key_init",
+    "desc": "敏感信号 u_dut.key_init[0] 在清除/操作序列后残留写入标记值"
+   },
+   {
+    "oracle": "C-equivclass",
+    "signal": "u_dut.data_out_q",
+    "desc": "语义等价序列产生不同控制状态 → 可能存在中间读副作用/相位错误"
+   }
+  ],
+  "err_head": ""
+ },
+ "ascon": {
+  "elapsed_s": 0.1,
+  "rc": 0,
+  "raw": 10,
+  "findings": [
+   {
+    "oracle": "A-residual",
+    "signal": "ascon_core.key_share0_in_q",
+    "desc": "敏感信号 ascon_core.key_share0_in_q[0] 在清除/操作序列后残留写入标记值"
+   },
+   {
+    "oracle": "A-residual",
+    "signal": "ascon_core.key_share1_in_q",
+    "desc": "敏感信号 ascon_core.key_share1_in_q[0] 在清除/操作序列后残留写入标记值"
+   }
+  ],
+  "err_head": ""
+ },
+ "hmac": {
+  "elapsed_s": 0.1,
+  "rc": 0,
+  "raw": 10,
+  "findings": [
+   {
+    "oracle": "A-residual",
+    "signal": "u_dut.secret_key",
+    "desc": "敏感信号 u_dut.secret_key[28] 在清除/操作序列后残留写入标记值"
+   },
+   {
+    "oracle": "A-residual",
+    "signal": "u_dut.secret_key_d",
+    "desc": "敏感信号 u_dut.secret_key_d[28] 在清除/操作序列后残留写入标记值"
+   }
+  ],
+  "err_head": ""
+ },
+ "kmac": {
+  "elapsed_s": 0.3,
+  "rc": 0,
+  "raw": 2,
+  "findings": [
+   {
+    "oracle": "B-determinism",
+    "signal": "u_dut.msg_data_masked",
+    "desc": "掩码/熵信号 u_dut.msg_data_masked 两次独立执行逐位相同 → 无随机性（静态掩码/PRNG 不动）"
+   }
+  ],
+  "err_head": ""
+ },
+ "keymgr": {
+  "elapsed_s": 0.1,
+  "rc": 0,
+  "raw": 0,
+  "findings": [],
+  "err_head": "=== 发现引擎: keymgr ===\n白盒信号 10 个, 寄存器 0 个\n敏感: 7  控制: 2  其他: 1\n\n[O-A] 残留 oracle...\n  → 0 条\n[O-B] 确定性 oracle...\n  → 0 条\n[O-C] 等价类 oracle...\n  → 0 条\n[O-D] FSM 探索 oracle...\n  → 0 条\n[O-E] FIFO 压力 oracle...\n "
+ },
+ "rom_ctrl": {
+  "elapsed_s": 0.1,
+  "rc": 0,
+  "raw": 1,
+  "findings": [
+   {
+    "oracle": "G-pulse",
+    "signal": "rvalid_residual",
+    "desc": "事务完成后响应信号残留 10 拍（出现 24 次）→ 脉冲电平化，同一响应可能被重复采样"
+   }
+  ],
+  "err_head": ""
+ },
+ "ibex": {
+  "elapsed_s": 0.1,
+  "rc": 0,
+  "raw": 0,
+  "findings": [],
+  "err_head": "regmap: /workspace/pickerfuzz/traces/ibex_regmap.json\n=== 发现引擎: ibex ===\n白盒信号 44 个, 寄存器 0 个\n敏感: 2  控制: 21  其他: 21\n\n[O-A] 残留 oracle...\n  → 0 条\n[O-B] 确定性 oracle...\n  → 0 条\n[O-C] 等价类 oracle...\n  → 0 条\n[O"
+ },
+ "pattgen": {
+  "elapsed_s": 0.1,
+  "rc": 0,
+  "raw": 0,
+  "findings": [],
+  "err_head": "regmap: /workspace/pickerfuzz/traces/pattgen_regmap.json\n=== 发现引擎: pattgen ===\n白盒信号 8 个, 寄存器 12 个\n敏感: 0  控制: 8  其他: 0\n\n[O-A] 残留 oracle...\n  → 0 条\n[O-B] 确定性 oracle...\n  → 0 条\n[O-C] 等价类 oracle...\n  → 0 "
+ },
+ "rv_timer": {
+  "elapsed_s": 0.1,
+  "rc": 0,
+  "raw": 0,
+  "findings": [],
+  "err_head": "regmap: /workspace/pickerfuzz/traces/rv_timer_regmap.json\n=== 发现引擎: rv_timer ===\n白盒信号 3 个, 寄存器 10 个\n敏感: 0  控制: 0  其他: 3\n\n[O-A] 残留 oracle...\n  → 0 条\n[O-B] 确定性 oracle...\n  → 0 条\n[O-C] 等价类 oracle...\n  → "
+ },
+ "spi_host": {
+  "elapsed_s": 0.1,
+  "rc": 0,
+  "raw": 0,
+  "findings": [],
+  "err_head": "regmap: /workspace/pickerfuzz/traces/spi_host_regmap.json\n=== 发现引擎: spi_host ===\n白盒信号 18 个, 寄存器 14 个\n敏感: 0  控制: 15  其他: 3\n\n[O-A] 残留 oracle...\n  → 0 条\n[O-B] 确定性 oracle...\n  → 0 条\n[O-C] 等价类 oracle...\n  "
+ },
+ "sram_ctrl": {
+  "elapsed_s": 0.1,
+  "rc": 0,
+  "raw": 0,
+  "findings": [],
+  "err_head": "regmap: /workspace/pickerfuzz/traces/sram_ctrl_regmap.json\n=== 发现引擎: sram_ctrl ===\n白盒信号 3 个, 寄存器 9 个\n敏感: 1  控制: 2  其他: 0\n\n[O-A] 残留 oracle...\n  → 0 条\n[O-B] 确定性 oracle...\n  → 0 条\n[O-C] 等价类 oracle...\n  →"
+ },
+ "aon_timer": {
+  "elapsed_s": 0.1,
+  "rc": 0,
+  "raw": 0,
+  "findings": [],
+  "err_head": "regmap: /workspace/pickerfuzz/traces/aon_timer_regmap.json\n=== 发现引擎: aon_timer ===\n白盒信号 6 个, 寄存器 14 个\n敏感: 0  控制: 1  其他: 5\n\n[O-A] 残留 oracle...\n  → 0 条\n[O-B] 确定性 oracle...\n  → 0 条\n[O-C] 等价类 oracle...\n  "
+ },
+ "clkmgr": {
+  "elapsed_s": 0.1,
+  "rc": 0,
+  "raw": 0,
+  "findings": [],
+  "err_head": "regmap: /workspace/pickerfuzz/traces/clkmgr_regmap.json\n=== 发现引擎: clkmgr ===\n白盒信号 8 个, 寄存器 22 个\n敏感: 0  控制: 7  其他: 1\n\n[O-A] 残留 oracle...\n  → 0 条\n[O-B] 确定性 oracle...\n  → 0 条\n[O-C] 等价类 oracle...\n  → 0 条\n"
+ },
+ "csrng": {
+  "elapsed_s": 0.1,
+  "rc": 1,
+  "raw": 0,
+  "findings": [],
+  "err_head": "regmap: /workspace/pickerfuzz/traces/csrng_regmap.json\nTraceback (most recent call last):\n  File \"/workspace/pickerfuzz/scripts/discover_engine.py\", line 720, in <module>\n    main()\n  File \"/workspace"
+ },
+ "entropy_src": {
+  "elapsed_s": 0.1,
+  "rc": 0,
+  "raw": 0,
+  "findings": [],
+  "err_head": "regmap: /workspace/pickerfuzz/traces/entropy_src_regmap.json\n=== 发现引擎: entropy_src ===\n白盒信号 36 个, 寄存器 57 个\n敏感: 8  控制: 16  其他: 12\n\n[O-A] 残留 oracle...\n  → 0 条\n[O-B] 确定性 oracle...\n  → 0 条\n[O-C] 等价类 oracl"
+ },
+ "alert_handler": {
+  "elapsed_s": 0.2,
+  "rc": 0,
+  "raw": 0,
+  "findings": [],
+  "err_head": "regmap: /workspace/pickerfuzz/traces/alert_handler_regmap.json\n=== 发现引擎: alert_handler ===\n白盒信号 10 个, 寄存器 350 个\n敏感: 0  控制: 8  其他: 2\n\n[O-A] 残留 oracle...\n  → 0 条\n[O-B] 确定性 oracle...\n  → 0 条\n[O-C] 等价类 or"
+ },
+ "pwrmgr": {
+  "elapsed_s": 0.1,
+  "rc": 0,
+  "raw": 0,
+  "findings": [],
+  "err_head": "regmap: /workspace/pickerfuzz/traces/pwrmgr_regmap.json\n=== 发现引擎: pwrmgr ===\n白盒信号 8 个, 寄存器 17 个\n敏感: 0  控制: 8  其他: 0\n\n[O-A] 残留 oracle...\n  → 0 条\n[O-B] 确定性 oracle...\n  → 0 条\n[O-C] 等价类 oracle...\n  → 0 条\n"
+ },
+ "rstmgr": {
+  "elapsed_s": 0.1,
+  "rc": 0,
+  "raw": 0,
+  "findings": [],
+  "err_head": "regmap: /workspace/pickerfuzz/traces/rstmgr_regmap.json\n=== 发现引擎: rstmgr ===\n白盒信号 5 个, 寄存器 28 个\n敏感: 0  控制: 3  其他: 2\n\n[O-A] 残留 oracle...\n  → 0 条\n[O-B] 确定性 oracle...\n  → 0 条\n[O-C] 等价类 oracle...\n  → 0 条\n"
+ },
+ "rv_dm": {
+  "elapsed_s": 0.1,
+  "rc": 1,
+  "raw": 0,
+  "findings": [],
+  "err_head": "Traceback (most recent call last):\n  File \"/workspace/pickerfuzz/scripts/discover_engine.py\", line 720, in <module>\n    main()\n  File \"/workspace/pickerfuzz/scripts/discover_engine.py\", line 684, in m"
+ }
+}
