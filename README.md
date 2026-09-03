@@ -144,3 +144,19 @@ python3 scripts/ok_invariant.py gen <module>
 ②覆盖率插桩模型（--coverage）构建方法：`verilator ... --coverage` + harness
 `contextp()->coveragep()->write("coverage.dat")` + `verilator_coverage`（构建脚本要点见
 报告 38 章）；③数据文件 `fuzz/hmac_oracle_coverage.dat/.info` 可复现。
+
+### 开环也支持代码覆盖率（对比闭环）
+
+| 模式 | hmac 覆盖率（行 / 翻转 / 分支 / expr）|
+|------|--------------------------------------|
+| 开环（batch_discover/discover_engine，全 12 oracle 一轮）| **75.3% / 62.5% / 77.3% / 65.5%** |
+| 闭环（ol_full_loop，80 迭代） | 64.1% / 48.6% / 67.9% / 55.6% |
+
+开环反而更高：12 个 oracle 的定向激励（KAT、错误注入、FSM 边界）比覆盖率引导的
+随机变异更快触达安全关键路径。两者可叠加（verilator_coverage 支持多 .dat 合并）。
+
+开环覆盖率采集方法（已固化 `scripts/coverage_run.sh`）：
+1. 插桩构建：`verilator ... --coverage` → obj_cov/（harness 需 `-fPIC` 重编，
+   `atexit`/显式 `pf_final` 写 coverage.dat）
+2. 引擎侧：`discover_engine.py` main 结束时调用 `dut.api.pf_final()`（普通模型静默跳过）
+3. `verilator_coverage` 统计；数据 `fuzz/hmac_openloop_coverage.dat` 可复现

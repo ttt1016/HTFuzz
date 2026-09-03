@@ -1049,6 +1049,11 @@ def main():
         print(f"  [warn] O-M 执行异常: {e}")
     out = f"/workspace/HTFuzz/fuzz/discover_{module}.json"
     json.dump({"module": module, "findings": findings}, open(out, "w"), indent=1, ensure_ascii=False)
+    # 覆盖率插桩模型：结束时写 coverage.dat（普通模型无此 API，静默跳过）
+    try:
+        dut.api.pf_final()
+    except Exception:
+        pass
     print(f"\n=== 结果: {len(findings)} 条候选 → {out} ===")
     for f in findings[:10]:
         sig = f.get("signal", "")
