@@ -273,6 +273,37 @@
     "mode": "api-deep",
     "model": "zai-org/GLM-5.3-Flash"
    }
+  },
+  {
+   "oracle": "O-J-errprop",
+   "signal": "u_dut.u_reg.reg_error,u_dut.u_reg.intg_err,u_dut.u_reg.u_err_code.q",
+   "value": "fired=1 silent=3",
+   "confidence": "MEDIUM",
+   "desc": "错误传播不完整: 静默触发 ['T1-invalid-cfg', 'T3-locked-write', 'T4-shadow-conflict']（1 类已传播）→ 疑似部分错误路径被吞没",
+   "llm_deep": {
+    "verdict": "needs-review",
+    "confidence": 50,
+    "evidence": "Let me analyze this carefully.\n\nThe candidate is about the HMAC module in OpenTitan, with oracle O-J-errprop (error propagation oracle). The signals flagged are:\n- u_dut.u_reg.reg_error\n- u_dut.u_reg.intg_err\n- u_dut.u_reg.u_err_code.q\n\nThe phenomenon: \"错误传播不完整: 静默触发 ['T1-invalid-cfg', 'T3-locked-write', 'T4-shadow-conflict']（1 类已传播）→ 疑似部分错误路径被吞没\" — meaning error propagation is incomplete: silently triggered ['T1-invalid-cfg', 'T3-locked-write', 'T4-shadow-conflict'] (1 class propagated) → suspected partial error paths being swallowed.\n\nSo the oracle observed that when certain error conditions occur (invalid config, locked write, shadow conflict), the error code register doesn't capture/propagate all of them — only 1 class propagated.\n\nIn OpenTitan's reg_top, there's typically:\n\n```systemverilog\n  // Error code register is set by hardware on error conditions\n  ...\n  logic reg_error;\n  logic intg_err;\n  ...\n  assign reg_error = (devmode_i & tl_i.a_valid & ~addr_ok) | ... \n```\n\nActually, in the standard OpenTitan reg_top generated code:\n\n```systemverilog\n  logic intg_err;\n  ...\n  // integrity error\n  assign intg_err = ... (checks tl_i.a_user.chk integrity)\n  ...\n  assign reg_error = (devmode_i & (intg_err | ...));\n```\n\nAnd the err_code / err_status register:\n\n```systemverilog\n  //   F[...]: ...\n  prim_subreg #(\n    .DW      (1),\n    .SwAccess(prim_subreg_pkg::SwAccessW1C),\n    ...\n  ) u_err_code (...)\n```\n\nWait, actually in hmac_reg_top.sv, there's an `err_code` register (ERR_CODE) with fields like sw_err, digest_err, etc. Hmm, actually in HMAC the ERR_CODE register has fields: SW_ERR (software error for write to MSG_FIFO when disabled...), DIGEST_ERR, etc. Actually let me recall.\n\nHMAC register map (OpenTitan):\n- INTR_STATE, INTR_ENABLE, INTR_TEST\n- ALERT_TEST\n- CFG (shadowed: hmac_en, sha_en, endian_swap, digest_size, key_length)\n- CMD (hash_start, hash_process)\n- STATUS (fifo_empty, fifo_full, fifo_depth, hmac_idle)\n- WLEN\n- KEY_0..7\n- DIGEST_0..7\n- MSG_LENGTH_LOWE",
+    "mode": "api-deep",
+    "model": "zai-org/GLM-5.3-Flash"
+   }
+  },
+  {
+   "oracle": "O-L-kat",
+   "signal": "hmac.SHA-512",
+   "value": "err_intr=True err_code=0x0",
+   "confidence": "HIGH",
+   "desc": "SHA-512 标准向量运算未完成，且 hmac_err 置位但 ERR_CODE=0（错误无成因）",
+   "llm_deep": {
+    "verdict": "likely-bug",
+    "confidence": 88,
+    "injection_type": "条件篡改",
+    "evidence": "...",
+    "impact": "...",
+    "suggested_poc": "...",
+    "mode": "api-deep",
+    "model": "zai-org/GLM-5.3-Flash"
+   }
   }
  ]
 }

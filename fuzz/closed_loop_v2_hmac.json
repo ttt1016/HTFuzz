@@ -1,10 +1,10 @@
 {
  "module": "hmac",
- "iterations": 60,
- "exec_count": 66,
- "final_coverage": 203,
- "pairwise_count": 28,
- "corpus_size": 27,
+ "iterations": 80,
+ "exec_count": 86,
+ "final_coverage": 377,
+ "pairwise_count": 59,
+ "corpus_size": 36,
  "violations": [
   {
    "signal": "u_dut.secret_key",

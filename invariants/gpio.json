@@ -1,0 +1,117 @@
+{
+ "module": "gpio",
+ "invariants": [
+  {
+   "name": "bus_intg_fatal_alert",
+   "signal": "u_dut.u_reg.intg_err",
+   "rule": "bus_intg_check",
+   "trigger_regs": [
+    {
+     "reg": "DATA_OUT",
+     "data": "0xA5A5A5A5"
+    }
+   ],
+   "rationale": "SEC_CM: BUS.INTEGRITY——对该写事务的 TL-UL a_data/a_address 完整性位注入翻转后，intg_err 必须置位并触发 fatal alert，且该次写不得更新 DATA_OUT，防止故障/恶意总线写静默篡改输出状态。"
+  },
+  {
+   "name": "intr_test_wo_readback_zero",
+   "signal": "u_dut.u_reg.u_intr_test.q",
+   "rule": "read_only_leak",
+   "trigger_regs": [
+    {
+     "reg": "INTR_TEST",
+     "data": "0xDEADBEEF"
+    }
+   ],
+   "rationale": "INTR_TEST 为 write-only 寄存器；写入后任何读回路径必须返回全 0（regtool 生成的读 mux 不回传 q），防止软件经读回侧信道观测测试注入值。"
+  },
+  {
+   "name": "data_out_tgl_wo_readback_zero",
+   "signal": "u_dut.u_reg.u_data_out_tgl.q",
+   "rule": "read_only_leak",
+   "trigger_regs": [
+    {
+     "reg": "DATA_OUT_TGL",
+     "data": "0xFFFFFFFF"
+    }
+   ],
+   "rationale": "DATA_OUT_TGL 为 write-only 触发寄存器；读回必须为 0，避免 toggle 命令值经读回路径泄露。"
+  },
+  {
+   "name": "data_out_core_consistency",
+   "signal": "u_dut.cio_gpio_o",
+   "rule": "reg_core_consistent",
+   "trigger_regs": [
+    {
+     "reg": "DATA_OUT",
+     "data": "0xA5A5A5A5"
+    }
+   ],
+   "rationale": "寄存器侧 DATA_OUT 与核心侧实际驱动引脚的 cio_gpio_o 必须逐位一致（且 cio_gpio_en_o 全 1），防止寄存器副本与物理输出脱钩造成输出电平欺骗。"
+  },
+  {
+   "name": "intr_first_event_only",
+   "signal": "u_dut.intr_gpio",
+   "rule": "interrupt_first_event",
+   "trigger_regs": [
+    {
+     "reg": "INTR_ENABLE",
+     "data": "0xFFFFFFFF"
+    },
+    {
+     "reg": "INTR_TEST",
+     "data": "0x00000001"
+    },
+    {
+     "reg": "INTR_TEST",
+     "data": "0x00000001"
+    }
+   ],
+   "rationale": "INTR_STATE[0] 未被 rw1c 清除前，第二次事件注入不得产生新的中断置位/上升沿；中断只在首次事件时有效，防止中断重复触发与中断风暴。"
+  },
+  {
+   "name": "data_in_write_rejected",
+   "signal": "u_dut.u_reg.u_data_in.q",
+   "rule": "access_control",
+   "trigger_regs": [
+    {
+     "reg": "DATA_IN",
+     "data": "0xFFFFFFFF"
+    }
+   ],
+   "rationale": "DATA_IN 为只读寄存器（反映引脚输入采样），软件写必须被硬件拒绝，q 保持原值，防止伪造输入采样值欺骗上层软件。"
+  },
+  {
+   "name": "masked_out_zero_mask_blocks",
+   "signal": "u_dut.u_reg.u_data_out.q",
+   "rule": "cfg_block_gating",
+   "trigger_regs": [
+    {
+     "reg": "DATA_OUT",
+     "data": "0xA5A5A5A5"
+    },
+    {
+     "reg": "DATA_OUT_MASKED",
+     "data": "0x00000000"
+    }
+   ],
+   "rationale": "DATA_OUT_MASKED 低 16 位 mask 是写门控：mask=0 时对应位的写必须被完全阻断，DATA_OUT 保持 0xA5A5A5A5，防止部分写操作越权改写未授权位。"
+  },
+  {
+   "name": "intr_state_rw1c_wipe",
+   "signal": "u_dut.u_reg.u_intr_state.q",
+   "rule": "wipe_clears",
+   "trigger_regs": [
+    {
+     "reg": "INTR_TEST",
+     "data": "0x00000001"
+    },
+    {
+     "reg": "INTR_STATE",
+     "data": "0x00000001"
+    }
+   ],
+   "rationale": "对 INTR_STATE 的 rw1c 写 1 必须将对应 pending 位彻底清零（intr_gpio 随之撤销），中断状态不得残留，保证事件状态可被软件完全擦除且不可复活。"
+  }
+ ]
+}
