@@ -1460,3 +1460,44 @@ TL-UL 总线读回路径上的 key 读回值。O-A 检查的是"擦除后残留"
 2. LLM prompt 中列出全部规则类型，让 LLM 选择最合适的
 3. harness 加更多白盒信号（总线级/中断级）
 → LLM 就能为每个 SEC_CM 提取对应类型的不变量
+
+## 32. P63: 改进方向——按投入产出比排序（2026-09-03）
+
+### 32.1 为什么一半检测不出来
+
+O-K 不变量规则只有 3 种（wipe_clears/changes_across_runs/reg_core_consistent），
+但实际注入手法有 12+ 种。每种缺失的规则对应 1-2 个未检出 bug。
+
+### 32.2 改进方向（按 ROI 排序）
+
+| 优先级 | 改进 | 投入 | 产出 | ROI |
+|--------|------|------|------|-----|
+| 1 | O-K 规则扩展（3→12+种）| 2-3小时 | 覆盖12个未检出bug | ★★★★★ |
+| 2 | harness 白盒信号扩展 | 1天 | 配合新O-K规则 | ★★★★☆ |
+| 3 | keymgr EDN 时钟修复 | 半天 | 走通完整derivation | ★★★★☆ |
+| 4 | 跨模块联动验证 | 2天 | 检出跨模块注入 | ★★★☆☆ |
+| 5 | rv_dm DUT | 1天 | Bug#0 | ★★★☆☆ |
+
+### 32.5 第一步详细方案
+
+改 3 个文件：
+1. ok_invariant.py GEN_PROMPT：列出 12+ 种规则类型
+2. ok_invariant.py InvariantChecker.check()：支持新规则判定
+3. llm_deep_audit.py prompt：同步更新
+
+新规则列表：
+- read_only_leak: write-only 寄存器读回必须全 0
+- err_code_coherent: 错误后 ERR_CODE 必须置位
+- cfg_block_gating: cfg_block=1 时敏感写被拒绝
+- fsm_sparse_encoding: FSM 状态必须是合法编码
+- bus_intg_check: intg 错误必须触发 alert
+- prd_zeroization: PRD 清零后输出必须变化
+- debug_lock_enforce: debug-lock 后 DFT 无效
+- scramble_key_valid: key 在 valid 后才输出
+- locality_gate: invalid locality 写被拒绝
+- abort_clear_auth: abort-clear 必须授权
+- monotonic_counter: 计数器只增不减
+- interrupt_first_event: 中断只在首次事件触发
+
+例：HMAC SEC_CM 包含 KEY.SW_UNREADABLE
+当前 LLM 只能提取 wipe_clears → 扩展后可提取 read_only_leak → 直接检出 Bug#16
