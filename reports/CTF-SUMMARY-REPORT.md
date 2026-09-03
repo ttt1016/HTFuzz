@@ -1818,3 +1818,15 @@ standalone verilator 编译需要特殊处理。
   + edn_pkg + csrng_pkg + entropy_src_pkg + keymgr_pkg/reg_pkg + prim 全套
 - 关键排序: otp_ctrl_reg_pkg → otp_ctrl_top_specific_pkg → otp_ctrl_part_pkg
   （part_pkg 前向引用 reg_pkg 和 top_specific 的类型）
+
+### 39.7 DUT 构建进度总结（2026-09-04 收盘）
+
+| 状态 | DUT | 数量 |
+|------|-----|------|
+| ✅ 可用 | 原有 18 + 本会话新增: csrng / uart / gpio / adc_ctrl / tlul / otp_ctrl | **24** |
+| ⏳ 待建 | lc_ctrl / spi_tpm / mbx / otbn | 4 |
+| 构建 | 管线完全固化: autobuild.sh + wrapper/harness 模板 + 预种子策略 | |
+
+本会话 DUT 扩展: **+6 个**（从 18 → 24），每个建成后自动继承全部 14 个 oracle。
+lc_ctrl 已有单元 TB（lc_fsm_test 覆盖 #28），转 .so 即可获得引擎覆盖。
+spi_tpm/mbx 需要特殊激励（TPM 侧/核侧 req/ack）。otbn 最重（处理器+IMEM 装载）。
