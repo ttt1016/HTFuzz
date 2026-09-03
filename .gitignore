@@ -7,3 +7,4 @@ __pycache__/
 *.so
 fuzz/logs/
 fuzz/mass/*.log
+.DS_Store
