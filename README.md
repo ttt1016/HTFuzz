@@ -127,3 +127,20 @@ python3 scripts/ok_invariant.py gen <module>
 - 全套（开环 21 DUT + 闭环 16 模块 + O-K + 单元 TB）**合计 < 10s、峰值 < 300 MB**
 - LLM 层为按需触发（O-K gen 每模块一次调用，~30-120s；负载在自建 vLLM 服务端）
 - 扩容方向：并行化受限于单核模型实例；加大 trials/campaign 时间线性增长，内存恒定
+
+### 代码覆盖率（RTL 行/翻转/分支，Verilator --coverage 插桩实测）
+
+以 hmac 为例（全部 12 个 oracle 的激励灌入后，verilator_coverage 统计）：
+
+| 覆盖类型 | 数值 |
+|---|---|
+| 行覆盖 line | **64.1%**（280/437）|
+| 翻转覆盖 toggle | 48.6%（14637/30106）|
+| 分支覆盖 branch | **67.9%**（341/502）|
+| 表达式覆盖 expr | 55.6%（953/1715）|
+
+说明：①单轮全 oracle（约 0.15s 激励）即可达 64% 行/68% 分支——剩余部分主要是
+未被任何场景触达的错误/保持路径与深状态组合，正是加大 fuzzing campaign 的增长空间；
+②覆盖率插桩模型（--coverage）构建方法：`verilator ... --coverage` + harness
+`contextp()->coveragep()->write("coverage.dat")` + `verilator_coverage`（构建脚本要点见
+报告 38 章）；③数据文件 `fuzz/hmac_oracle_coverage.dat/.info` 可复现。
