@@ -1707,3 +1707,15 @@ batch_discover.py 此前从 stdout 正则提取，而引擎只打印前 10 条�
 ### 37.3 修正后全量：23 条 / 10 模块
 aes 8（含掩码 PRNG 确定性×2、O-J 传播断裂）、hmac 5（含 O-L KAT SHA-512）、
 ascon 2、kmac 2、keymgr/rom_ctrl/ibex/clkmgr/entropy_src/rstmgr 各 1；另 O-K 5 条、单元 TB 3 条。
+
+### 36.5 P1 追加：csrng DUT 建成（第 19 个可用 DUT，2026-09-03）
+- wrapper 重写：剥 `#5 clk`、移除 SV task/$finish、加 hmac 式 `cb_*` 主机接口（真实 tlul intg ECC）。
+- filelist 从 hw/ 依赖闭包生成（**包文件优先排序**——aes_pkg 在 cipher_control_fsm 前否则
+  "Reference before declaration"）；harness 拷 hmac 模式。
+- 自检 PASS：CTRL shadow 写读回 0x6666、INS 命令 2 轮完成、GEN 出 4 字 genbits。
+- 白盒 9 信号：main_sm/ctr_drbg_gen state_raw、acmd_q、cs_bus_cmp_alert、fatal_loc_events、
+  cmd_stage/aes_cipher/ctr_drbg err_sum。
+- 引擎首扫即出 1 条 O-J（错误传播链断裂，对应清单 csrng #45 族）。
+- 经验沉淀：`--lib-create` 库名是 `libpf_<lib>`（无 liblibpf 前缀）时 VK_USER_OBJS 覆盖法
+  `make libpf_csrng_ctf.so VK_USER_OBJS=pf_csrng_harness.o`；exe 链接需排除 harness.o 与
+  ctf.o（重复定义）。
