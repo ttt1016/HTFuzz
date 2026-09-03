@@ -14,6 +14,13 @@
    "value": "0xffffffff 0xffffffff 0xffffffff 0xffffffff",
    "trial": 4,
    "desc": "掩码/熵信号 u_dut.msg_data_masked 两次独立执行逐位相同 → 无随机性（静态掩码/PRNG 不动）"
+  },
+  {
+   "oracle": "O-J-errprop",
+   "signal": "u_dut.err_processed",
+   "value": "tried=4",
+   "confidence": "HIGH",
+   "desc": "全部 4 类错误触发均未引起任何 alert/err 信号置位 → 错误传播链断裂"
   }
  ]
 }

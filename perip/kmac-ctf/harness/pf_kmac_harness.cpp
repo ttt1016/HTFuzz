@@ -23,6 +23,9 @@ static SigEntry g_sigs[] = {
     {"u_dut.msg_data",         nullptr, 2, true},   // 64bit MsgWidth
     {"u_dut.msg_data_masked",  nullptr, 4, true},   // [Share][MsgWidth]
     {"u_dut.mux2fifo_mask",    nullptr, 2, true},
+    {"u_dut.u_kmac_core.kmac_valid", nullptr, 1, false},
+    {"u_dut.msg_valid", nullptr, 1, false},
+    {"u_dut.err_processed", nullptr, 1, false},
 };
 static const int g_nsig = sizeof(g_sigs)/sizeof(g_sigs[0]);
 
@@ -32,6 +35,9 @@ static void bind_signals() {
         if (strcmp(n, "u_dut.msg_data") == 0) g_sigs[i].ptr = &SIGD(msg_data);
         else if (strcmp(n, "u_dut.msg_data_masked") == 0) g_sigs[i].ptr = &SIGD(msg_data_masked);
         else if (strcmp(n, "u_dut.mux2fifo_mask") == 0) g_sigs[i].ptr = &SIGD(mux2fifo_mask);
+        else if (strcmp(n, "u_dut.u_kmac_core.kmac_valid") == 0) g_sigs[i].ptr = &rootp->kmac_perip_tb__DOT__u_dut__DOT__u_kmac_core__DOT__kmac_valid;
+        else if (strcmp(n, "u_dut.msg_valid") == 0) g_sigs[i].ptr = &rootp->kmac_perip_tb__DOT__u_dut__DOT__msg_valid;
+        else if (strcmp(n, "u_dut.err_processed") == 0) g_sigs[i].ptr = &rootp->kmac_perip_tb__DOT__u_dut__DOT__err_processed;
     }
 }
 

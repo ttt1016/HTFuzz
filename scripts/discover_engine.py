@@ -15,7 +15,7 @@ HTFuzz 发现引擎 v2 —— 不依赖漏洞表的通用漏洞发现管线
 用法: discover_engine.py <dut_dir> <module_name>
 输出: findings JSON（每条含 oracle 类型/触发序列/证据信号）
 """
-import ctypes, os, sys, json, random, itertools
+import ctypes, os, sys, json, random, itertools, re
 
 # ---------- DUT 加载 ----------
 class DUT:
@@ -749,6 +749,120 @@ def oracle_errprop(dut, regmap, findings, cfg):
         })
 
 
+# ---------- O-N: 多轨一致性 oracle ----------
+def oracle_multirail(dut, regmap, findings, cfg):
+    """冗余一致性 (SEC_CM: CTRL.REDUN / CTR.REDUN / FSM.REDUN，目标 RTL 50+ 处)
+    多轨副本（如 aes gen_fsm 0/1/2 的 state_raw 三轨）运行中必须一致；
+    不一致后 alert/err 必须置位 —— 不置位 = 冗余比较器失效注入。
+    """
+    # 自动发现多轨信号组: 按"去掉最后一段后的前缀 + 尾名"分组，组内 ≥2 且组名互不相同
+    groups = {}
+    for nm in dut.sigs:
+        parts = nm.split(".")
+        if len(parts) < 2:
+            continue
+        tail = parts[-1]
+        prefix = ".".join(parts[:-1])
+        # 轨标识: 前缀里最后一个 gen_fsm__BRA__N / gen_..._N 段归一化
+        norm = re.sub(r"BRA__\d__KET__", "BRA__N__KET__", prefix)
+        key = (norm, tail)
+        groups.setdefault(key, []).append(nm)
+    rails = {k: v for k, v in groups.items() if len(v) >= 2}
+    if not rails:
+        return
+    alerts = alert_sigs(dut.sigs)
+    en_regs = [(nm, off) for nm, off in regmap.items()
+               if any(k in nm.lower() for k in ("enable", "conf", "ctrl"))
+               and "regwen" not in nm.lower() and "intr_enable" not in nm.lower()
+               and "alert_test" not in nm.lower()]
+    ctrl_regs = [(nm, off) for nm, off in regmap.items()
+                 if any(k in nm.lower() for k in ("ctrl", "cfg", "cmd", "trigger"))]
+    diff_seen, alert_on_diff = False, False
+    for trial in range(cfg.get("rail_trials", 3)):
+        dut.reset(); dut.step(10)
+        for nm, off in en_regs[:4]:
+            dut.write(off, 0x66666666 if "conf" in nm.lower() else 0x1)
+            dut.step(2)
+        # 激活 + 压力: 写 ctrl 边界值迫使 FSM 转移
+        for nm, off in ctrl_regs[:3]:
+            dut.write(off, rnd_seed(cfg, trial) & 0xFFFFFFF)
+            dut.step(5)
+        for tick in range(30):
+            dut.step(5)
+            for key, names in rails.items():
+                vals = [tuple(dut.sig_all(n)) for n in names]
+                if any(v != vals[0] for v in vals[1:]):
+                    diff_seen = True
+                    # 轨间差异必须触发 alert/err（逐拍观察）
+                    for _ in range(10):
+                        dut.step(2)
+                        for a in alerts:
+                            cur = dut.sig_all(a)
+                            if any(v != 0 for v in cur):
+                                alert_on_diff = True
+                                break
+                        if alert_on_diff:
+                            break
+                    if alert_on_diff:
+                        break
+            if alert_on_diff:
+                break
+        if diff_seen and alert_on_diff:
+            break
+    if diff_seen and not alert_on_diff:
+        grp_desc = "; ".join(f"{names[0].split('.')[-1]}×{len(names)}" for names in
+                             list(rails.values())[:2])
+        findings.append({
+            "oracle": "O-N-multirail",
+            "signal": grp_desc,
+            "value": f"rails={len(rails)}",
+            "confidence": "HIGH",
+            "desc": f"多轨副本出现不一致但 alert/err 未置位（{len(rails)} 组轨）→ 冗余比较器失效",
+        })
+    elif not diff_seen:
+        pass  # 无差异发生（激励未迫使分叉），不报
+
+
+def rnd_seed(cfg, trial):
+    return (cfg.get("seed", 0xC0FFEE) + trial * 7919) | 0x5A5A0000
+
+
+# ---------- O-M: MUBI 编码合法性 oracle ----------
+def oracle_mubi(dut, regmap, findings, cfg):
+    """MUBI 多位编码 (SEC_CM: INTERSIG.MUBI/CONFIG.MUBI/LC_CTRL.INTERSIG.MUBI，31+ 处)
+    名字含 mubi 的信号，值必须属于合法编码集 {True, False}；非法编码必须被检测/纠正。
+    """
+    mubi_sigs = [nm for nm in dut.sigs if "mubi" in nm.lower()]
+    if not mubi_sigs:
+        return
+    VALID = {1: {0x1, 0x0}, 4: {0x6, 0x9}, 8: {0x66, 0x99}, 12: {0x666, 0x999},
+             16: {0x6666, 0x9999}}
+    bad = []
+    en_regs = [(nm, off) for nm, off in regmap.items()
+               if any(k in nm.lower() for k in ("enable", "conf"))
+               and "regwen" not in nm.lower()]
+    for trial in range(cfg.get("mubi_trials", 2)):
+        dut.reset(); dut.step(10)
+        for nm, off in en_regs[:4]:
+            dut.write(off, 0x66666666 if "conf" in nm.lower() else 0x1)
+            dut.step(2)
+        dut.step(30)
+        for nm in mubi_sigs:
+            for v in dut.sig_all(nm):
+                width = 1 if v <= 0xF else (8 if v <= 0xFF else (12 if v <= 0xFFF else 16))
+                if width in VALID and v not in VALID[width] and v != 0:
+                    bad.append((nm, hex(v)))
+    if bad:
+        sigs = sorted({b[0] for b in bad})[:3]
+        findings.append({
+            "oracle": "O-M-mubi",
+            "signal": ",".join(sigs),
+            "value": "; ".join(f"{n}={v}" for n, v in bad[:3]),
+            "confidence": "MEDIUM",
+            "desc": f"MUBI 信号出现非法编码 {bad[0][1]}（合法集 {{True,False}}）→ 编码完整性失效",
+        })
+
+
 # ---------- 主流程 ----------
 def main():
     if len(sys.argv) < 3:
@@ -834,6 +948,18 @@ def main():
         print("  → %d 条" % sum(1 for f in findings if f["oracle"]=="O-J-errprop"))
     except Exception as e:
         print(f"  [warn] O-J 执行异常: {e}")
+    print("[O-N] 多轨一致性 oracle...")
+    try:
+        oracle_multirail(dut, norm, findings, cfg)
+        print("  → %d 条" % sum(1 for f in findings if f["oracle"]=="O-N-multirail"))
+    except Exception as e:
+        print(f"  [warn] O-N 执行异常: {e}")
+    print("[O-M] MUBI 合法性 oracle...")
+    try:
+        oracle_mubi(dut, norm, findings, cfg)
+        print("  → %d 条" % sum(1 for f in findings if f["oracle"]=="O-M-mubi"))
+    except Exception as e:
+        print(f"  [warn] O-M 执行异常: {e}")
     out = f"/workspace/HTFuzz/fuzz/discover_{module}.json"
     json.dump({"module": module, "findings": findings}, open(out, "w"), indent=1, ensure_ascii=False)
     print(f"\n=== 结果: {len(findings)} 条候选 → {out} ===")

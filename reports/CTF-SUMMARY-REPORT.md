@@ -1658,3 +1658,34 @@ debug_lock_enforce。全异常兜底返回 None 不误报。
 新增检出对应清单 bug：keymgr #45/#25（data_en_state 错误传播）、entropy_src #35/#18
 （MUBI/健康测试 alert 路径）、rstmgr/clkmgr（alert_info 门控类）。
 提交: 本节 + scripts 两文件。
+
+## 36. 分类学驱动 oracle（O-N/O-M）+ aes/kmac 观察表扩充（2026-09-03）
+
+### 36.1 属性分类学（reports/20260903/ORACLE-TAXONOMY.md）
+核验了既有 7 大类总结：方向正确但对照目标 RTL 实测的 278 个 SEC_CM 标注，
+漏了 3 个高频家族——**冗余一致性 REDUN（≈50 处）/ 可用性 BKGN_CHK(18) /
+MUBI 编码合法性(31+)**。合并为十大属性族（含权威来源：Basak CAV'21 五分类、
+Common Criteria FPT、FIPS 140-3），每个属性族一个通用 oracle，不为单个 bug 写检测。
+
+### 36.2 新 oracle
+- **O-N 多轨一致性**：自动发现共享尾名的多轨信号组（aes gen_fsm 0/1/2 state_raw 三轨、
+  ctr_fsm 三轨），运行中采样；轨间不一致后 alert/err 未置位 = 冗余比较器失效（CTRL.REDUN 类注入）。
+- **O-M MUBI 合法性**：mubi 信号值必须 ∈ {True,False} 合法编码（mubi4 0x6/0x9、mubi8 0x66/0x99）。
+
+### 36.3 观察表扩充（SEC_CM 驱动）
+- aes 6 → **29** 信号：控制 FSM 三轨 state_raw、ctr_fsm alert/alert_counter、cipher_core
+  add_rk_sel/sp_enc_err、掩码 PRNG(bivium state_q)、data_in_prev_q 等（脚本 /tmp/expand_sigs2.py 模式可复用）。
+- kmac 3 → **6** 信号：kmac_core.kmac_valid（key-ready 门控 #54）、msg_valid、err_processed。
+- 构建修正：aes 的陈旧 liblibpf_aes_ctf_new.so/libpf_aes_api.so 移除（旧行优先加载屏蔽新表），
+  新 harness 经 `make VK_USER_OBJS=pf_aes_harness.o` 链入模型库。
+
+### 36.4 全量检出对比
+| 阶段 | 检出 |
+|------|------|
+| P0 前 | 14 |
+| P0 后（O-J） | 19 |
+| **P1 后（O-N/O-M + 扩观察表）** | **19→重扫 15 条候选/10 模块（aes +1）**，O-K 6 条，单元 TB 3 条 |
+
+说明：O-N/O-M 在良性 RTL 上轨始终一致/编码合法（0 报告是正确行为）；
+其价值在注入版 RTL 上体现（轨分叉/mubi 损坏时触发）。
+遗留：csrng DUT（harness 从零写）、otbn/otp_ctrl DUT、O-K2 中途复位 oracle。

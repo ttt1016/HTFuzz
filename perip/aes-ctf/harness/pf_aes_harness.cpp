@@ -24,6 +24,29 @@ static SigEntry g_sigs[] = {
     {"u_dut.key_full_q", nullptr, 8, true},
     {"u_dut.key_dec_q", nullptr, 8, true},
     {"u_dut.data_out_we", nullptr, 1, false},
+    {"u_dut.u_aes_core.u_aes_control.gen_fsm__BRA__1__KET__.gen_fsm_p.u_aes_control_fsm_i.u_aes_control_fsm.u_state_regs.state_raw", nullptr, 1, false},
+    {"u_dut.u_aes_core.u_aes_control.gen_fsm__BRA__0__KET__.gen_fsm_p.u_aes_control_fsm_i.u_aes_control_fsm.u_state_regs.state_raw", nullptr, 1, false},
+    {"u_dut.u_aes_core.u_aes_control.gen_fsm__BRA__2__KET__.gen_fsm_n.u_aes_control_fsm_i.u_aes_control_fsm.u_state_regs.state_raw", nullptr, 1, false},
+    {"u_dut.u_aes_core.u_aes_ctr.gen_fsm__BRA__1__KET__.gen_fsm_p.u_aes_ctr_fsm_i.u_aes_ctr_fsm.aes_ctr_ns", nullptr, 1, false},
+    {"u_dut.u_aes_core.u_aes_ctr.gen_fsm__BRA__1__KET__.gen_fsm_p.u_aes_ctr_fsm_i.u_aes_ctr_fsm.alert_counter_q", nullptr, 1, false},
+    {"u_dut.u_aes_core.u_aes_ctr.gen_fsm__BRA__0__KET__.gen_fsm_p.u_aes_ctr_fsm_i.u_aes_ctr_fsm.aes_ctr_ns", nullptr, 1, false},
+    {"u_dut.u_aes_core.u_aes_ctr.gen_fsm__BRA__0__KET__.gen_fsm_p.u_aes_ctr_fsm_i.u_aes_ctr_fsm.alert_counter_q", nullptr, 1, false},
+    {"u_dut.u_aes_core.u_aes_ctr.gen_fsm__BRA__2__KET__.gen_fsm_n.u_aes_ctr_fsm_i.u_aes_ctr_fsm.aes_ctr_ns", nullptr, 1, false},
+    {"u_dut.u_aes_core.u_aes_ctr.gen_fsm__BRA__2__KET__.gen_fsm_n.u_aes_ctr_fsm_i.u_aes_ctr_fsm.alert_counter_q", nullptr, 1, false},
+    {"u_dut.u_aes_core.u_aes_ctr.gen_fsm__BRA__1__KET__.gen_fsm_p.u_aes_ctr_fsm_i.alert", nullptr, 1, false},
+    {"u_dut.u_aes_core.u_aes_ctr.gen_fsm__BRA__1__KET__.gen_fsm_p.u_aes_ctr_fsm_i.ctr_we", nullptr, 1, false},
+    {"u_dut.u_aes_core.u_aes_ctr.gen_fsm__BRA__0__KET__.gen_fsm_p.u_aes_ctr_fsm_i.alert", nullptr, 1, false},
+    {"u_dut.u_aes_core.u_aes_ctr.gen_fsm__BRA__0__KET__.gen_fsm_p.u_aes_ctr_fsm_i.ctr_we", nullptr, 1, false},
+    {"u_dut.u_aes_core.u_aes_ctr.gen_fsm__BRA__2__KET__.gen_fsm_n.u_aes_ctr_fsm_i.alert", nullptr, 1, false},
+    {"u_dut.u_aes_core.u_aes_ctr.gen_fsm__BRA__2__KET__.gen_fsm_n.u_aes_ctr_fsm_i.ctr_we", nullptr, 1, false},
+    {"u_dut.u_aes_core.u_aes_ctr.ctr_i_rev", nullptr, 4, true},
+    {"u_dut.u_aes_core.u_aes_ctr.ctr_o_rev", nullptr, 4, true},
+    {"u_dut.u_aes_core.u_aes_cipher_core.add_rk_sel_raw", nullptr, 1, false},
+    {"u_dut.u_aes_core.u_aes_cipher_core.sp_enc_err_q", nullptr, 1, false},
+    {"u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.prng_key", nullptr, 5, true},
+    {"u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.u_prim_bivium.state_q", nullptr, 6, true},
+    {"u_dut.u_aes_core.data_in_prev_q", nullptr, 4, true},
+    {"u_dut.u_aes_core.sp_enc_err_q", nullptr, 1, false},
 };
 static const int g_nsig = sizeof(g_sigs)/sizeof(g_sigs[0]);
 
@@ -36,6 +59,29 @@ static void bind_signals() {
         else if (strcmp(n, "u_dut.key_full_q") == 0) g_sigs[i].ptr = &SIGC(key_full_q);
         else if (strcmp(n, "u_dut.key_dec_q") == 0) g_sigs[i].ptr = &SIGC(key_dec_q);
         else if (strcmp(n, "u_dut.data_out_we") == 0) g_sigs[i].ptr = &SIGD(u_aes_control__DOT__sp_data_out_we);
+        else if (strcmp(n, "u_dut.u_aes_core.u_aes_control.gen_fsm__BRA__1__KET__.gen_fsm_p.u_aes_control_fsm_i.u_aes_control_fsm.u_state_regs.state_raw") == 0) g_sigs[i].ptr = &rootp->aes_perip_tb__DOT__u_dut__DOT__u_aes_core__DOT__u_aes_control__DOT__gen_fsm__BRA__1__KET____DOT__gen_fsm_p__DOT__u_aes_control_fsm_i__DOT__u_aes_control_fsm__DOT__u_state_regs__DOT__state_raw;
+        else if (strcmp(n, "u_dut.u_aes_core.u_aes_control.gen_fsm__BRA__0__KET__.gen_fsm_p.u_aes_control_fsm_i.u_aes_control_fsm.u_state_regs.state_raw") == 0) g_sigs[i].ptr = &rootp->aes_perip_tb__DOT__u_dut__DOT__u_aes_core__DOT__u_aes_control__DOT__gen_fsm__BRA__0__KET____DOT__gen_fsm_p__DOT__u_aes_control_fsm_i__DOT__u_aes_control_fsm__DOT__u_state_regs__DOT__state_raw;
+        else if (strcmp(n, "u_dut.u_aes_core.u_aes_control.gen_fsm__BRA__2__KET__.gen_fsm_n.u_aes_control_fsm_i.u_aes_control_fsm.u_state_regs.state_raw") == 0) g_sigs[i].ptr = &rootp->aes_perip_tb__DOT__u_dut__DOT__u_aes_core__DOT__u_aes_control__DOT__gen_fsm__BRA__2__KET____DOT__gen_fsm_n__DOT__u_aes_control_fsm_i__DOT__u_aes_control_fsm__DOT__u_state_regs__DOT__state_raw;
+        else if (strcmp(n, "u_dut.u_aes_core.u_aes_ctr.gen_fsm__BRA__1__KET__.gen_fsm_p.u_aes_ctr_fsm_i.u_aes_ctr_fsm.aes_ctr_ns") == 0) g_sigs[i].ptr = &rootp->aes_perip_tb__DOT__u_dut__DOT__u_aes_core__DOT__u_aes_ctr__DOT__gen_fsm__BRA__1__KET____DOT__gen_fsm_p__DOT__u_aes_ctr_fsm_i__DOT__u_aes_ctr_fsm__DOT__aes_ctr_ns;
+        else if (strcmp(n, "u_dut.u_aes_core.u_aes_ctr.gen_fsm__BRA__1__KET__.gen_fsm_p.u_aes_ctr_fsm_i.u_aes_ctr_fsm.alert_counter_q") == 0) g_sigs[i].ptr = &rootp->aes_perip_tb__DOT__u_dut__DOT__u_aes_core__DOT__u_aes_ctr__DOT__gen_fsm__BRA__1__KET____DOT__gen_fsm_p__DOT__u_aes_ctr_fsm_i__DOT__u_aes_ctr_fsm__DOT__alert_counter_q;
+        else if (strcmp(n, "u_dut.u_aes_core.u_aes_ctr.gen_fsm__BRA__0__KET__.gen_fsm_p.u_aes_ctr_fsm_i.u_aes_ctr_fsm.aes_ctr_ns") == 0) g_sigs[i].ptr = &rootp->aes_perip_tb__DOT__u_dut__DOT__u_aes_core__DOT__u_aes_ctr__DOT__gen_fsm__BRA__0__KET____DOT__gen_fsm_p__DOT__u_aes_ctr_fsm_i__DOT__u_aes_ctr_fsm__DOT__aes_ctr_ns;
+        else if (strcmp(n, "u_dut.u_aes_core.u_aes_ctr.gen_fsm__BRA__0__KET__.gen_fsm_p.u_aes_ctr_fsm_i.u_aes_ctr_fsm.alert_counter_q") == 0) g_sigs[i].ptr = &rootp->aes_perip_tb__DOT__u_dut__DOT__u_aes_core__DOT__u_aes_ctr__DOT__gen_fsm__BRA__0__KET____DOT__gen_fsm_p__DOT__u_aes_ctr_fsm_i__DOT__u_aes_ctr_fsm__DOT__alert_counter_q;
+        else if (strcmp(n, "u_dut.u_aes_core.u_aes_ctr.gen_fsm__BRA__2__KET__.gen_fsm_n.u_aes_ctr_fsm_i.u_aes_ctr_fsm.aes_ctr_ns") == 0) g_sigs[i].ptr = &rootp->aes_perip_tb__DOT__u_dut__DOT__u_aes_core__DOT__u_aes_ctr__DOT__gen_fsm__BRA__2__KET____DOT__gen_fsm_n__DOT__u_aes_ctr_fsm_i__DOT__u_aes_ctr_fsm__DOT__aes_ctr_ns;
+        else if (strcmp(n, "u_dut.u_aes_core.u_aes_ctr.gen_fsm__BRA__2__KET__.gen_fsm_n.u_aes_ctr_fsm_i.u_aes_ctr_fsm.alert_counter_q") == 0) g_sigs[i].ptr = &rootp->aes_perip_tb__DOT__u_dut__DOT__u_aes_core__DOT__u_aes_ctr__DOT__gen_fsm__BRA__2__KET____DOT__gen_fsm_n__DOT__u_aes_ctr_fsm_i__DOT__u_aes_ctr_fsm__DOT__alert_counter_q;
+        else if (strcmp(n, "u_dut.u_aes_core.u_aes_ctr.gen_fsm__BRA__1__KET__.gen_fsm_p.u_aes_ctr_fsm_i.alert") == 0) g_sigs[i].ptr = &rootp->aes_perip_tb__DOT__u_dut__DOT__u_aes_core__DOT__u_aes_ctr__DOT__gen_fsm__BRA__1__KET____DOT__gen_fsm_p__DOT__u_aes_ctr_fsm_i__DOT__alert;
+        else if (strcmp(n, "u_dut.u_aes_core.u_aes_ctr.gen_fsm__BRA__1__KET__.gen_fsm_p.u_aes_ctr_fsm_i.ctr_we") == 0) g_sigs[i].ptr = &rootp->aes_perip_tb__DOT__u_dut__DOT__u_aes_core__DOT__u_aes_ctr__DOT__gen_fsm__BRA__1__KET____DOT__gen_fsm_p__DOT__u_aes_ctr_fsm_i__DOT__ctr_we;
+        else if (strcmp(n, "u_dut.u_aes_core.u_aes_ctr.gen_fsm__BRA__0__KET__.gen_fsm_p.u_aes_ctr_fsm_i.alert") == 0) g_sigs[i].ptr = &rootp->aes_perip_tb__DOT__u_dut__DOT__u_aes_core__DOT__u_aes_ctr__DOT__gen_fsm__BRA__0__KET____DOT__gen_fsm_p__DOT__u_aes_ctr_fsm_i__DOT__alert;
+        else if (strcmp(n, "u_dut.u_aes_core.u_aes_ctr.gen_fsm__BRA__0__KET__.gen_fsm_p.u_aes_ctr_fsm_i.ctr_we") == 0) g_sigs[i].ptr = &rootp->aes_perip_tb__DOT__u_dut__DOT__u_aes_core__DOT__u_aes_ctr__DOT__gen_fsm__BRA__0__KET____DOT__gen_fsm_p__DOT__u_aes_ctr_fsm_i__DOT__ctr_we;
+        else if (strcmp(n, "u_dut.u_aes_core.u_aes_ctr.gen_fsm__BRA__2__KET__.gen_fsm_n.u_aes_ctr_fsm_i.alert") == 0) g_sigs[i].ptr = &rootp->aes_perip_tb__DOT__u_dut__DOT__u_aes_core__DOT__u_aes_ctr__DOT__gen_fsm__BRA__2__KET____DOT__gen_fsm_n__DOT__u_aes_ctr_fsm_i__DOT__alert;
+        else if (strcmp(n, "u_dut.u_aes_core.u_aes_ctr.gen_fsm__BRA__2__KET__.gen_fsm_n.u_aes_ctr_fsm_i.ctr_we") == 0) g_sigs[i].ptr = &rootp->aes_perip_tb__DOT__u_dut__DOT__u_aes_core__DOT__u_aes_ctr__DOT__gen_fsm__BRA__2__KET____DOT__gen_fsm_n__DOT__u_aes_ctr_fsm_i__DOT__ctr_we;
+        else if (strcmp(n, "u_dut.u_aes_core.u_aes_ctr.ctr_i_rev") == 0) g_sigs[i].ptr = &rootp->aes_perip_tb__DOT__u_dut__DOT__u_aes_core__DOT__u_aes_ctr__DOT__ctr_i_rev;
+        else if (strcmp(n, "u_dut.u_aes_core.u_aes_ctr.ctr_o_rev") == 0) g_sigs[i].ptr = &rootp->aes_perip_tb__DOT__u_dut__DOT__u_aes_core__DOT__u_aes_ctr__DOT__ctr_o_rev;
+        else if (strcmp(n, "u_dut.u_aes_core.u_aes_cipher_core.add_rk_sel_raw") == 0) g_sigs[i].ptr = &rootp->aes_perip_tb__DOT__u_dut__DOT__u_aes_core__DOT__u_aes_cipher_core__DOT__add_rk_sel_raw;
+        else if (strcmp(n, "u_dut.u_aes_core.u_aes_cipher_core.sp_enc_err_q") == 0) g_sigs[i].ptr = &rootp->aes_perip_tb__DOT__u_dut__DOT__u_aes_core__DOT__u_aes_cipher_core__DOT__sp_enc_err_q;
+        else if (strcmp(n, "u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.prng_key") == 0) g_sigs[i].ptr = &rootp->aes_perip_tb__DOT__u_dut__DOT__u_aes_core__DOT__u_aes_cipher_core__DOT__gen_masks__DOT__u_aes_prng_masking__DOT__prng_key;
+        else if (strcmp(n, "u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.u_prim_bivium.state_q") == 0) g_sigs[i].ptr = &rootp->aes_perip_tb__DOT__u_dut__DOT__u_aes_core__DOT__u_aes_cipher_core__DOT__gen_masks__DOT__u_aes_prng_masking__DOT__u_prim_bivium__DOT__state_q;
+        else if (strcmp(n, "u_dut.u_aes_core.data_in_prev_q") == 0) g_sigs[i].ptr = &rootp->aes_perip_tb__DOT__u_dut__DOT__u_aes_core__DOT__data_in_prev_q;
+        else if (strcmp(n, "u_dut.u_aes_core.sp_enc_err_q") == 0) g_sigs[i].ptr = &rootp->aes_perip_tb__DOT__u_dut__DOT__u_aes_core__DOT__sp_enc_err_q;
     }
 }
 

@@ -2,7 +2,7 @@
  "aes": {
   "elapsed_s": 0.2,
   "rc": 0,
-  "raw": 6,
+  "raw": 10,
   "findings": [
    {
     "oracle": "A-residual",
@@ -10,9 +10,14 @@
     "desc": "敏感信号 u_dut.key_init[0] 在清除/操作序列后残留写入标记值"
    },
    {
-    "oracle": "C-equivclass",
-    "signal": "u_dut.data_out_q",
-    "desc": "语义等价序列产生不同控制状态 → 可能存在中间读副作用/相位错误"
+    "oracle": "B-determinism",
+    "signal": "u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.prng_key",
+    "desc": "掩码/熵信号 u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking"
+   },
+   {
+    "oracle": "B-determinism",
+    "signal": "u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.u_prim_bivium.state_q",
+    "desc": "掩码/熵信号 u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking"
    }
   ],
   "err_head": ""
@@ -56,12 +61,17 @@
  "kmac": {
   "elapsed_s": 0.3,
   "rc": 0,
-  "raw": 2,
+  "raw": 3,
   "findings": [
    {
     "oracle": "B-determinism",
     "signal": "u_dut.msg_data_masked",
     "desc": "掩码/熵信号 u_dut.msg_data_masked 两次独立执行逐位相同 → 无随机性（静态掩码/PRNG 不动）"
+   },
+   {
+    "oracle": "J-errprop",
+    "signal": "u_dut.err_processed",
+    "desc": "全部 4 类错误触发均未引起任何 alert/err 信号置位 → 错误传播链断裂"
    }
   ],
   "err_head": ""
@@ -158,7 +168,7 @@
   "rc": 1,
   "raw": 0,
   "findings": [],
-  "err_head": "regmap: /workspace/HTFuzz/traces/csrng_regmap.json\nTraceback (most recent call last):\n  File \"/workspace/HTFuzz/scripts/discover_engine.py\", line 846, in <module>\n    main()\n  File \"/workspace/HTFuzz/"
+  "err_head": "regmap: /workspace/HTFuzz/traces/csrng_regmap.json\nTraceback (most recent call last):\n  File \"/workspace/HTFuzz/scripts/discover_engine.py\", line 972, in <module>\n    main()\n  File \"/workspace/HTFuzz/"
  },
  "entropy_src": {
   "elapsed_s": 0.2,
@@ -205,6 +215,6 @@
   "rc": 1,
   "raw": 0,
   "findings": [],
-  "err_head": "Traceback (most recent call last):\n  File \"/workspace/HTFuzz/scripts/discover_engine.py\", line 846, in <module>\n    main()\n  File \"/workspace/HTFuzz/scripts/discover_engine.py\", line 804, in main\n    "
+  "err_head": "Traceback (most recent call last):\n  File \"/workspace/HTFuzz/scripts/discover_engine.py\", line 972, in <module>\n    main()\n  File \"/workspace/HTFuzz/scripts/discover_engine.py\", line 918, in main\n    "
  }
 }
