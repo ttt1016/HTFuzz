@@ -61,6 +61,15 @@ export PF_TARGET_RTL=/workspace/opentitan
 
 ## 当前进行中的任务（未完成）
 
+### 任务 0: DUT 扩展进行中（2026-09-03 更新，详见报告 36/37 章）
+- 已完成: csrng、uart、gpio（+白盒表扩充 aes 29/kmac 6）
+- 待做（按序）: adc_ctrl、tlul（各~0.5）→ otp_ctrl、spi_tpm、lc_ctrl、mbx（各~1）→ otbn（~2）
+- 流水线: `autobuild.sh`（依赖闭包自动解析）+ wrapper 模板（cb_* 接口）+ harness 模板
+- 预种子: 从 uart-ctf 拷 hw/ip/prim + top_pkg（公共依赖已验证闭包）
+- 坑: ①悬空输出用顶层输出口防死状态消除 ②autobuild 必须查退出码（-Wno-fatal 降级）
+  ③batch 读落盘 JSON 非 stdout ④包文件排引用者前 ⑤--lib-create 无前缀库名用 VK_USER_OBJS 覆盖
+- oracle 全家: O-A~L + O-M MUBI + O-N 多轨（12 个，全部对新 DUT 自动生效）
+
 ### 任务 1: hmac harness 白盒信号扩展
 - 文件: `perip/hmac-ctf/harness/pf_hmac_harness.cpp`
 - 目标: 在 `g_sigs[]` 数组末尾（`};` 之前）添加以下信号：
