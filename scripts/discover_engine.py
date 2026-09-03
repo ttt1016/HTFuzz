@@ -155,6 +155,25 @@ EXCLUDE_PATTERNS = [
     "handshake", "fsm_cs",                            # CDC 协议握手 FSM（瞬态采样噪声，非安全状态机）
 ]
 
+# alert/error 类信号（O-J 错误传播 oracle 的观察目标；
+# 不并入 CONTROL_PATTERNS，避免污染 O-C/O-D 的控制信号集）
+ALERT_PATTERNS = ["alert", "err", "fault", "intg", "escalate"]
+
+
+def alert_sigs(sigs):
+    """提取 alert/err 类信号（排除时钟/复位/驱动辅助与 comb next-state）"""
+    out = []
+    for nm in sigs:
+        low = nm.lower()
+        if any(p in low for p in EXCLUDE_PATTERNS):
+            continue
+        if any(p in low for p in ALERT_PATTERNS):
+            if low.endswith("_d") or "intr_enable" in low or "err_d" in low:
+                continue
+            out.append(nm)
+    return out
+
+
 def load_signal_patterns(profile=None):
     global SENSITIVE_PATTERNS, CONTROL_PATTERNS, EXCLUDE_PATTERNS
     if profile and "signal_patterns" in profile:
@@ -629,6 +648,107 @@ def oracle_pulse(dut, regmap, findings, cfg):
                     "desc": f"事务完成后响应信号残留 {dr} 拍（出现 {c} 次）→ 脉冲电平化，同一响应可能被重复采样",
                 })
 
+# ---------- O-J: 错误传播 oracle ----------
+def oracle_errprop(dut, regmap, findings, cfg):
+    """错误传播检查: 制造错误/非法操作 → alert/err 类信号必须置位
+    覆盖: alert 抑制 / 错误吞没 / escalation 无 fanout 类注入
+    四类触发: T1 非法配置 / T2 越界访问 / T3 锁后写入 / T4 shadow 两阶段写冲突
+    """
+    alerts = alert_sigs(dut.sigs)
+    if not alerts:
+        return
+    en_regs = [(nm, off) for nm, off in regmap.items()
+               if any(k in nm.lower() for k in ("enable", "conf", "ctrl"))
+               and "regwen" not in nm.lower() and "intr_enable" not in nm.lower()
+               and "alert_test" not in nm.lower()]
+    ctrl_regs = [(nm, off) for nm, off in regmap.items()
+                 if any(k in nm.lower() for k in ("ctrl", "cfg", "cmd", "control"))]
+    sens_regs = [(nm, off) for nm, off in regmap.items()
+                 if any(k in nm.lower() for k in ("key", "secret", "wdata", "data_in", "msg"))]
+    max_off = max([off for off in regmap.values()] or [0x100])
+
+    def baseline():
+        return {nm: dut.sig_all(nm) for nm in alerts}
+
+    def raised(before):
+        """40 拍内逐拍采样，任何 alert 信号变化/置位即传播成功，返回信号名"""
+        for _ in range(20):
+            dut.step(2)
+            for nm in alerts:
+                cur = dut.sig_all(nm)
+                if cur != before[nm] and (any(v != 0 for v in cur)
+                                          or any(v != 0 for v in before[nm])):
+                    return nm
+        return None
+
+    res = {}
+
+    # T1 非法配置
+    if ctrl_regs:
+        dut.reset(); dut.step(5)
+        for nm, off in en_regs[:4]:
+            dut.write(off, 0x66666666 if "conf" in nm.lower() else 0x1)
+            dut.step(2)
+        b = baseline()
+        for nm, off in ctrl_regs[:4]:
+            dut.write(off, 0xFFFFFFFF)
+            dut.step(3)
+        res["T1-invalid-cfg"] = raised(b)
+
+    # T2 越界访问
+    dut.reset(); dut.step(5)
+    b = baseline()
+    dut.write(max_off + 0x100, 0xDEADBEEF)
+    dut.step(2)
+    _ = dut.read(max_off + 0x104)
+    dut.step(2)
+    dut.write(max_off + 0x1F8, 0x12345678)
+    res["T2-oob-access"] = raised(b)
+
+    # T3 锁后写入
+    if sens_regs:
+        dut.reset(); dut.step(5)
+        b = baseline()
+        wen = [(nm, off) for nm, off in regmap.items() if "regwen" in nm.lower()]
+        for nm, off in wen[:2]:
+            dut.write(off, 0)
+            dut.step(2)
+        for nm, off in sens_regs[:4]:
+            dut.write(off, 0xFEEDFACE)
+            dut.step(2)
+        res["T3-locked-write"] = raised(b)
+
+    # T4 shadow 两阶段写冲突
+    if ctrl_regs:
+        dut.reset(); dut.step(5)
+        b = baseline()
+        for nm, off in ctrl_regs[:2]:
+            dut.write(off, 0x5)
+            dut.step(3)
+            dut.write(off, 0xA)
+            dut.step(3)
+        res["T4-shadow-conflict"] = raised(b)
+
+    silent = [t for t, r in res.items() if r is None]
+    fired = {t: r for t, r in res.items() if r}
+    if silent and len(silent) == len(res):
+        findings.append({
+            "oracle": "O-J-errprop",
+            "signal": ",".join(alerts[:3]),
+            "value": f"tried={len(res)}",
+            "confidence": "HIGH",
+            "desc": f"全部 {len(res)} 类错误触发均未引起任何 alert/err 信号置位 → 错误传播链断裂",
+        })
+    elif silent:
+        findings.append({
+            "oracle": "O-J-errprop",
+            "signal": ",".join(alerts[:3]),
+            "value": f"fired={len(fired)} silent={len(silent)}",
+            "confidence": "MEDIUM",
+            "desc": f"错误传播不完整: 静默触发 {silent}（{len(fired)} 类已传播）→ 疑似部分错误路径被吞没",
+        })
+
+
 # ---------- 主流程 ----------
 def main():
     if len(sys.argv) < 3:
@@ -708,6 +828,12 @@ def main():
     print("[O-G] 脉冲宽度 oracle...")
     oracle_pulse(dut, norm, findings, cfg)
     print("  → %d 条" % sum(1 for f in findings if f["oracle"]=="O-G-pulse"))
+    print("[O-J] 错误传播 oracle...")
+    try:
+        oracle_errprop(dut, norm, findings, cfg)
+        print("  → %d 条" % sum(1 for f in findings if f["oracle"]=="O-J-errprop"))
+    except Exception as e:
+        print(f"  [warn] O-J 执行异常: {e}")
     out = f"/workspace/HTFuzz/fuzz/discover_{module}.json"
     json.dump({"module": module, "findings": findings}, open(out, "w"), indent=1, ensure_ascii=False)
     print(f"\n=== 结果: {len(findings)} 条候选 → {out} ===")

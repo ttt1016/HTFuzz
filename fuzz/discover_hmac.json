@@ -132,6 +132,13 @@
    "trial": 5,
    "confidence": "MEDIUM",
    "desc": "FSM 信号 u_dut.done_state_q 在边界输入后 100 拍保持 0x2 不变，且该稳态在正常操作中未出现 → 疑似卡死/无超时恢复"
+  },
+  {
+   "oracle": "O-J-errprop",
+   "signal": "u_dut.u_reg.reg_error,u_dut.u_reg.intg_err,u_dut.u_reg.u_err_code.q",
+   "value": "fired=1 silent=3",
+   "confidence": "MEDIUM",
+   "desc": "错误传播不完整: 静默触发 ['T1-invalid-cfg', 'T3-locked-write', 'T4-shadow-conflict']（1 类已传播）→ 疑似部分错误路径被吞没"
   }
  ]
 }

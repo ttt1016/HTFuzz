@@ -1,4 +1,12 @@
 {
  "module": "clkmgr",
- "findings": []
+ "findings": [
+  {
+   "oracle": "O-J-errprop",
+   "signal": "aes_trans.hold_err,aes_idle_cnt.err_q",
+   "value": "tried=3",
+   "confidence": "HIGH",
+   "desc": "全部 3 类错误触发均未引起任何 alert/err 信号置位 → 错误传播链断裂"
+  }
+ ]
 }

@@ -12,12 +12,6 @@
    "rule": "wipe_clears",
    "desc": "擦除触发后 ascon_core.key_share0_in_q 残留非零值 ['0xdeadbeef', '0xdeadbeef', '0xdeadbeef']",
    "confidence": 80
-  },
-  {
-   "signal": "ascon_core.key_share0_in_q",
-   "rule": "changes_across_runs",
-   "desc": "ascon_core.key_share0_in_q 触发后仍为常量 0xdeadbeef（应随熵变化）",
-   "confidence": 80
   }
  ]
 }

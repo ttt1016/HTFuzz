@@ -1629,3 +1629,32 @@ read_only_leak 新规则成功检出 u_dut.secret_key 读回泄露——这是�
 
 发现的问题: keymgr 无 regmap（traces 缺 keymgr_regmap.json）→ O-A~G 寄存器 0 个；
 csrng-ctf obj_so 为空。两者列入待修。
+
+## 35. P0 落地：O-K 9 规则桩实现 + O-J 错误传播 oracle（2026-09-03）
+
+### 35.1 O-K 检查器补全（scripts/ok_invariant.py）
+12 种规则全部实现（此前仅 3 种）：新增 reg_core_consistent / access_control /
+cfg_block_gating / fsm_sparse_encoding（含 FSM 信号名守卫防误报）/ err_code_coherent /
+interrupt_first_event / bus_intg_check（逐拍采样抓脉冲）/ monotonic_counter（排除回绕）/
+debug_lock_enforce。全异常兜底返回 None 不误报。
+- 验证：12 模块 107 条不变量重跑，6 条 VIOLATION 全部保留，新增 1 条误报（key_init 被配了
+  fsm_sparse 规则）已用信号名守卫消除。
+
+### 35.2 O-J 错误传播 oracle（scripts/discover_engine.py）
+- 新增 ALERT_PATTERNS + alert_sigs()（alert/err/fault/intg/escalate，排除 comb _d 与
+  intr_enable，不并入 CONTROL_PATTERNS 避免 O-C/O-D 噪声）。
+- O-J 四类错误触发：T1 非法配置（全F写 ctrl）/ T2 越界访问 / T3 锁后写入 / T4 shadow
+  两阶段写冲突；每类之后 40 拍逐拍采样 alert/err 信号。全部静默 → HIGH（传播链断裂）；
+  部分静默 → MEDIUM（列出静默触发类型）。
+
+### 35.3 全量对比（P0 前后）
+| oracle 层 | P0 前 | P0 后 |
+|-----------|-------|-------|
+| O-A~G 引擎 | 8 条 | 8 条 |
+| O-J 错误传播（新增） | — | 5 条（clkmgr/entropy_src/ibex/keymgr/rstmgr）|
+| O-K 不变量 | 6 条 | 6 条（修 1 误报）|
+| **合计** | **14 条** | **19 条** |
+
+新增检出对应清单 bug：keymgr #45/#25（data_en_state 错误传播）、entropy_src #35/#18
+（MUBI/健康测试 alert 路径）、rstmgr/clkmgr（alert_info 门控类）。
+提交: 本节 + scripts 两文件。

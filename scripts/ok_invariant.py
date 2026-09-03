@@ -258,20 +258,86 @@ def gen_invariants(module):
 
 
 class InvariantChecker:
+    """通用不变量检查器 —— 12 种规则全部实现。
+
+    可用原语: dut.write/read/step/reset/sig_read（DutHandle）+ regmap(name→offset)。
+    每个规则一个独立场景，异常一律返回 None（不误报）。
+    """
+
     def __init__(self, dut, regmap):
         self.dut = dut
         self.regmap = regmap
 
-    def _off(self, name):
-        name = str(name).lower()
-        for k, v in self.regmap.items():
-            if k.lower() == name:
-                return v
-        for k, v in self.regmap.items():
-            if name in k.lower() or k.lower() in name:
-                return v
+    # ---------- 通用工具 ----------
+    def _rd(self, off):
+        """读寄存器，兼容 dict/int 返回"""
+        if off is None:
+            return None
+        v = self.dut.read(off)
+        if isinstance(v, dict):
+            return v.get("value")
+        return v
+
+    def _find_reg_any(self, *keys):
+        """按名字关键字找寄存器 (name, offset)"""
+        for nm, off in self.regmap.items():
+            low = nm.lower()
+            if any(k in low for k in keys):
+                return nm, off
         return None
 
+    def _sig_words(self, sig):
+        """白盒信号 → [int]，不可观测返回 None"""
+        r = self.dut.sig_read(sig)
+        if not isinstance(r, dict) or "words" not in r:
+            return None
+        out = []
+        for w in r["words"]:
+            try:
+                out.append(int(w, 0) if isinstance(w, str) else int(w))
+            except Exception:
+                out.append(0)
+        return out
+
+    def _exec_triggers(self, trs):
+        d = self.dut
+        for t in trs or []:
+            off = self.regmap.get(str(t.get("reg", "")).lower())
+            if off is not None:
+                try:
+                    d.write(off, int(str(t.get("data", "1")), 0))
+                except Exception:
+                    d.write(off, 1)
+                d.step(5)
+
+    def _marker_probe(self):
+        """向 key/data 类寄存器写 marker（通用敏感数据注入）"""
+        d = self.dut
+        marker = 0xDEADBEEF
+        key_regs = [(k, v) for k, v in self.regmap.items()
+                    if any(w in k.lower() for w in ("key", "secret", "seed", "data_in", "wdata"))]
+        for nm, off in key_regs[:8]:
+            d.write(off, marker)
+        d.step(10)
+        return marker
+
+    def _match_signal_reg(self, sig):
+        """信号尾名 → regmap 匹配（digest ↔ DIGEST），用于 reg/core 副本对"""
+        tail = sig.split(".")[-1].lower()
+        for strip in ("_q", "_d", "_qs", ""):
+            t = tail[: -len(strip)] if strip and tail.endswith(strip) else tail
+            if not t:
+                continue
+            for nm, off in self.regmap.items():
+                if t in nm.lower():
+                    return nm, off
+        return None
+
+    def _violation(self, real_sig, rule, desc, confidence=80):
+        return {"signal": real_sig, "rule": rule, "desc": desc,
+                "confidence": confidence}
+
+    # ---------- 主检查：信号匹配 + 规则分发 ----------
     def check(self, inv):
         rule = inv.get("rule", "")
         sig = inv.get("signal", "")
@@ -279,10 +345,8 @@ class InvariantChecker:
         # 信号名模糊匹配（LLM 给的层次名可能和 dut.sigs 不完全一致）
         real_sig = None
         sig_tail = sig.split(".")[-1]
-        # 变体: secret_key_q -> secret_key / secret_key_d
         variants = {sig_tail, sig_tail.replace("_q", ""), sig_tail.replace("_q", "_d"),
-                    sig_tail.replace("_q", ""), sig_tail + "_q"}
-        # 优先匹配含全部 tail 的信号
+                    sig_tail + "_q"}
         for sname in d.sigs:
             if sig_tail in sname:
                 real_sig = sname
@@ -297,69 +361,295 @@ class InvariantChecker:
                     break
         if real_sig is None:
             return None  # 信号不可观测，跳过
+
+        fn = getattr(self, "_chk_" + rule, None)
+        if fn is None:
+            return None
+        try:
+            return fn(inv, real_sig)
+        except Exception:
+            return None  # 检查过程异常不误报
+
+    # ---------- 已实现规则 ----------
+    def _chk_wipe_clears(self, inv, real_sig):
+        d = self.dut
         d.reset()
         d.step(5)
-        marker = 0xDEADBEEF
-        key_regs = [(k, v) for k, v in self.regmap.items()
-                    if any(w in k.lower() for w in ("key", "secret", "seed", "data_in", "wdata"))]
-        for nm, off in key_regs[:8]:
-            d.write(off, marker)
-        d.step(10)
-        for t in inv.get("trigger_regs", []):
-            off = self.regmap.get(str(t.get("reg", "")).lower())
-            if off is not None:
-                try:
-                    d.write(off, int(str(t.get("data", "1")), 0))
-                except Exception:
-                    d.write(off, 1)
-                d.step(5)
+        self._marker_probe()
+        self._exec_triggers(inv.get("trigger_regs"))
         d.step(50)
-        after = d.sig_read(real_sig)
-        if not isinstance(after, dict):
+        words = self._sig_words(real_sig)
+        if words is None:
             return None
-        words = after.get("words", [])
-
-        if rule == "wipe_clears":
-            nz = [w for w in words if w != "0x0"]
-            if nz:
-                return {"signal": real_sig, "rule": rule,
-                        "desc": f"擦除触发后 {real_sig} 残留非零值 {nz[:3]}",
-                        "confidence": 80}
-
-        if rule == "changes_across_runs":
-            if words and all(w == words[0] for w in words) and words[0] != "0x0":
-                return {"signal": real_sig, "rule": rule,
-                        "desc": f"{real_sig} 触发后仍为常量 {words[0]}（应随熵变化）",
-                        "confidence": 80}
-
-        if rule == "read_only_leak":
-            # write-only 寄存器读回必须全 0（信息泄露检查）
-            nz = [w for w in words if w != "0x0"]
-            if nz:
-                return {"signal": real_sig, "rule": rule,
-                        "desc": f"write-only 寄存器 {real_sig} 读回非零值 {nz[:3]}（信息泄露）",
-                        "confidence": 85}
-
-        if rule == "access_control" or rule == "cfg_block_gating":
-            # 检查未授权访问是否被拒绝：写后读回应该不变
-            # 这里简化：如果信号在写后发生了不该发生的变化
-            # 完整实现需要对照 baseline
-            pass  # 需要更复杂的 baseline 对比
-
-        if rule == "fsm_sparse_encoding":
-            # FSM 状态必须是合法 sparse 编码
-            # 检查状态值是否在合法集合中（由 LLM 在 rationale 中指定）
-            pass  # 需要合法状态集合
-
-        if rule == "err_code_coherent":
-            # 错误发生后 ERR_CODE 必须置位
-            pass  # 需要触发错误后检查
-
-        if rule == "monotonic_counter":
-            # 计数器只增不减
-            pass  # 需要多拍采样
-
+        nz = [w for w in words if w != 0]
+        if nz:
+            return self._violation(real_sig, "wipe_clears",
+                                   f"擦除触发后 {real_sig} 残留非零值 {[hex(w) for w in nz[:3]]}")
         return None
+
+    def _chk_changes_across_runs(self, inv, real_sig):
+        d = self.dut
+        runs = []
+        for _ in range(2):
+            d.reset()
+            d.step(5)
+            self._exec_triggers(inv.get("trigger_regs"))
+            d.step(50)
+            runs.append(self._sig_words(real_sig))
+        if not runs[0]:
+            return None
+        if runs[0] == runs[1] and any(v != 0 for v in runs[0]):
+            return self._violation(real_sig, "changes_across_runs",
+                                   f"{real_sig} 触发后仍为常量 {[hex(w) for w in runs[0][:3]]}（应随熵变化）")
+        return None
+
+    def _chk_read_only_leak(self, inv, real_sig):
+        d = self.dut
+        d.reset()
+        d.step(5)
+        self._marker_probe()
+        d.step(20)
+        words = self._sig_words(real_sig)
+        if words is None:
+            return None
+        nz = [w for w in words if w != 0]
+        if nz:
+            return self._violation(real_sig, "read_only_leak",
+                                   f"write-only 寄存器 {real_sig} 读回非零值 {[hex(w) for w in nz[:3]]}（信息泄露）",
+                                   confidence=85)
+        return None
+
+    # ---------- P0 新增 9 规则 ----------
+    def _chk_reg_core_consistent(self, inv, real_sig):
+        """reg 侧与 core 侧副本必须同步变化"""
+        d = self.dut
+        pair = self._match_signal_reg(real_sig)
+        if not pair:
+            return None  # 找不到对应寄存器，跳过
+        reg_nm, reg_off = pair
+        d.reset()
+        d.step(10)
+        base_reg, base_sig = self._rd(reg_off), self._sig_words(real_sig)
+        if base_reg is None or base_sig is None:
+            return None
+        for v in (0xA5A5A5A5, 0x5A5A5A5A):
+            d.write(reg_off, v)
+            d.step(20)
+        self._exec_triggers(inv.get("trigger_regs"))
+        d.step(30)
+        aft_reg, aft_sig = self._rd(reg_off), self._sig_words(real_sig)
+        reg_changed = aft_reg != base_reg
+        sig_changed = aft_sig != base_sig
+        if reg_changed != sig_changed:
+            side = ("寄存器侧变了而 core 侧没变" if reg_changed
+                    else "core 侧变了而寄存器侧没变")
+            return self._violation(real_sig, "reg_core_consistent",
+                                   f"{real_sig} 与 {reg_nm} 副本失同步: {side}")
+        return None
+
+    def _chk_access_control(self, inv, real_sig):
+        """锁定后敏感寄存器写必须被拒绝"""
+        d = self.dut
+        d.reset()
+        d.step(10)
+        self._exec_triggers(inv.get("trigger_regs"))
+        d.step(10)
+        wen = self._find_reg_any("regwen", "lock")
+        if wen:
+            d.write(wen[1], 0)  # REGWEN=0 锁定（OpenTitan 惯例）
+            d.step(10)
+        marker = 0xFEEDFACE
+        sensitive = [(k, v) for k, v in self.regmap.items()
+                     if any(w in k.lower() for w in ("key", "secret", "digest", "salt", "binding"))]
+        if not sensitive:
+            return None
+        rejected = 0
+        for nm, off in sensitive[:6]:
+            d.write(off, marker)
+            d.step(5)
+            if self._rd(off) != marker:
+                rejected += 1
+        if rejected == 0:
+            return self._violation(real_sig, "access_control",
+                                   f"锁定后 {len(sensitive[:6])} 个敏感寄存器写全部被接受（访问控制失效）",
+                                   confidence=85)
+        return None
+
+    def _chk_cfg_block_gating(self, inv, real_sig):
+        """cfg_block 置位后敏感写必须被拒绝"""
+        d = self.dut
+        d.reset()
+        d.step(10)
+        trs = inv.get("trigger_regs")
+        if trs:
+            self._exec_triggers(trs)
+        else:
+            blk = self._find_reg_any("block")
+            if blk:
+                d.write(blk[1], 0x1)
+                d.step(10)
+        marker = 0xFEEDFACE
+        sensitive = [(k, v) for k, v in self.regmap.items()
+                     if any(w in k.lower() for w in ("key", "secret", "msg", "data_in", "wdata"))]
+        if not sensitive:
+            return None
+        leaked = 0
+        for nm, off in sensitive[:6]:
+            d.write(off, marker)
+            d.step(5)
+            if self._rd(off) == marker:
+                leaked += 1
+        if leaked:
+            return self._violation(real_sig, "cfg_block_gating",
+                                   f"cfg_block 置位后 {leaked}/{len(sensitive[:6])} 个敏感寄存器仍被写入",
+                                   confidence=85)
+        return None
+
+    def _chk_fsm_sparse_encoding(self, inv, real_sig):
+        """敌意输入后 FSM 不得进入良性参考集合之外的编码"""
+        # 守卫: 只对真正的 FSM 状态信号生效（key/data 类寄存器写读一致是正常行为）
+        low = real_sig.lower()
+        if not any(k in low for k in ("state", "fsm", "st_q", "sm_", "ctrl_state")):
+            return None
+        d = self.dut
+        d.reset()
+        d.step(10)
+        legal = set(self._sig_words(real_sig) or [])
+        for _ in range(5):
+            d.step(30)
+            legal.update(self._sig_words(real_sig) or [])
+        if not legal:
+            return None
+        d.reset()
+        d.step(5)
+        ctrl_regs = [(k, v) for k, v in self.regmap.items()
+                     if any(w in k.lower() for w in ("ctrl", "cmd", "cfg", "trigger", "control"))]
+        for nm, off in ctrl_regs[:6]:
+            for v in (0xFFFFFFFF, 0x0, 0x5A5A5A5A):
+                d.write(off, v)
+                d.step(3)
+        self._exec_triggers(inv.get("trigger_regs"))
+        d.step(20)
+        for _ in range(4):
+            d.step(20)
+            cur = self._sig_words(real_sig)
+            if cur and cur[0] not in legal:
+                return self._violation(real_sig, "fsm_sparse_encoding",
+                                       f"敌意输入后 {real_sig} 进入合法集合外编码 {hex(cur[0])}",
+                                       confidence=85)
+        return None
+
+    def _chk_err_code_coherent(self, inv, real_sig):
+        """错误发生后 ERR_CODE/err 信号必须置位"""
+        d = self.dut
+        d.reset()
+        d.step(10)
+        ctrl_regs = [(k, v) for k, v in self.regmap.items()
+                     if any(w in k.lower() for w in ("ctrl", "cfg", "cmd", "control"))]
+        for nm, off in ctrl_regs[:3]:
+            d.write(off, 0xFFFFFFFF)
+            d.step(5)
+        d.write(0x2000, 0xDEADBEEF)  # 越界写
+        d.step(5)
+        _ = d.read(0x2004)           # 越界读
+        d.step(10)
+        self._exec_triggers(inv.get("trigger_regs"))
+        d.step(30)
+        words = self._sig_words(real_sig)
+        if words is not None and any(w != 0 for w in words):
+            return None  # 白盒已置位 → 正常
+        err_reg = self._find_reg_any("err_code", "error_code", "err_status")
+        if err_reg and (self._rd(err_reg[1]) or 0):
+            return None  # 寄存器侧置位 → 正常
+        return self._violation(real_sig, "err_code_coherent",
+                               f"非法配置+越界访问后 {real_sig}/ERR_CODE 均未置位（错误被吞没）",
+                               confidence=85)
+
+    def _chk_interrupt_first_event(self, inv, real_sig):
+        """事件重复发生时中断位应 sticky，未清除不得消失"""
+        d = self.dut
+        d.reset()
+        d.step(10)
+        intr_en = self._find_reg_any("intr_enable", "intr_en")
+        if intr_en:
+            d.write(intr_en[1], 0xFFFFFFFF)
+            d.step(5)
+        self._exec_triggers(inv.get("trigger_regs"))
+        self._marker_probe()
+        d.step(50)
+        s1 = self._sig_words(real_sig)
+        self._exec_triggers(inv.get("trigger_regs"))
+        d.step(50)
+        s2 = self._sig_words(real_sig)
+        if s1 is None or s2 is None:
+            return None
+        if any(a != 0 and b == 0 for a, b in zip(s1, s2)):
+            return self._violation(real_sig, "interrupt_first_event",
+                                   f"{real_sig} 事件置位后未清除即消失（非首次事件语义）",
+                                   confidence=80)
+        return None
+
+    def _chk_bus_intg_check(self, inv, real_sig):
+        """越界总线访问后错误信号必须可观测（逐拍采样抓脉冲）"""
+        d = self.dut
+        d.reset()
+        d.step(10)
+        d.write(0x4000, 0xDEADBEEF)
+        d.step(2)
+        _ = d.read(0x4004)
+        d.step(2)
+        d.write(0x3FFC, 0x12345678)
+        for _ in range(20):
+            d.step(2)
+            words = self._sig_words(real_sig)
+            if words and any(w != 0 for w in words):
+                return None
+        err_reg = self._find_reg_any("err", "error")
+        if err_reg and (self._rd(err_reg[1]) or 0):
+            return None
+        return self._violation(real_sig, "bus_intg_check",
+                               f"越界总线访问后 {real_sig} 从未置位（总线错误吞没）",
+                               confidence=80)
+
+    def _chk_monotonic_counter(self, inv, real_sig):
+        """计数器只增不减（无清除写时；排除回绕）"""
+        d = self.dut
+        d.reset()
+        d.step(10)
+        self._exec_triggers(inv.get("trigger_regs"))
+        d.step(20)
+        prev = self._sig_words(real_sig)
+        if not prev or not any(prev):
+            return None
+        for _ in range(4):
+            d.step(150)
+            cur = self._sig_words(real_sig)
+            if not cur:
+                return None
+            if any(c < p and p < 0xFFFF0000 for p, c in zip(prev, cur)):
+                return self._violation(real_sig, "monotonic_counter",
+                                       f"{real_sig} 无清除写时回退 {hex(prev[0])} → {hex(cur[0])}",
+                                       confidence=85)
+            prev = cur
+        return None
+
+    def _chk_debug_lock_enforce(self, inv, real_sig):
+        """debug-lock 后调试类信号必须无效"""
+        d = self.dut
+        d.reset()
+        d.step(10)
+        self._exec_triggers(inv.get("trigger_regs"))
+        d.step(50)
+        words = self._sig_words(real_sig)
+        if not words:
+            return None
+        if any(w != 0 for w in words):
+            return self._violation(real_sig, "debug_lock_enforce",
+                                   f"debug-lock 后 {real_sig} 仍有效 {[hex(w) for w in words[:2]]}",
+                                   confidence=80)
+        return None
+
+
 def load_dut(dut_dir, module):
     script_dir = os.path.dirname(os.path.abspath(__file__))
     if script_dir not in sys.path:

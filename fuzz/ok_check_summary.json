@@ -1,8 +1,13 @@
 {
  "aes": {
   "n_inv": 23,
-  "n_viol": 1,
+  "n_viol": 2,
   "violations": [
+   [
+    "u_dut.key_init",
+    "fsm_sparse_encoding",
+    "敌意输入后 u_dut.key_init 进入合法集合外编码 0x5a5a5a5a"
+   ],
    [
     "u_dut.data_out_q",
     "wipe_clears",
@@ -14,7 +19,7 @@
  },
  "ascon": {
   "n_inv": 18,
-  "n_viol": 3,
+  "n_viol": 2,
   "violations": [
    [
     "ascon_core.key_share0_in_q",
@@ -25,11 +30,6 @@
     "ascon_core.key_share0_in_q",
     "wipe_clears",
     "擦除触发后 ascon_core.key_share0_in_q 残留非零值 ['0xdeadbeef', '0xdeadbeef', '0xdeadbeef']"
-   ],
-   [
-    "ascon_core.key_share0_in_q",
-    "changes_across_runs",
-    "ascon_core.key_share0_in_q 触发后仍为常量 0xdeadbeef（应随熵变化）"
    ]
   ],
   "rc": 0,
@@ -58,62 +58,62 @@
   "n_viol": 0,
   "violations": [],
   "rc": 0,
-  "tail": "t)\n  [ok] u_dut.u_app.key_reg_core_consistent (reg_core_consistent)\n  [ok] u_dut.key_data_reg_core_consistent (reg_core_consistent)\n\n=== 汇总: 0 条违反 → /workspace/pickerfuzz/fuzz/invariant_kmac.json ===\n"
+  "tail": "stent)\n  [ok] u_dut.u_app.key_reg_core_consistent (reg_core_consistent)\n  [ok] u_dut.key_data_reg_core_consistent (reg_core_consistent)\n\n=== 汇总: 0 条违反 → /workspace/HTFuzz/fuzz/invariant_kmac.json ===\n"
  },
  "rom_ctrl": {
   "n_inv": 9,
   "n_viol": 0,
   "violations": [],
   "rc": 0,
-  "tail": "m_ctrl.json ===\nInitializing memory TOP.rom_ctrl_perip_tb.u_dut.gen_rom_scramble_disabled.u_rom.u_prim_rom.unnamedblk1.gen_meminit from file '/workspace/pickerfuzz/perip/rom_ctrl-ctf/obj_so/rom.mem'.\n"
+  "tail": "rom_ctrl_fsm.state_q_reg_core_consistent (reg_core_consistent)\n  [ok] u_dut.u_rom_ctrl_fsm.check_notified_wipe_clears (wipe_clears)\n\n=== 汇总: 0 条违反 → /workspace/HTFuzz/fuzz/invariant_rom_ctrl.json ===\n"
  },
  "pattgen": {
   "n_inv": 1,
   "n_viol": 0,
   "violations": [],
   "rc": 0,
-  "tail": "=== O-K 不变量检查: pattgen（1 条）===\n  [ok] pattgen.sv_reg_core_consistent (reg_core_consistent)\n\n=== 汇总: 0 条违反 → /workspace/pickerfuzz/fuzz/invariant_pattgen.json ===\n"
+  "tail": "=== O-K 不变量检查: pattgen（1 条）===\n  [ok] pattgen.sv_reg_core_consistent (reg_core_consistent)\n\n=== 汇总: 0 条违反 → /workspace/HTFuzz/fuzz/invariant_pattgen.json ===\n"
  },
  "rv_timer": {
   "n_inv": 5,
   "n_viol": 0,
   "violations": [],
   "rc": 0,
-  "tail": "nsistent (reg_core_consistent)\n  [ok] u_reg.intg_err_q_wipe_clears (wipe_clears)\n  [ok] intr_state0_q_wipe_clears (wipe_clears)\n\n=== 汇总: 0 条违反 → /workspace/pickerfuzz/fuzz/invariant_rv_timer.json ===\n"
+  "tail": "e_consistent (reg_core_consistent)\n  [ok] u_reg.intg_err_q_wipe_clears (wipe_clears)\n  [ok] intr_state0_q_wipe_clears (wipe_clears)\n\n=== 汇总: 0 条违反 → /workspace/HTFuzz/fuzz/invariant_rv_timer.json ===\n"
  },
  "sram_ctrl": {
   "n_inv": 1,
   "n_viol": 0,
   "violations": [],
   "rc": 0,
-  "tail": "=== O-K 不变量检查: sram_ctrl（1 条）===\n  [ok] key_valid_q_wipe_clears (wipe_clears)\n\n=== 汇总: 0 条违反 → /workspace/pickerfuzz/fuzz/invariant_sram_ctrl.json ===\n"
+  "tail": "=== O-K 不变量检查: sram_ctrl（1 条）===\n  [ok] key_valid_q_wipe_clears (wipe_clears)\n\n=== 汇总: 0 条违反 → /workspace/HTFuzz/fuzz/invariant_sram_ctrl.json ===\n"
  },
  "aon_timer": {
   "n_inv": 6,
   "n_viol": 0,
   "violations": [],
   "rc": 0,
-  "tail": "intr_state_wkup_timer_expired.q_wipe_clears (wipe_clears)\n  [ok] hw2reg.wdog_count.d_reg_core_consistent (reg_core_consistent)\n\n=== 汇总: 0 条违反 → /workspace/pickerfuzz/fuzz/invariant_aon_timer.json ===\n"
+  "tail": "g.u_intr_state_wkup_timer_expired.q_wipe_clears (wipe_clears)\n  [ok] hw2reg.wdog_count.d_reg_core_consistent (reg_core_consistent)\n\n=== 汇总: 0 条违反 → /workspace/HTFuzz/fuzz/invariant_aon_timer.json ===\n"
  },
  "clkmgr": {
   "n_inv": 13,
   "n_viol": 0,
   "violations": [],
   "rc": 0,
-  "tail": "ok] u_dut.div_step_down_req_reg_core_consistent (reg_core_consistent)\n  [ok] intg_err_o_reg_core_consistent (reg_core_consistent)\n\n=== 汇总: 0 条违反 → /workspace/pickerfuzz/fuzz/invariant_clkmgr.json ===\n"
+  "tail": "\n  [ok] u_dut.div_step_down_req_reg_core_consistent (reg_core_consistent)\n  [ok] intg_err_o_reg_core_consistent (reg_core_consistent)\n\n=== 汇总: 0 条违反 → /workspace/HTFuzz/fuzz/invariant_clkmgr.json ===\n"
  },
  "rstmgr": {
   "n_inv": 10,
   "n_viol": 0,
   "violations": [],
   "rc": 0,
-  "tail": "\n  [ok] sw_rst_regen_q_reg_core_consistent (reg_core_consistent)\n  [ok] u_dut.u_reg.sw_rst_regen_0_en_q_wipe_clears (wipe_clears)\n\n=== 汇总: 0 条违反 → /workspace/pickerfuzz/fuzz/invariant_rstmgr.json ===\n"
+  "tail": "uns)\n  [ok] sw_rst_regen_q_reg_core_consistent (reg_core_consistent)\n  [ok] u_dut.u_reg.sw_rst_regen_0_en_q_wipe_clears (wipe_clears)\n\n=== 汇总: 0 条违反 → /workspace/HTFuzz/fuzz/invariant_rstmgr.json ===\n"
  },
  "alert_handler": {
   "n_inv": 6,
   "n_viol": 0,
   "violations": [],
   "rc": 0,
-  "tail": "ent)\n  [ok] esc_trig_reg_core_consistent (reg_core_consistent)\n  [ok] class_ctrl_reg_core_consistent (reg_core_consistent)\n\n=== 汇总: 0 条违反 → /workspace/pickerfuzz/fuzz/invariant_alert_handler.json ===\n"
+  "tail": "sistent)\n  [ok] esc_trig_reg_core_consistent (reg_core_consistent)\n  [ok] class_ctrl_reg_core_consistent (reg_core_consistent)\n\n=== 汇总: 0 条违反 → /workspace/HTFuzz/fuzz/invariant_alert_handler.json ===\n"
  }
 }
