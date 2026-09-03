@@ -91,6 +91,7 @@ python3 scripts/ok_invariant.py gen <module>
 | `reports/CTF-SUMMARY-REPORT.md` | 主报告 38 章（累计追加）|
 | `reports/20260903/ORACLE-TAXONOMY.md` | 属性分类学（SEC_CM 278 类 → 十大族）|
 | `reports/20260903/GAP-ANALYSIS.md` | P1/P2 清单 vs 工具能力差距分析 |
+| `reports/20260904/FINAL-VERIFICATION.md` | 最终全量验证 + 性能基准 + 覆盖率 |
 | `reports/20260803/` `reports/20260831/` | 早期 bug 报告归档 |
 
 ## 基准测试（2026-09-04 实测，10 核/8GB 容器，单进程串行）
