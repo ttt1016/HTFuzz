@@ -1,6 +1,6 @@
 {
  "module": "rom_ctrl",
- "iterations": 40,
+ "iterations": 80,
  "exec_count": 3,
  "final_coverage": 0,
  "pairwise_count": 0,

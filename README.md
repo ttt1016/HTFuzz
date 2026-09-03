@@ -92,3 +92,38 @@ python3 scripts/ok_invariant.py gen <module>
 | `reports/20260903/ORACLE-TAXONOMY.md` | 属性分类学（SEC_CM 278 类 → 十大族）|
 | `reports/20260903/GAP-ANALYSIS.md` | P1/P2 清单 vs 工具能力差距分析 |
 | `reports/20260803/` `reports/20260831/` | 早期 bug 报告归档 |
+
+## 基准测试（2026-09-04 实测，10 核/8GB 容器，单进程串行）
+
+### 开环 fuzzing（batch_discover.py，21 DUT × 12 oracle）
+
+| 指标 | 数值 |
+|---|---|
+| 全量耗时 | **2.9s**（21 DUT 串行）|
+| 单模块耗时 | 0.11~0.34s（hmac 0.14 / aes 0.24 / kmac 0.34，最大 csrng 0.14）|
+| 单模块峰值内存 | 27~28 MB（全 DUT 一致，与设计规模弱相关）|
+| CPU | 单核（编译型仿真，~10M cycles/s）|
+| 检出 | 25 条唯一发现 / 12 模块，0 误报 |
+
+### 闭环 fuzzing（ol_full_loop.py，80 迭代/模块，覆盖率引导 + O-K 判定）
+
+| 模块 | 耗时 | 覆盖（状态+pairwise）| 峰值内存 | 不变量违反 |
+|------|------|---------------------|---------|-----------|
+| hmac | 0.3s | 377（pw 59）| 28 MB | 1（wipe 残留）|
+| aes | 0.6s | 516 | 27 MB | 1 |
+| ibex | 0.2s | 371 | 23 MB | 0 |
+| ascon | 0.1s | 68 | 23 MB | 1 |
+| entropy_src | 0.2s | 23 | 25 MB | 0 |
+| clkmgr | 0.1s | 17 | 25 MB | 0 |
+| 其余（kmac/rom_ctrl/pattgen/rv_timer/sram/aon/rstmgr/alert/pwrmgr/spi_host） | 各 0.1~0.2s | 0~37 | 23~28 MB | 0 |
+| **全量（16 模块）** | **3.0s** | — | — | **2** |
+
+注：keymgr 闭环 SKIP（缺 traces/keymgr_regmap.json，待补）。
+覆盖率 = 已执行状态/信号模式组合计数（含 pairwise 信号两两组合）。
+
+### 资源结论
+
+- 任意单模块：**< 1 秒、< 30 MB、单核**——笔记本即可全量回归
+- 全套（开环 21 DUT + 闭环 16 模块 + O-K + 单元 TB）**合计 < 10s、峰值 < 300 MB**
+- LLM 层为按需触发（O-K gen 每模块一次调用，~30-120s；负载在自建 vLLM 服务端）
+- 扩容方向：并行化受限于单核模型实例；加大 trials/campaign 时间线性增长，内存恒定

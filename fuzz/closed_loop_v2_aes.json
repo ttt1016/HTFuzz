@@ -1,21 +1,15 @@
 {
  "module": "aes",
- "iterations": 60,
- "exec_count": 66,
- "final_coverage": 199,
- "pairwise_count": 15,
- "corpus_size": 37,
+ "iterations": 80,
+ "exec_count": 86,
+ "final_coverage": 516,
+ "pairwise_count": 153,
+ "corpus_size": 51,
  "violations": [
   {
    "signal": "u_dut.data_out_q",
    "rule": "wipe_clears",
    "desc": "擦除触发后 u_dut.data_out_q 残留非零值 ['0x26122612', '0xb15bb15b', '0x924b924b']",
-   "confidence": 80
-  },
-  {
-   "signal": "u_dut.key_init",
-   "rule": "wipe_clears",
-   "desc": "擦除触发后 u_dut.key_init 残留非零值 ['0xdeadbeef', '0xdeadbeef', '0xdeadbeef']",
    "confidence": 80
   }
  ]

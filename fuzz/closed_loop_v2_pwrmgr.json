@@ -1,0 +1,9 @@
+{
+ "module": "pwrmgr",
+ "iterations": 80,
+ "exec_count": 81,
+ "final_coverage": 5,
+ "pairwise_count": 3,
+ "corpus_size": 1,
+ "violations": []
+}

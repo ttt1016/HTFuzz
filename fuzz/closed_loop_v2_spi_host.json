@@ -1,5 +1,5 @@
 {
- "module": "rv_timer",
+ "module": "spi_host",
  "iterations": 80,
  "exec_count": 1,
  "final_coverage": 0,

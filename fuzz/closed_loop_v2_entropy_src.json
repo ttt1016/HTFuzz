@@ -1,0 +1,9 @@
+{
+ "module": "entropy_src",
+ "iterations": 80,
+ "exec_count": 82,
+ "final_coverage": 23,
+ "pairwise_count": 21,
+ "corpus_size": 2,
+ "violations": []
+}

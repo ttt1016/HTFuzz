@@ -1,0 +1,9 @@
+{
+ "module": "pattgen",
+ "iterations": 80,
+ "exec_count": 81,
+ "final_coverage": 37,
+ "pairwise_count": 13,
+ "corpus_size": 6,
+ "violations": []
+}

@@ -1,0 +1,9 @@
+{
+ "module": "ibex",
+ "iterations": 80,
+ "exec_count": 82,
+ "final_coverage": 371,
+ "pairwise_count": 82,
+ "corpus_size": 27,
+ "violations": []
+}

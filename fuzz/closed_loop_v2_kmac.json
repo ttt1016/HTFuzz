@@ -1,7 +1,7 @@
 {
- "module": "rv_timer",
+ "module": "kmac",
  "iterations": 80,
- "exec_count": 1,
+ "exec_count": 4,
  "final_coverage": 0,
  "pairwise_count": 0,
  "corpus_size": 0,

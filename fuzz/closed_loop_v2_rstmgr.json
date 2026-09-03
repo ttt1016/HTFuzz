@@ -1,0 +1,9 @@
+{
+ "module": "rstmgr",
+ "iterations": 80,
+ "exec_count": 82,
+ "final_coverage": 11,
+ "pairwise_count": 3,
+ "corpus_size": 3,
+ "violations": []
+}

@@ -1,0 +1,9 @@
+{
+ "module": "aon_timer",
+ "iterations": 80,
+ "exec_count": 81,
+ "final_coverage": 21,
+ "pairwise_count": 9,
+ "corpus_size": 5,
+ "violations": []
+}

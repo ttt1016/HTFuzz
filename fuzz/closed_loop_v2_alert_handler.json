@@ -1,0 +1,9 @@
+{
+ "module": "alert_handler",
+ "iterations": 80,
+ "exec_count": 81,
+ "final_coverage": 6,
+ "pairwise_count": 6,
+ "corpus_size": 1,
+ "violations": []
+}
