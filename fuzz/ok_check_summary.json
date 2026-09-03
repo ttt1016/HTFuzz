@@ -1,13 +1,8 @@
 {
  "aes": {
   "n_inv": 23,
-  "n_viol": 2,
+  "n_viol": 1,
   "violations": [
-   [
-    "u_dut.key_init",
-    "fsm_sparse_encoding",
-    "敌意输入后 u_dut.key_init 进入合法集合外编码 0x5a5a5a5a"
-   ],
    [
     "u_dut.data_out_q",
     "wipe_clears",
