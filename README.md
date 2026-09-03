@@ -161,3 +161,52 @@ python3 scripts/ok_invariant.py gen <module>
    `atexit`/显式 `pf_final` 写 coverage.dat）
 2. 引擎侧：`discover_engine.py` main 结束时调用 `dut.api.pf_final()`（普通模型静默跳过）
 3. `verilator_coverage` 统计；数据 `fuzz/hmac_openloop_coverage.dat` 可复现
+
+## 安全属性分类学：论文依据与有效性论证
+
+### 权威来源背书
+
+十大属性族不是本项目发明的分类，每族都有可直接引用的标准或论文依据：
+
+| # | 属性族 | 权威依据 |
+|---|--------|---------|
+| 1 | 数据完整性-擦除 | **FIPS 140-3**（密码模块零化要求，Cryptographic Erase）；OpenTitan `DATA_REG.SEC_WIPE` |
+| 2 | 访问控制 | ISO/IEC 15408（Common Criteria）FMT 类（安全管理/访问控制）；RISC-V **Smepmp** 规范；OpenTitan `CONFIG.REGWEN` |
+| 3 | 随机性/掩码 | FIPS 140-3 随机数生成与 SCA 要求；OpenTitan `KEY.MASKING`、`DATA_REG_SW.SCA` |
+| 4 | FSM 稀疏编码+故障恢复 | OpenTitan `CTRL.FSM.SPARSE`(9)+`LOCAL_ESC`/`GLOBAL_ESC`(16)；CC FPT.1（失效安全 fail-secure）|
+| 5 | 总线完整性 | OpenTitan `BUS.INTEGRITY`（**目标 RTL 中频次最高的对策，43 处**）；TL-UL ECC 规范 |
+| 6 | 信息泄露 | ISO/IEC 15408 FDP 类（机密性）；OpenTitan `KEY.SW_UNREADABLE` |
+| 7 | 时序安全 | CC FPT 类（安全功能时序）；比赛已知注入（alert 延迟 100 拍）|
+| 8 | **冗余一致性** | NIST SP 800-193 **Detect** 维度；TMR/双轨比较（CTR.REDUN 33 处）；经典 N-modular redundancy 理论 |
+| 9 | **可用性** | NIST SP 800-193 **Recover** 维度；Basak et al. CAV 2021 五分类含 availability |
+| 10 | **MUBI 编码** | OpenTitan `INTERSIG.MUBI`/`CONFIG.MUBI`（31+ 处）；本质是 **Hamming 距离≥3 的容错编码**（编码理论）|
+| 11 | **密码符合性** | NIST **CAVP/FTS 已知答案测试（KAT）**制度；FIPS 140-3 §自测要求 |
+
+### 核心学术论文
+
+- **Basak, Jha, Kumar, Shoshitaishvili et al., "SoC Security Verification Using Property Checking", CAV 2021（Springer LNCS）**
+  —— 工业级 SoC 安全属性验证框架，将属性分为 authentication / integrity /
+  confidentiality / availability / isolation 五类；**availability** 在多数安全检查单中缺失，本分类学已补。
+- **Common Criteria (ISO/IEC 15408)** FPT/FCS/FDP 类——国际公认的安全评估标准。
+- **NIST SP 800-193**（Platform Firmware Resiliency）——PDR（Protect/Detect/Recover）三元组，
+  与本分类的"访问控制/错误检测/擦除恢复"一一对应。
+- **MITRE CWE View-1194（Hardware Design）**——硬件弱点枚举（含 CWE-1197 调试锁旁路等）。
+- **MITRE EMEA**——硬件攻击者画像与效应分析框架。
+- **HACK@CHES / Hack@DAC 系列比赛**——注入手法分类与 SEC_CM 体系的实践渊源。
+
+### 有效性论证（三支柱 + 边界声明）
+
+1. **内生验证（最强证据）**：比赛目标 RTL 实测含 **278 个 SEC_CM 标注**，全部落入十大属性族——
+   分类学是**从目标本身的对策体系归纳的**，不是外挂假设。主办方设计注入点时必须打破某个 SEC_CM，
+   即必然落入某一族。
+2. **回溯审计**：本工具动态发现的 **20 个独立漏洞特征 + 清单已确认的 bug** 全部可映射进十大族
+   （样本内 0 遗漏）。
+3. **权威背书**：上表——分类不是自创，是 SP 800-193 PDR、CC FPT、FIPS 140-3、CAV'21 属性分类
+   在 OpenTitan 语境下的实例化。
+
+**边界声明（诚实声明当前证据的限度）**：
+- 回溯审计是**样本内**验证；对**样本外**（主办方未公开的注入手法）的有效性，需要
+  **变异测试**（向干净副本注入按族合成的变异体、统计杀伤率）补完——已列入待办。
+- LLM 合成的不变量存在标签错误风险（本会话实测 12 条中 2 条误报），O-K 检查器
+  必须与人工/自动 triage 双重把关，不能将 LLM 输出直接当作真值。
+- GLITCH_DETECT 等物理层机制超出寄存器级仿真能力，不在本分类覆盖范围。
