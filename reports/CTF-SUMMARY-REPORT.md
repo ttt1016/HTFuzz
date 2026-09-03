@@ -1730,3 +1730,9 @@ ascon 2、kmac 2、keymgr/rom_ctrl/ibex/clkmgr/entropy_src/rstmgr 各 1；另 O-
 - 本轮踩坑沉淀: ① 悬空输出被 Verilator 死状态消除 → 用顶层输出口保留（dbg_lsio_trigger）；
   ② `--lib-create` 库名无 liblibpf 前缀时 VK_USER_OBJS 覆盖法；③ batch 汇总必须读落盘 JSON
   而非 stdout；④ 包文件必须排在引用者之前。
+
+### 37.5 gpio DUT 建成（第 21 个，2026-09-03）
+- wrapper（strap/cio 双向 IO tie-off + cb 接口）+ autobuild 依赖闭包（公共 prim/tlul
+  预种子从 uart-ctf 拷贝，规避 prim_assert 宏缺失的解析错误）。
+- 引擎 11 oracle 全跑通（gpio 首扫 0 条=良性基线）；白盒表待 SEC_CM 脚本扩充。
+- autobuild.sh 修复：`-Wno-fatal` 下必须检查退出码而非 grep %Error（错误降级为 %Warning）。
