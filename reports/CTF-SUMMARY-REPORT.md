@@ -1789,3 +1789,15 @@ hmac 的 sha2.hash_q 与 u_reg.reg_rdata_next 被 LLM gen 贴上 read_only_leak 
 - 回溯审计（清单 bug → 十大属性族映射）与变异测试（合成变异体杀伤率）：**待下轮执行**
 - 权威引用核实（CAV'21/CC/FIPS/800-193/MITRE）：待检索核实后补入 ORACLE-TAXONOMY.md
 - 当前结论的边界：十大族经 14 个已知 bug 特征回测无遗漏，但样本外有效性待变异测试证明
+
+### 39.4 otp_ctrl DUT 构建状态（进行中，复杂依赖）
+otp_ctrl 是所有 IP 中依赖最深的：autogen part_pkg 引用 core_reg_top 内部类型
+（otp_ctrl_core_hw2reg_t），这是 OpenTitan FuseSoC/Bazel 构建系统的内部约定，
+standalone verilator 编译需要特殊处理。
+- 已解决: prim_assert 文件序、tlul_pkg 排序、prim_count_pkg 排序、
+  prim_secded_inv_72_64、prim_arbiter_tree/fixed、prim_double_lfsr、prim_present、
+  tlul_socket_1n/m1、prim_lc_sync、tlul_fifo_sync
+- 待解决: otp_ctrl_part_pkg 的 otp_ctrl_core_hw2reg_t 前向引用（需要
+  OpenTitan 构建系统的类型提升或手写 shim package）
+- wrapper/harness 模板已就绪，解决依赖后即可构建
+- 建议: 下次会话用 OpenTitan Bazel 生成独立 DUT 或写 shim package
