@@ -2,7 +2,7 @@
 
 ## 一句话
 
-基于 per-IP Verilator DUT + 11 层 oracle + LLM 三件套（深度审计/动态验证 agent/
+基于 per-IP Verilator DUT + 14 层 oracle（属性族驱动，O-A~O-N + O-H/O-I）+ LLM 三件套（深度审计/动态验证 agent/
 不变量提取）的硬件安全漏洞自动挖掘工具，无需漏洞先验知识、无需 diff 官方代码、
 无需 clean DUT，从零构建单个模块 DUT 并完成盲测的周期约 1 小时。
 
@@ -29,7 +29,7 @@
 │    action: write/read/step/sig_read/reset/conclude     │
 │    → 自主执行 PoC → confirmed/refuted/inconclusive     │
 │       ↓                                              │
-│  ok_invariant.py     O-K 不变量 oracle（第 11 层）     │
+│  ok_invariant.py     O-K 不变量 oracle（12 规则）        │
 │    LLM 从 SEC_CM/hjson 提取不变量 JSON（数据非代码）    │
 │    → 通用检查器动态执行 → 违反即检出（新发现引擎）       │
 │       ↓                                              │

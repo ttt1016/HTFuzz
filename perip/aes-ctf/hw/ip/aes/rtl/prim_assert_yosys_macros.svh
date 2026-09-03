@@ -1,0 +1,1 @@
+../../prim/rtl/prim_assert_yosys_macros.svh

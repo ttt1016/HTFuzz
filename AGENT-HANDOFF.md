@@ -32,15 +32,16 @@ export PF_TARGET_RTL=/workspace/opentitan
 ## 工具架构（4 层）
 
 ### 第 1 层：DUT 构建
-- 24 个 per-IP DUT（`perip/<module>-ctf/`）
+- 23 个 per-IP DUT（`perip/<module>-ctf/`，21 个有编译好的 .so）
 - 每个包含: `rtl_wrapper/<module>_perip_tb.sv` + `harness/pf_<module>_harness.cpp`
 - 编译: Verilator `--cc --lib-create` → `.so` → Python ctypes 调用
 - 白盒信号: 直接读 DUT 内部寄存器/FSM/密钥（非黑盒）
 
-### 第 2 层：Oracle 判定引擎（12 层）
-- O-A 残留 / O-B 确定性 / O-C 等价类 / O-D FSM / O-E FIFO / O-F 流式
-- O-G 脉冲 / O-H PMP 语义 / O-I 特权语义 / O-K 不变量 / O-L 闭环
-- 代码: `scripts/discover_engine.py`（O-A~G）+ 独立检查器（O-H/O-I）
+### 第 2 层：Oracle 判定引擎（14 个，属性族驱动，见 reports/20260903/ORACLE-TAXONOMY.md）
+- O-A 残留 / O-B 确定性 / O-C 等价类 / O-D FSM / O-E FIFO / O-F 流式 / O-G 脉冲
+- O-J 错误传播（4 类触发×逐拍采样）/ O-K 不变量（12 规则全实现）/ O-L 密码符合性 KAT
+- O-N 多轨一致性 / O-M MUBI 合法性 + O-H PMP / O-I 特权（ibex 单元 TB）
+- 代码: `scripts/discover_engine.py`（O-A~M 全部接入）+ perip/ibex-ctf 单元 TB
 
 ### 第 3 层：LLM 三件套
 - `scripts/llm_deep_audit.py`: 静态分析（注入点定位 + PoC 建议）
@@ -138,21 +139,28 @@ export PF_TARGET_RTL=/workspace/opentitan
 3. **O-K 不变量来源**: 安全规范标准（SEC_CM/hjson），非 CSV 归纳
 4. **LLM**: 自建本地服务，无外部 API 依赖
 
-## 关键文件清单
+## 关键文件清单（2026-09-03 收敛后）
 
 | 文件 | 用途 |
 |------|------|
-| `scripts/discover_engine.py` | oracle 盲测引擎（O-A~G）|
-| `scripts/llm_deep_audit.py` | LLM 静态分析 |
-| `scripts/llm_agent.py` | ReAct 动态验证 agent |
-| `scripts/ok_invariant.py` | O-K 不变量 gen + check |
-| `scripts/ol_full_loop.py` | 闭环 fuzzing v2 |
-| `scripts/keymgr_full_flow.py` | keymgr 完整 derivation 流程 |
-| `scripts/environments/dut_env.py` | Environment 抽象接口 |
+| `scripts/discover_engine.py` | 盲测引擎（O-A~O-M 12 oracle 一体化）|
+| `scripts/batch_discover.py` | 全量引擎扫描（读落盘 JSON）|
+| `scripts/ok_invariant.py` | O-K 不变量 gen + check（12 规则全实现）|
+| `scripts/batch_ok_check.py` | 全量 O-K 检查 |
+| `scripts/llm_agent.py` | DutHandle + ReAct 验证 agent |
+| `scripts/llm_deep_audit.py` | LLM 静态审计 |
+| `scripts/keymgr_full_flow.py` | keymgr derivation 流程 |
+| `scripts/ol_full_loop.py` | 闭环 fuzzing |
+| `scripts/pf_profile.py` | 模块信号 profile |
+| `scripts/environments/dut_env.py` | Environment 抽象 |
 | `scripts/triage_nofresh.py` | 置信度分级 |
-| `reports/CTF-SUMMARY-REPORT.md` | 主报告（32 章）|
+| `scripts/autobuild.sh`(perip 内联) | 新 DUT 依赖闭包自动解析 |
+| `reports/CTF-SUMMARY-REPORT.md` | 主报告（38 章，按日期归档 reports/YYYYMMDD/）|
+| `reports/20260903/ORACLE-TAXONOMY.md` | 十大属性族分类学 |
+| `reports/20260903/GAP-ANALYSIS.md` | P1/P2 清单 vs 工具能力差距分析 |
 | `SUBMISSION.md` | 比赛提交材料 |
-| `OPTIMIZATION-PLAN.md` | 下一步优化计划 |
+| `scripts/legacy/` | 25 个已归档旧脚本（fuzz_engine/opseq/o1-o4/triage 等，被现行管线取代）|
+
 
 ## 检出漏洞清单（26/26 CSV 覆盖）
 

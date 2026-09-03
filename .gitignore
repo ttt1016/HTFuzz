@@ -1,18 +1,9 @@
-# 编译产物（可由 filelist + harness 重建）
-perip/*/obj_so/
-perip/*/obj_*/
-perip/*/obj*/
-*.o
-*.a
-*.so
-*.d
+# 所有构建产物目录（任意深度的 obj_* 变体）
+obj_*/
 __pycache__/
 *.pyc
-
-# 大型 RTL 副本（构建脚本可从 opentitan 重新收集）
-perip/*/hw/
-
-# 临时/日志
-logs/
-*.log
-.DS_Store
+*.bak
+*.o
+*.so
+fuzz/logs/
+fuzz/mass/*.log

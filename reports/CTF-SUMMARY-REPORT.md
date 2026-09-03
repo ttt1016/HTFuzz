@@ -1748,3 +1748,22 @@ ascon 2、kmac 2、keymgr/rom_ctrl/ibex/clkmgr/entropy_src/rstmgr 各 1；另 O-
   **专门针对 P1 #34 地址截断 bug**: 若 adapter 截断地址则越界访问不会报错，O-K bus_intg/O-J 可检出）。
 - 端口名对齐教训: adapter_reg 是 re_o/we_o 分离 + error_i（非 rvalid/rerror）——
   **新 wrapper 实例化前必须 grep 实际端口名**。
+
+## 38. 仓库清理 + 23 DUT 全量验证（2026-09-03 收尾）
+
+### 38.1 清理
+- .gitignore 补全: obj_*构建产物/(*.o .cpp .h .mk .a .dat .so .selftest)/__pycache__/*.bak/fuzz 日志
+  （确认: git 从未跟踪构建产物——405 文件/4.6M .git；4.1G 磁盘占用全是本地可重编产物，保留）
+- 本地清理: *.bak×3、__pycache__、陈旧 selftest exe 全部删除。
+
+### 38.2 23 DUT 全量验证（收尾跑）
+| oracle | 检出 |
+|--------|------|
+| 引擎 O-A~O-M（21 DUT 实跑） | 25 条 / **12 模块**（新增 uart O-J、csrng O-J 首次进汇总）|
+| O-K 不变量（12 模块） | 5 条 |
+| 单元 TB（lc/uart/prim） | 3 条 |
+| **合计** | **33 条检出记录，0 误报** |
+
+对应清单: hmac #2/#20-60、aes #20/#21/#22/#25/#28-31、ascon #43、kmac #26/#53、
+rom_ctrl #26、keymgr #45/#5、ibex #8/#9/#24、uart #1、prim #7、lc #28、csrng #45 族、
+entropy_src #35 类、rstmgr/clkmgr alert 类。

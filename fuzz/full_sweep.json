@@ -155,6 +155,19 @@
   ],
   "err_head": ""
  },
+ "uart": {
+  "elapsed_s": 0.1,
+  "rc": 0,
+  "raw": 1,
+  "findings": [
+   {
+    "oracle": "O-J-errprop",
+    "signal": "u_dut.u_reg.__Vcellout__u_intr_state_rx_frame_err__q,u_dut.u_reg.__Vcellout__u_intr_state_rx_break_err__q,u_dut.u_reg.__Vcellout__u_intr_state_rx_parity_err__q",
+    "desc": "全部 1 类错误触发均未引起任何 alert/err 信号置位 → 错误传播链断裂"
+   }
+  ],
+  "err_head": ""
+ },
  "pattgen": {
   "elapsed_s": 0.1,
   "rc": 0,
@@ -205,10 +218,16 @@
  },
  "csrng": {
   "elapsed_s": 0.1,
-  "rc": 1,
-  "raw": 0,
-  "findings": [],
-  "err_head": "regmap: /workspace/HTFuzz/traces/csrng_regmap.json\nTraceback (most recent call last):\n  File \"/workspace/HTFuzz/scripts/discover_engine.py\", line 1059, in <module>\n    main()\n  File \"/workspace/HTFuzz"
+  "rc": 0,
+  "raw": 1,
+  "findings": [
+   {
+    "oracle": "O-J-errprop",
+    "signal": "u_dut.u_csrng_core.cs_bus_cmp_alert,u_dut.u_csrng_core.cmd_stage_sm_err_sum,u_dut.u_csrng_core.aes_cipher_sm_err_sum",
+    "desc": "全部 3 类错误触发均未引起任何 alert/err 信号置位 → 错误传播链断裂"
+   }
+  ],
+  "err_head": ""
  },
  "entropy_src": {
   "elapsed_s": 0.2,

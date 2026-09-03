@@ -1,0 +1,1 @@
+../../prim/rtl/prim_assert_sec_cm.svh
