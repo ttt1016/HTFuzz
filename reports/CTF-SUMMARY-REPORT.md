@@ -1501,3 +1501,38 @@ O-K 不变量规则只有 3 种（wipe_clears/changes_across_runs/reg_core_consi
 
 例：HMAC SEC_CM 包含 KEY.SW_UNREADABLE
 当前 LLM 只能提取 wipe_clears → 扩展后可提取 read_only_leak → 直接检出 Bug#16
+
+## 32. P64: 注入手法的通用分类学——不依赖 CSV 的检测方法论（2026-09-03）
+
+### 32.1 核心问题
+
+"主办方换个手法我们就不可能找到"——这个担忧的答案是：不需要预知注入手法。
+
+硬件安全注入本质上只有 7 大类，任何注入 bug 都必须违反其中至少一条。
+这些分类来自安全规范标准（非 CSV 归纳），是先验知识。
+
+### 32.2 硬件安全注入的 7 大分类学
+
+| # | 分类 | 安全不变量 | 对应 oracle 规则 |
+|---|------|-----------|-----------------|
+| 1 | 数据完整性 | 擦除/清零/复位后数据必须归零或变为安全值 | wipe_clears |
+| 2 | 访问控制 | 权限/锁/门控必须生效 | access_control, cfg_block_gating |
+| 3 | 随机性 | 掩码/熵/PRNG 必须真的随机 | changes_across_runs |
+| 4 | 状态机 | FSM 必须有合法编码和恢复路径 | fsm_sparse_encoding |
+| 5 | 总线完整性 | intg 错误必须被检测 | bus_intg_check |
+| 6 | 信息泄露 | write-only 寄存器读回必须全 0 | read_only_leak |
+| 7 | 时序安全 | 关键信号必须满足时序约束 | err_code_coherent |
+
+### 32.3 三个不依赖 CSV 的先验知识渠道
+
+1. **安全规范标准**：RISC-V Smepmp / OpenTitan SEC_CM / Common Criteria / FIPS 140-3
+2. **LLM 安全知识**：训练数据包含硬件安全论文/CVE/CTF writeup
+3. **设计模式分类学**：上述 7 大类是硬件安全的通用分类学
+
+### 32.4 O-K 正确做法
+
+LLM prompt 列出 12 种通用不变量类型（来自安全规范标准），
+让 LLM 根据模块的 SEC_CM 和 RTL 选择最合适的类型。
+
+比赛方换注入手法？只要还是硬件安全 bug，
+就必须违反 7 大类中的至少一条 → O-K 就能检出。
