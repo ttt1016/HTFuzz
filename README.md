@@ -197,6 +197,7 @@ python3 scripts/ok_invariant.py gen <module>
 | Phase A-② kmac 白盒 3→248 | 完成 | kmac 2→3 条（#26 静态掩码 O-B 命中确认） | 已推送 |
 | Phase A-② rom_ctrl/otp_ctrl 推广 | 进行中 | rom_ctrl 候选仅 4（RTL 侧信号面薄, 需 wrapper 暴露内部） | — |
 | Phase A-② ascon 重建修正 | 完成 | ascon 重建后 58 条检出记录（key_share 4 词全绑定 + 78 信号面） | 601b1da 后续 |
+| Phase A-② rom_ctrl 白盒 2→4(alert/error_det/mem) | 完成 | rom_ctrl O-G 脉冲电平化 1 条（#26 alert 抑制面） | 本提交 |
 | 构建基建沉淀 | 完成 | gen_bindings 词切分数组兜底绑定(BRA/KET 形态)；模块 filelist 必须含 incdir；-Wno-ENUMVALUE/WIDTH 全局放宽 | 本提交 |
 
 ## 安全属性分类学：论文依据与有效性论证

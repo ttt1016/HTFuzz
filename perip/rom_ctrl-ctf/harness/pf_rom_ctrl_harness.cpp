@@ -19,7 +19,7 @@ static SigEntry g_sigs[] = {
     {"u_dut.rom_rvalid", nullptr, 1, false},
 
     {"u_dut.rom_req", nullptr, 1, false},
-
+{"gen_rom_scramble_disabled.u_rom.u_prim_rom.mem", nullptr, 1, true }
 };
 static const int g_nsig = sizeof(g_sigs) / sizeof(g_sigs[0]);
 
@@ -27,9 +27,10 @@ static void bind_signals() {
     for (int i = 0; i < g_nsig; i++) {
         const char* n = g_sigs[i].name;
         void* p = nullptr;
-        if (0) {}
-        else if (strcmp(n, "u_dut.rom_rvalid") == 0) p = &rootp->rom_ctrl_perip_tb__DOT__u_dut__DOT__rom_rvalid;
+        (void)p;
+        if (strcmp(n, "gen_rom_scramble_disabled.u_rom.u_prim_rom.mem") == 0) p = &rootp->rom_ctrl_perip_tb__DOT__u_dut__DOT__gen_rom_scramble_disabled__DOT__u_rom__DOT__u_prim_rom__DOT__mem;
         else if (strcmp(n, "u_dut.rom_req") == 0) p = &rootp->rom_ctrl_perip_tb__DOT__u_dut__DOT__rom_req;
+        else if (strcmp(n, "u_dut.rom_rvalid") == 0) p = &rootp->rom_ctrl_perip_tb__DOT__u_dut__DOT__rom_rvalid;
         g_sigs[i].ptr = p;
     }
 }
@@ -167,6 +168,7 @@ void pf_reset(void) {
 
 int pf_snapshot(void) { take_snapshot(); return (int)g_snaps.size() - 1; }
 int pf_snap_count(void) { return (int)g_snaps.size(); }
+int pf_sig_bound(int i) { return (i >= 0 && i < g_nsig && g_sigs[i].ptr != nullptr) ? 1 : 0; }
 int pf_sig_count(void) { return g_nsig; }
 const char* pf_sig_name(int i) { return (i >= 0 && i < g_nsig) ? g_sigs[i].name : ""; }
 int pf_sig_words(int i) { return (i >= 0 && i < g_nsig) ? g_sigs[i].words : 0; }

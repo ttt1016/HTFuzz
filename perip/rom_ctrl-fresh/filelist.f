@@ -5,6 +5,13 @@
 +incdir+hw/ip/rom_ctrl/rtl
 +incdir+hw/ip/tlul/rtl
 +incdir+hw/top_earlgrey/rtl
++incdir+hw
++incdir+hw/ip/kmac/rtl
++incdir+hw/ip/prim/rtl
++incdir+hw/ip/prim_generic/rtl
++incdir+hw/ip/rom_ctrl/rtl
++incdir+hw/ip/tlul/rtl
++incdir+hw/top_earlgrey/rtl
 hw/ip/prim/rtl/prim_assert.sv
 hw/ip/kmac/rtl/kmac_pkg.sv
 hw/ip/prim/rtl/prim_alert_pkg.sv

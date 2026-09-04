@@ -17,12 +17,217 @@ static uint64_t main_time = 0;
 struct SigEntry { const char* name; void* ptr; int words; bool is_wide; };
 
 static SigEntry g_sigs[] = {
-    // otp_ctrl 白盒表待 SEC_CM 脚本扩充
+    // otp_ctrl 白盒表待 SEC_CM 脚本扩充,
+{"gen_partitions__BRA__0__KET__.gen_unbuffered.u_part_unbuf.digest_reg_en", nullptr, 1, true },
+{"gen_partitions__BRA__1__KET__.gen_unbuffered.u_part_unbuf.digest_reg_en", nullptr, 1, true },
+{"gen_partitions__BRA__2__KET__.gen_unbuffered.u_part_unbuf.digest_reg_en", nullptr, 1, true },
+{"gen_partitions__BRA__3__KET__.gen_unbuffered.u_part_unbuf.digest_reg_en", nullptr, 1, true },
+{"gen_partitions__BRA__4__KET__.gen_unbuffered.u_part_unbuf.digest_reg_en", nullptr, 1, true },
+{"key_edn_ack", nullptr, 1, true },
+{"u_edn_arb.gen_normal_case.prio_mask_q", nullptr, 1, true },
+{"u_otp_arb.gen_normal_case.mask_tree__BRA__10__KET__", nullptr, 1, true },
+{"u_otp_arb.gen_normal_case.mask_tree__BRA__12__KET__", nullptr, 1, true },
+{"u_otp_arb.gen_normal_case.mask_tree__BRA__13__KET__", nullptr, 1, true },
+{"u_otp_arb.gen_normal_case.prio_mask_q", nullptr, 1, true },
+{"u_otp_ctrl_kdi.entropy_cnt_clr", nullptr, 1, true },
+{"u_otp_ctrl_kdi.entropy_cnt_en", nullptr, 1, true },
+{"u_otp_ctrl_kdi.seed_cnt_clr", nullptr, 1, true },
+{"u_otp_ctrl_kdi.seed_cnt_en", nullptr, 1, true },
+{"u_otp_ctrl_kdi.u_prim_count_entropy.err_q", nullptr, 1, true },
+{"u_otp_ctrl_kdi.u_prim_count_entropy.gen_cnts__BRA__0__KET__.ext_cnt", nullptr, 1, true },
+{"u_otp_ctrl_kdi.u_prim_count_entropy.gen_cnts__BRA__0__KET__.u_cnt_flop.q_q", nullptr, 1, true },
+{"u_otp_ctrl_kdi.u_prim_count_entropy.gen_cnts__BRA__1__KET__.ext_cnt", nullptr, 1, true },
+{"u_otp_ctrl_kdi.u_prim_count_entropy.gen_cnts__BRA__1__KET__.u_cnt_flop.q_q", nullptr, 1, true },
+{"u_otp_ctrl_kdi.u_prim_count_seed.err_q", nullptr, 1, true },
+{"u_otp_ctrl_kdi.u_prim_count_seed.gen_cnts__BRA__0__KET__.ext_cnt", nullptr, 1, true },
+{"u_otp_ctrl_kdi.u_prim_count_seed.gen_cnts__BRA__0__KET__.u_cnt_flop.q_q", nullptr, 1, true },
+{"u_otp_ctrl_kdi.u_prim_count_seed.gen_cnts__BRA__1__KET__.ext_cnt", nullptr, 1, true },
+{"u_otp_ctrl_kdi.u_prim_count_seed.gen_cnts__BRA__1__KET__.u_cnt_flop.q_q", nullptr, 1, true },
+{"u_otp_ctrl_lfsr_timer.reseed_cnt_q", nullptr, 1, true },
+{"u_otp_ctrl_lfsr_timer.reseed_en", nullptr, 1, true },
+{"u_otp_ctrl_lfsr_timer.u_prim_double_lfsr.gen_double_lfsr__BRA__0__KET__.entropy_buf", nullptr, 1, true },
+{"u_otp_ctrl_scrmbl.digest_init", nullptr, 1, true },
+{"u_otp_ctrl_scrmbl.digest_mode_d", nullptr, 1, true },
+{"u_otp_ctrl_scrmbl.digest_mode_q", nullptr, 1, true },
+{"u_otp_ctrl_scrmbl.digest_state_en", nullptr, 1, true },
+{"u_otp_ctrl_scrmbl.digest_state_q", nullptr, 1, true },
+{"u_otp_ctrl_scrmbl.key_state_en", nullptr, 1, true },
+{"u_otp_ctrl_scrmbl.key_state_q", nullptr, 1, true },
+{"u_otp_ctrl_scrmbl.key_state_sel", nullptr, 1, true },
+{"u_prim_lc_sync_creator_seed_sw_rw_en.gen_flops.u_prim_flop_2sync.u_impl_generic.u_sync_1.q_q", nullptr, 1, true },
+{"u_prim_lc_sync_creator_seed_sw_rw_en.gen_flops.u_prim_flop_2sync.u_impl_generic.u_sync_2.q_q", nullptr, 1, true },
+{"u_reg_core.status_key_deriv_fsm_error_qs", nullptr, 1, true },
+{"u_reg_core.status_scrambling_fsm_error_qs", nullptr, 1, true },
+{"u_scrmbl_mtx.gen_normal_case.mask_tree__BRA__12__KET__", nullptr, 1, true },
+{"u_scrmbl_mtx.gen_normal_case.mask_tree__BRA__13__KET__", nullptr, 1, true },
+{"u_scrmbl_mtx.gen_normal_case.mask_tree__BRA__22__KET__", nullptr, 1, true },
+{"u_scrmbl_mtx.gen_normal_case.mask_tree__BRA__24__KET__", nullptr, 1, true },
+{"u_scrmbl_mtx.gen_normal_case.prio_mask_q", nullptr, 1, true },
+{"u_tlul_adapter_sram.u_err.mask_chk", nullptr, 1, true },
+{"gen_partitions__BRA__0__KET__.gen_unbuffered.u_part_unbuf.tlul_addr_q", nullptr, 1, true },
+{"gen_partitions__BRA__0__KET__.gen_unbuffered.u_part_unbuf.u_state_regs.u_state_flop.q_q", nullptr, 1, true },
+{"gen_partitions__BRA__10__KET__.gen_lifecycle.u_part_buf.u_prim_count.err_q", nullptr, 1, true },
+{"gen_partitions__BRA__10__KET__.gen_lifecycle.u_part_buf.u_prim_count.gen_cnts__BRA__0__KET__.u_cnt_flop.q_q", nullptr, 1, true },
+{"gen_partitions__BRA__10__KET__.gen_lifecycle.u_part_buf.u_prim_count.gen_cnts__BRA__1__KET__.u_cnt_flop.q_q", nullptr, 1, true },
+{"gen_partitions__BRA__10__KET__.gen_lifecycle.u_part_buf.u_state_regs.u_state_flop.q_q", nullptr, 1, true },
+{"gen_partitions__BRA__1__KET__.gen_unbuffered.u_part_unbuf.tlul_addr_q", nullptr, 1, true },
+{"gen_partitions__BRA__1__KET__.gen_unbuffered.u_part_unbuf.u_state_regs.u_state_flop.q_q", nullptr, 1, true },
+{"gen_partitions__BRA__2__KET__.gen_unbuffered.u_part_unbuf.tlul_addr_q", nullptr, 1, true },
+{"gen_partitions__BRA__2__KET__.gen_unbuffered.u_part_unbuf.u_state_regs.u_state_flop.q_q", nullptr, 1, true },
+{"gen_partitions__BRA__3__KET__.gen_unbuffered.u_part_unbuf.tlul_addr_q", nullptr, 1, true },
+{"gen_partitions__BRA__3__KET__.gen_unbuffered.u_part_unbuf.u_state_regs.u_state_flop.q_q", nullptr, 1, true },
+{"gen_partitions__BRA__4__KET__.gen_unbuffered.u_part_unbuf.tlul_addr_q", nullptr, 1, true },
+{"gen_partitions__BRA__4__KET__.gen_unbuffered.u_part_unbuf.u_state_regs.u_state_flop.q_q", nullptr, 1, true },
+{"gen_partitions__BRA__5__KET__.gen_buffered.u_part_buf.u_prim_count.err_q", nullptr, 1, true },
+{"gen_partitions__BRA__5__KET__.gen_buffered.u_part_buf.u_prim_count.gen_cnts__BRA__0__KET__.u_cnt_flop.q_q", nullptr, 1, true },
+{"gen_partitions__BRA__5__KET__.gen_buffered.u_part_buf.u_prim_count.gen_cnts__BRA__1__KET__.u_cnt_flop.q_q", nullptr, 1, true },
+{"gen_partitions__BRA__5__KET__.gen_buffered.u_part_buf.u_state_regs.u_state_flop.q_q", nullptr, 1, true },
+{"gen_partitions__BRA__6__KET__.gen_buffered.u_part_buf.u_prim_count.err_q", nullptr, 1, true },
+{"gen_partitions__BRA__6__KET__.gen_buffered.u_part_buf.u_prim_count.gen_cnts__BRA__0__KET__.u_cnt_flop.q_q", nullptr, 1, true },
+{"gen_partitions__BRA__6__KET__.gen_buffered.u_part_buf.u_prim_count.gen_cnts__BRA__1__KET__.u_cnt_flop.q_q", nullptr, 1, true },
+{"gen_partitions__BRA__6__KET__.gen_buffered.u_part_buf.u_state_regs.u_state_flop.q_q", nullptr, 1, true },
+{"gen_partitions__BRA__7__KET__.gen_buffered.u_part_buf.u_prim_count.err_q", nullptr, 1, true },
+{"gen_partitions__BRA__7__KET__.gen_buffered.u_part_buf.u_prim_count.gen_cnts__BRA__0__KET__.u_cnt_flop.q_q", nullptr, 1, true },
+{"gen_partitions__BRA__7__KET__.gen_buffered.u_part_buf.u_prim_count.gen_cnts__BRA__1__KET__.u_cnt_flop.q_q", nullptr, 1, true },
+{"gen_partitions__BRA__7__KET__.gen_buffered.u_part_buf.u_state_regs.u_state_flop.q_q", nullptr, 1, true },
+{"gen_partitions__BRA__8__KET__.gen_buffered.u_part_buf.u_prim_count.err_q", nullptr, 1, true },
+{"gen_partitions__BRA__8__KET__.gen_buffered.u_part_buf.u_prim_count.gen_cnts__BRA__0__KET__.u_cnt_flop.q_q", nullptr, 1, true },
+{"gen_partitions__BRA__8__KET__.gen_buffered.u_part_buf.u_prim_count.gen_cnts__BRA__1__KET__.u_cnt_flop.q_q", nullptr, 1, true },
+{"gen_partitions__BRA__8__KET__.gen_buffered.u_part_buf.u_state_regs.u_state_flop.q_q", nullptr, 1, true },
+{"gen_partitions__BRA__9__KET__.gen_buffered.u_part_buf.u_prim_count.err_q", nullptr, 1, true },
+{"gen_partitions__BRA__9__KET__.gen_buffered.u_part_buf.u_prim_count.gen_cnts__BRA__0__KET__.u_cnt_flop.q_q", nullptr, 1, true },
+{"gen_partitions__BRA__9__KET__.gen_buffered.u_part_buf.u_prim_count.gen_cnts__BRA__1__KET__.u_cnt_flop.q_q", nullptr, 1, true },
+{"gen_partitions__BRA__9__KET__.gen_buffered.u_part_buf.u_state_regs.u_state_flop.q_q", nullptr, 1, true },
+{"u_otp_ctrl_dai.state_d", nullptr, 1, true },
+{"u_otp_ctrl_dai.u_prim_count.err_q", nullptr, 1, true },
+{"u_otp_ctrl_dai.u_prim_count.gen_cnts__BRA__0__KET__.u_cnt_flop.q_q", nullptr, 1, true },
+{"u_otp_ctrl_dai.u_prim_count.gen_cnts__BRA__1__KET__.u_cnt_flop.q_q", nullptr, 1, true },
+{"u_otp_ctrl_dai.u_state_regs.u_state_flop.q_q", nullptr, 1, true },
+{"u_otp_ctrl_kdi.u_state_regs.u_state_flop.q_q", nullptr, 1, true },
+{"u_otp_ctrl_lci.u_prim_count.err_q", nullptr, 1, true },
+{"u_otp_ctrl_lci.u_prim_count.gen_cnts__BRA__0__KET__.u_cnt_flop.q_q", nullptr, 1, true },
+{"u_otp_ctrl_lci.u_prim_count.gen_cnts__BRA__1__KET__.u_cnt_flop.q_q", nullptr, 1, true },
+{"u_otp_ctrl_lci.u_state_regs.u_state_flop.q_q", nullptr, 1, true },
+{"u_otp_ctrl_lfsr_timer.u_prim_count_cnsty.err_q", nullptr, 1, true },
+{"u_otp_ctrl_lfsr_timer.u_prim_count_cnsty.gen_cnts__BRA__0__KET__.u_cnt_flop.q_q", nullptr, 1, true },
+{"u_otp_ctrl_lfsr_timer.u_prim_count_cnsty.gen_cnts__BRA__1__KET__.u_cnt_flop.q_q", nullptr, 1, true },
+{"u_otp_ctrl_lfsr_timer.u_prim_count_integ.err_q", nullptr, 1, true },
+{"u_otp_ctrl_lfsr_timer.u_prim_count_integ.gen_cnts__BRA__0__KET__.u_cnt_flop.q_q", nullptr, 1, true },
+{"u_otp_ctrl_lfsr_timer.u_prim_count_integ.gen_cnts__BRA__1__KET__.u_cnt_flop.q_q", nullptr, 1, true },
+{"u_otp_ctrl_lfsr_timer.u_prim_double_lfsr.lfsr_state", nullptr, 1, true },
+{"u_otp_ctrl_lfsr_timer.u_state_regs.u_state_flop.q_q", nullptr, 1, true },
+{"u_otp_ctrl_scrmbl.data_state_d", nullptr, 1, true },
+{"u_otp_ctrl_scrmbl.data_state_en", nullptr, 1, true }
 };
 static const int g_nsig = sizeof(g_sigs) / sizeof(g_sigs[0]);
 
 static void bind_signals() {
-    // 待扩充
+    for (int i = 0; i < g_nsig; i++) {
+        const char* n = g_sigs[i].name;
+        void* p = nullptr;
+        (void)p;
+        if (strcmp(n, "gen_partitions__BRA__0__KET__.gen_unbuffered.u_part_unbuf.digest_reg_en") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__gen_partitions__BRA__0__KET____DOT__gen_unbuffered__DOT__u_part_unbuf__DOT__digest_reg_en;
+        else if (strcmp(n, "gen_partitions__BRA__0__KET__.gen_unbuffered.u_part_unbuf.tlul_addr_q") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__gen_partitions__BRA__0__KET____DOT__gen_unbuffered__DOT__u_part_unbuf__DOT__tlul_addr_q;
+        else if (strcmp(n, "gen_partitions__BRA__0__KET__.gen_unbuffered.u_part_unbuf.u_state_regs.u_state_flop.q_q") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__gen_partitions__BRA__0__KET____DOT__gen_unbuffered__DOT__u_part_unbuf__DOT__u_state_regs__DOT__u_state_flop__DOT__q_q;
+        else if (strcmp(n, "gen_partitions__BRA__10__KET__.gen_lifecycle.u_part_buf.u_prim_count.err_q") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__gen_partitions__BRA__10__KET____DOT__gen_lifecycle__DOT__u_part_buf__DOT__u_prim_count__DOT__err_q;
+        else if (strcmp(n, "gen_partitions__BRA__10__KET__.gen_lifecycle.u_part_buf.u_prim_count.gen_cnts__BRA__0__KET__.u_cnt_flop.q_q") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__gen_partitions__BRA__10__KET____DOT__gen_lifecycle__DOT__u_part_buf__DOT__u_prim_count__DOT__gen_cnts__BRA__0__KET____DOT__u_cnt_flop__DOT__q_q;
+        else if (strcmp(n, "gen_partitions__BRA__10__KET__.gen_lifecycle.u_part_buf.u_prim_count.gen_cnts__BRA__1__KET__.u_cnt_flop.q_q") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__gen_partitions__BRA__10__KET____DOT__gen_lifecycle__DOT__u_part_buf__DOT__u_prim_count__DOT__gen_cnts__BRA__1__KET____DOT__u_cnt_flop__DOT__q_q;
+        else if (strcmp(n, "gen_partitions__BRA__10__KET__.gen_lifecycle.u_part_buf.u_state_regs.u_state_flop.q_q") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__gen_partitions__BRA__10__KET____DOT__gen_lifecycle__DOT__u_part_buf__DOT__u_state_regs__DOT__u_state_flop__DOT__q_q;
+        else if (strcmp(n, "gen_partitions__BRA__1__KET__.gen_unbuffered.u_part_unbuf.digest_reg_en") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__gen_partitions__BRA__1__KET____DOT__gen_unbuffered__DOT__u_part_unbuf__DOT__digest_reg_en;
+        else if (strcmp(n, "gen_partitions__BRA__1__KET__.gen_unbuffered.u_part_unbuf.tlul_addr_q") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__gen_partitions__BRA__1__KET____DOT__gen_unbuffered__DOT__u_part_unbuf__DOT__tlul_addr_q;
+        else if (strcmp(n, "gen_partitions__BRA__1__KET__.gen_unbuffered.u_part_unbuf.u_state_regs.u_state_flop.q_q") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__gen_partitions__BRA__1__KET____DOT__gen_unbuffered__DOT__u_part_unbuf__DOT__u_state_regs__DOT__u_state_flop__DOT__q_q;
+        else if (strcmp(n, "gen_partitions__BRA__2__KET__.gen_unbuffered.u_part_unbuf.digest_reg_en") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__gen_partitions__BRA__2__KET____DOT__gen_unbuffered__DOT__u_part_unbuf__DOT__digest_reg_en;
+        else if (strcmp(n, "gen_partitions__BRA__2__KET__.gen_unbuffered.u_part_unbuf.tlul_addr_q") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__gen_partitions__BRA__2__KET____DOT__gen_unbuffered__DOT__u_part_unbuf__DOT__tlul_addr_q;
+        else if (strcmp(n, "gen_partitions__BRA__2__KET__.gen_unbuffered.u_part_unbuf.u_state_regs.u_state_flop.q_q") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__gen_partitions__BRA__2__KET____DOT__gen_unbuffered__DOT__u_part_unbuf__DOT__u_state_regs__DOT__u_state_flop__DOT__q_q;
+        else if (strcmp(n, "gen_partitions__BRA__3__KET__.gen_unbuffered.u_part_unbuf.digest_reg_en") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__gen_partitions__BRA__3__KET____DOT__gen_unbuffered__DOT__u_part_unbuf__DOT__digest_reg_en;
+        else if (strcmp(n, "gen_partitions__BRA__3__KET__.gen_unbuffered.u_part_unbuf.tlul_addr_q") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__gen_partitions__BRA__3__KET____DOT__gen_unbuffered__DOT__u_part_unbuf__DOT__tlul_addr_q;
+        else if (strcmp(n, "gen_partitions__BRA__3__KET__.gen_unbuffered.u_part_unbuf.u_state_regs.u_state_flop.q_q") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__gen_partitions__BRA__3__KET____DOT__gen_unbuffered__DOT__u_part_unbuf__DOT__u_state_regs__DOT__u_state_flop__DOT__q_q;
+        else if (strcmp(n, "gen_partitions__BRA__4__KET__.gen_unbuffered.u_part_unbuf.digest_reg_en") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__gen_partitions__BRA__4__KET____DOT__gen_unbuffered__DOT__u_part_unbuf__DOT__digest_reg_en;
+        else if (strcmp(n, "gen_partitions__BRA__4__KET__.gen_unbuffered.u_part_unbuf.tlul_addr_q") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__gen_partitions__BRA__4__KET____DOT__gen_unbuffered__DOT__u_part_unbuf__DOT__tlul_addr_q;
+        else if (strcmp(n, "gen_partitions__BRA__4__KET__.gen_unbuffered.u_part_unbuf.u_state_regs.u_state_flop.q_q") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__gen_partitions__BRA__4__KET____DOT__gen_unbuffered__DOT__u_part_unbuf__DOT__u_state_regs__DOT__u_state_flop__DOT__q_q;
+        else if (strcmp(n, "gen_partitions__BRA__5__KET__.gen_buffered.u_part_buf.u_prim_count.err_q") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__gen_partitions__BRA__5__KET____DOT__gen_buffered__DOT__u_part_buf__DOT__u_prim_count__DOT__err_q;
+        else if (strcmp(n, "gen_partitions__BRA__5__KET__.gen_buffered.u_part_buf.u_prim_count.gen_cnts__BRA__0__KET__.u_cnt_flop.q_q") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__gen_partitions__BRA__5__KET____DOT__gen_buffered__DOT__u_part_buf__DOT__u_prim_count__DOT__gen_cnts__BRA__0__KET____DOT__u_cnt_flop__DOT__q_q;
+        else if (strcmp(n, "gen_partitions__BRA__5__KET__.gen_buffered.u_part_buf.u_prim_count.gen_cnts__BRA__1__KET__.u_cnt_flop.q_q") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__gen_partitions__BRA__5__KET____DOT__gen_buffered__DOT__u_part_buf__DOT__u_prim_count__DOT__gen_cnts__BRA__1__KET____DOT__u_cnt_flop__DOT__q_q;
+        else if (strcmp(n, "gen_partitions__BRA__5__KET__.gen_buffered.u_part_buf.u_state_regs.u_state_flop.q_q") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__gen_partitions__BRA__5__KET____DOT__gen_buffered__DOT__u_part_buf__DOT__u_state_regs__DOT__u_state_flop__DOT__q_q;
+        else if (strcmp(n, "gen_partitions__BRA__6__KET__.gen_buffered.u_part_buf.u_prim_count.err_q") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__gen_partitions__BRA__6__KET____DOT__gen_buffered__DOT__u_part_buf__DOT__u_prim_count__DOT__err_q;
+        else if (strcmp(n, "gen_partitions__BRA__6__KET__.gen_buffered.u_part_buf.u_prim_count.gen_cnts__BRA__0__KET__.u_cnt_flop.q_q") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__gen_partitions__BRA__6__KET____DOT__gen_buffered__DOT__u_part_buf__DOT__u_prim_count__DOT__gen_cnts__BRA__0__KET____DOT__u_cnt_flop__DOT__q_q;
+        else if (strcmp(n, "gen_partitions__BRA__6__KET__.gen_buffered.u_part_buf.u_prim_count.gen_cnts__BRA__1__KET__.u_cnt_flop.q_q") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__gen_partitions__BRA__6__KET____DOT__gen_buffered__DOT__u_part_buf__DOT__u_prim_count__DOT__gen_cnts__BRA__1__KET____DOT__u_cnt_flop__DOT__q_q;
+        else if (strcmp(n, "gen_partitions__BRA__6__KET__.gen_buffered.u_part_buf.u_state_regs.u_state_flop.q_q") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__gen_partitions__BRA__6__KET____DOT__gen_buffered__DOT__u_part_buf__DOT__u_state_regs__DOT__u_state_flop__DOT__q_q;
+        else if (strcmp(n, "gen_partitions__BRA__7__KET__.gen_buffered.u_part_buf.u_prim_count.err_q") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__gen_partitions__BRA__7__KET____DOT__gen_buffered__DOT__u_part_buf__DOT__u_prim_count__DOT__err_q;
+        else if (strcmp(n, "gen_partitions__BRA__7__KET__.gen_buffered.u_part_buf.u_prim_count.gen_cnts__BRA__0__KET__.u_cnt_flop.q_q") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__gen_partitions__BRA__7__KET____DOT__gen_buffered__DOT__u_part_buf__DOT__u_prim_count__DOT__gen_cnts__BRA__0__KET____DOT__u_cnt_flop__DOT__q_q;
+        else if (strcmp(n, "gen_partitions__BRA__7__KET__.gen_buffered.u_part_buf.u_prim_count.gen_cnts__BRA__1__KET__.u_cnt_flop.q_q") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__gen_partitions__BRA__7__KET____DOT__gen_buffered__DOT__u_part_buf__DOT__u_prim_count__DOT__gen_cnts__BRA__1__KET____DOT__u_cnt_flop__DOT__q_q;
+        else if (strcmp(n, "gen_partitions__BRA__7__KET__.gen_buffered.u_part_buf.u_state_regs.u_state_flop.q_q") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__gen_partitions__BRA__7__KET____DOT__gen_buffered__DOT__u_part_buf__DOT__u_state_regs__DOT__u_state_flop__DOT__q_q;
+        else if (strcmp(n, "gen_partitions__BRA__8__KET__.gen_buffered.u_part_buf.u_prim_count.err_q") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__gen_partitions__BRA__8__KET____DOT__gen_buffered__DOT__u_part_buf__DOT__u_prim_count__DOT__err_q;
+        else if (strcmp(n, "gen_partitions__BRA__8__KET__.gen_buffered.u_part_buf.u_prim_count.gen_cnts__BRA__0__KET__.u_cnt_flop.q_q") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__gen_partitions__BRA__8__KET____DOT__gen_buffered__DOT__u_part_buf__DOT__u_prim_count__DOT__gen_cnts__BRA__0__KET____DOT__u_cnt_flop__DOT__q_q;
+        else if (strcmp(n, "gen_partitions__BRA__8__KET__.gen_buffered.u_part_buf.u_prim_count.gen_cnts__BRA__1__KET__.u_cnt_flop.q_q") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__gen_partitions__BRA__8__KET____DOT__gen_buffered__DOT__u_part_buf__DOT__u_prim_count__DOT__gen_cnts__BRA__1__KET____DOT__u_cnt_flop__DOT__q_q;
+        else if (strcmp(n, "gen_partitions__BRA__8__KET__.gen_buffered.u_part_buf.u_state_regs.u_state_flop.q_q") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__gen_partitions__BRA__8__KET____DOT__gen_buffered__DOT__u_part_buf__DOT__u_state_regs__DOT__u_state_flop__DOT__q_q;
+        else if (strcmp(n, "gen_partitions__BRA__9__KET__.gen_buffered.u_part_buf.u_prim_count.err_q") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__gen_partitions__BRA__9__KET____DOT__gen_buffered__DOT__u_part_buf__DOT__u_prim_count__DOT__err_q;
+        else if (strcmp(n, "gen_partitions__BRA__9__KET__.gen_buffered.u_part_buf.u_prim_count.gen_cnts__BRA__0__KET__.u_cnt_flop.q_q") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__gen_partitions__BRA__9__KET____DOT__gen_buffered__DOT__u_part_buf__DOT__u_prim_count__DOT__gen_cnts__BRA__0__KET____DOT__u_cnt_flop__DOT__q_q;
+        else if (strcmp(n, "gen_partitions__BRA__9__KET__.gen_buffered.u_part_buf.u_prim_count.gen_cnts__BRA__1__KET__.u_cnt_flop.q_q") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__gen_partitions__BRA__9__KET____DOT__gen_buffered__DOT__u_part_buf__DOT__u_prim_count__DOT__gen_cnts__BRA__1__KET____DOT__u_cnt_flop__DOT__q_q;
+        else if (strcmp(n, "gen_partitions__BRA__9__KET__.gen_buffered.u_part_buf.u_state_regs.u_state_flop.q_q") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__gen_partitions__BRA__9__KET____DOT__gen_buffered__DOT__u_part_buf__DOT__u_state_regs__DOT__u_state_flop__DOT__q_q;
+        else if (strcmp(n, "key_edn_ack") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__key_edn_ack;
+        else if (strcmp(n, "u_edn_arb.gen_normal_case.prio_mask_q") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__u_edn_arb__DOT__gen_normal_case__DOT__prio_mask_q;
+        else if (strcmp(n, "u_otp_arb.gen_normal_case.mask_tree__BRA__10__KET__") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__u_otp_arb__DOT__gen_normal_case__DOT__mask_tree__BRA__10__KET__;
+        else if (strcmp(n, "u_otp_arb.gen_normal_case.mask_tree__BRA__12__KET__") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__u_otp_arb__DOT__gen_normal_case__DOT__mask_tree__BRA__12__KET__;
+        else if (strcmp(n, "u_otp_arb.gen_normal_case.mask_tree__BRA__13__KET__") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__u_otp_arb__DOT__gen_normal_case__DOT__mask_tree__BRA__13__KET__;
+        else if (strcmp(n, "u_otp_arb.gen_normal_case.prio_mask_q") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__u_otp_arb__DOT__gen_normal_case__DOT__prio_mask_q;
+        else if (strcmp(n, "u_otp_ctrl_dai.state_d") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__u_otp_ctrl_dai__DOT__state_d;
+        else if (strcmp(n, "u_otp_ctrl_dai.u_prim_count.err_q") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__u_otp_ctrl_dai__DOT__u_prim_count__DOT__err_q;
+        else if (strcmp(n, "u_otp_ctrl_dai.u_prim_count.gen_cnts__BRA__0__KET__.u_cnt_flop.q_q") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__u_otp_ctrl_dai__DOT__u_prim_count__DOT__gen_cnts__BRA__0__KET____DOT__u_cnt_flop__DOT__q_q;
+        else if (strcmp(n, "u_otp_ctrl_dai.u_prim_count.gen_cnts__BRA__1__KET__.u_cnt_flop.q_q") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__u_otp_ctrl_dai__DOT__u_prim_count__DOT__gen_cnts__BRA__1__KET____DOT__u_cnt_flop__DOT__q_q;
+        else if (strcmp(n, "u_otp_ctrl_dai.u_state_regs.u_state_flop.q_q") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__u_otp_ctrl_dai__DOT__u_state_regs__DOT__u_state_flop__DOT__q_q;
+        else if (strcmp(n, "u_otp_ctrl_kdi.entropy_cnt_clr") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__u_otp_ctrl_kdi__DOT__entropy_cnt_clr;
+        else if (strcmp(n, "u_otp_ctrl_kdi.entropy_cnt_en") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__u_otp_ctrl_kdi__DOT__entropy_cnt_en;
+        else if (strcmp(n, "u_otp_ctrl_kdi.seed_cnt_clr") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__u_otp_ctrl_kdi__DOT__seed_cnt_clr;
+        else if (strcmp(n, "u_otp_ctrl_kdi.seed_cnt_en") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__u_otp_ctrl_kdi__DOT__seed_cnt_en;
+        else if (strcmp(n, "u_otp_ctrl_kdi.u_prim_count_entropy.err_q") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__u_otp_ctrl_kdi__DOT__u_prim_count_entropy__DOT__err_q;
+        else if (strcmp(n, "u_otp_ctrl_kdi.u_prim_count_entropy.gen_cnts__BRA__0__KET__.ext_cnt") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__u_otp_ctrl_kdi__DOT__u_prim_count_entropy__DOT__gen_cnts__BRA__0__KET____DOT__ext_cnt;
+        else if (strcmp(n, "u_otp_ctrl_kdi.u_prim_count_entropy.gen_cnts__BRA__0__KET__.u_cnt_flop.q_q") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__u_otp_ctrl_kdi__DOT__u_prim_count_entropy__DOT__gen_cnts__BRA__0__KET____DOT__u_cnt_flop__DOT__q_q;
+        else if (strcmp(n, "u_otp_ctrl_kdi.u_prim_count_entropy.gen_cnts__BRA__1__KET__.ext_cnt") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__u_otp_ctrl_kdi__DOT__u_prim_count_entropy__DOT__gen_cnts__BRA__1__KET____DOT__ext_cnt;
+        else if (strcmp(n, "u_otp_ctrl_kdi.u_prim_count_entropy.gen_cnts__BRA__1__KET__.u_cnt_flop.q_q") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__u_otp_ctrl_kdi__DOT__u_prim_count_entropy__DOT__gen_cnts__BRA__1__KET____DOT__u_cnt_flop__DOT__q_q;
+        else if (strcmp(n, "u_otp_ctrl_kdi.u_prim_count_seed.err_q") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__u_otp_ctrl_kdi__DOT__u_prim_count_seed__DOT__err_q;
+        else if (strcmp(n, "u_otp_ctrl_kdi.u_prim_count_seed.gen_cnts__BRA__0__KET__.ext_cnt") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__u_otp_ctrl_kdi__DOT__u_prim_count_seed__DOT__gen_cnts__BRA__0__KET____DOT__ext_cnt;
+        else if (strcmp(n, "u_otp_ctrl_kdi.u_prim_count_seed.gen_cnts__BRA__0__KET__.u_cnt_flop.q_q") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__u_otp_ctrl_kdi__DOT__u_prim_count_seed__DOT__gen_cnts__BRA__0__KET____DOT__u_cnt_flop__DOT__q_q;
+        else if (strcmp(n, "u_otp_ctrl_kdi.u_prim_count_seed.gen_cnts__BRA__1__KET__.ext_cnt") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__u_otp_ctrl_kdi__DOT__u_prim_count_seed__DOT__gen_cnts__BRA__1__KET____DOT__ext_cnt;
+        else if (strcmp(n, "u_otp_ctrl_kdi.u_prim_count_seed.gen_cnts__BRA__1__KET__.u_cnt_flop.q_q") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__u_otp_ctrl_kdi__DOT__u_prim_count_seed__DOT__gen_cnts__BRA__1__KET____DOT__u_cnt_flop__DOT__q_q;
+        else if (strcmp(n, "u_otp_ctrl_kdi.u_state_regs.u_state_flop.q_q") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__u_otp_ctrl_kdi__DOT__u_state_regs__DOT__u_state_flop__DOT__q_q;
+        else if (strcmp(n, "u_otp_ctrl_lci.u_prim_count.err_q") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__u_otp_ctrl_lci__DOT__u_prim_count__DOT__err_q;
+        else if (strcmp(n, "u_otp_ctrl_lci.u_prim_count.gen_cnts__BRA__0__KET__.u_cnt_flop.q_q") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__u_otp_ctrl_lci__DOT__u_prim_count__DOT__gen_cnts__BRA__0__KET____DOT__u_cnt_flop__DOT__q_q;
+        else if (strcmp(n, "u_otp_ctrl_lci.u_prim_count.gen_cnts__BRA__1__KET__.u_cnt_flop.q_q") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__u_otp_ctrl_lci__DOT__u_prim_count__DOT__gen_cnts__BRA__1__KET____DOT__u_cnt_flop__DOT__q_q;
+        else if (strcmp(n, "u_otp_ctrl_lci.u_state_regs.u_state_flop.q_q") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__u_otp_ctrl_lci__DOT__u_state_regs__DOT__u_state_flop__DOT__q_q;
+        else if (strcmp(n, "u_otp_ctrl_lfsr_timer.reseed_cnt_q") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__u_otp_ctrl_lfsr_timer__DOT__reseed_cnt_q;
+        else if (strcmp(n, "u_otp_ctrl_lfsr_timer.reseed_en") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__u_otp_ctrl_lfsr_timer__DOT__reseed_en;
+        else if (strcmp(n, "u_otp_ctrl_lfsr_timer.u_prim_count_cnsty.err_q") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__u_otp_ctrl_lfsr_timer__DOT__u_prim_count_cnsty__DOT__err_q;
+        else if (strcmp(n, "u_otp_ctrl_lfsr_timer.u_prim_count_cnsty.gen_cnts__BRA__0__KET__.u_cnt_flop.q_q") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__u_otp_ctrl_lfsr_timer__DOT__u_prim_count_cnsty__DOT__gen_cnts__BRA__0__KET____DOT__u_cnt_flop__DOT__q_q;
+        else if (strcmp(n, "u_otp_ctrl_lfsr_timer.u_prim_count_cnsty.gen_cnts__BRA__1__KET__.u_cnt_flop.q_q") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__u_otp_ctrl_lfsr_timer__DOT__u_prim_count_cnsty__DOT__gen_cnts__BRA__1__KET____DOT__u_cnt_flop__DOT__q_q;
+        else if (strcmp(n, "u_otp_ctrl_lfsr_timer.u_prim_count_integ.err_q") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__u_otp_ctrl_lfsr_timer__DOT__u_prim_count_integ__DOT__err_q;
+        else if (strcmp(n, "u_otp_ctrl_lfsr_timer.u_prim_count_integ.gen_cnts__BRA__0__KET__.u_cnt_flop.q_q") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__u_otp_ctrl_lfsr_timer__DOT__u_prim_count_integ__DOT__gen_cnts__BRA__0__KET____DOT__u_cnt_flop__DOT__q_q;
+        else if (strcmp(n, "u_otp_ctrl_lfsr_timer.u_prim_count_integ.gen_cnts__BRA__1__KET__.u_cnt_flop.q_q") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__u_otp_ctrl_lfsr_timer__DOT__u_prim_count_integ__DOT__gen_cnts__BRA__1__KET____DOT__u_cnt_flop__DOT__q_q;
+        else if (strcmp(n, "u_otp_ctrl_lfsr_timer.u_prim_double_lfsr.gen_double_lfsr__BRA__0__KET__.entropy_buf") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__u_otp_ctrl_lfsr_timer__DOT__u_prim_double_lfsr__DOT__gen_double_lfsr__BRA__0__KET____DOT__entropy_buf;
+        else if (strcmp(n, "u_otp_ctrl_lfsr_timer.u_prim_double_lfsr.lfsr_state") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__u_otp_ctrl_lfsr_timer__DOT__u_prim_double_lfsr__DOT__lfsr_state__BRA__39__03a0__KET__;
+        else if (strcmp(n, "u_otp_ctrl_lfsr_timer.u_state_regs.u_state_flop.q_q") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__u_otp_ctrl_lfsr_timer__DOT__u_state_regs__DOT__u_state_flop__DOT__q_q;
+        else if (strcmp(n, "u_otp_ctrl_scrmbl.data_state_d") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__u_otp_ctrl_scrmbl__DOT__data_state_d;
+        else if (strcmp(n, "u_otp_ctrl_scrmbl.data_state_en") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__u_otp_ctrl_scrmbl__DOT__data_state_en;
+        else if (strcmp(n, "u_otp_ctrl_scrmbl.digest_init") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__u_otp_ctrl_scrmbl__DOT__digest_init;
+        else if (strcmp(n, "u_otp_ctrl_scrmbl.digest_mode_d") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__u_otp_ctrl_scrmbl__DOT__digest_mode_d;
+        else if (strcmp(n, "u_otp_ctrl_scrmbl.digest_mode_q") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__u_otp_ctrl_scrmbl__DOT__digest_mode_q;
+        else if (strcmp(n, "u_otp_ctrl_scrmbl.digest_state_en") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__u_otp_ctrl_scrmbl__DOT__digest_state_en;
+        else if (strcmp(n, "u_otp_ctrl_scrmbl.digest_state_q") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__u_otp_ctrl_scrmbl__DOT__digest_state_q;
+        else if (strcmp(n, "u_otp_ctrl_scrmbl.key_state_en") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__u_otp_ctrl_scrmbl__DOT__key_state_en;
+        else if (strcmp(n, "u_otp_ctrl_scrmbl.key_state_q") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__u_otp_ctrl_scrmbl__DOT__key_state_q;
+        else if (strcmp(n, "u_otp_ctrl_scrmbl.key_state_sel") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__u_otp_ctrl_scrmbl__DOT__key_state_sel;
+        else if (strcmp(n, "u_prim_lc_sync_creator_seed_sw_rw_en.gen_flops.u_prim_flop_2sync.u_impl_generic.u_sync_1.q_q") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__u_prim_lc_sync_creator_seed_sw_rw_en__DOT__gen_flops__DOT__u_prim_flop_2sync__DOT__u_impl_generic__DOT__u_sync_1__DOT__q_q;
+        else if (strcmp(n, "u_prim_lc_sync_creator_seed_sw_rw_en.gen_flops.u_prim_flop_2sync.u_impl_generic.u_sync_2.q_q") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__u_prim_lc_sync_creator_seed_sw_rw_en__DOT__gen_flops__DOT__u_prim_flop_2sync__DOT__u_impl_generic__DOT__u_sync_2__DOT__q_q;
+        else if (strcmp(n, "u_reg_core.status_key_deriv_fsm_error_qs") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__u_reg_core__DOT__status_key_deriv_fsm_error_qs;
+        else if (strcmp(n, "u_reg_core.status_scrambling_fsm_error_qs") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__u_reg_core__DOT__status_scrambling_fsm_error_qs;
+        else if (strcmp(n, "u_scrmbl_mtx.gen_normal_case.mask_tree__BRA__12__KET__") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__u_scrmbl_mtx__DOT__gen_normal_case__DOT__mask_tree__BRA__12__KET__;
+        else if (strcmp(n, "u_scrmbl_mtx.gen_normal_case.mask_tree__BRA__13__KET__") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__u_scrmbl_mtx__DOT__gen_normal_case__DOT__mask_tree__BRA__13__KET__;
+        else if (strcmp(n, "u_scrmbl_mtx.gen_normal_case.mask_tree__BRA__22__KET__") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__u_scrmbl_mtx__DOT__gen_normal_case__DOT__mask_tree__BRA__22__KET__;
+        else if (strcmp(n, "u_scrmbl_mtx.gen_normal_case.mask_tree__BRA__24__KET__") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__u_scrmbl_mtx__DOT__gen_normal_case__DOT__mask_tree__BRA__24__KET__;
+        else if (strcmp(n, "u_scrmbl_mtx.gen_normal_case.prio_mask_q") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__u_scrmbl_mtx__DOT__gen_normal_case__DOT__prio_mask_q;
+        else if (strcmp(n, "u_tlul_adapter_sram.u_err.mask_chk") == 0) p = &rootp->otp_ctrl_perip_tb__DOT__u_dut__DOT__u_tlul_adapter_sram__DOT__u_err__DOT__mask_chk;
+        g_sigs[i].ptr = p;
+    }
 }
 
 static uint32_t sig_word(const SigEntry& s, int w) {
@@ -105,6 +310,7 @@ void pf_reset(void) {
     eval_cycle();
 }
 
+int pf_sig_bound(int i) { return (i >= 0 && i < g_nsig && g_sigs[i].ptr != nullptr) ? 1 : 0; }
 int pf_sig_count(void) { return g_nsig; }
 const char* pf_sig_name(int i) { return (i >= 0 && i < g_nsig) ? g_sigs[i].name : ""; }
 int pf_sig_words(int i) { return (i >= 0 && i < g_nsig) ? g_sigs[i].words : 0; }
