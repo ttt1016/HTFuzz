@@ -48,7 +48,7 @@
 //             call of the Digest command. Also, mode_i can be used to set the digest mode. If
 //             mode_i is set to "StandardMode", the data to be digested has to be provided via
 //             data_i and LoadShadow. If mode_i is set to "ChainedMode", the digest input is formed
-//             by concatenating the results of the previous two encryption commands.
+//             by concatenating the results of the revious two encryption commands.
 //
 // Digest: In "StandardMode", this command concatenates the data input supplied via data_i with
 //         the shadow register in order to form a 128bit block ({data_i, data_shadow_q}). This block
@@ -62,24 +62,20 @@
 //
 // References:
 //  - The block diagram in ../doc/theory_of_operation.md
-//  - https://opentitan.org/book/hw/ip/prim/doc/prim_present.html
+//  - https://docs.opentitan.org/hw/ip/prim/doc/prim_present/
 //  - https://en.wikipedia.org/wiki/Merkle-Damgard_construction
 //  - https://en.wikipedia.org/wiki/One-way_compression_function#Davies%E2%80%93Meyer
 //  - https://en.wikipedia.org/wiki/PRESENT
 //  - http://www.lightweightcrypto.org/present/present_ches2007.pdf
 //
 
-`include "prim_assert.sv"
+`include "prim_flop_macros.sv"
 
 module otp_ctrl_scrmbl
   import otp_ctrl_pkg::*;
   import otp_ctrl_top_specific_pkg::*;
   import otp_ctrl_part_pkg::*;
-#(
-  parameter key_array_t          RndCnstKey         = '0,
-  parameter digest_const_array_t RndCnstDigestConst = '0,
-  parameter digest_iv_array_t    RndCnstDigestIV    = '0
-) (
+(
   input                               clk_i,
   input                               rst_ni,
   // input data and command
@@ -109,26 +105,26 @@ module otp_ctrl_scrmbl
   digest_iv_array_t rnd_cnst_digest_iv_anchor;
 
   for (genvar i = 0; i < NumScrmblKeys; i++) begin : gen_anchor_keys
-    prim_sec_anchor_const #(
-      .Width(ScrmblKeyWidth),
-      .ConstVal(RndCnstKey[i])
-    ) u_key_anchor_const (
+    prim_sec_anchor_buf #(
+      .Width(ScrmblKeyWidth)
+    ) u_key_anchor_buf (
+      .in_i(RndCnstKey[i]),
       .out_o(rnd_cnst_key_anchor[i])
     );
   end
 
   for (genvar i = 0; i < NumDigestSets; i++) begin : gen_anchor_digests
-    prim_sec_anchor_const #(
-      .Width(ScrmblKeyWidth),
-      .ConstVal(RndCnstDigestConst[i])
-    ) u_digest_anchor_const (
+    prim_sec_anchor_buf #(
+      .Width(ScrmblKeyWidth)
+    ) u_const_anchor_buf (
+      .in_i(RndCnstDigestConst[i]),
       .out_o(rnd_cnst_digest_anchor[i])
     );
 
-    prim_sec_anchor_const #(
-      .Width(ScrmblBlockWidth),
-      .ConstVal(RndCnstDigestIV[i])
-    ) u_iv_anchor_const (
+    prim_sec_anchor_buf #(
+      .Width(ScrmblBlockWidth)
+    ) u_iv_anchor_buf (
+      .in_i(RndCnstDigestIV[i]),
       .out_o(rnd_cnst_digest_iv_anchor[i])
     );
   end

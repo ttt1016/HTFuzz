@@ -22,7 +22,12 @@ static SigEntry g_sigs[] = {
 static const int g_nsig = sizeof(g_sigs) / sizeof(g_sigs[0]);
 
 static void bind_signals() {
-    // 待扩充
+    for (int i = 0; i < g_nsig; i++) {
+        const char* n = g_sigs[i].name;
+        void* p = nullptr;
+        (void)p;
+        g_sigs[i].ptr = p;
+    }
 }
 
 static uint32_t sig_word(const SigEntry& s, int w) {
@@ -105,6 +110,7 @@ void pf_reset(void) {
     eval_cycle();
 }
 
+int pf_sig_bound(int i) { return (i >= 0 && i < g_nsig && g_sigs[i].ptr != nullptr) ? 1 : 0; }
 int pf_sig_count(void) { return g_nsig; }
 const char* pf_sig_name(int i) { return (i >= 0 && i < g_nsig) ? g_sigs[i].name : ""; }
 int pf_sig_words(int i) { return (i >= 0 && i < g_nsig) ? g_sigs[i].words : 0; }

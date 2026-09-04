@@ -956,3 +956,81 @@
 [rv_timer] BUILD OK (full-overlay)
 --- 进度 1/1 (成功 1) ---
 === 完成: 成功 1  失败 0 ===
+=== fresh 批建开始: 1 模块 ===
+[otp_ctrl] fresh 缺件回退 3876 个: ['top_earlgrey/ip_autogen/rv_core_ibex/dv/sva/rv_core_ibex_bind.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_peri.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_addr_trans.sv (fresh 无此文件, 保留 CTF 版)']...
+[otp_ctrl] include 补件: ip/otp_macro/rtl/prim_secded_inc.svh
+[otp_ctrl] MODMISSING 轮0: 补 1/0 ()
+[otp_ctrl] 全量覆盖失败 → 回退 own-rtl-only
+[otp_ctrl] own-rtl 覆盖 1 个文件 + compat 重应用
+[otp_ctrl] 回退后 filelist 重新生成
+[otp_ctrl] BUILD FAIL: %Error: hw/ip/otp_ctrl/rtl/otp_ctrl_pkg.sv:20:40: Package/class for ':: reference' not found: 'keymgr_dpe_pkg' | %Error: hw/ip/otp_ctrl/rtl/otp_ctrl_pkg.sv:111:12: Package/class for ':: reference' not found: 'keymgr_dpe_pkg' | %Error: hw/ip/otp_ctrl/rtl/otp_ctrl_pkg.sv:113:12: Package/class for ':: reference' not found: 'keymgr_dpe_pkg'
+--- 进度 1/1 (成功 0) ---
+=== 完成: 成功 0  失败 1 ===
+  FAIL otp_ctrl: fail: %Error: hw/ip/otp_ctrl/rtl/otp_ctrl_pkg.sv:20:40: Package/class for ':: reference' not found: 'keymgr_dpe_pkg'; %Error: hw/ip/otp_ctrl/rtl/otp_c
+=== fresh 批建开始: 1 模块 ===
+[otp_ctrl] fresh 缺件回退 3876 个: ['top_earlgrey/ip_autogen/rv_core_ibex/dv/sva/rv_core_ibex_bind.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_peri.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_addr_trans.sv (fresh 无此文件, 保留 CTF 版)']...
+[otp_ctrl] include 补件: ip/otp_macro/rtl/prim_secded_inc.svh
+[otp_ctrl] MODMISSING 轮0: 补 1/0 ()
+[otp_ctrl] 全量覆盖失败 → 回退 own-rtl-only
+[otp_ctrl] own-rtl 覆盖 1 个文件 + compat 重应用
+[otp_ctrl] 回退后 filelist 重新生成
+[otp_ctrl] BUILD FAIL: %Error: hw/ip/otp_ctrl/rtl/otp_ctrl_pkg.sv:20:40: Package/class for ':: reference' not found: 'keymgr_dpe_pkg' | %Error: hw/ip/otp_ctrl/rtl/otp_ctrl_pkg.sv:111:12: Package/class for ':: reference' not found: 'keymgr_dpe_pkg' | %Error: hw/ip/otp_ctrl/rtl/otp_ctrl_pkg.sv:113:12: Package/class for ':: reference' not found: 'keymgr_dpe_pkg'
+--- 进度 1/1 (成功 0) ---
+=== 完成: 成功 0  失败 1 ===
+  FAIL otp_ctrl: fail: %Error: hw/ip/otp_ctrl/rtl/otp_ctrl_pkg.sv:20:40: Package/class for ':: reference' not found: 'keymgr_dpe_pkg'; %Error: hw/ip/otp_ctrl/rtl/otp_c
+=== fresh 批建开始: 1 模块 ===
+[otp_ctrl] fresh 缺件回退 3876 个: ['top_earlgrey/ip_autogen/rv_core_ibex/dv/sva/rv_core_ibex_bind.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_peri.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_addr_trans.sv (fresh 无此文件, 保留 CTF 版)']...
+[otp_ctrl] include 补件: ip/otp_macro/rtl/prim_secded_inc.svh
+[otp_ctrl] MODMISSING 轮0: 补 1/0 ()
+[otp_ctrl] 全量覆盖失败 → 回退 own-rtl-only
+[otp_ctrl] own-rtl 覆盖 1 个文件 + compat 重应用
+[otp_ctrl] 回退后 filelist 重新生成
+[otp_ctrl] BUILD FAIL: %Error: hw/ip/otp_ctrl/rtl/otp_ctrl_pkg.sv:20:40: Package/class for ':: reference' not found: 'keymgr_dpe_pkg' | %Error: hw/ip/otp_ctrl/rtl/otp_ctrl_pkg.sv:111:12: Package/class for ':: reference' not found: 'keymgr_dpe_pkg' | %Error: hw/ip/otp_ctrl/rtl/otp_ctrl_pkg.sv:113:12: Package/class for ':: reference' not found: 'keymgr_dpe_pkg'
+--- 进度 1/1 (成功 0) ---
+=== 完成: 成功 0  失败 1 ===
+  FAIL otp_ctrl: fail: %Error: hw/ip/otp_ctrl/rtl/otp_ctrl_pkg.sv:20:40: Package/class for ':: reference' not found: 'keymgr_dpe_pkg'; %Error: hw/ip/otp_ctrl/rtl/otp_c
+=== fresh 批建开始: 1 模块 ===
+[otp_ctrl] fresh 缺件回退 3876 个: ['top_earlgrey/ip_autogen/rv_core_ibex/dv/sva/rv_core_ibex_bind.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_peri.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_addr_trans.sv (fresh 无此文件, 保留 CTF 版)']...
+[otp_ctrl] include 补件: ip/otp_macro/rtl/prim_secded_inc.svh
+[otp_ctrl] MODMISSING 轮0: 补 1/0 ()
+[otp_ctrl] 全量覆盖失败 → 回退 own-rtl-only
+[otp_ctrl] own-rtl 覆盖 1 个文件 + compat 重应用
+[otp_ctrl] 回退后 filelist 重新生成
+[otp_ctrl] BUILD FAIL: %Error: hw/ip/otp_ctrl/rtl/otp_ctrl_pkg.sv:20:40: Package/class for ':: reference' not found: 'keymgr_dpe_pkg' | %Error: hw/ip/otp_ctrl/rtl/otp_ctrl_pkg.sv:111:12: Package/class for ':: reference' not found: 'keymgr_dpe_pkg' | %Error: hw/ip/otp_ctrl/rtl/otp_ctrl_pkg.sv:113:12: Package/class for ':: reference' not found: 'keymgr_dpe_pkg'
+--- 进度 1/1 (成功 0) ---
+=== 完成: 成功 0  失败 1 ===
+  FAIL otp_ctrl: fail: %Error: hw/ip/otp_ctrl/rtl/otp_ctrl_pkg.sv:20:40: Package/class for ':: reference' not found: 'keymgr_dpe_pkg'; %Error: hw/ip/otp_ctrl/rtl/otp_c
+=== fresh 批建开始: 1 模块 ===
+[otp_ctrl] fresh 缺件回退 3876 个: ['top_earlgrey/ip_autogen/rv_core_ibex/dv/sva/rv_core_ibex_bind.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_peri.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_addr_trans.sv (fresh 无此文件, 保留 CTF 版)']...
+[otp_ctrl] include 补件: ip/otp_macro/rtl/prim_secded_inc.svh
+[otp_ctrl] MODMISSING 轮0: 补 1/0 ()
+[otp_ctrl] 缺包补件: hw/ip/keymgr_dpe/rtl/keymgr_dpe_pkg.sv (keymgr_dpe_pkg)
+[otp_ctrl] MODMISSING 轮1: 补 1/0 ()
+[otp_ctrl] 缺包补件: hw/ip/csrng/rtl/csrng_reg_pkg.sv (csrng_reg_pkg)
+[otp_ctrl] MODMISSING 轮2: 补 1/0 ()
+[otp_ctrl] 全量覆盖失败 → 回退 own-rtl-only
+[otp_ctrl] own-rtl 覆盖 1 个文件 + compat 重应用
+[otp_ctrl] 回退后 filelist 重新生成
+[otp_ctrl] 缺包补件: hw/ip/keymgr_dpe/rtl/keymgr_dpe_pkg.sv (keymgr_dpe_pkg)
+[otp_ctrl] MODMISSING 轮0: 补 1/0 ()
+[otp_ctrl] BUILD FAIL: %Error: hw/top_earlgrey/ip_autogen/otp_ctrl/rtl/otp_ctrl_top_specific_pkg.sv:84:23: Can't find definition of variable: 'FlashKeyWidth' | %Error: hw/top_earlgrey/ip_autogen/otp_ctrl/rtl/otp_ctrl_top_specific_pkg.sv:86:42: Can't find definition of variable: 'FlashNonceSel' | %Error: hw/top_earlgrey/ip_autogen/otp_ctrl/rtl/otp_ctrl_kdi.sv:37:10: Can't find typedef/interface: 'flash_otp_key_req_t'
+--- 进度 1/1 (成功 0) ---
+=== 完成: 成功 0  失败 1 ===
+  FAIL otp_ctrl: fail: %Error: hw/top_earlgrey/ip_autogen/otp_ctrl/rtl/otp_ctrl_top_specific_pkg.sv:84:23: Can't find definition of variable: 'FlashKeyWidth'; %Error: 
+=== fresh 批建开始: 1 模块 ===
+[otp_ctrl] fresh 缺件回退 3876 个: ['top_earlgrey/ip_autogen/rv_core_ibex/dv/sva/rv_core_ibex_bind.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_peri.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_addr_trans.sv (fresh 无此文件, 保留 CTF 版)']...
+[otp_ctrl] include 补件: ip/otp_macro/rtl/prim_secded_inc.svh
+[otp_ctrl] MODMISSING 轮0: 补 1/0 ()
+[otp_ctrl] 缺包补件: hw/ip/keymgr_dpe/rtl/keymgr_dpe_pkg.sv (keymgr_dpe_pkg)
+[otp_ctrl] MODMISSING 轮1: 补 1/0 ()
+[otp_ctrl] 缺包补件: hw/ip/csrng/rtl/csrng_reg_pkg.sv (csrng_reg_pkg)
+[otp_ctrl] MODMISSING 轮2: 补 1/0 ()
+[otp_ctrl] 全量覆盖失败 → 回退 own-rtl-only
+[otp_ctrl] own-rtl 覆盖 1 个文件 + compat 重应用
+[otp_ctrl] 回退后 filelist 重新生成
+[otp_ctrl] 缺包补件: hw/ip/keymgr_dpe/rtl/keymgr_dpe_pkg.sv (keymgr_dpe_pkg)
+[otp_ctrl] MODMISSING 轮0: 补 1/0 ()
+[otp_ctrl] BUILD FAIL: %Error: hw/top_earlgrey/ip_autogen/otp_ctrl/rtl/otp_ctrl_top_specific_pkg.sv:84:23: Can't find definition of variable: 'FlashKeyWidth' | %Error: hw/top_earlgrey/ip_autogen/otp_ctrl/rtl/otp_ctrl_top_specific_pkg.sv:86:42: Can't find definition of variable: 'FlashNonceSel' | %Error: hw/top_earlgrey/ip_autogen/otp_ctrl/rtl/otp_ctrl_kdi.sv:37:10: Can't find typedef/interface: 'flash_otp_key_req_t'
+--- 进度 1/1 (成功 0) ---
+=== 完成: 成功 0  失败 1 ===
+  FAIL otp_ctrl: fail: %Error: hw/top_earlgrey/ip_autogen/otp_ctrl/rtl/otp_ctrl_top_specific_pkg.sv:84:23: Can't find definition of variable: 'FlashKeyWidth'; %Error: 

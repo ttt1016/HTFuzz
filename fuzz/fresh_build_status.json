@@ -1,3 +1,3 @@
 {
- "rv_timer": "ok"
+ "otp_ctrl": "fail: %Error: hw/top_earlgrey/ip_autogen/otp_ctrl/rtl/otp_ctrl_top_specific_pkg.sv:84:23: Can't find definition of variable: 'FlashKeyWidth'; %Error: hw/top_earlgrey/ip_autogen/otp_ctrl/rtl/otp_ctrl_top_specific_pkg.sv:86:42: Can't find definition of variable: 'FlashNonceSel'; %Error: hw/top_earlgrey/ip_autogen/otp_ctrl/rtl/otp_ctrl_kdi.sv:37:10: Can't find typedef/interface: 'flash_otp_key_req_t'"
 }

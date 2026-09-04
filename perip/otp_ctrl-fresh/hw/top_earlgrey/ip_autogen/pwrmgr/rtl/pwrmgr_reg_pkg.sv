@@ -8,12 +8,12 @@ package pwrmgr_reg_pkg;
 
   // Param list
   parameter int NumWkups = 6;
-  parameter int SYSRST_CTRL_WKUP_REQ_IDX = 0;
-  parameter int ADC_CTRL_WKUP_REQ_IDX = 1;
-  parameter int PINMUX_PIN_WKUP_REQ_IDX = 2;
-  parameter int PINMUX_USB_WKUP_REQ_IDX = 3;
-  parameter int AON_TIMER_WKUP_REQ_IDX = 4;
-  parameter int SENSOR_CTRL_WKUP_REQ_IDX = 5;
+  parameter int SYSRST_CTRL_AON_WKUP_REQ_IDX = 0;
+  parameter int ADC_CTRL_AON_WKUP_REQ_IDX = 1;
+  parameter int PINMUX_AON_PIN_WKUP_REQ_IDX = 2;
+  parameter int PINMUX_AON_USB_WKUP_REQ_IDX = 3;
+  parameter int AON_TIMER_AON_WKUP_REQ_IDX = 4;
+  parameter int SENSOR_CTRL_AON_WKUP_REQ_IDX = 5;
   parameter int NumRstReqs = 2;
   parameter int NumIntRstReqs = 2;
   parameter int NumDebugRstReqs = 1;
@@ -28,11 +28,6 @@ package pwrmgr_reg_pkg;
 
   // Number of registers for every interface
   parameter int NumRegs = 17;
-
-  // Alert indices
-  typedef enum int {
-    AlertFatalFaultIdx = 0
-  } pwrmgr_alert_idx_t;
 
   ////////////////////////////
   // Typedefs for registers //
@@ -87,13 +82,8 @@ package pwrmgr_reg_pkg;
   } pwrmgr_reg2hw_wakeup_en_mreg_t;
 
   typedef struct packed {
-    struct packed {
-      logic        q;
-    } en_1;
-    struct packed {
-      logic        q;
-    } en_0;
-  } pwrmgr_reg2hw_reset_en_reg_t;
+    logic        q;
+  } pwrmgr_reg2hw_reset_en_mreg_t;
 
   typedef struct packed {
     logic        q;
@@ -198,7 +188,7 @@ package pwrmgr_reg_pkg;
     pwrmgr_reg2hw_control_reg_t control; // [30:25]
     pwrmgr_reg2hw_cfg_cdc_sync_reg_t cfg_cdc_sync; // [24:23]
     pwrmgr_reg2hw_wakeup_en_mreg_t [5:0] wakeup_en; // [22:17]
-    pwrmgr_reg2hw_reset_en_reg_t reset_en; // [16:15]
+    pwrmgr_reg2hw_reset_en_mreg_t [1:0] reset_en; // [16:15]
     pwrmgr_reg2hw_wake_info_capture_dis_reg_t wake_info_capture_dis; // [14:14]
     pwrmgr_reg2hw_wake_info_reg_t wake_info; // [13:3]
     pwrmgr_reg2hw_fault_status_reg_t fault_status; // [2:0]

@@ -1950,7 +1950,21 @@ wrapper/harness/filelist 与 CTF 版**共用同一份文件**——hmac 92 个�
 | keymgr | ✅ own-rtl+compat 层（fresh kmac_pkg 字段改名/prim SkewCycles 链/anchor_const/timing） | ✅ DIVERGENT 首偏离 idx=60 state/key_state_word（FSM 面） | 修复 pick_api 误选裸模型规则 |
 | lc | ✅ own-rtl+缺包自动补件(otp_ctrl_macro_pkg) | ⚪ IDENTICAL（良性基线——lc 检出在单元 TB 层，通用激励未触达 token 比较） | 12/12 信号稳定 |
 | rom_ctrl | ✅ 手工收敛版本链（prim_rom_pkg/rom_adv/rom prim_generic 迁移 + fresh kmac_pkg + wrapper rom_cfg_req/rsp 适配） | ⚪ IDENTICAL（1/2 信号绑定, rom_req 未绑定排除） | dut_trace 兼容 dict 型 regmap |
-| ibex | ✅ 沿用 filelist_ibex.f + dv_fcov_macros incdir + gen_bindings(33/44, 计数器类排除) | ⚪ IDENTICAL（33/33 信号稳定——ibex 检出在 PMP/特权单元 TB 层） | 引擎 1 条照常 |
+| rom_ctrl ↑ 补充 | | | dut_trace 兼容 dict 型 regmap |
+| uart | ✅ | ⚪ IDENTICAL + **首个 DIFF-REFUTED**（O-J __Vcellout__ 信号一致 → 自动出局） | |
+| csrng | ✅ wrapper 删 cs_aes_halt（fresh 移除该接口） | ⚪ IDENTICAL | O-J DIFF-REFUTED |
+| entropy_src | ✅ fresh 适配 wrapper（RNG 拍平/xht meta/无 halt，wrapper_fresh 模板机制） | ✅ DIVERGENT（O-J es_main_sm/ack/cntr err DIFF-CONFIRMED） | |
+| clkmgr | ✅ | DIFF-UNKNOWN（O-J aes_trans.hold_err 未触达） | |
+| rstmgr | ✅ | ⚪ IDENTICAL | O-J DIFF-REFUTED |
+| rv_dm | ✅ | ⚪ IDENTICAL | O-J DIFF-REFUTED（cmderr/sberror 一致） |
+| gpio/mbx/pattgen/spi_tpm | ✅ | ⚪ IDENTICAL | 良性基线确认 |
+| ascon | ✅（-Wno-ENUMVALUE 放宽） | ⚪ IDENTICAL | O-A key_share 残留 DIFF-REFUTED（见 41.5 警示） |
+| pwrmgr | ✅ | ⚠️ DIVERGENT——u_slow_fsm.state_raw 自复位起 ctf=0/fresh=86（两侧 pkg 编码一致, 需人工甄别：FSM 重编码候选或复位行为伪影） | 新线索 → 人工审查队列 |
+| aon_timer | ✅ | ⚪ IDENTICAL | |
+| alert_handler | ✅ own-rtl | ⚪ IDENTICAL | harness 选择优先 <module>_harness.cpp |
+| spi_host | ✅ own-rtl | ⚪ IDENTICAL | |
+| rv_timer | ✅ | ⚪ IDENTICAL | |
+| otp_ctrl | ✅ 手工收敛（keymgr_dpe_pkg 缺包/otp_ctrl_pkg CTF 版含 FlashKeyWidth/fresh kmac_pkg） | ⚪ IDENTICAL（0/0 白盒——待 SEC_CM 扩充） | |
 
 构建基建（本阶段沉淀）:
 - `gen_filelist.py`: 闭包自动 filelist（prim_assert 最前 + 包 import 拓扑排序 + wrapper 殿后）

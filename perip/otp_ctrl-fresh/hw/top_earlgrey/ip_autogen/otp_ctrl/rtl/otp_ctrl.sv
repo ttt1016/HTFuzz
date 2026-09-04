@@ -22,21 +22,7 @@ module otp_ctrl
 #(
   // Enable asynchronous transitions on alerts.
   parameter logic [NumAlerts-1:0] AlertAsyncOn = {NumAlerts{1'b1}},
-  // Number of cycles a differential skew is tolerated on the alert signal
-  parameter int unsigned AlertSkewCycles = 1,
-  // Compile time random constants, to be overridden by topgen.
-  parameter key_t RndCnstScrmblKey0 = '0,
-  parameter key_t RndCnstScrmblKey1 = '0,
-  parameter key_t RndCnstScrmblKey2 = '0,
-  parameter digest_const_t RndCnstDigestConst0 = '0,
-  parameter digest_const_t RndCnstDigestConst1 = '0,
-  parameter digest_const_t RndCnstDigestConst2 = '0,
-  parameter digest_const_t RndCnstDigestConst3 = '0,
-  parameter digest_iv_t RndCnstDigestIV0 = '0,
-  parameter digest_iv_t RndCnstDigestIV1 = '0,
-  parameter digest_iv_t RndCnstDigestIV2 = '0,
-  parameter digest_iv_t RndCnstDigestIV3 = '0,
-  parameter logic [16383:0] RndCnstPartInvDefault = '0,
+  // Compile time random constants, to be overriden by topgen.
   parameter lfsr_seed_t RndCnstLfsrSeed = RndCnstLfsrSeedDefault,
   parameter lfsr_perm_t RndCnstLfsrPerm = RndCnstLfsrPermDefault,
   parameter scrmbl_key_init_t RndCnstScrmblKeyInit = RndCnstScrmblKeyInitDefault
@@ -72,16 +58,13 @@ module otp_ctrl
   input                               lc_ctrl_pkg::lc_tx_t lc_seed_hw_rd_en_i,
   input                               lc_ctrl_pkg::lc_tx_t lc_escalate_en_i,
   input                               lc_ctrl_pkg::lc_tx_t lc_check_byp_en_i,
-  input                               lc_ctrl_pkg::lc_tx_t lc_rma_state_i,
   // OTP broadcast outputs
   // SEC_CM: TOKEN_VALID.CTRL.MUBI
-  output otp_lc_data_t                                 otp_lc_data_o,
-  output keymgr_dpe_pkg::keymgr_dpe_creator_root_key_t keymgr_creator_root_key_o,
-  output keymgr_dpe_pkg::keymgr_dpe_creator_seed_t     keymgr_creator_seed_o,
-  output keymgr_dpe_pkg::keymgr_dpe_owner_seed_t       keymgr_owner_seed_o,
+  output otp_lc_data_t                               otp_lc_data_o,
+  output otp_keymgr_key_t                            otp_keymgr_key_o,
   // Scrambling key requests
-  input  nvm_otp_key_req_t                           nvm_otp_key_i,
-  output nvm_otp_key_rsp_t                           nvm_otp_key_o,
+  input  flash_otp_key_req_t                         flash_otp_key_i,
+  output flash_otp_key_rsp_t                         flash_otp_key_o,
   input  sram_otp_key_req_t [NumSramKeyReqSlots-1:0] sram_otp_key_i,
   output sram_otp_key_rsp_t [NumSramKeyReqSlots-1:0] sram_otp_key_o,
   input  otbn_otp_key_req_t                          otbn_otp_key_i,
@@ -114,48 +97,6 @@ module otp_ctrl
                int'(MacroEccUncorrError) == int'(otp_ctrl_macro_pkg::MacroEccUncorrError))
   `ASSERT_INIT(OtpErrorCode4_A,
                int'(MacroWriteBlankError) == int'(otp_ctrl_macro_pkg::MacroWriteBlankError))
-  // Ensure that scrambling keys and digest constants are not all zero and defaults have been
-  // overwritten with a meaningful value.
-  `ASSERT_INIT(ScrmblKeyNotAllZero_A0, RndCnstScrmblKey0 != 0)
-  `ASSERT_INIT(ScrmblKeyNotAllZero_A1, RndCnstScrmblKey1 != 0)
-  `ASSERT_INIT(ScrmblKeyNotAllZero_A2, RndCnstScrmblKey2 != 0)
-  `ASSERT_INIT(DigestConstNotAllZero_A0, RndCnstDigestConst0 != 0)
-  `ASSERT_INIT(DigestIVNotAllZero_A0, RndCnstDigestIV0 != 0)
-  `ASSERT_INIT(DigestConstNotAllZero_A1, RndCnstDigestConst1 != 0)
-  `ASSERT_INIT(DigestIVNotAllZero_A1, RndCnstDigestIV1 != 0)
-  `ASSERT_INIT(DigestConstNotAllZero_A2, RndCnstDigestConst2 != 0)
-  `ASSERT_INIT(DigestIVNotAllZero_A2, RndCnstDigestIV2 != 0)
-  `ASSERT_INIT(DigestConstNotAllZero_A3, RndCnstDigestConst3 != 0)
-  `ASSERT_INIT(DigestIVNotAllZero_A3, RndCnstDigestIV3 != 0)
-
-  ////////////////
-  // Parameters //
-  ////////////////
-
-  // Based on the flat random constant parameters, build up arrays
-  // SEC_CM: SECRET.MEM.SCRAMBLE
-  localparam key_array_t RndCnstKey = {
-    RndCnstScrmblKey2,
-    RndCnstScrmblKey1,
-    RndCnstScrmblKey0
-  };
-
-  // SEC_CM: PART.MEM.DIGEST
-  // Note: digest set 0 is used for computing the partition digests. Constants at
-  // higher indices are used to compute the scrambling keys.
-  localparam digest_const_array_t RndCnstDigestConst = {
-    RndCnstDigestConst3,
-    RndCnstDigestConst2,
-    RndCnstDigestConst1,
-    RndCnstDigestConst0
-  };
-
-  localparam digest_iv_array_t RndCnstDigestIV = {
-    RndCnstDigestIV3,
-    RndCnstDigestIV2,
-    RndCnstDigestIV1,
-    RndCnstDigestIV0
-  };
 
   /////////////
   // Regfile //
@@ -189,9 +130,8 @@ module otp_ctrl
   // Life Cycle Signal Synchronization //
   ///////////////////////////////////////
 
-  lc_ctrl_pkg::lc_tx_t lc_creator_seed_sw_rw_en, lc_owner_seed_sw_rw_en,
-                       lc_seed_hw_rd_en, lc_check_byp_en;
-  lc_ctrl_pkg::lc_tx_t [1:0] lc_rma_state;
+  lc_ctrl_pkg::lc_tx_t       lc_creator_seed_sw_rw_en, lc_owner_seed_sw_rw_en,
+                             lc_seed_hw_rd_en, lc_check_byp_en;
   // NumAgents + lfsr timer and scrambling datapath.
   lc_ctrl_pkg::lc_tx_t [NumAgentsIdx+1:0] lc_escalate_en, lc_escalate_en_synced;
   // Single wire for gating assertions in arbitration and CDC primitives.
@@ -240,15 +180,6 @@ module otp_ctrl
     .rst_ni,
     .lc_en_i(lc_check_byp_en_i),
     .lc_en_o({lc_check_byp_en})
-  );
-
-  prim_lc_sync #(
-    .NumCopies(2)
-  ) u_prim_lc_sync_rma_state (
-    .clk_i,
-    .rst_ni,
-    .lc_en_i(lc_rma_state_i),
-    .lc_en_o({lc_rma_state})
   );
 
   /////////////////////////////////////
@@ -369,7 +300,6 @@ module otp_ctrl
 
   // SEC_CM: ACCESS.CTRL.MUBI
   part_access_t [NumPart-1:0] part_access_pre, part_access;
-  part_access_t [NumPart-1:0] part_access_dai_pre, part_access_dai, part_access_dai_buf;
   always_comb begin : p_access_control
     // Assigns default and extracts named CSR read enables for SW_CFG partitions.
     // SEC_CM: PART.MEM.REGREN
@@ -397,25 +327,7 @@ module otp_ctrl
         end
       end
     end
-
-    // Final DAI access override: Allow read if in RMA life cycle.
-    // Note: This also allows read access when the partition is not fully initialized.
-    //       E.g., when there was a (digest) error during initialization.
-    for (int k = 0; k < NumPart; k++) begin
-      part_access_dai[k] = part_access_dai_pre[k];
-      if (PartInfo[k].ignore_read_lock_in_rma) begin
-        if(lc_ctrl_pkg::lc_tx_test_true_strict(lc_rma_state[0])) begin
-          part_access_dai[k].read_lock = lc_ctrl_pkg::lc_to_mubi8(
-            lc_ctrl_pkg::lc_tx_inv(lc_rma_state[1])
-          );
-        end
-      end
-    end
   end
-
-  // This stops lint from complaining about unused signals.
-  logic unused_lc_rma_state;
-  assign unused_lc_rma_state = ^lc_rma_state;
 
   // This prevents the synthesis tool from optimizing the multibit signals.
   for (genvar k = 0; k < NumPart; k++) begin : gen_bufs
@@ -435,22 +347,6 @@ module otp_ctrl
       .mubi_i(part_access_pre[k].read_lock),
       .mubi_o(part_access[k].read_lock)
     );
-    prim_mubi8_sender #(
-      .AsyncOn(0)
-    ) u_prim_mubi8_sender_dai_write_lock (
-      .clk_i,
-      .rst_ni,
-      .mubi_i(part_access_dai[k].write_lock),
-      .mubi_o(part_access_dai_buf[k].write_lock)
-    );
-    prim_mubi8_sender #(
-      .AsyncOn(0)
-    ) u_prim_mubi8_sender_dai_read_lock (
-      .clk_i,
-      .rst_ni,
-      .mubi_i(part_access_dai[k].read_lock),
-      .mubi_o(part_access_dai_buf[k].read_lock)
-    );
   end
 
   //////////////////////
@@ -469,13 +365,11 @@ module otp_ctrl
                                    !reg2hw.direct_access_regwen.q) ? 1'b0 : direct_access_regwen_q;
 
   // Any write to this register triggers a DAI command.
-  assign dai_req = reg2hw.direct_access_cmd.zeroize.qe |
-                   reg2hw.direct_access_cmd.digest.qe |
+  assign dai_req = reg2hw.direct_access_cmd.digest.qe |
                    reg2hw.direct_access_cmd.wr.qe  |
                    reg2hw.direct_access_cmd.rd.qe;
 
-  assign dai_cmd = dai_cmd_e'({reg2hw.direct_access_cmd.zeroize.q,
-                               reg2hw.direct_access_cmd.digest.q,
+  assign dai_cmd = dai_cmd_e'({reg2hw.direct_access_cmd.digest.q,
                                reg2hw.direct_access_cmd.wr.q,
                                reg2hw.direct_access_cmd.rd.q});
 
@@ -612,34 +506,17 @@ module otp_ctrl
     hw2reg.direct_access_rdata = dai_rdata;
     // ANDing this state with dai_idle write-protects all DAI regs during pending operations.
     hw2reg.direct_access_regwen.d = direct_access_regwen_q & dai_idle;
-    // Assign these to the status register. Note that the upper most 2 bits of part_errors_reduced
-    // contain the DAI/LCI error. They are treated as normal errors and not part of the dedicated
-    // partition status register.
-    hw2reg.status.partition_error.d      = |part_errors_reduced[$bits(part_errors_reduced)-3:0];
-    hw2reg.status.dai_error.d            = part_errors_reduced[DaiIdx];
-    hw2reg.status.lci_error.d            = part_errors_reduced[LciIdx];
-    hw2reg.status.timeout_error.d        = chk_timeout;
-    hw2reg.status.lfsr_fsm_error.d       = lfsr_fsm_err;
+    // Report partition errors in the status register; relies upon the field ordering and the
+    // presence of only the scalar signal 'd' in each partition-specific field.
+    hw2reg.status = otp_ctrl_hw2reg_status_reg_t'(part_errors_reduced);
+    // Overwrite the other fields of the status register with specific error conditions.
+    hw2reg.status.timeout_error.d = chk_timeout;
+    hw2reg.status.lfsr_fsm_error.d = lfsr_fsm_err;
     hw2reg.status.scrambling_fsm_error.d = scrmbl_fsm_err;
-    hw2reg.status.key_deriv_fsm_error.d  = part_fsm_err[KdiIdx];
-    hw2reg.status.bus_integ_error.d      = fatal_bus_integ_error_q;
-    hw2reg.status.dai_idle.d             = dai_idle;
-    hw2reg.status.check_pending.d        = chk_pending;
-
-    // Assign partition status
-    hw2reg.partition_status_0.vendor_test_error.d = part_errors_reduced[VendorTestIdx];
-    hw2reg.partition_status_0.creator_sw_cfg_error.d = part_errors_reduced[CreatorSwCfgIdx];
-    hw2reg.partition_status_0.owner_sw_cfg_error.d = part_errors_reduced[OwnerSwCfgIdx];
-    hw2reg.partition_status_0.rot_creator_auth_codesign_error.d =
-      part_errors_reduced[RotCreatorAuthCodesignIdx];
-    hw2reg.partition_status_0.rot_creator_auth_state_error.d =
-      part_errors_reduced[RotCreatorAuthStateIdx];
-    hw2reg.partition_status_0.hw_cfg0_error.d = part_errors_reduced[HwCfg0Idx];
-    hw2reg.partition_status_0.hw_cfg1_error.d = part_errors_reduced[HwCfg1Idx];
-    hw2reg.partition_status_0.secret0_error.d = part_errors_reduced[Secret0Idx];
-    hw2reg.partition_status_0.secret1_error.d = part_errors_reduced[Secret1Idx];
-    hw2reg.partition_status_0.secret2_error.d = part_errors_reduced[Secret2Idx];
-    hw2reg.partition_status_0.life_cycle_error.d = part_errors_reduced[LifeCycleIdx];
+    hw2reg.status.key_deriv_fsm_error.d = part_fsm_err[KdiIdx];
+    hw2reg.status.bus_integ_error.d = fatal_bus_integ_error_q;
+    hw2reg.status.dai_idle.d = dai_idle;
+    hw2reg.status.check_pending.d = chk_pending;
     // Error code registers.
     hw2reg.err_code = part_error;
     // Interrupt signals
@@ -720,7 +597,6 @@ end
   for (genvar k = 0; k < NumAlerts; k++) begin : gen_alert_tx
     prim_alert_sender #(
       .AsyncOn(AlertAsyncOn[k]),
-      .SkewCycles(AlertSkewCycles),
       .IsFatal(AlertIsFatal[k])
     ) u_prim_alert_sender (
       .clk_i,
@@ -942,7 +818,7 @@ end
   // I.e., each agent (e.g. the DAI or a partition) can request a lock on the mutex. Once granted,
   // the partition can keep the lock as long as needed for the transaction to complete. The
   // partition must yield its lock by deasserting the request signal for the arbiter to proceed.
-  // Since this scheme does not have built-in preemption, it must be ensured that the agents
+  // Since this scheme does not have built-in preemtion, it must be ensured that the agents
   // eventually release their locks for this to be fair.
   //
   // This is documented in ../README.md (generated from hw/ip_templates/otp_ctrl/README.md.tpl) see
@@ -995,11 +871,7 @@ end
 
   // SEC_CM: SECRET.MEM.SCRAMBLE
   // SEC_CM: PART.MEM.DIGEST
-  otp_ctrl_scrmbl #(
-    .RndCnstKey         ( RndCnstKey         ),
-    .RndCnstDigestConst ( RndCnstDigestConst ),
-    .RndCnstDigestIV    ( RndCnstDigestIV    )
-  ) u_otp_ctrl_scrmbl (
+  otp_ctrl_scrmbl u_otp_ctrl_scrmbl (
     .clk_i,
     .rst_ni,
     .cmd_i         ( scrmbl_req_bundle.cmd       ),
@@ -1028,8 +900,7 @@ end
 
   logic                           part_init_req;
   logic [NumPart-1:0]             part_init_done;
-  mubi8_t [NumPart-1:0]           part_zer_trigs;
-  mubi8_t [NumPart-1:0]           part_is_zer;
+  part_access_t [NumPart-1:0]     part_access_dai;
 
   // The init request comes from the power manager, which lives in the AON clock domain.
   logic pwr_otp_req_synced;
@@ -1064,7 +935,7 @@ end
     .escalate_en_i    ( lc_escalate_en[DaiIdx]                ),
     .error_o          ( part_error[DaiIdx]                    ),
     .fsm_err_o        ( part_fsm_err[DaiIdx]                  ),
-    .part_access_i    ( part_access_dai_buf                   ),
+    .part_access_i    ( part_access_dai                       ),
     .dai_addr_i       ( dai_addr                              ),
     .dai_cmd_i        ( dai_cmd                               ),
     .dai_req_i        ( dai_req                               ),
@@ -1091,9 +962,7 @@ end
     .scrmbl_valid_o   ( part_scrmbl_req_bundle[DaiIdx].valid  ),
     .scrmbl_ready_i   ( part_scrmbl_req_ready[DaiIdx]         ),
     .scrmbl_valid_i   ( part_scrmbl_rsp_valid[DaiIdx]         ),
-    .scrmbl_data_i    ( part_scrmbl_rsp_data                  ),
-    .zer_trigs_o      ( part_zer_trigs                        ),
-    .zer_i            ( part_is_zer                           )
+    .scrmbl_data_i    ( part_scrmbl_rsp_data                  )
   );
 
   ////////////////////////////////////
@@ -1147,7 +1016,7 @@ end
 
   logic scrmbl_key_seed_valid;
   logic [SramKeySeedWidth-1:0] sram_data_key_seed;
-  logic [NvmKeySeedWidth-1:0]  nvm_data_key_seed, nvm_addr_key_seed;
+  logic [FlashKeySeedWidth-1:0] flash_data_key_seed, flash_addr_key_seed;
 
   otp_ctrl_kdi #(
     .RndCnstScrmblKeyInit(RndCnstScrmblKeyInit)
@@ -1158,14 +1027,14 @@ end
     .escalate_en_i           ( lc_escalate_en[KdiIdx]  ),
     .fsm_err_o               ( part_fsm_err[KdiIdx]    ),
     .scrmbl_key_seed_valid_i ( scrmbl_key_seed_valid   ),
-    .nvm_data_key_seed_i     ( nvm_data_key_seed       ),
-    .nvm_addr_key_seed_i     ( nvm_addr_key_seed       ),
+    .flash_data_key_seed_i   ( flash_data_key_seed     ),
+    .flash_addr_key_seed_i   ( flash_addr_key_seed     ),
     .sram_data_key_seed_i    ( sram_data_key_seed      ),
     .edn_req_o               ( key_edn_req             ),
     .edn_ack_i               ( key_edn_ack             ),
     .edn_data_i              ( edn_data                ),
-    .nvm_otp_key_i,
-    .nvm_otp_key_o,
+    .flash_otp_key_i,
+    .flash_otp_key_o,
     .sram_otp_key_i,
     .sram_otp_key_o,
     .otbn_otp_key_i,
@@ -1195,7 +1064,7 @@ end
   // Partition Instances //
   /////////////////////////
 
-  logic [$bits(RndCnstPartInvDefault)/8-1:0][7:0] part_buf_data;
+  logic [$bits(PartInvDefault)/8-1:0][7:0] part_buf_data;
 
   for (genvar k = 0; k < NumPart; k ++) begin : gen_partitions
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1211,7 +1080,7 @@ end
         .error_o       ( part_error[k]                ),
         .fsm_err_o     ( part_fsm_err[k]              ),
         .access_i      ( part_access[k]               ),
-        .access_o      ( part_access_dai_pre[k]       ),
+        .access_o      ( part_access_dai[k]           ),
         .digest_o      ( part_digest[k]               ),
         .tlul_req_i    ( part_tlul_req[k]             ),
         .tlul_gnt_o    ( part_tlul_gnt[k]             ),
@@ -1227,9 +1096,7 @@ end
         .otp_gnt_i     ( part_otp_arb_gnt[k]          ),
         .otp_rvalid_i  ( part_otp_rvalid[k]           ),
         .otp_rdata_i   ( part_otp_rdata               ),
-        .otp_err_i     ( part_otp_err                 ),
-        .zer_trig_i    ( part_zer_trigs[k]            ),
-        .zer_o         ( part_is_zer[k]               )
+        .otp_err_i     ( part_otp_err                 )
       );
 
       // Tie off unused connections.
@@ -1258,7 +1125,7 @@ end
     end else if (PartInfo[k].variant == Buffered) begin : gen_buffered
       otp_ctrl_part_buf #(
         .Info(PartInfo[k]),
-        .DataDefault(RndCnstPartInvDefault[PartInfo[k].offset*8 +: PartInfo[k].size*8])
+        .DataDefault(PartInvDefault[PartInfo[k].offset*8 +: PartInfo[k].size*8])
       ) u_part_buf (
         .clk_i,
         .rst_ni,
@@ -1274,7 +1141,7 @@ end
         .error_o           ( part_error[k]                   ),
         .fsm_err_o         ( part_fsm_err[k]                 ),
         .access_i          ( part_access[k]                  ),
-        .access_o          ( part_access_dai_pre[k]          ),
+        .access_o          ( part_access_dai[k]              ),
         .digest_o          ( part_digest[k]                  ),
         .data_o            ( part_buf_data[PartInfo[k].offset +: PartInfo[k].size] ),
         .otp_req_o         ( part_otp_arb_req[k]             ),
@@ -1295,9 +1162,7 @@ end
         .scrmbl_valid_o    ( part_scrmbl_req_bundle[k].valid ),
         .scrmbl_ready_i    ( part_scrmbl_req_ready[k]        ),
         .scrmbl_valid_i    ( part_scrmbl_rsp_valid[k]        ),
-        .scrmbl_data_i     ( part_scrmbl_rsp_data            ),
-        .zer_trig_i        ( part_zer_trigs[k]               ),
-        .zer_o             ( part_is_zer[k]                  )
+        .scrmbl_data_i     ( part_scrmbl_rsp_data            )
       );
 
       // Buffered partitions are not accessible via the TL-UL window.
@@ -1317,7 +1182,7 @@ end
     end else if (PartInfo[k].variant == LifeCycle) begin : gen_lifecycle
       otp_ctrl_part_buf #(
         .Info(PartInfo[k]),
-        .DataDefault(RndCnstPartInvDefault[PartInfo[k].offset*8 +: PartInfo[k].size*8])
+        .DataDefault(PartInvDefault[PartInfo[k].offset*8 +: PartInfo[k].size*8])
       ) u_part_buf (
         .clk_i,
         .rst_ni,
@@ -1335,7 +1200,7 @@ end
         .error_o           ( part_error[k]                   ),
         .fsm_err_o         ( part_fsm_err[k]                 ),
         .access_i          ( part_access[k]                  ),
-        .access_o          ( part_access_dai_pre[k]          ),
+        .access_o          ( part_access_dai[k]              ),
         .digest_o          ( part_digest[k]                  ),
         .data_o            ( part_buf_data[PartInfo[k].offset +: PartInfo[k].size] ),
         .otp_req_o         ( part_otp_arb_req[k]             ),
@@ -1357,9 +1222,7 @@ end
         .scrmbl_valid_o    (                                 ),
         .scrmbl_ready_i    ( 1'b0                            ),
         .scrmbl_valid_i    ( 1'b0                            ),
-        .scrmbl_data_i     ( '0                              ),
-        .zer_trig_i        ( part_zer_trigs[k]               ),
-        .zer_o             ( part_is_zer[k]                  )
+        .scrmbl_data_i     ( '0                              )
       );
 
       // Buffered partitions are not accessible via the TL-UL window.
@@ -1428,12 +1291,11 @@ end
   otp_keymgr_key_t otp_keymgr_key;
   assign otp_keymgr_key = named_keymgr_key_assign(part_digest,
                                                   part_buf_data,
-                                                  RndCnstPartInvDefault,
                                                   lc_seed_hw_rd_en);
 
   // Note regarding these breakouts: named_keymgr_key_assign will tie off unused key material /
   // valid signals to '0. This is the case for instance in system configurations that keep the seed
-  // material in the nvm instead of OTP.
+  // material in the flash instead of OTP.
   logic creator_root_key_share0_valid_d, creator_root_key_share0_valid_q;
   logic creator_root_key_share1_valid_d, creator_root_key_share1_valid_q;
   logic creator_seed_valid_d, creator_seed_valid_q;
@@ -1453,26 +1315,19 @@ end
            owner_seed_valid_q})
   );
 
-  assign creator_root_key_share0_valid_d = otp_keymgr_key.creator_root_key_share0_valid;
-  assign creator_root_key_share1_valid_d = otp_keymgr_key.creator_root_key_share1_valid;
-  assign keymgr_creator_root_key_o = '{
-    share0:       otp_keymgr_key.creator_root_key_share0,
-    share0_valid: creator_root_key_share0_valid_q,
-    share1:       otp_keymgr_key.creator_root_key_share1,
-    share1_valid: creator_root_key_share1_valid_q
-  };
-
-  assign creator_seed_valid_d = otp_keymgr_key.creator_seed_valid;
-  assign keymgr_creator_seed_o = '{
-    seed:         otp_keymgr_key.creator_seed,
-    seed_valid:   creator_seed_valid_q
-  };
-
-  assign owner_seed_valid_d = otp_keymgr_key.owner_seed_valid;
-  assign keymgr_owner_seed_o = '{
-    seed:         otp_keymgr_key.owner_seed,
-    seed_valid:   owner_seed_valid_q
-  };
+  always_comb begin : p_otp_keymgr_key_valid
+    // Valid reg inputs
+    creator_root_key_share0_valid_d = otp_keymgr_key.creator_root_key_share0_valid;
+    creator_root_key_share1_valid_d = otp_keymgr_key.creator_root_key_share1_valid;
+    creator_seed_valid_d            = otp_keymgr_key.creator_seed_valid;
+    owner_seed_valid_d              = otp_keymgr_key.owner_seed_valid;
+    // Output to keymgr
+    otp_keymgr_key_o                               = otp_keymgr_key;
+    otp_keymgr_key_o.creator_root_key_share0_valid = creator_root_key_share0_valid_q;
+    otp_keymgr_key_o.creator_root_key_share1_valid = creator_root_key_share1_valid_q;
+    otp_keymgr_key_o.creator_seed_valid            = creator_seed_valid_q;
+    otp_keymgr_key_o.owner_seed_valid              = owner_seed_valid_q;
+  end
 
   // Check that the lc_seed_hw_rd_en remains stable, once the key material is valid.
   `ASSERT(LcSeedHwRdEnStable0_A,
@@ -1496,10 +1351,10 @@ end
   assign scrmbl_key_seed_valid = part_digest[Secret1Idx] != '0;
   assign sram_data_key_seed    = part_buf_data[SramDataKeySeedOffset +:
                                                SramDataKeySeedSize];
-  assign nvm_data_key_seed     = part_buf_data[NvmDataKeySeedOffset +:
-                                               NvmDataKeySeedSize];
-  assign nvm_addr_key_seed     = part_buf_data[NvmAddrKeySeedOffset +:
-                                               NvmAddrKeySeedSize];
+  assign flash_data_key_seed   = part_buf_data[FlashDataKeySeedOffset +:
+                                               FlashDataKeySeedSize];
+  assign flash_addr_key_seed   = part_buf_data[FlashAddrKeySeedOffset +:
+                                               FlashAddrKeySeedSize];
 
   // Test unlock and exit tokens and RMA token
   assign otp_lc_data_o.test_exit_token   = part_buf_data[TestExitTokenOffset +:
@@ -1567,12 +1422,10 @@ end
   // Assertions //
   ////////////////
 
-  `ASSERT_INIT(CreatorRootKeyShare0Size_A,
-               keymgr_dpe_pkg::KeyMgrKeyWidth == CreatorRootKeyShare0Size * 8)
-  `ASSERT_INIT(CreatorRootKeyShare1Size_A,
-               keymgr_dpe_pkg::KeyMgrKeyWidth == CreatorRootKeyShare1Size * 8)
-  `ASSERT_INIT(NvmDataKeySeedSize_A,       NvmKeySeedWidth == NvmDataKeySeedSize * 8)
-  `ASSERT_INIT(NvmAddrKeySeedSize_A,       NvmKeySeedWidth == NvmAddrKeySeedSize * 8)
+  `ASSERT_INIT(CreatorRootKeyShare0Size_A, KeyMgrKeyWidth == CreatorRootKeyShare0Size * 8)
+  `ASSERT_INIT(CreatorRootKeyShare1Size_A, KeyMgrKeyWidth == CreatorRootKeyShare1Size * 8)
+  `ASSERT_INIT(FlashDataKeySeedSize_A,     FlashKeySeedWidth == FlashDataKeySeedSize * 8)
+  `ASSERT_INIT(FlashAddrKeySeedSize_A,     FlashKeySeedWidth == FlashAddrKeySeedSize * 8)
   `ASSERT_INIT(SramDataKeySeedSize_A,      SramKeySeedWidth == SramDataKeySeedSize * 8)
 
   `ASSERT_INIT(RmaTokenSize_A,        lc_ctrl_state_pkg::LcTokenWidth == RmaTokenSize * 8)
@@ -1588,10 +1441,8 @@ end
   `ASSERT_KNOWN(PwrOtpInitRspKnown_A,        pwr_otp_o)
   `ASSERT_KNOWN(LcOtpProgramRspKnown_A,      lc_otp_program_o)
   `ASSERT_KNOWN(OtpLcDataKnown_A,            otp_lc_data_o)
-  `ASSERT_KNOWN(KeymgrCreatorRootKey_A,      keymgr_creator_root_key_o)
-  `ASSERT_KNOWN(KeymgrCreatorSeed_A,         keymgr_creator_seed_o)
-  `ASSERT_KNOWN(KeymgrOwnerSeed_A,           keymgr_owner_seed_o)
-  `ASSERT_KNOWN(NvmOtpKeyRspKnown_A,         nvm_otp_key_o)
+  `ASSERT_KNOWN(OtpKeymgrKeyKnown_A,         otp_keymgr_key_o)
+  `ASSERT_KNOWN(FlashOtpKeyRspKnown_A,       flash_otp_key_o)
   `ASSERT_KNOWN(OtpSramKeyKnown_A,           sram_otp_key_o)
   `ASSERT_KNOWN(OtpOtgnKeyKnown_A,           otbn_otp_key_o)
   `ASSERT_KNOWN(OtpBroadcastKnown_A,         otp_broadcast_o)
@@ -1635,7 +1486,10 @@ end
   //   Add checks that the incoming fatal conditions from prim_otp trigger alerts.
 
   // Assertions for countermeasures inside prim_otp
-  // if (prim_pkg::PrimTechName == "Generic") begin : gen_reg_we_assert_generic
+  // `ifndef PRIM_DEFAULT_IMPL
+  //   `define PRIM_DEFAULT_IMPL prim_pkg::ImplGeneric
+  // `endif
+  // if (`PRIM_DEFAULT_IMPL == prim_pkg::ImplGeneric) begin : gen_reg_we_assert_generic
   //   `ASSERT_PRIM_FSM_ERROR_TRIGGER_ALERT(TlLcGateFsm_A,
   //       u_tlul_lc_gate.u_state_regs, alert_tx_o[2])
   //   `ASSERT_PRIM_FSM_ERROR_TRIGGER_ALERT(PrimFsmCheck_A,

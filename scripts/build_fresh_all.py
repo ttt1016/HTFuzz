@@ -242,9 +242,11 @@ ls libpf_{module}_fresh.so >/dev/null 2>&1 && echo FRESH_BUILD_OK
                 shutil.copy(src_hit, dstp)
                 log(f"[{module}] include 补件: {inc_dir}/{inc_name}")
                 added += 1
-            # PINNOTFOUND(参数/引脚不存在) → 实例化的子模块文件过旧, 从 fresh 树覆盖
+            # 缺包(三种形态合一) → 从 fresh 树找定义者, 拷贝并插到引用者之前
+            #   形态A: Import (package|object) not found
+            #   形态B: Package/class for ':: reference' not found
             for ref_file, pkg_name in sorted(set(re.findall(
-                    r"(hw/[^: ]+\.sv):\d+:\d+: Import (?:package|object) not found: '(\w+)'", out))):
+                    r"(hw/[^: ]+\.sv):\d+:\d+: (?:Import (?:package|object) not found|Package/class for ':: reference' not found): '(\w+)'", out))):
                 hit = None
                 for root2, dirs2, files2 in os.walk(FRESH_TREE):
                     if pkg_name + ".sv" in files2:

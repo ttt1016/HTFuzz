@@ -40,12 +40,11 @@ package otp_ctrl_top_specific_pkg;
     prim_mubi_pkg::mubi8_t write_lock;
   } part_access_t;
 
-  parameter int DaiCmdWidth = 4;
+  parameter int DaiCmdWidth = 3;
   typedef enum logic [DaiCmdWidth-1:0] {
-    DaiRead    = 4'b0001,
-    DaiWrite   = 4'b0010,
-    DaiDigest  = 4'b0100,
-    DaiZeroize = 4'b1000
+    DaiRead   = 3'b001,
+    DaiWrite  = 3'b010,
+    DaiDigest = 3'b100
   } dai_cmd_e;
 
   // Typedef for extended OTP Error. This extends the OTP macro errors.
@@ -76,30 +75,15 @@ package otp_ctrl_top_specific_pkg;
     DigestFinalize
   } otp_scrmbl_cmd_e;
 
-  /////////////////////
-  // OTP Zeroization //
-  /////////////////////
-
-  // A 64-bit word is recognized as correctly zeroized if and only if the number of
-  // set bits is greater or equal `ZeroizationValidBound`. Integrators should
-  // calibrate these this bounds in line with the macro-specific ratio of potentially
-  // stuck-at-0 bits.
-  parameter int unsigned ZeroizationValidBound = ScrmblBlockWidth - 6; // 90.625%
-
-  // Check if the zeroization marker fulfills the zeroization criterion.
-  function automatic logic check_zeroized_valid(logic [$clog2(ScrmblBlockWidth+1)-1:0] count);
-    return count >= ZeroizationValidBound;
-  endfunction : check_zeroized_valid
-
   ////////////////////////////////
   // Typedefs for Key Broadcast //
   ////////////////////////////////
 
   // Get maximum nonce width
   localparam int NumNonceChunks =
-    (OtbnNonceWidth > NvmKeyWidth) ?
+    (OtbnNonceWidth > FlashKeyWidth) ?
     ((OtbnNonceWidth > SramNonceWidth) ? OtbnNonceSel : SramNonceSel) :
-    ((NvmKeyWidth > SramNonceWidth)    ? NvmNonceSel  : SramNonceSel);
+    ((FlashKeyWidth > SramNonceWidth)  ? FlashNonceSel  : SramNonceSel);
 
   ///////////////////////////////////////////
   // Defaults for random netlist constants //
@@ -119,9 +103,5 @@ package otp_ctrl_top_specific_pkg;
   } scrmbl_key_init_t;
   localparam scrmbl_key_init_t RndCnstScrmblKeyInitDefault =
       256'hcebeb96ffe0eced795f8b2cfe23c1e519e4fa08047a6bcfb811b04f0a479006e;
-
-  typedef logic [ScrmblKeyWidth-1:0]   key_t;
-  typedef logic [ScrmblKeyWidth-1:0]   digest_const_t;
-  typedef logic [ScrmblBlockWidth-1:0] digest_iv_t;
 
 endpackage : otp_ctrl_top_specific_pkg
