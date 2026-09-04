@@ -1,0 +1,18 @@
+{
+ "module": "rv_dm",
+ "triaged": [
+  {
+   "level": "LOW",
+   "oracle": "O-J-errprop",
+   "signal": "u_dm.cmderr_q,u_dm.sberror,u_jtag.error_q",
+   "sec_cm": [],
+   "sensitive": false,
+   "cross_oracle": 0,
+   "rtl_wipe_nearby": true,
+   "evidence": "全部 3 类错误触发均未引起任何 alert/err 信号置位 → 错误传播链断裂",
+   "diff": "DIFF-REFUTED"
+  }
+ ],
+ "diff_verdict": "IDENTICAL",
+ "diff_first_divergence": null
+}
