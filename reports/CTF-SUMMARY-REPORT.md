@@ -1932,10 +1932,21 @@ wrapper/harness/filelist 与 CTF 版**共用同一份文件**——hmac 92 个�
   后续按族扩充 MUTANTS 注册表即可量化各 oracle 杀伤谱
 
 ### 41.6 遗留与下一步
-- 全模块 fresh DUT 批建（闭包管线现成，每模块 ~10 分钟机器时间）
-- DIFF-REFUTED 演示路径：对良性模块的候选跑差分 → 自动出局（逻辑已就位，待真实数据）
+- ~~全模块 fresh DUT 批建~~ → **已完成 24 模块差分测试**（42 章台账）
+- ~~DIFF-REFUTED 演示~~ → **已兑现**：uart/csrng/rstmgr/rv_dm/ascon 的候选自动出局
 - MUTANTS 注册表扩族：极性反转 / 稀疏 FSM 编码 / MUBI 损坏 / shadow 双写破坏
 - O-K 后置校验（write-only 标签误报）可改用差分 ground truth 复核
+- **pwrmgr DIVERGENT 人工甄别**（42 章台账）：slow_fsm.state_raw 自复位偏离,
+  两侧 pkg 编码一致 → FSM 重编码候选或复位伪影, 待审查
+- clkmgr readback 偏离（addr=84, ctf=0/fresh=4）→ clk_en 语义候选, 待对照 CSV
+
+### 42.1 差分层收官统计（2026-09-04）
+- 24 模块差分完成：DIVERGENT 7（aes/hmac/kmac/keymgr/entropy_src/clkmgr/pwrmgr）
+  + IDENTICAL 17（含 5 个 DIFF-REFUTED 实例：uart/csrng/rstmgr/rv_dm/ascon）
+- fresh DUT .so：24 个；构建流水线全自动（gen_filelist → MODMISSING/缺包/PIN 三类自动补件 →
+  gen_bindings → own-rtl 回退 → wrapper_fresh 模板）
+- 有检出的 9 模块（hmac/aes/kmac/keymgr/entropy_src/uart/csrng/clkmgr/rstmgr/rv_dm）
+  全部拿到差分证据；性质检出与差分偏离互相印证，误报自动出局机制落地
 
 ## 42. 差分层逐模块推广（2026-09-04 · 持续更新）
 
