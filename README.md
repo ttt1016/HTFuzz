@@ -200,12 +200,13 @@ python3 scripts/ok_invariant.py gen <module>
 | Phase A-③ 全量 sweep | 完成 | **开环 37 条 / 14 模块**（ascon 12 条收敛后） | 本提交 |
 | **Phase C ①② 差分定向检出** | 完成 | **155 条差分检出 / 8 模块 DIVERGENT**（aes 50 / hmac 50 / entropy_src 33 / kmac 10 / keymgr 4 / ascon 5 / pwrmgr 3） | 本提交 |
 | Phase C O-K2 中途复位 oracle | 完成 | aes 6 / ascon 6 / hmac 6 / sram_ctrl 2 条 | 已推送 |
-### 诚实检出率评估（Phase C 后 2026-09-04）
+### 诚实检出率评估（Phase C 后 + 白盒批量扩充）
 | 口径 | 数量 | 说明 |
 |------|------|------|
 | 独立 bug 编号去重 | **35 / 80 = 44%** | 按 CSV bug 编号保守计数 |
-| 新增（Phase C 后） | O-K2 +4 模块, 差分定向 155 条检出 | 4421d5d |
-| **60% 目标（48 编号）** | 还差 13 个 | Phase D+E 落地后可达 |
+| 开环全量 | **40 条 / 14 模块**（ascon 13/aes 9/hmac 6，新增 sram_ctrl O-K2） | |
+| 白盒批量扩充 | gpio 3→72, keymgr 1→127, csrng 13→319, pwrmgr 12→71, rstmgr 8→51 | |
+| **60% 目标（48 编号）** | 还差 13 个 | Phase D(ibex CSR TB+keymgr sideload+lc TB) |
 
 ### 到 60% 的路径分解
 | 路径 | 可解锁 ID 数 | 状态 |

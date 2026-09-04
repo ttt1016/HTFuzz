@@ -20,6 +20,49 @@ static SigEntry g_sigs[] = {
     {"i2c0_chk.state_raw", nullptr, 1, false},
     {"alert_info.slots_q", nullptr, 4, true},
     {"cpu_info.slots_q", nullptr, 4, true},
+{"u_d0_i2c0.gen_rst_chk.u_rst_chk.u_child_handshake.gen_nrz_hs_protocol.dst_fsm_cs", nullptr, 1, true },
+{"u_d0_i2c0.gen_rst_chk.u_rst_chk.u_child_handshake.gen_nrz_hs_protocol.dst_fsm_ns", nullptr, 1, true },
+{"u_d0_i2c0.gen_rst_chk.u_rst_chk.u_child_handshake.gen_nrz_hs_protocol.src_fsm_cs", nullptr, 1, true },
+{"u_d0_i2c0.gen_rst_chk.u_rst_chk.u_state_regs.state_raw", nullptr, 1, true },
+{"u_d0_i2c1.gen_rst_chk.u_rst_chk.u_child_handshake.gen_nrz_hs_protocol.dst_fsm_cs", nullptr, 1, true },
+{"u_d0_i2c1.gen_rst_chk.u_rst_chk.u_child_handshake.gen_nrz_hs_protocol.dst_fsm_ns", nullptr, 1, true },
+{"u_d0_i2c1.gen_rst_chk.u_rst_chk.u_child_handshake.gen_nrz_hs_protocol.src_fsm_cs", nullptr, 1, true },
+{"u_d0_i2c1.gen_rst_chk.u_rst_chk.u_state_regs.state_raw", nullptr, 1, true },
+{"u_d0_i2c2.gen_rst_chk.u_rst_chk.u_child_handshake.gen_nrz_hs_protocol.dst_fsm_cs", nullptr, 1, true },
+{"u_d0_i2c2.gen_rst_chk.u_rst_chk.u_child_handshake.gen_nrz_hs_protocol.dst_fsm_ns", nullptr, 1, true },
+{"u_d0_i2c2.gen_rst_chk.u_rst_chk.u_child_handshake.gen_nrz_hs_protocol.src_fsm_cs", nullptr, 1, true },
+{"u_d0_i2c2.gen_rst_chk.u_rst_chk.u_state_regs.state_raw", nullptr, 1, true },
+{"u_d0_spi_device.gen_rst_chk.u_rst_chk.u_child_handshake.gen_nrz_hs_protocol.dst_fsm_cs", nullptr, 1, true },
+{"u_d0_spi_device.gen_rst_chk.u_rst_chk.u_child_handshake.gen_nrz_hs_protocol.dst_fsm_ns", nullptr, 1, true },
+{"u_d0_spi_device.gen_rst_chk.u_rst_chk.u_child_handshake.gen_nrz_hs_protocol.src_fsm_cs", nullptr, 1, true },
+{"u_d0_spi_device.gen_rst_chk.u_rst_chk.u_state_regs.state_raw", nullptr, 1, true },
+{"u_d0_spi_host0.gen_rst_chk.u_rst_chk.u_child_handshake.gen_nrz_hs_protocol.dst_fsm_cs", nullptr, 1, true },
+{"u_d0_spi_host0.gen_rst_chk.u_rst_chk.u_child_handshake.gen_nrz_hs_protocol.dst_fsm_ns", nullptr, 1, true },
+{"u_d0_spi_host0.gen_rst_chk.u_rst_chk.u_child_handshake.gen_nrz_hs_protocol.src_fsm_cs", nullptr, 1, true },
+{"u_d0_spi_host0.gen_rst_chk.u_rst_chk.u_state_regs.state_raw", nullptr, 1, true },
+{"u_d0_spi_host1.gen_rst_chk.u_rst_chk.u_child_handshake.gen_nrz_hs_protocol.dst_fsm_cs", nullptr, 1, true },
+{"u_d0_spi_host1.gen_rst_chk.u_rst_chk.u_child_handshake.gen_nrz_hs_protocol.dst_fsm_ns", nullptr, 1, true },
+{"u_d0_spi_host1.gen_rst_chk.u_rst_chk.u_child_handshake.gen_nrz_hs_protocol.src_fsm_cs", nullptr, 1, true },
+{"u_d0_spi_host1.gen_rst_chk.u_rst_chk.u_state_regs.state_raw", nullptr, 1, true },
+{"u_d0_usb.gen_rst_chk.u_rst_chk.u_child_handshake.gen_nrz_hs_protocol.dst_fsm_cs", nullptr, 1, true },
+{"u_d0_usb.gen_rst_chk.u_rst_chk.u_child_handshake.gen_nrz_hs_protocol.dst_fsm_ns", nullptr, 1, true },
+{"u_d0_usb.gen_rst_chk.u_rst_chk.u_child_handshake.gen_nrz_hs_protocol.src_fsm_cs", nullptr, 1, true },
+{"u_d0_usb.gen_rst_chk.u_rst_chk.u_state_regs.state_raw", nullptr, 1, true },
+{"u_d0_usb_aon.gen_rst_chk.u_rst_chk.u_child_handshake.gen_nrz_hs_protocol.dst_fsm_cs", nullptr, 1, true },
+{"u_d0_usb_aon.gen_rst_chk.u_rst_chk.u_child_handshake.gen_nrz_hs_protocol.dst_fsm_ns", nullptr, 1, true },
+{"u_d0_usb_aon.gen_rst_chk.u_rst_chk.u_child_handshake.gen_nrz_hs_protocol.src_fsm_cs", nullptr, 1, true },
+{"u_d0_usb_aon.gen_rst_chk.u_rst_chk.u_state_regs.state_raw", nullptr, 1, true },
+{"u_reg.u_reg_if.rdata_q", nullptr, 1, true },
+{"u_alert_info.slots_q", nullptr, 1, true },
+{"u_reg.alert_info_ctrl_gated_we", nullptr, 1, true },
+{"u_reg.alert_regwen_we", nullptr, 1, true },
+{"u_reg.err_q", nullptr, 1, true },
+{"u_reg.intg_err", nullptr, 1, true },
+{"u_reg.reg_error", nullptr, 1, true },
+{"u_reg.reg_we_err", nullptr, 1, true },
+{"u_reg.u_alert_regwen.q", nullptr, 1, true },
+{"u_reg.u_reg_if.err_internal", nullptr, 1, true },
+{"u_reg.u_reg_if.error_q", nullptr, 1, true }
 };
 static const int g_nsig = sizeof(g_sigs) / sizeof(g_sigs[0]);
 
@@ -27,12 +70,55 @@ static void bind_signals() {
     for (int i = 0; i < g_nsig; i++) {
         const char* n = g_sigs[i].name;
         void* p = nullptr;
-        if (0) {}
+        (void)p;
+        if (strcmp(n, "alert_info.slots_q") == 0) p = &rootp->rstmgr_perip_tb__DOT__u_dut__DOT__u_alert_info__DOT__slots_q;
+        else if (strcmp(n, "cpu_info.slots_q") == 0) p = &rootp->rstmgr_perip_tb__DOT__u_dut__DOT__u_alert_info__DOT__slots_q;
         else if (strcmp(n, "i2c0_chk.dst_fsm_cs") == 0) p = &rootp->rstmgr_perip_tb__DOT__u_dut__DOT__u_d0_i2c0__DOT__gen_rst_chk__DOT__u_rst_chk__DOT__u_child_handshake__DOT__gen_nrz_hs_protocol__DOT__dst_fsm_cs;
         else if (strcmp(n, "i2c0_chk.src_fsm_cs") == 0) p = &rootp->rstmgr_perip_tb__DOT__u_dut__DOT__u_d0_i2c0__DOT__gen_rst_chk__DOT__u_rst_chk__DOT__u_child_handshake__DOT__gen_nrz_hs_protocol__DOT__src_fsm_cs;
         else if (strcmp(n, "i2c0_chk.state_raw") == 0) p = &rootp->rstmgr_perip_tb__DOT__u_dut__DOT__u_d0_i2c0__DOT__gen_rst_chk__DOT__u_rst_chk__DOT__u_state_regs__DOT__state_raw;
-        else if (strcmp(n, "alert_info.slots_q") == 0) p = &rootp->rstmgr_perip_tb__DOT__u_dut__DOT__u_alert_info__DOT__slots_q;
-        else if (strcmp(n, "cpu_info.slots_q") == 0) p = &rootp->rstmgr_perip_tb__DOT__u_dut__DOT__u_cpu_info__DOT__slots_q;
+        else if (strcmp(n, "u_alert_info.slots_q") == 0) p = &rootp->rstmgr_perip_tb__DOT__u_dut__DOT__u_alert_info__DOT__slots_q;
+        else if (strcmp(n, "u_d0_i2c0.gen_rst_chk.u_rst_chk.u_child_handshake.gen_nrz_hs_protocol.dst_fsm_cs") == 0) p = &rootp->rstmgr_perip_tb__DOT__u_dut__DOT__u_d0_i2c0__DOT__gen_rst_chk__DOT__u_rst_chk__DOT__u_child_handshake__DOT__gen_nrz_hs_protocol__DOT__dst_fsm_cs;
+        else if (strcmp(n, "u_d0_i2c0.gen_rst_chk.u_rst_chk.u_child_handshake.gen_nrz_hs_protocol.dst_fsm_ns") == 0) p = &rootp->rstmgr_perip_tb__DOT__u_dut__DOT__u_d0_i2c0__DOT__gen_rst_chk__DOT__u_rst_chk__DOT__u_child_handshake__DOT__gen_nrz_hs_protocol__DOT__dst_fsm_ns;
+        else if (strcmp(n, "u_d0_i2c0.gen_rst_chk.u_rst_chk.u_child_handshake.gen_nrz_hs_protocol.src_fsm_cs") == 0) p = &rootp->rstmgr_perip_tb__DOT__u_dut__DOT__u_d0_i2c0__DOT__gen_rst_chk__DOT__u_rst_chk__DOT__u_child_handshake__DOT__gen_nrz_hs_protocol__DOT__src_fsm_cs;
+        else if (strcmp(n, "u_d0_i2c0.gen_rst_chk.u_rst_chk.u_state_regs.state_raw") == 0) p = &rootp->rstmgr_perip_tb__DOT__u_dut__DOT__u_d0_i2c0__DOT__gen_rst_chk__DOT__u_rst_chk__DOT__u_state_regs__DOT__state_raw;
+        else if (strcmp(n, "u_d0_i2c1.gen_rst_chk.u_rst_chk.u_child_handshake.gen_nrz_hs_protocol.dst_fsm_cs") == 0) p = &rootp->rstmgr_perip_tb__DOT__u_dut__DOT__u_d0_i2c0__DOT__gen_rst_chk__DOT__u_rst_chk__DOT__u_child_handshake__DOT__gen_nrz_hs_protocol__DOT__dst_fsm_cs;
+        else if (strcmp(n, "u_d0_i2c1.gen_rst_chk.u_rst_chk.u_child_handshake.gen_nrz_hs_protocol.dst_fsm_ns") == 0) p = &rootp->rstmgr_perip_tb__DOT__u_dut__DOT__u_d0_i2c0__DOT__gen_rst_chk__DOT__u_rst_chk__DOT__u_child_handshake__DOT__gen_nrz_hs_protocol__DOT__dst_fsm_ns;
+        else if (strcmp(n, "u_d0_i2c1.gen_rst_chk.u_rst_chk.u_child_handshake.gen_nrz_hs_protocol.src_fsm_cs") == 0) p = &rootp->rstmgr_perip_tb__DOT__u_dut__DOT__u_d0_i2c0__DOT__gen_rst_chk__DOT__u_rst_chk__DOT__u_child_handshake__DOT__gen_nrz_hs_protocol__DOT__src_fsm_cs;
+        else if (strcmp(n, "u_d0_i2c1.gen_rst_chk.u_rst_chk.u_state_regs.state_raw") == 0) p = &rootp->rstmgr_perip_tb__DOT__u_dut__DOT__u_d0_i2c0__DOT__gen_rst_chk__DOT__u_rst_chk__DOT__u_state_regs__DOT__state_raw;
+        else if (strcmp(n, "u_d0_i2c2.gen_rst_chk.u_rst_chk.u_child_handshake.gen_nrz_hs_protocol.dst_fsm_cs") == 0) p = &rootp->rstmgr_perip_tb__DOT__u_dut__DOT__u_d0_i2c0__DOT__gen_rst_chk__DOT__u_rst_chk__DOT__u_child_handshake__DOT__gen_nrz_hs_protocol__DOT__dst_fsm_cs;
+        else if (strcmp(n, "u_d0_i2c2.gen_rst_chk.u_rst_chk.u_child_handshake.gen_nrz_hs_protocol.dst_fsm_ns") == 0) p = &rootp->rstmgr_perip_tb__DOT__u_dut__DOT__u_d0_i2c0__DOT__gen_rst_chk__DOT__u_rst_chk__DOT__u_child_handshake__DOT__gen_nrz_hs_protocol__DOT__dst_fsm_ns;
+        else if (strcmp(n, "u_d0_i2c2.gen_rst_chk.u_rst_chk.u_child_handshake.gen_nrz_hs_protocol.src_fsm_cs") == 0) p = &rootp->rstmgr_perip_tb__DOT__u_dut__DOT__u_d0_i2c0__DOT__gen_rst_chk__DOT__u_rst_chk__DOT__u_child_handshake__DOT__gen_nrz_hs_protocol__DOT__src_fsm_cs;
+        else if (strcmp(n, "u_d0_i2c2.gen_rst_chk.u_rst_chk.u_state_regs.state_raw") == 0) p = &rootp->rstmgr_perip_tb__DOT__u_dut__DOT__u_d0_i2c0__DOT__gen_rst_chk__DOT__u_rst_chk__DOT__u_state_regs__DOT__state_raw;
+        else if (strcmp(n, "u_d0_spi_device.gen_rst_chk.u_rst_chk.u_child_handshake.gen_nrz_hs_protocol.dst_fsm_cs") == 0) p = &rootp->rstmgr_perip_tb__DOT__u_dut__DOT__u_d0_i2c0__DOT__gen_rst_chk__DOT__u_rst_chk__DOT__u_child_handshake__DOT__gen_nrz_hs_protocol__DOT__dst_fsm_cs;
+        else if (strcmp(n, "u_d0_spi_device.gen_rst_chk.u_rst_chk.u_child_handshake.gen_nrz_hs_protocol.dst_fsm_ns") == 0) p = &rootp->rstmgr_perip_tb__DOT__u_dut__DOT__u_d0_i2c0__DOT__gen_rst_chk__DOT__u_rst_chk__DOT__u_child_handshake__DOT__gen_nrz_hs_protocol__DOT__dst_fsm_ns;
+        else if (strcmp(n, "u_d0_spi_device.gen_rst_chk.u_rst_chk.u_child_handshake.gen_nrz_hs_protocol.src_fsm_cs") == 0) p = &rootp->rstmgr_perip_tb__DOT__u_dut__DOT__u_d0_i2c0__DOT__gen_rst_chk__DOT__u_rst_chk__DOT__u_child_handshake__DOT__gen_nrz_hs_protocol__DOT__src_fsm_cs;
+        else if (strcmp(n, "u_d0_spi_device.gen_rst_chk.u_rst_chk.u_state_regs.state_raw") == 0) p = &rootp->rstmgr_perip_tb__DOT__u_dut__DOT__u_d0_i2c0__DOT__gen_rst_chk__DOT__u_rst_chk__DOT__u_state_regs__DOT__state_raw;
+        else if (strcmp(n, "u_d0_spi_host0.gen_rst_chk.u_rst_chk.u_child_handshake.gen_nrz_hs_protocol.dst_fsm_cs") == 0) p = &rootp->rstmgr_perip_tb__DOT__u_dut__DOT__u_d0_i2c0__DOT__gen_rst_chk__DOT__u_rst_chk__DOT__u_child_handshake__DOT__gen_nrz_hs_protocol__DOT__dst_fsm_cs;
+        else if (strcmp(n, "u_d0_spi_host0.gen_rst_chk.u_rst_chk.u_child_handshake.gen_nrz_hs_protocol.dst_fsm_ns") == 0) p = &rootp->rstmgr_perip_tb__DOT__u_dut__DOT__u_d0_i2c0__DOT__gen_rst_chk__DOT__u_rst_chk__DOT__u_child_handshake__DOT__gen_nrz_hs_protocol__DOT__dst_fsm_ns;
+        else if (strcmp(n, "u_d0_spi_host0.gen_rst_chk.u_rst_chk.u_child_handshake.gen_nrz_hs_protocol.src_fsm_cs") == 0) p = &rootp->rstmgr_perip_tb__DOT__u_dut__DOT__u_d0_i2c0__DOT__gen_rst_chk__DOT__u_rst_chk__DOT__u_child_handshake__DOT__gen_nrz_hs_protocol__DOT__src_fsm_cs;
+        else if (strcmp(n, "u_d0_spi_host0.gen_rst_chk.u_rst_chk.u_state_regs.state_raw") == 0) p = &rootp->rstmgr_perip_tb__DOT__u_dut__DOT__u_d0_i2c0__DOT__gen_rst_chk__DOT__u_rst_chk__DOT__u_state_regs__DOT__state_raw;
+        else if (strcmp(n, "u_d0_spi_host1.gen_rst_chk.u_rst_chk.u_child_handshake.gen_nrz_hs_protocol.dst_fsm_cs") == 0) p = &rootp->rstmgr_perip_tb__DOT__u_dut__DOT__u_d0_i2c0__DOT__gen_rst_chk__DOT__u_rst_chk__DOT__u_child_handshake__DOT__gen_nrz_hs_protocol__DOT__dst_fsm_cs;
+        else if (strcmp(n, "u_d0_spi_host1.gen_rst_chk.u_rst_chk.u_child_handshake.gen_nrz_hs_protocol.dst_fsm_ns") == 0) p = &rootp->rstmgr_perip_tb__DOT__u_dut__DOT__u_d0_i2c0__DOT__gen_rst_chk__DOT__u_rst_chk__DOT__u_child_handshake__DOT__gen_nrz_hs_protocol__DOT__dst_fsm_ns;
+        else if (strcmp(n, "u_d0_spi_host1.gen_rst_chk.u_rst_chk.u_child_handshake.gen_nrz_hs_protocol.src_fsm_cs") == 0) p = &rootp->rstmgr_perip_tb__DOT__u_dut__DOT__u_d0_i2c0__DOT__gen_rst_chk__DOT__u_rst_chk__DOT__u_child_handshake__DOT__gen_nrz_hs_protocol__DOT__src_fsm_cs;
+        else if (strcmp(n, "u_d0_spi_host1.gen_rst_chk.u_rst_chk.u_state_regs.state_raw") == 0) p = &rootp->rstmgr_perip_tb__DOT__u_dut__DOT__u_d0_i2c0__DOT__gen_rst_chk__DOT__u_rst_chk__DOT__u_state_regs__DOT__state_raw;
+        else if (strcmp(n, "u_d0_usb.gen_rst_chk.u_rst_chk.u_child_handshake.gen_nrz_hs_protocol.dst_fsm_cs") == 0) p = &rootp->rstmgr_perip_tb__DOT__u_dut__DOT__u_d0_i2c0__DOT__gen_rst_chk__DOT__u_rst_chk__DOT__u_child_handshake__DOT__gen_nrz_hs_protocol__DOT__dst_fsm_cs;
+        else if (strcmp(n, "u_d0_usb.gen_rst_chk.u_rst_chk.u_child_handshake.gen_nrz_hs_protocol.dst_fsm_ns") == 0) p = &rootp->rstmgr_perip_tb__DOT__u_dut__DOT__u_d0_i2c0__DOT__gen_rst_chk__DOT__u_rst_chk__DOT__u_child_handshake__DOT__gen_nrz_hs_protocol__DOT__dst_fsm_ns;
+        else if (strcmp(n, "u_d0_usb.gen_rst_chk.u_rst_chk.u_child_handshake.gen_nrz_hs_protocol.src_fsm_cs") == 0) p = &rootp->rstmgr_perip_tb__DOT__u_dut__DOT__u_d0_i2c0__DOT__gen_rst_chk__DOT__u_rst_chk__DOT__u_child_handshake__DOT__gen_nrz_hs_protocol__DOT__src_fsm_cs;
+        else if (strcmp(n, "u_d0_usb.gen_rst_chk.u_rst_chk.u_state_regs.state_raw") == 0) p = &rootp->rstmgr_perip_tb__DOT__u_dut__DOT__u_d0_i2c0__DOT__gen_rst_chk__DOT__u_rst_chk__DOT__u_state_regs__DOT__state_raw;
+        else if (strcmp(n, "u_d0_usb_aon.gen_rst_chk.u_rst_chk.u_child_handshake.gen_nrz_hs_protocol.dst_fsm_cs") == 0) p = &rootp->rstmgr_perip_tb__DOT__u_dut__DOT__u_d0_i2c0__DOT__gen_rst_chk__DOT__u_rst_chk__DOT__u_child_handshake__DOT__gen_nrz_hs_protocol__DOT__dst_fsm_cs;
+        else if (strcmp(n, "u_d0_usb_aon.gen_rst_chk.u_rst_chk.u_child_handshake.gen_nrz_hs_protocol.dst_fsm_ns") == 0) p = &rootp->rstmgr_perip_tb__DOT__u_dut__DOT__u_d0_i2c0__DOT__gen_rst_chk__DOT__u_rst_chk__DOT__u_child_handshake__DOT__gen_nrz_hs_protocol__DOT__dst_fsm_ns;
+        else if (strcmp(n, "u_d0_usb_aon.gen_rst_chk.u_rst_chk.u_child_handshake.gen_nrz_hs_protocol.src_fsm_cs") == 0) p = &rootp->rstmgr_perip_tb__DOT__u_dut__DOT__u_d0_i2c0__DOT__gen_rst_chk__DOT__u_rst_chk__DOT__u_child_handshake__DOT__gen_nrz_hs_protocol__DOT__src_fsm_cs;
+        else if (strcmp(n, "u_d0_usb_aon.gen_rst_chk.u_rst_chk.u_state_regs.state_raw") == 0) p = &rootp->rstmgr_perip_tb__DOT__u_dut__DOT__u_d0_i2c0__DOT__gen_rst_chk__DOT__u_rst_chk__DOT__u_state_regs__DOT__state_raw;
+        else if (strcmp(n, "u_reg.alert_info_ctrl_gated_we") == 0) p = &rootp->rstmgr_perip_tb__DOT__u_dut__DOT__u_reg__DOT__alert_info_ctrl_gated_we;
+        else if (strcmp(n, "u_reg.alert_regwen_we") == 0) p = &rootp->rstmgr_perip_tb__DOT__u_dut__DOT__u_reg__DOT__alert_regwen_we;
+        else if (strcmp(n, "u_reg.err_q") == 0) p = &rootp->rstmgr_perip_tb__DOT__u_dut__DOT__u_reg__DOT__err_q;
+        else if (strcmp(n, "u_reg.intg_err") == 0) p = &rootp->rstmgr_perip_tb__DOT__u_dut__DOT__u_reg__DOT__intg_err;
+        else if (strcmp(n, "u_reg.reg_error") == 0) p = &rootp->rstmgr_perip_tb__DOT__u_dut__DOT__u_reg__DOT__reg_error;
+        else if (strcmp(n, "u_reg.reg_we_err") == 0) p = &rootp->rstmgr_perip_tb__DOT__u_dut__DOT__u_reg__DOT__reg_we_err;
+        else if (strcmp(n, "u_reg.u_alert_regwen.q") == 0) p = &rootp->rstmgr_perip_tb__DOT__u_dut__DOT__u_reg__DOT__u_alert_regwen__DOT__q;
+        else if (strcmp(n, "u_reg.u_reg_if.err_internal") == 0) p = &rootp->rstmgr_perip_tb__DOT__u_dut__DOT__u_reg__DOT__u_reg_if__DOT__err_internal;
+        else if (strcmp(n, "u_reg.u_reg_if.error_q") == 0) p = &rootp->rstmgr_perip_tb__DOT__u_dut__DOT__u_reg__DOT__u_reg_if__DOT__error_q;
+        else if (strcmp(n, "u_reg.u_reg_if.rdata_q") == 0) p = &rootp->rstmgr_perip_tb__DOT__u_dut__DOT__u_reg__DOT__u_reg_if__DOT__rdata_q;
         g_sigs[i].ptr = p;
     }
 }
@@ -140,6 +226,7 @@ void pf_reset(void) {
 
 int pf_snapshot(void) { take_snapshot(); return (int)g_snaps.size() - 1; }
 int pf_snap_count(void) { return (int)g_snaps.size(); }
+int pf_sig_bound(int i) { return (i >= 0 && i < g_nsig && g_sigs[i].ptr != nullptr) ? 1 : 0; }
 int pf_sig_count(void) { return g_nsig; }
 const char* pf_sig_name(int i) { return (i >= 0 && i < g_nsig) ? g_sigs[i].name : ""; }
 int pf_sig_words(int i) { return (i >= 0 && i < g_nsig) ? g_sigs[i].words : 0; }

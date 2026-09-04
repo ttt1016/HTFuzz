@@ -164,7 +164,7 @@
   "err_head": ""
  },
  "kmac": {
-  "elapsed_s": 0.3,
+  "elapsed_s": 0.4,
   "rc": 0,
   "raw": 3,
   "findings": [
@@ -177,19 +177,6 @@
     "oracle": "O-J-errprop",
     "signal": "u_dut.err_processed",
     "desc": "全部 4 类错误触发均未引起任何 alert/err 信号置位 → 错误传播链断裂"
-   }
-  ],
-  "err_head": ""
- },
- "keymgr": {
-  "elapsed_s": 0.1,
-  "rc": 0,
-  "raw": 1,
-  "findings": [
-   {
-    "oracle": "O-J-errprop",
-    "signal": "d_error",
-    "desc": "全部 1 类错误触发均未引起任何 alert/err 信号置位 → 错误传播链断裂"
    }
   ],
   "err_head": ""

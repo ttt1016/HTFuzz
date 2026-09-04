@@ -17,12 +17,155 @@ static uint64_t main_time = 0;
 struct SigEntry { const char* name; void* ptr; int words; bool is_wide; };
 
 static SigEntry g_sigs[] = {
-    // gpio 白盒表待 SEC_CM 脚本扩充
+    // gpio 白盒表待 SEC_CM 脚本扩充,
+{"gen_filter__BRA__0__KET__.u_filter.diff_ctr_d", nullptr, 1, true },
+{"gen_filter__BRA__0__KET__.u_filter.diff_ctr_q", nullptr, 1, true },
+{"gen_filter__BRA__10__KET__.u_filter.diff_ctr_d", nullptr, 1, true },
+{"gen_filter__BRA__10__KET__.u_filter.diff_ctr_q", nullptr, 1, true },
+{"gen_filter__BRA__11__KET__.u_filter.diff_ctr_d", nullptr, 1, true },
+{"gen_filter__BRA__11__KET__.u_filter.diff_ctr_q", nullptr, 1, true },
+{"gen_filter__BRA__12__KET__.u_filter.diff_ctr_d", nullptr, 1, true },
+{"gen_filter__BRA__12__KET__.u_filter.diff_ctr_q", nullptr, 1, true },
+{"gen_filter__BRA__13__KET__.u_filter.diff_ctr_d", nullptr, 1, true },
+{"gen_filter__BRA__13__KET__.u_filter.diff_ctr_q", nullptr, 1, true },
+{"gen_filter__BRA__14__KET__.u_filter.diff_ctr_d", nullptr, 1, true },
+{"gen_filter__BRA__14__KET__.u_filter.diff_ctr_q", nullptr, 1, true },
+{"gen_filter__BRA__15__KET__.u_filter.diff_ctr_d", nullptr, 1, true },
+{"gen_filter__BRA__15__KET__.u_filter.diff_ctr_q", nullptr, 1, true },
+{"gen_filter__BRA__16__KET__.u_filter.diff_ctr_d", nullptr, 1, true },
+{"gen_filter__BRA__16__KET__.u_filter.diff_ctr_q", nullptr, 1, true },
+{"gen_filter__BRA__17__KET__.u_filter.diff_ctr_d", nullptr, 1, true },
+{"gen_filter__BRA__17__KET__.u_filter.diff_ctr_q", nullptr, 1, true },
+{"gen_filter__BRA__18__KET__.u_filter.diff_ctr_d", nullptr, 1, true },
+{"gen_filter__BRA__18__KET__.u_filter.diff_ctr_q", nullptr, 1, true },
+{"gen_filter__BRA__19__KET__.u_filter.diff_ctr_d", nullptr, 1, true },
+{"gen_filter__BRA__19__KET__.u_filter.diff_ctr_q", nullptr, 1, true },
+{"gen_filter__BRA__1__KET__.u_filter.diff_ctr_d", nullptr, 1, true },
+{"gen_filter__BRA__1__KET__.u_filter.diff_ctr_q", nullptr, 1, true },
+{"gen_filter__BRA__20__KET__.u_filter.diff_ctr_d", nullptr, 1, true },
+{"gen_filter__BRA__20__KET__.u_filter.diff_ctr_q", nullptr, 1, true },
+{"gen_filter__BRA__21__KET__.u_filter.diff_ctr_d", nullptr, 1, true },
+{"gen_filter__BRA__21__KET__.u_filter.diff_ctr_q", nullptr, 1, true },
+{"gen_filter__BRA__22__KET__.u_filter.diff_ctr_d", nullptr, 1, true },
+{"gen_filter__BRA__22__KET__.u_filter.diff_ctr_q", nullptr, 1, true },
+{"gen_filter__BRA__23__KET__.u_filter.diff_ctr_d", nullptr, 1, true },
+{"gen_filter__BRA__23__KET__.u_filter.diff_ctr_q", nullptr, 1, true },
+{"gen_filter__BRA__24__KET__.u_filter.diff_ctr_d", nullptr, 1, true },
+{"gen_filter__BRA__24__KET__.u_filter.diff_ctr_q", nullptr, 1, true },
+{"gen_filter__BRA__25__KET__.u_filter.diff_ctr_d", nullptr, 1, true },
+{"gen_filter__BRA__25__KET__.u_filter.diff_ctr_q", nullptr, 1, true },
+{"gen_filter__BRA__26__KET__.u_filter.diff_ctr_d", nullptr, 1, true },
+{"gen_filter__BRA__26__KET__.u_filter.diff_ctr_q", nullptr, 1, true },
+{"gen_filter__BRA__27__KET__.u_filter.diff_ctr_d", nullptr, 1, true },
+{"gen_filter__BRA__27__KET__.u_filter.diff_ctr_q", nullptr, 1, true },
+{"gen_filter__BRA__28__KET__.u_filter.diff_ctr_d", nullptr, 1, true },
+{"gen_filter__BRA__28__KET__.u_filter.diff_ctr_q", nullptr, 1, true },
+{"gen_filter__BRA__29__KET__.u_filter.diff_ctr_d", nullptr, 1, true },
+{"gen_filter__BRA__29__KET__.u_filter.diff_ctr_q", nullptr, 1, true },
+{"gen_filter__BRA__2__KET__.u_filter.diff_ctr_d", nullptr, 1, true },
+{"gen_filter__BRA__2__KET__.u_filter.diff_ctr_q", nullptr, 1, true },
+{"gen_filter__BRA__30__KET__.u_filter.diff_ctr_d", nullptr, 1, true },
+{"gen_filter__BRA__30__KET__.u_filter.diff_ctr_q", nullptr, 1, true },
+{"gen_filter__BRA__31__KET__.u_filter.diff_ctr_d", nullptr, 1, true },
+{"gen_filter__BRA__31__KET__.u_filter.diff_ctr_q", nullptr, 1, true },
+{"gen_filter__BRA__3__KET__.u_filter.diff_ctr_d", nullptr, 1, true },
+{"gen_filter__BRA__3__KET__.u_filter.diff_ctr_q", nullptr, 1, true },
+{"gen_filter__BRA__4__KET__.u_filter.diff_ctr_d", nullptr, 1, true },
+{"gen_filter__BRA__4__KET__.u_filter.diff_ctr_q", nullptr, 1, true },
+{"gen_filter__BRA__5__KET__.u_filter.diff_ctr_d", nullptr, 1, true },
+{"gen_filter__BRA__5__KET__.u_filter.diff_ctr_q", nullptr, 1, true },
+{"gen_filter__BRA__6__KET__.u_filter.diff_ctr_d", nullptr, 1, true },
+{"gen_filter__BRA__6__KET__.u_filter.diff_ctr_q", nullptr, 1, true },
+{"gen_filter__BRA__7__KET__.u_filter.diff_ctr_d", nullptr, 1, true },
+{"gen_filter__BRA__7__KET__.u_filter.diff_ctr_q", nullptr, 1, true },
+{"gen_filter__BRA__8__KET__.u_filter.diff_ctr_d", nullptr, 1, true },
+{"gen_filter__BRA__8__KET__.u_filter.diff_ctr_q", nullptr, 1, true },
+{"gen_filter__BRA__9__KET__.u_filter.diff_ctr_d", nullptr, 1, true },
+{"gen_filter__BRA__9__KET__.u_filter.diff_ctr_q", nullptr, 1, true },
+{"u_reg.intr_state_we", nullptr, 1, true },
+{"u_reg.u_reg_if.rdata_q", nullptr, 1, true },
+{"u_reg.reg_error", nullptr, 1, true },
+{"u_reg.u_reg_if.err_internal", nullptr, 1, true },
+{"u_reg.u_reg_if.error_q", nullptr, 1, true }
 };
 static const int g_nsig = sizeof(g_sigs) / sizeof(g_sigs[0]);
 
 static void bind_signals() {
-    // 待扩充
+    for (int i = 0; i < g_nsig; i++) {
+        const char* n = g_sigs[i].name;
+        void* p = nullptr;
+        (void)p;
+        if (strcmp(n, "gen_filter__BRA__0__KET__.u_filter.diff_ctr_d") == 0) p = &rootp->gpio_perip_tb__DOT__u_dut__DOT__gen_filter__BRA__0__KET____DOT__u_filter__DOT__diff_ctr_d;
+        else if (strcmp(n, "gen_filter__BRA__0__KET__.u_filter.diff_ctr_q") == 0) p = &rootp->gpio_perip_tb__DOT__u_dut__DOT__gen_filter__BRA__0__KET____DOT__u_filter__DOT__diff_ctr_q;
+        else if (strcmp(n, "gen_filter__BRA__10__KET__.u_filter.diff_ctr_d") == 0) p = &rootp->gpio_perip_tb__DOT__u_dut__DOT__gen_filter__BRA__10__KET____DOT__u_filter__DOT__diff_ctr_d;
+        else if (strcmp(n, "gen_filter__BRA__10__KET__.u_filter.diff_ctr_q") == 0) p = &rootp->gpio_perip_tb__DOT__u_dut__DOT__gen_filter__BRA__10__KET____DOT__u_filter__DOT__diff_ctr_q;
+        else if (strcmp(n, "gen_filter__BRA__11__KET__.u_filter.diff_ctr_d") == 0) p = &rootp->gpio_perip_tb__DOT__u_dut__DOT__gen_filter__BRA__11__KET____DOT__u_filter__DOT__diff_ctr_d;
+        else if (strcmp(n, "gen_filter__BRA__11__KET__.u_filter.diff_ctr_q") == 0) p = &rootp->gpio_perip_tb__DOT__u_dut__DOT__gen_filter__BRA__11__KET____DOT__u_filter__DOT__diff_ctr_q;
+        else if (strcmp(n, "gen_filter__BRA__12__KET__.u_filter.diff_ctr_d") == 0) p = &rootp->gpio_perip_tb__DOT__u_dut__DOT__gen_filter__BRA__12__KET____DOT__u_filter__DOT__diff_ctr_d;
+        else if (strcmp(n, "gen_filter__BRA__12__KET__.u_filter.diff_ctr_q") == 0) p = &rootp->gpio_perip_tb__DOT__u_dut__DOT__gen_filter__BRA__12__KET____DOT__u_filter__DOT__diff_ctr_q;
+        else if (strcmp(n, "gen_filter__BRA__13__KET__.u_filter.diff_ctr_d") == 0) p = &rootp->gpio_perip_tb__DOT__u_dut__DOT__gen_filter__BRA__13__KET____DOT__u_filter__DOT__diff_ctr_d;
+        else if (strcmp(n, "gen_filter__BRA__13__KET__.u_filter.diff_ctr_q") == 0) p = &rootp->gpio_perip_tb__DOT__u_dut__DOT__gen_filter__BRA__13__KET____DOT__u_filter__DOT__diff_ctr_q;
+        else if (strcmp(n, "gen_filter__BRA__14__KET__.u_filter.diff_ctr_d") == 0) p = &rootp->gpio_perip_tb__DOT__u_dut__DOT__gen_filter__BRA__14__KET____DOT__u_filter__DOT__diff_ctr_d;
+        else if (strcmp(n, "gen_filter__BRA__14__KET__.u_filter.diff_ctr_q") == 0) p = &rootp->gpio_perip_tb__DOT__u_dut__DOT__gen_filter__BRA__14__KET____DOT__u_filter__DOT__diff_ctr_q;
+        else if (strcmp(n, "gen_filter__BRA__15__KET__.u_filter.diff_ctr_d") == 0) p = &rootp->gpio_perip_tb__DOT__u_dut__DOT__gen_filter__BRA__15__KET____DOT__u_filter__DOT__diff_ctr_d;
+        else if (strcmp(n, "gen_filter__BRA__15__KET__.u_filter.diff_ctr_q") == 0) p = &rootp->gpio_perip_tb__DOT__u_dut__DOT__gen_filter__BRA__15__KET____DOT__u_filter__DOT__diff_ctr_q;
+        else if (strcmp(n, "gen_filter__BRA__16__KET__.u_filter.diff_ctr_d") == 0) p = &rootp->gpio_perip_tb__DOT__u_dut__DOT__gen_filter__BRA__16__KET____DOT__u_filter__DOT__diff_ctr_d;
+        else if (strcmp(n, "gen_filter__BRA__16__KET__.u_filter.diff_ctr_q") == 0) p = &rootp->gpio_perip_tb__DOT__u_dut__DOT__gen_filter__BRA__16__KET____DOT__u_filter__DOT__diff_ctr_q;
+        else if (strcmp(n, "gen_filter__BRA__17__KET__.u_filter.diff_ctr_d") == 0) p = &rootp->gpio_perip_tb__DOT__u_dut__DOT__gen_filter__BRA__17__KET____DOT__u_filter__DOT__diff_ctr_d;
+        else if (strcmp(n, "gen_filter__BRA__17__KET__.u_filter.diff_ctr_q") == 0) p = &rootp->gpio_perip_tb__DOT__u_dut__DOT__gen_filter__BRA__17__KET____DOT__u_filter__DOT__diff_ctr_q;
+        else if (strcmp(n, "gen_filter__BRA__18__KET__.u_filter.diff_ctr_d") == 0) p = &rootp->gpio_perip_tb__DOT__u_dut__DOT__gen_filter__BRA__18__KET____DOT__u_filter__DOT__diff_ctr_d;
+        else if (strcmp(n, "gen_filter__BRA__18__KET__.u_filter.diff_ctr_q") == 0) p = &rootp->gpio_perip_tb__DOT__u_dut__DOT__gen_filter__BRA__18__KET____DOT__u_filter__DOT__diff_ctr_q;
+        else if (strcmp(n, "gen_filter__BRA__19__KET__.u_filter.diff_ctr_d") == 0) p = &rootp->gpio_perip_tb__DOT__u_dut__DOT__gen_filter__BRA__19__KET____DOT__u_filter__DOT__diff_ctr_d;
+        else if (strcmp(n, "gen_filter__BRA__19__KET__.u_filter.diff_ctr_q") == 0) p = &rootp->gpio_perip_tb__DOT__u_dut__DOT__gen_filter__BRA__19__KET____DOT__u_filter__DOT__diff_ctr_q;
+        else if (strcmp(n, "gen_filter__BRA__1__KET__.u_filter.diff_ctr_d") == 0) p = &rootp->gpio_perip_tb__DOT__u_dut__DOT__gen_filter__BRA__1__KET____DOT__u_filter__DOT__diff_ctr_d;
+        else if (strcmp(n, "gen_filter__BRA__1__KET__.u_filter.diff_ctr_q") == 0) p = &rootp->gpio_perip_tb__DOT__u_dut__DOT__gen_filter__BRA__1__KET____DOT__u_filter__DOT__diff_ctr_q;
+        else if (strcmp(n, "gen_filter__BRA__20__KET__.u_filter.diff_ctr_d") == 0) p = &rootp->gpio_perip_tb__DOT__u_dut__DOT__gen_filter__BRA__20__KET____DOT__u_filter__DOT__diff_ctr_d;
+        else if (strcmp(n, "gen_filter__BRA__20__KET__.u_filter.diff_ctr_q") == 0) p = &rootp->gpio_perip_tb__DOT__u_dut__DOT__gen_filter__BRA__20__KET____DOT__u_filter__DOT__diff_ctr_q;
+        else if (strcmp(n, "gen_filter__BRA__21__KET__.u_filter.diff_ctr_d") == 0) p = &rootp->gpio_perip_tb__DOT__u_dut__DOT__gen_filter__BRA__21__KET____DOT__u_filter__DOT__diff_ctr_d;
+        else if (strcmp(n, "gen_filter__BRA__21__KET__.u_filter.diff_ctr_q") == 0) p = &rootp->gpio_perip_tb__DOT__u_dut__DOT__gen_filter__BRA__21__KET____DOT__u_filter__DOT__diff_ctr_q;
+        else if (strcmp(n, "gen_filter__BRA__22__KET__.u_filter.diff_ctr_d") == 0) p = &rootp->gpio_perip_tb__DOT__u_dut__DOT__gen_filter__BRA__22__KET____DOT__u_filter__DOT__diff_ctr_d;
+        else if (strcmp(n, "gen_filter__BRA__22__KET__.u_filter.diff_ctr_q") == 0) p = &rootp->gpio_perip_tb__DOT__u_dut__DOT__gen_filter__BRA__22__KET____DOT__u_filter__DOT__diff_ctr_q;
+        else if (strcmp(n, "gen_filter__BRA__23__KET__.u_filter.diff_ctr_d") == 0) p = &rootp->gpio_perip_tb__DOT__u_dut__DOT__gen_filter__BRA__23__KET____DOT__u_filter__DOT__diff_ctr_d;
+        else if (strcmp(n, "gen_filter__BRA__23__KET__.u_filter.diff_ctr_q") == 0) p = &rootp->gpio_perip_tb__DOT__u_dut__DOT__gen_filter__BRA__23__KET____DOT__u_filter__DOT__diff_ctr_q;
+        else if (strcmp(n, "gen_filter__BRA__24__KET__.u_filter.diff_ctr_d") == 0) p = &rootp->gpio_perip_tb__DOT__u_dut__DOT__gen_filter__BRA__24__KET____DOT__u_filter__DOT__diff_ctr_d;
+        else if (strcmp(n, "gen_filter__BRA__24__KET__.u_filter.diff_ctr_q") == 0) p = &rootp->gpio_perip_tb__DOT__u_dut__DOT__gen_filter__BRA__24__KET____DOT__u_filter__DOT__diff_ctr_q;
+        else if (strcmp(n, "gen_filter__BRA__25__KET__.u_filter.diff_ctr_d") == 0) p = &rootp->gpio_perip_tb__DOT__u_dut__DOT__gen_filter__BRA__25__KET____DOT__u_filter__DOT__diff_ctr_d;
+        else if (strcmp(n, "gen_filter__BRA__25__KET__.u_filter.diff_ctr_q") == 0) p = &rootp->gpio_perip_tb__DOT__u_dut__DOT__gen_filter__BRA__25__KET____DOT__u_filter__DOT__diff_ctr_q;
+        else if (strcmp(n, "gen_filter__BRA__26__KET__.u_filter.diff_ctr_d") == 0) p = &rootp->gpio_perip_tb__DOT__u_dut__DOT__gen_filter__BRA__26__KET____DOT__u_filter__DOT__diff_ctr_d;
+        else if (strcmp(n, "gen_filter__BRA__26__KET__.u_filter.diff_ctr_q") == 0) p = &rootp->gpio_perip_tb__DOT__u_dut__DOT__gen_filter__BRA__26__KET____DOT__u_filter__DOT__diff_ctr_q;
+        else if (strcmp(n, "gen_filter__BRA__27__KET__.u_filter.diff_ctr_d") == 0) p = &rootp->gpio_perip_tb__DOT__u_dut__DOT__gen_filter__BRA__27__KET____DOT__u_filter__DOT__diff_ctr_d;
+        else if (strcmp(n, "gen_filter__BRA__27__KET__.u_filter.diff_ctr_q") == 0) p = &rootp->gpio_perip_tb__DOT__u_dut__DOT__gen_filter__BRA__27__KET____DOT__u_filter__DOT__diff_ctr_q;
+        else if (strcmp(n, "gen_filter__BRA__28__KET__.u_filter.diff_ctr_d") == 0) p = &rootp->gpio_perip_tb__DOT__u_dut__DOT__gen_filter__BRA__28__KET____DOT__u_filter__DOT__diff_ctr_d;
+        else if (strcmp(n, "gen_filter__BRA__28__KET__.u_filter.diff_ctr_q") == 0) p = &rootp->gpio_perip_tb__DOT__u_dut__DOT__gen_filter__BRA__28__KET____DOT__u_filter__DOT__diff_ctr_q;
+        else if (strcmp(n, "gen_filter__BRA__29__KET__.u_filter.diff_ctr_d") == 0) p = &rootp->gpio_perip_tb__DOT__u_dut__DOT__gen_filter__BRA__29__KET____DOT__u_filter__DOT__diff_ctr_d;
+        else if (strcmp(n, "gen_filter__BRA__29__KET__.u_filter.diff_ctr_q") == 0) p = &rootp->gpio_perip_tb__DOT__u_dut__DOT__gen_filter__BRA__29__KET____DOT__u_filter__DOT__diff_ctr_q;
+        else if (strcmp(n, "gen_filter__BRA__2__KET__.u_filter.diff_ctr_d") == 0) p = &rootp->gpio_perip_tb__DOT__u_dut__DOT__gen_filter__BRA__2__KET____DOT__u_filter__DOT__diff_ctr_d;
+        else if (strcmp(n, "gen_filter__BRA__2__KET__.u_filter.diff_ctr_q") == 0) p = &rootp->gpio_perip_tb__DOT__u_dut__DOT__gen_filter__BRA__2__KET____DOT__u_filter__DOT__diff_ctr_q;
+        else if (strcmp(n, "gen_filter__BRA__30__KET__.u_filter.diff_ctr_d") == 0) p = &rootp->gpio_perip_tb__DOT__u_dut__DOT__gen_filter__BRA__30__KET____DOT__u_filter__DOT__diff_ctr_d;
+        else if (strcmp(n, "gen_filter__BRA__30__KET__.u_filter.diff_ctr_q") == 0) p = &rootp->gpio_perip_tb__DOT__u_dut__DOT__gen_filter__BRA__30__KET____DOT__u_filter__DOT__diff_ctr_q;
+        else if (strcmp(n, "gen_filter__BRA__31__KET__.u_filter.diff_ctr_d") == 0) p = &rootp->gpio_perip_tb__DOT__u_dut__DOT__gen_filter__BRA__31__KET____DOT__u_filter__DOT__diff_ctr_d;
+        else if (strcmp(n, "gen_filter__BRA__31__KET__.u_filter.diff_ctr_q") == 0) p = &rootp->gpio_perip_tb__DOT__u_dut__DOT__gen_filter__BRA__31__KET____DOT__u_filter__DOT__diff_ctr_q;
+        else if (strcmp(n, "gen_filter__BRA__3__KET__.u_filter.diff_ctr_d") == 0) p = &rootp->gpio_perip_tb__DOT__u_dut__DOT__gen_filter__BRA__3__KET____DOT__u_filter__DOT__diff_ctr_d;
+        else if (strcmp(n, "gen_filter__BRA__3__KET__.u_filter.diff_ctr_q") == 0) p = &rootp->gpio_perip_tb__DOT__u_dut__DOT__gen_filter__BRA__3__KET____DOT__u_filter__DOT__diff_ctr_q;
+        else if (strcmp(n, "gen_filter__BRA__4__KET__.u_filter.diff_ctr_d") == 0) p = &rootp->gpio_perip_tb__DOT__u_dut__DOT__gen_filter__BRA__4__KET____DOT__u_filter__DOT__diff_ctr_d;
+        else if (strcmp(n, "gen_filter__BRA__4__KET__.u_filter.diff_ctr_q") == 0) p = &rootp->gpio_perip_tb__DOT__u_dut__DOT__gen_filter__BRA__4__KET____DOT__u_filter__DOT__diff_ctr_q;
+        else if (strcmp(n, "gen_filter__BRA__5__KET__.u_filter.diff_ctr_d") == 0) p = &rootp->gpio_perip_tb__DOT__u_dut__DOT__gen_filter__BRA__5__KET____DOT__u_filter__DOT__diff_ctr_d;
+        else if (strcmp(n, "gen_filter__BRA__5__KET__.u_filter.diff_ctr_q") == 0) p = &rootp->gpio_perip_tb__DOT__u_dut__DOT__gen_filter__BRA__5__KET____DOT__u_filter__DOT__diff_ctr_q;
+        else if (strcmp(n, "gen_filter__BRA__6__KET__.u_filter.diff_ctr_d") == 0) p = &rootp->gpio_perip_tb__DOT__u_dut__DOT__gen_filter__BRA__6__KET____DOT__u_filter__DOT__diff_ctr_d;
+        else if (strcmp(n, "gen_filter__BRA__6__KET__.u_filter.diff_ctr_q") == 0) p = &rootp->gpio_perip_tb__DOT__u_dut__DOT__gen_filter__BRA__6__KET____DOT__u_filter__DOT__diff_ctr_q;
+        else if (strcmp(n, "gen_filter__BRA__7__KET__.u_filter.diff_ctr_d") == 0) p = &rootp->gpio_perip_tb__DOT__u_dut__DOT__gen_filter__BRA__7__KET____DOT__u_filter__DOT__diff_ctr_d;
+        else if (strcmp(n, "gen_filter__BRA__7__KET__.u_filter.diff_ctr_q") == 0) p = &rootp->gpio_perip_tb__DOT__u_dut__DOT__gen_filter__BRA__7__KET____DOT__u_filter__DOT__diff_ctr_q;
+        else if (strcmp(n, "gen_filter__BRA__8__KET__.u_filter.diff_ctr_d") == 0) p = &rootp->gpio_perip_tb__DOT__u_dut__DOT__gen_filter__BRA__8__KET____DOT__u_filter__DOT__diff_ctr_d;
+        else if (strcmp(n, "gen_filter__BRA__8__KET__.u_filter.diff_ctr_q") == 0) p = &rootp->gpio_perip_tb__DOT__u_dut__DOT__gen_filter__BRA__8__KET____DOT__u_filter__DOT__diff_ctr_q;
+        else if (strcmp(n, "gen_filter__BRA__9__KET__.u_filter.diff_ctr_d") == 0) p = &rootp->gpio_perip_tb__DOT__u_dut__DOT__gen_filter__BRA__9__KET____DOT__u_filter__DOT__diff_ctr_d;
+        else if (strcmp(n, "gen_filter__BRA__9__KET__.u_filter.diff_ctr_q") == 0) p = &rootp->gpio_perip_tb__DOT__u_dut__DOT__gen_filter__BRA__9__KET____DOT__u_filter__DOT__diff_ctr_q;
+        else if (strcmp(n, "u_reg.intr_state_we") == 0) p = &rootp->gpio_perip_tb__DOT__u_dut__DOT__u_reg__DOT__intr_state_we;
+        else if (strcmp(n, "u_reg.reg_error") == 0) p = &rootp->gpio_perip_tb__DOT__u_dut__DOT__u_reg__DOT__reg_error;
+        else if (strcmp(n, "u_reg.u_reg_if.err_internal") == 0) p = &rootp->gpio_perip_tb__DOT__u_dut__DOT__u_reg__DOT__u_reg_if__DOT__err_internal;
+        else if (strcmp(n, "u_reg.u_reg_if.error_q") == 0) p = &rootp->gpio_perip_tb__DOT__u_dut__DOT__u_reg__DOT__u_reg_if__DOT__error_q;
+        else if (strcmp(n, "u_reg.u_reg_if.rdata_q") == 0) p = &rootp->gpio_perip_tb__DOT__u_dut__DOT__u_reg__DOT__u_reg_if__DOT__rdata_q;
+        g_sigs[i].ptr = p;
+    }
 }
 
 static uint32_t sig_word(const SigEntry& s, int w) {
@@ -105,6 +248,7 @@ void pf_reset(void) {
     eval_cycle();
 }
 
+int pf_sig_bound(int i) { return (i >= 0 && i < g_nsig && g_sigs[i].ptr != nullptr) ? 1 : 0; }
 int pf_sig_count(void) { return g_nsig; }
 const char* pf_sig_name(int i) { return (i >= 0 && i < g_nsig) ? g_sigs[i].name : ""; }
 int pf_sig_words(int i) { return (i >= 0 && i < g_nsig) ? g_sigs[i].words : 0; }
