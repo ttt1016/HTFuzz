@@ -46,33 +46,19 @@ static void bind_signals() {
     for (int i = 0; i < g_nsig; i++) {
         const char* n = g_sigs[i].name;
         void* p = nullptr;
-        if (0) {}
-        else if (strcmp(n, "u_dut.u_lc_ctrl_fsm.fsm_state_q") == 0)
-            p = &rootp->lc_perip_tb__DOT__u_dut__DOT__u_lc_ctrl_fsm__DOT__u_fsm_state_regs__DOT__u_state_flop__DOT__q_q;
-        else if (strcmp(n, "u_dut.u_lc_ctrl_fsm.hashed_token_mux") == 0)
-            p = &rootp->lc_perip_tb__DOT__u_dut__DOT__u_lc_ctrl_fsm__DOT__hashed_token_mux;
-        else if (strcmp(n, "u_dut.transition_token_q") == 0)
-            p = &rootp->lc_perip_tb__DOT__u_dut__DOT__transition_token_q;
-        else if (strcmp(n, "u_dut.transition_target_q") == 0)
-            p = &rootp->lc_perip_tb__DOT__u_dut__DOT__transition_target_q;
-        else if (strcmp(n, "u_dut.u_lc_ctrl_fsm.state_invalid_error") == 0)
-            p = &rootp->lc_perip_tb__DOT__u_dut__DOT__u_lc_ctrl_fsm__DOT__state_invalid_error;
-        else if (strcmp(n, "u_dut.trans_success_q") == 0)
-            p = &rootp->lc_perip_tb__DOT__u_dut__DOT__trans_success_q;
-        else if (strcmp(n, "u_dut.token_invalid_error_q") == 0)
-            p = &rootp->lc_perip_tb__DOT__u_dut__DOT__token_invalid_error_q;
-        else if (strcmp(n, "u_dut.fatal_state_error_q") == 0)
-            p = &rootp->lc_perip_tb__DOT__u_dut__DOT__fatal_state_error_q;
-        else if (strcmp(n, "u_dut.fatal_prog_error_q") == 0)
-            p = &rootp->lc_perip_tb__DOT__u_dut__DOT__fatal_prog_error_q;
-        else if (strcmp(n, "u_dut.fatal_bus_integ_error_q") == 0)
-            p = &rootp->lc_perip_tb__DOT__u_dut__DOT__fatal_bus_integ_error_q;
-        else if (strcmp(n, "u_dut.otp_part_error_q") == 0)
-            p = &rootp->lc_perip_tb__DOT__u_dut__DOT__otp_part_error_q;
-        else if (strcmp(n, "u_dut.use_ext_clock_q") == 0)
-            p = &rootp->lc_perip_tb__DOT__u_dut__DOT__use_ext_clock_q;
-        else if (strcmp(n, "u_dut.u_lc_ctrl_kmac_if.kmac_fsm_err_q") == 0)
-            p = &rootp->lc_perip_tb__DOT__u_dut__DOT__u_lc_ctrl_kmac_if__DOT__kmac_fsm_err_q;
+        (void)p;
+        if (strcmp(n, "u_dut.fatal_bus_integ_error_q") == 0) p = &rootp->lc_perip_tb__DOT__u_dut__DOT__fatal_bus_integ_error_q;
+        else if (strcmp(n, "u_dut.fatal_prog_error_q") == 0) p = &rootp->lc_perip_tb__DOT__u_dut__DOT__fatal_prog_error_q;
+        else if (strcmp(n, "u_dut.fatal_state_error_q") == 0) p = &rootp->lc_perip_tb__DOT__u_dut__DOT__fatal_state_error_q;
+        else if (strcmp(n, "u_dut.otp_part_error_q") == 0) p = &rootp->lc_perip_tb__DOT__u_dut__DOT__otp_part_error_q;
+        else if (strcmp(n, "u_dut.token_invalid_error_q") == 0) p = &rootp->lc_perip_tb__DOT__u_dut__DOT__token_invalid_error_q;
+        else if (strcmp(n, "u_dut.trans_success_q") == 0) p = &rootp->lc_perip_tb__DOT__u_dut__DOT__trans_success_q;
+        else if (strcmp(n, "u_dut.transition_target_q") == 0) p = &rootp->lc_perip_tb__DOT__u_dut__DOT__transition_target_q;
+        else if (strcmp(n, "u_dut.transition_token_q") == 0) p = &rootp->lc_perip_tb__DOT__u_dut__DOT__transition_token_q;
+        else if (strcmp(n, "u_dut.u_lc_ctrl_fsm.hashed_token_mux") == 0) p = &rootp->lc_perip_tb__DOT__u_dut__DOT__u_lc_ctrl_fsm__DOT__hashed_token_mux;
+        else if (strcmp(n, "u_dut.u_lc_ctrl_fsm.state_invalid_error") == 0) p = &rootp->lc_perip_tb__DOT__u_dut__DOT__u_lc_ctrl_fsm__DOT__state_invalid_error;
+        else if (strcmp(n, "u_dut.u_lc_ctrl_kmac_if.kmac_fsm_err_q") == 0) p = &rootp->lc_perip_tb__DOT__u_dut__DOT__u_lc_ctrl_kmac_if__DOT__kmac_fsm_err_q;
+        else if (strcmp(n, "u_dut.use_ext_clock_q") == 0) p = &rootp->lc_perip_tb__DOT__u_dut__DOT__use_ext_clock_q;
         g_sigs[i].ptr = p;
     }
 }
@@ -160,6 +146,7 @@ void pf_reset(void) {
     eval_cycle();
 }
 
+int pf_sig_bound(int i) { return (i >= 0 && i < g_nsig && g_sigs[i].ptr != nullptr) ? 1 : 0; }
 int pf_sig_count(void) { return g_nsig; }
 const char* pf_sig_name(int i) { return (i >= 0 && i < g_nsig) ? g_sigs[i].name : ""; }
 int pf_sig_words(int i) { return (i >= 0 && i < g_nsig) ? g_sigs[i].words : 0; }

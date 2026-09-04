@@ -400,3 +400,26 @@
 [keymgr] BUILD OK (own-rtl-only)
 --- 进度 1/1 (成功 1) ---
 === 完成: 成功 1  失败 0 ===
+=== fresh 批建开始: 1 模块 ===
+[lc] fresh 缺件回退 3911 个: ['top_earlgrey/ip_autogen/rv_core_ibex/dv/sva/rv_core_ibex_bind.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_peri.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_addr_trans.sv (fresh 无此文件, 保留 CTF 版)']...
+[lc] 缺包补件: hw/top_earlgrey/rtl/autogen/testing/lc_ctrl_token_pkg.sv (lc_ctrl_token_pkg)
+[lc] 全量覆盖失败 → 回退 own-rtl-only
+[lc] own-rtl 覆盖 0 个文件 + compat 重应用
+[lc] 回退后 filelist 重新生成
+[lc] 缺包补件: hw/top_earlgrey/ip_autogen/otp_ctrl/rtl/otp_ctrl_macro_pkg.sv (otp_ctrl_macro_pkg)
+[lc] BUILD FAIL: %Error: hw/ip/otp_macro/rtl/otp_macro.sv:6:10: Import package not found: 'otp_ctrl_macro_pkg' | %Error: Exiting due to 1 error(s)
+--- 进度 1/1 (成功 0) ---
+=== 完成: 成功 0  失败 1 ===
+  FAIL lc: fail: %Error: hw/ip/otp_macro/rtl/otp_macro.sv:6:10: Import package not found: 'otp_ctrl_macro_pkg'; %Error: Exiting due to 1 error(s)
+=== fresh 批建开始: 1 模块 ===
+[lc] fresh 缺件回退 3911 个: ['top_earlgrey/ip_autogen/rv_core_ibex/dv/sva/rv_core_ibex_bind.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_peri.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_addr_trans.sv (fresh 无此文件, 保留 CTF 版)']...
+[lc] 缺包补件: hw/top_earlgrey/rtl/autogen/testing/lc_ctrl_token_pkg.sv (lc_ctrl_token_pkg)
+[lc] MODMISSING 轮0: 补 1/0 ()
+[lc] 全量覆盖失败 → 回退 own-rtl-only
+[lc] own-rtl 覆盖 0 个文件 + compat 重应用
+[lc] 回退后 filelist 重新生成
+[lc] 缺包补件: hw/top_earlgrey/ip_autogen/otp_ctrl/rtl/otp_ctrl_macro_pkg.sv (otp_ctrl_macro_pkg)
+[lc] MODMISSING 轮0: 补 1/0 ()
+[lc] BUILD OK (own-rtl-only)
+--- 进度 1/1 (成功 1) ---
+=== 完成: 成功 1  失败 0 ===

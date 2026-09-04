@@ -2,8 +2,6 @@
 // Licensed under the Apache License, Version 2.0, see LICENSE for details.
 // SPDX-License-Identifier: Apache-2.0
 
-`include "prim_assert.sv"
-
 module otp_macro
   import otp_ctrl_macro_pkg::*;
   import otp_macro_reg_pkg::*;
@@ -15,22 +13,19 @@ module otp_macro
   // This determines the maximum number of native words that
   // can be transferred across the interface in one cycle.
   parameter  int    SizeWidth        = 2,
+  // Derived parameters
+  localparam int    AddrWidth        = prim_util_pkg::vbits(Depth),
   // VMEM file to initialize the memory with
   parameter         MemInitFile   = "",
   // Vendor test partition offset and size (both in bytes)
   parameter  int    VendorTestOffset = 0,
-  parameter  int    VendorTestSize   = 0,
-  // RACL definitions
-  parameter bit  EnableRacl       = 1'b0,
-  parameter bit  RaclErrorRsp     = 1'b1,
-  parameter top_racl_pkg::racl_policy_sel_t RaclPolicySelVec[otp_macro_reg_pkg::NumRegsPrim] =
-    '{otp_macro_reg_pkg::NumRegsPrim{0}}
+  parameter  int    VendorTestSize   = 0
 ) (
   input                          clk_i,
   input                          rst_ni,
   // Bus interface
-  input                          tlul_pkg::tl_h2d_t prim_tl_i,
-  output                         tlul_pkg::tl_d2h_t prim_tl_o,
+  input                          tlul_pkg::tl_h2d_t tl_i,
+  output                         tlul_pkg::tl_d2h_t tl_o,
 
   // Lifecycle broadcast inputs
   // SEC_CM: LC_CTRL.INTERSIG.MUBI
@@ -57,10 +52,6 @@ module otp_macro
   input                          otp_ctrl_macro_req_t otp_i,
   output                         otp_ctrl_macro_rsp_t otp_o,
 
-  // RACL interface
-  input  top_racl_pkg::racl_policy_vec_t  racl_policies_i,
-  output top_racl_pkg::racl_error_log_t   racl_error_o,
-
   // DFT config and response port
   input                          otp_cfg_t cfg_i,
   output                         otp_cfg_rsp_t cfg_rsp_o
@@ -69,13 +60,10 @@ module otp_macro
   // SEC_CM: MACRO.MEM.CM
   import prim_mubi_pkg::MuBi4False;
 
-  // Use a standard Hamming ECC for OTP, parameterized by Width.
-  // Check that the secded width and type combination is supported.
-  if (!prim_secded_pkg::is_width_valid(prim_secded_pkg::SecdedHamming, Width))
-    $error("Width %0d is not supported for SecdedHamming", Width);
-
-  // The ECC syndrome width is parameterized based on Width.
-  localparam int EccWidth = prim_secded_pkg::get_synd_width(prim_secded_pkg::SecdedHamming, Width);
+  // This is only restricted by the supported ECC poly further
+  // below, and is straightforward to extend, if needed.
+  localparam int EccWidth = 6;
+  `ASSERT_INIT(SecDecWidth_A, Width == 16)
 
   // Not supported in open-source emulation model.
   pwr_seq_t unused_pwr_seq_h;
@@ -125,8 +113,7 @@ module otp_macro
 
   // Test-related GPIOs.
   // SEC_CM: TEST.BUS.LC_GATED
-  assign cio_test_o    = (lc_ctrl_pkg::lc_tx_test_true_strict(lc_dft_en[1])) ?
-                         test_vect            : '0;
+  assign cio_test_o = test_vect;
   assign cio_test_en_o = (lc_ctrl_pkg::lc_tx_test_true_strict(lc_dft_en[2])) ?
                          {OtpTestVectWidth{1'b1}} : '0;
 
@@ -144,8 +131,8 @@ module otp_macro
   ) u_tlul_lc_gate (
     .clk_i,
     .rst_ni,
-    .tl_h2d_i(prim_tl_i),
-    .tl_d2h_o(prim_tl_o),
+    .tl_h2d_i(tl_i),
+    .tl_d2h_o(tl_o),
     .tl_h2d_o(tl_h2d_gated),
     .tl_d2h_i(tl_d2h_gated),
     .lc_en_i (lc_dft_en[0]),
@@ -155,22 +142,16 @@ module otp_macro
     .err_o   (lc_fsm_err)
   );
 
-  otp_macro_reg_pkg::otp_macro_prim_reg2hw_t reg2hw;
-  otp_macro_reg_pkg::otp_macro_prim_hw2reg_t hw2reg;
-  otp_macro_prim_reg_top #(
-    .EnableRacl       ( EnableRacl       ),
-    .RaclErrorRsp     ( RaclErrorRsp     ),
-    .RaclPolicySelVec ( RaclPolicySelVec )
-  ) u_reg_top (
+  otp_macro_reg_pkg::otp_macro_reg2hw_t reg2hw;
+  otp_macro_reg_pkg::otp_macro_hw2reg_t hw2reg;
+  otp_macro_reg_top u_reg_top (
     .clk_i,
     .rst_ni,
     .tl_i      (tl_h2d_gated ),
     .tl_o      (tl_d2h_gated ),
     .reg2hw    (reg2hw    ),
     .hw2reg    (hw2reg    ),
-    .intg_err_o(intg_err  ),
-    .racl_policies_i,
-    .racl_error_o
+    .intg_err_o(intg_err  )
   );
 
   logic unused_reg_sig;
@@ -182,8 +163,8 @@ module otp_macro
   ///////////////////
 
   // Encoding generated with:
-  // $ ./util/design/sparse-fsm-encode.py -d 5 -m 12 -n 11 \
-  //     -s 2978180710 --language=sv
+  // $ ./util/design/sparse-fsm-encode.py -d 5 -m 9 -n 10 \
+  //      -s 2599950981 --language=sv
   //
   // Hamming distance histogram:
   //
@@ -192,33 +173,29 @@ module otp_macro
   //  2: --
   //  3: --
   //  4: --
-  //  5: ||||||||||||||||||| (39.39%)
-  //  6: |||||||||||||||||||| (40.91%)
-  //  7: ||||| (12.12%)
-  //  8: || (4.55%)
-  //  9: | (3.03%)
+  //  5: |||||||||||||||||||| (52.78%)
+  //  6: ||||||||||||||| (41.67%)
+  //  7: | (2.78%)
+  //  8: | (2.78%)
+  //  9: --
   // 10: --
-  // 11: --
   //
   // Minimum Hamming distance: 5
-  // Maximum Hamming distance: 9
+  // Maximum Hamming distance: 8
   // Minimum Hamming weight: 3
-  // Maximum Hamming weight: 9
+  // Maximum Hamming weight: 8
   //
-  localparam int StateWidth = 11;
+  localparam int StateWidth = 10;
   typedef enum logic [StateWidth-1:0] {
-    ResetSt       = 11'b10000100011,
-    InitSt        = 11'b11101011000,
-    IdleSt        = 11'b10110111001,
-    ReadSt        = 11'b01000101110,
-    ReadWaitSt    = 11'b10111000101,
-    WriteCheckSt  = 11'b11011000010,
-    WriteWaitSt   = 11'b00110010110,
-    WriteSt       = 11'b01010010001,
-    ZerWriteSt    = 11'b00101100000,
-    ZerReadSt     = 11'b00001111101,
-    ZerReadWaitSt = 11'b01111101011,
-    ErrorSt       = 11'b11101110111
+    ResetSt      = 10'b1100000110,
+    InitSt       = 10'b1000110011,
+    IdleSt       = 10'b0101110000,
+    ReadSt       = 10'b0010011111,
+    ReadWaitSt   = 10'b1001001101,
+    WriteCheckSt = 10'b1111101011,
+    WriteWaitSt  = 10'b0011000010,
+    WriteSt      = 10'b0110100101,
+    ErrorSt      = 10'b1110011000
   } state_e;
 
   state_e state_d, state_q;
@@ -233,7 +210,6 @@ module otp_macro
   logic cnt_clr, cnt_en;
   logic read_ecc_on, write_ecc_on;
   logic wdata_inconsistent;
-  logic zer_en;
 
   // Response to otp_ctrl
   assign otp_o.rvalid = valid_q;
@@ -256,7 +232,6 @@ module otp_macro
     write_ecc_on   = 1'b1;
     fsm_err        = 1'b0;
     integrity_en_d = integrity_en_q;
-    zer_en = 1'b0;
 
     unique case (state_q)
       // Wait here until we receive an initialization command.
@@ -297,10 +272,6 @@ module otp_macro
             end
             WriteRaw: begin
               state_d = WriteCheckSt;
-              integrity_en_d = 1'b0;
-            end
-            Zeroize: begin
-              state_d = ZerWriteSt;
               integrity_en_d = 1'b0;
             end
             default: ;
@@ -382,37 +353,6 @@ module otp_macro
           state_d = IdleSt;
         end
       end
-      // Zeroize the word.
-      ZerWriteSt: begin
-        req = 1'b1;
-        wren = 1'b1;
-        cnt_en = 1'b1;
-        zer_en = 1'b1;
-
-        if (cnt_q == size_q) begin
-          state_d = ZerReadSt;
-          cnt_clr = 1'b1;
-        end
-      end
-      // Read back the zeroized word.
-      ZerReadSt: begin
-        state_d = ZerReadWaitSt;
-        req     = 1'b1;
-        read_ecc_on = 1'b0;
-      end
-      // Wait for the read out to complete.
-      ZerReadWaitSt: begin
-        read_ecc_on = 1'b0;
-        if (rvalid) begin
-          cnt_en = 1'b1;
-          if (cnt_q == size_q) begin
-            state_d = IdleSt;
-            valid_d = 1'b1;
-          end else begin
-            state_d = ZerReadSt;
-          end
-        end
-      end
       // If the FSM is glitched into an invalid state.
       ErrorSt: begin
         fsm_err = 1'b1;
@@ -429,34 +369,35 @@ module otp_macro
   ///////////////////////////////////////////
 
   otp_macro_addr_t addr;
-  assign addr = addr_q + otp_macro_addr_t'(cnt_q);
+  assign addr = addr_q + AddrWidth'(cnt_q);
 
   logic [Width-1:0] rdata_corr;
   logic [Width+EccWidth-1:0] rdata_d, wdata_ecc, rdata_ecc, wdata_rmw;
   logic [2**SizeWidth-1:0][Width-1:0] wdata_q, rdata_reshaped;
   logic [2**SizeWidth-1:0][Width+EccWidth-1:0] rdata_q;
 
-  // Instantiate secded encoder and decoder based on parameters.
-`include "prim_secded_inc.svh"
+  // Use a standard Hamming ECC for OTP.
+  prim_secded_hamming_22_16_enc u_enc (
+    .data_i(wdata_q[cnt_q]),
+    .data_o(wdata_ecc)
+  );
 
-`SECDED_INST_ENC(prim_secded_pkg::SecdedHamming, Width, u_enc, wdata_q[cnt_q], wdata_ecc)
-
-`SECDED_INST_DEC(prim_secded_pkg::SecdedHamming, Width, u_dec, rdata_ecc, rdata_corr, , rerror)
-
-`undef SECDED_INST_DEC
-`undef SECDED_INST_ENC
+  prim_secded_hamming_22_16_dec u_dec (
+    .data_i     (rdata_ecc),
+    .data_o     (rdata_corr),
+    .syndrome_o ( ),
+    .err_o      (rerror)
+  );
 
   assign rdata_d = (read_ecc_on) ? {{EccWidth{1'b0}}, rdata_corr}
                                  : rdata_ecc;
 
   // Read-modify-write (OTP can only set bits to 1, but not clear to 0).
-  // If the write is a zeroization simply set ECC and data to 1.
-  assign wdata_rmw = zer_en       ? '1 :
-                     write_ecc_on ? wdata_ecc | rdata_q[cnt_q] :
-                     {{EccWidth{1'b0}}, wdata_q[cnt_q]} | rdata_q[cnt_q];
+  assign wdata_rmw = (write_ecc_on) ? wdata_ecc | rdata_q[cnt_q]
+                                    : {{EccWidth{1'b0}}, wdata_q[cnt_q]} | rdata_q[cnt_q];
 
   // This indicates if the write data is inconsistent (i.e., if the operation attempts to
-  // clear an already programmed bit to zero). Disable the writeblank check for zeroization writes.
+  // clear an already programmed bit to zero).
   assign wdata_inconsistent = (rdata_q[cnt_q] & wdata_ecc) != rdata_q[cnt_q];
 
   // Output data without ECC bits.
@@ -476,17 +417,17 @@ module otp_macro
   ) u_prim_ram_1p_adv (
     .clk_i,
     .rst_ni,
-    .req_i   ( req                                     ),
-    .write_i ( wren                                    ),
-    .addr_i  ( addr                                    ),
-    .wdata_i ( wdata_rmw                               ),
-    .wmask_i ( {Width+EccWidth{1'b1}}                  ),
-    .rdata_o ( rdata_ecc                               ),
-    .rvalid_o( rvalid                                  ),
-    .rerror_o(                                         ),
-    .cfg_i   ( prim_ram_1p_pkg::RAM_1P_CFG_REQ_DEFAULT ),
-    .cfg_o   (                                         ),
-    .alert_o (                                         )
+    .req_i    ( req                    ),
+    .write_i  ( wren                   ),
+    .addr_i   ( addr                   ),
+    .wdata_i  ( wdata_rmw              ),
+    .wmask_i  ( {Width+EccWidth{1'b1}} ),
+    .rdata_o  ( rdata_ecc              ),
+    .rvalid_o ( rvalid                 ),
+    .rerror_o (                        ),
+    .cfg_i    ( '0                     ),
+    .cfg_rsp_o(                        ),
+    .alert_o  (                        )
   );
 
   // Currently it is assumed that no wrap arounds can occur.
@@ -531,7 +472,7 @@ module otp_macro
   // Check that the otp_ctrl FSMs only issue legal commands to the wrapper.
   `ASSERT(CheckCommands0_A, state_q == ResetSt && otp_i.valid && otp_o.ready |-> otp_i.cmd == Init)
   `ASSERT(CheckCommands1_A, state_q != ResetSt && otp_i.valid && otp_o.ready
-      |-> otp_i.cmd inside {Read, ReadRaw, Write, WriteRaw, Zeroize})
+      |-> otp_i.cmd inside {Read, ReadRaw, Write, WriteRaw})
 
   // Check all parameters are as expected.
   `ASSERT_INIT(WidthMatches_A, Width == otp_ctrl_macro_pkg::OtpWidth)
@@ -541,12 +482,13 @@ module otp_macro
   `ASSERT_INIT(VendorTestSizeMatches_A, VendorTestSize == otp_ctrl_reg_pkg::VendorTestSize)
 
   `ASSERT_KNOWN(OtpAstPwrSeqKnown_A, pwr_seq_o)
-  `ASSERT_KNOWN(OtpMacroTlOutKnown_A, prim_tl_o)
+  `ASSERT_KNOWN(OtpMacroTlOutKnown_A, tl_o)
 
   // Assertions for countermeasures inside otp_macro are done in three parts
   // - Assert invalid conditions propagate to otp_o.fatal_alert
   // - Check that otp_o.fatal_alert is connected to u_otp_ctrl.otp_macro_i as a connectivity check
   // - Check that u_otp_ctrl.otp_macro_i is connected to u_otp_ctrl.alert_tx_o[3]
+//  `ASSERT_PRIM_FSM_ERROR_TRIGGER_ALERT(PrimFsmCheck_A, u_state_regs, otp_o.fatal_alert)
   `ASSERT_ERROR_TRIGGER_ERR(PrimFsmCheck_A, u_state_regs, otp_o.fatal_alert, 0,
       `_SEC_CM_ALERT_MAX_CYC, unused_err_o, `ASSERT_DEFAULT_CLK, `ASSERT_DEFAULT_RST)
   `ASSUME_FPV(PrimFsmCheck_ATriggerAfterAlertInit_S,
@@ -557,6 +499,9 @@ module otp_macro
   `ASSUME_FPV(TlLcGateFsm_ATriggerAfterAlertInit_S,
               $stable(rst_ni) == 0 |-> u_tlul_lc_gate.u_state_regs.unused_err_o == 0 [*10])
 
+
+//  `ASSERT_PRIM_REG_WE_ONEHOT_ERROR_TRIGGER_ALERT(PrimRegWeOnehotCheck_A,
+//      u_reg_top, otp_o.fatal_alert)
   `ASSERT_ERROR_TRIGGER_ERR(PrimRegWeOnehotCheck_A,
       u_reg_top.u_prim_reg_we_check.u_prim_onehot_check, otp_o.fatal_alert, 0,
       `_SEC_CM_ALERT_MAX_CYC, err_o, `ASSERT_DEFAULT_CLK, `ASSERT_DEFAULT_RST)

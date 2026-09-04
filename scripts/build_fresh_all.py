@@ -178,6 +178,33 @@ ls libpf_{module}_fresh.so >/dev/null 2>&1 && echo FRESH_BUILD_OK
             missing = sorted(set(re.findall(
                 r"Cannot find file containing module: '([^']+)'", out)))
             added = 0
+            # 缺包 → 从 fresh 树找定义者, 拷贝并插到引用者之前的包区段
+            for ref_file, pkg_name in sorted(set(re.findall(
+                    r"(hw/[^: ]+\.sv):\d+:\d+: Import package not found: '(\w+)'", out))):
+                hit = None
+                for root2, dirs2, files2 in os.walk(FRESH_TREE):
+                    if pkg_name + ".sv" in files2:
+                        hit = os.path.join(root2, pkg_name + ".sv")
+                        break
+                if not hit:
+                    continue
+                rel = os.path.relpath(hit, FRESH_TREE)
+                dstp = os.path.join(f"{PF}/perip/{module}-fresh", rel)
+                os.makedirs(os.path.dirname(dstp), exist_ok=True)
+                shutil.copy(hit, dstp)
+                fl = f"{PF}/perip/{module}-fresh/filelist.f"
+                lines = open(fl).read().rstrip("\n").split("\n")
+                ref_idx = next((i for i, l in enumerate(lines)
+                                if l.strip() == ref_file), None)
+                if ref_idx is not None:
+                    lines.insert(ref_idx, rel)
+                else:
+                    tail = [l for l in lines if "rtl_wrapper/" in l]
+                    body = [l for l in lines if "rtl_wrapper/" not in l]
+                    lines = body + [rel] + tail
+                open(fl, "w").write("\n".join(lines) + "\n")
+                log(f"[{module}] 缺包补件: {rel} ({pkg_name})")
+                added += 1
             # PINNOTFOUND(参数/引脚不存在) → 实例化的子模块文件过旧, 从 fresh 树覆盖
             for mfile, mline, pn in sorted(set(re.findall(
                     r"(hw/[^: ]+\.sv):(\d+):\d+: (?:Parameter|Pin) not found: '(\w+)'", out))):
@@ -208,7 +235,7 @@ ls libpf_{module}_fresh.so >/dev/null 2>&1 && echo FRESH_BUILD_OK
                     shutil.copy(hit, dstp)
                     log(f"[{module}] PINNOTFOUND 补件: {rel} ({modtype}.{pn})")
                     added += 1
-            if not missing:
+            if added == 0:
                 break
             for modname in missing:
                 if "/" in modname:

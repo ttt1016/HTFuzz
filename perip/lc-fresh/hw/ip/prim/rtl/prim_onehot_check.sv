@@ -23,9 +23,9 @@ module prim_onehot_check #(
   // The onehot width can be <= 2**AddrWidth and does not have to be a power of two.
   parameter int unsigned OneHotWidth = 2**AddrWidth,
   // If set to 0, the addr_i input will not be used for the check and can be tied off.
-  parameter bit          AddrCheck   = 1,
+  parameter bit          AddrCheck   = 0,
   // If set to 0, the en_i value will not be used for the check and can be tied off.
-  parameter bit          EnableCheck = 1,
+  parameter bit          EnableCheck = 0,
   // If set to 1, the oh_i vector must always be one hot if en_i is set to 1.
   // If set to 0, the oh_i vector may be 0 if en_i is set to 1 (useful when oh_i can be masked).
   parameter bit          StrictCheck = 1,
