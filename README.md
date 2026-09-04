@@ -194,7 +194,8 @@ python3 scripts/ok_invariant.py gen <module>
 |------|------|---------|------|
 | 基线 | 27 条 / 14 模块（~20 独立 ID） | — | 05314bd |
 | Phase A-① ascon 白盒 4→78 | 完成 | **ascon 2→21 条检出**（key_share/duplex 面打开） | 本提交 |
-| Phase A-② kmac/rom_ctrl/otp_ctrl 同法推广 | 进行中 | — | — |
+| Phase A-② kmac 白盒 3→248 | 完成 | kmac 2→3 条（#26 静态掩码 O-B 命中确认） | 已推送 |
+| Phase A-② rom_ctrl/otp_ctrl 推广 | 进行中 | rom_ctrl 候选仅 4（RTL 侧信号面薄, 需 wrapper 暴露内部） | — |
 
 ## 安全属性分类学：论文依据与有效性论证
 
