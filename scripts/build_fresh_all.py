@@ -195,6 +195,7 @@ def build_one(module):
             log(f"[{module}] 顶层 {topmod}.sv 不在 rtl_wrapper, SKIP")
             return module, "no_wrapper"
     extra = "--timing" if module in TIMING_MODULES else ""
+    extra += " -Wno-ENUMVALUE -Wno-WIDTH -Wno-PINCONNECTEMPTY"
     cmd = f'''
 export PATH=/tools/verilator/v5.050/bin:$PATH
 cd /workspace/HTFuzz/perip/{module}-fresh

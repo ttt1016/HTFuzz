@@ -1,0 +1,139 @@
+{
+ "module": "ascon",
+ "triaged": [
+  {
+   "level": "HIGH",
+   "oracle": "O-A-residual",
+   "signal": "ascon_core.key_share0_in_q",
+   "sec_cm": [],
+   "sensitive": true,
+   "cross_oracle": 0,
+   "rtl_wipe_nearby": true,
+   "evidence": "敏感信号 ascon_core.key_share0_in_q[0] 在清除/操作序列后残留写入标记值",
+   "diff": "DIFF-REFUTED"
+  },
+  {
+   "level": "HIGH",
+   "oracle": "O-A-residual",
+   "signal": "ascon_core.key_share1_in_q",
+   "sec_cm": [],
+   "sensitive": true,
+   "cross_oracle": 0,
+   "rtl_wipe_nearby": true,
+   "evidence": "敏感信号 ascon_core.key_share1_in_q[0] 在清除/操作序列后残留写入标记值",
+   "diff": "DIFF-REFUTED"
+  },
+  {
+   "level": "HIGH",
+   "oracle": "O-A-residual",
+   "signal": "ascon_core.key_share0_in_q",
+   "sec_cm": [],
+   "sensitive": true,
+   "cross_oracle": 0,
+   "rtl_wipe_nearby": true,
+   "evidence": "敏感信号 ascon_core.key_share0_in_q[0] 在清除/操作序列后残留写入标记值",
+   "diff": "DIFF-REFUTED"
+  },
+  {
+   "level": "HIGH",
+   "oracle": "O-A-residual",
+   "signal": "ascon_core.key_share1_in_q",
+   "sec_cm": [],
+   "sensitive": true,
+   "cross_oracle": 0,
+   "rtl_wipe_nearby": true,
+   "evidence": "敏感信号 ascon_core.key_share1_in_q[0] 在清除/操作序列后残留写入标记值",
+   "diff": "DIFF-REFUTED"
+  },
+  {
+   "level": "HIGH",
+   "oracle": "O-A-residual",
+   "signal": "ascon_core.key_share0_in_q",
+   "sec_cm": [],
+   "sensitive": true,
+   "cross_oracle": 0,
+   "rtl_wipe_nearby": true,
+   "evidence": "敏感信号 ascon_core.key_share0_in_q[0] 在清除/操作序列后残留写入标记值",
+   "diff": "DIFF-REFUTED"
+  },
+  {
+   "level": "HIGH",
+   "oracle": "O-A-residual",
+   "signal": "ascon_core.key_share1_in_q",
+   "sec_cm": [],
+   "sensitive": true,
+   "cross_oracle": 0,
+   "rtl_wipe_nearby": true,
+   "evidence": "敏感信号 ascon_core.key_share1_in_q[0] 在清除/操作序列后残留写入标记值",
+   "diff": "DIFF-REFUTED"
+  },
+  {
+   "level": "HIGH",
+   "oracle": "O-A-residual",
+   "signal": "ascon_core.key_share0_in_q",
+   "sec_cm": [],
+   "sensitive": true,
+   "cross_oracle": 0,
+   "rtl_wipe_nearby": true,
+   "evidence": "敏感信号 ascon_core.key_share0_in_q[0] 在清除/操作序列后残留写入标记值",
+   "diff": "DIFF-REFUTED"
+  },
+  {
+   "level": "HIGH",
+   "oracle": "O-A-residual",
+   "signal": "ascon_core.key_share1_in_q",
+   "sec_cm": [],
+   "sensitive": true,
+   "cross_oracle": 0,
+   "rtl_wipe_nearby": true,
+   "evidence": "敏感信号 ascon_core.key_share1_in_q[0] 在清除/操作序列后残留写入标记值",
+   "diff": "DIFF-REFUTED"
+  },
+  {
+   "level": "HIGH",
+   "oracle": "O-A-residual",
+   "signal": "ascon_core.key_share0_in_q",
+   "sec_cm": [],
+   "sensitive": true,
+   "cross_oracle": 0,
+   "rtl_wipe_nearby": true,
+   "evidence": "敏感信号 ascon_core.key_share0_in_q[0] 在清除/操作序列后残留写入标记值",
+   "diff": "DIFF-REFUTED"
+  },
+  {
+   "level": "HIGH",
+   "oracle": "O-A-residual",
+   "signal": "ascon_core.key_share1_in_q",
+   "sec_cm": [],
+   "sensitive": true,
+   "cross_oracle": 0,
+   "rtl_wipe_nearby": true,
+   "evidence": "敏感信号 ascon_core.key_share1_in_q[0] 在清除/操作序列后残留写入标记值",
+   "diff": "DIFF-REFUTED"
+  },
+  {
+   "level": "HIGH",
+   "oracle": "O-A-residual",
+   "signal": "ascon_core.key_share0_in_q",
+   "sec_cm": [],
+   "sensitive": true,
+   "cross_oracle": 0,
+   "rtl_wipe_nearby": true,
+   "evidence": "敏感信号 ascon_core.key_share0_in_q[0] 在清除/操作序列后残留写入标记值",
+   "diff": "DIFF-REFUTED"
+  },
+  {
+   "level": "HIGH",
+   "oracle": "O-A-residual",
+   "signal": "ascon_core.key_share1_in_q",
+   "sec_cm": [],
+   "sensitive": true,
+   "cross_oracle": 0,
+   "rtl_wipe_nearby": true,
+   "evidence": "敏感信号 ascon_core.key_share1_in_q[0] 在清除/操作序列后残留写入标记值",
+   "diff": "DIFF-REFUTED"
+  }
+ ],
+ "diff_verdict": "IDENTICAL",
+ "diff_first_divergence": null
+}

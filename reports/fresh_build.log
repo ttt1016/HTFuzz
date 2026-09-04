@@ -795,3 +795,53 @@
 [entropy_src] BUILD OK (own-rtl-only)
 --- 进度 1/1 (成功 1) ---
 === 完成: 成功 1  失败 0 ===
+=== fresh 批建开始: 1 模块 ===
+[ascon] fresh 缺件回退 3896 个: ['top_earlgrey/ip_autogen/rv_core_ibex/dv/sva/rv_core_ibex_bind.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_peri.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_addr_trans.sv (fresh 无此文件, 保留 CTF 版)']...
+[ascon] include 补件: ip/prim/rtl/prim_assert.sv
+[ascon] MODMISSING 轮0: 补 1/0 ()
+[ascon] include 补件: ip/prim/rtl/prim_assert.sv
+[ascon] MODMISSING 轮1: 补 1/0 ()
+[ascon] include 补件: ip/prim/rtl/prim_assert.sv
+[ascon] MODMISSING 轮2: 补 1/0 ()
+[ascon] include 补件: ip/prim/rtl/prim_assert.sv
+[ascon] MODMISSING 轮3: 补 1/0 ()
+[ascon] 全量覆盖失败 → 回退 own-rtl-only
+[ascon] own-rtl 覆盖 5 个文件 + compat 重应用
+[ascon] 回退后 filelist 重新生成
+[ascon] BUILD FAIL: %Error-ENUMVALUE: hw/ip/ascon/rtl/ascon_core.sv:255:64: Implicit conversion to enum 'enum{}prim_ascon_pkg::duplex_op_e' from 'logic[2:0]' (IEEE 1800-2023 6.19.3) | %Error-ENUMVALUE: hw/ip/ascon/rtl/ascon_core.sv:256:68: Implicit conversion to enum 'enum{}prim_ascon_pkg::duplex_variant_e' from 'logic[1:0]' (IEEE 1800-2023 6.19.3) | %Error-ENUMVALUE: hw/ip/ascon/rtl/ascon_core.sv:267:75: Implicit conversion to enum 'enum{}ascon_pkg::data_type_in_e' from 'logic[11:0]' (IEEE 1800-2023 6.19.3)
+--- 进度 1/1 (成功 0) ---
+=== 完成: 成功 0  失败 1 ===
+  FAIL ascon: fail: %Error-ENUMVALUE: hw/ip/ascon/rtl/ascon_core.sv:255:64: Implicit conversion to enum 'enum{}prim_ascon_pkg::duplex_op_e' from 'logic[2:0]' (IEEE 
+=== fresh 批建开始: 1 模块 ===
+[ascon] fresh 缺件回退 3896 个: ['top_earlgrey/ip_autogen/rv_core_ibex/dv/sva/rv_core_ibex_bind.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_peri.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_addr_trans.sv (fresh 无此文件, 保留 CTF 版)']...
+[ascon] include 补件: ip/prim/rtl/prim_assert.sv
+[ascon] MODMISSING 轮0: 补 1/0 ()
+[ascon] include 补件: ip/prim/rtl/prim_assert.sv
+[ascon] MODMISSING 轮1: 补 1/0 ()
+[ascon] include 补件: ip/prim/rtl/prim_assert.sv
+[ascon] MODMISSING 轮2: 补 1/0 ()
+[ascon] include 补件: ip/prim/rtl/prim_assert.sv
+[ascon] MODMISSING 轮3: 补 1/0 ()
+[ascon] 全量覆盖失败 → 回退 own-rtl-only
+[ascon] own-rtl 覆盖 5 个文件 + compat 重应用
+[ascon] 回退后 filelist 重新生成
+[ascon] BUILD FAIL: %Error-ENUMVALUE: hw/ip/ascon/rtl/ascon_core.sv:255:64: Implicit conversion to enum 'enum{}prim_ascon_pkg::duplex_op_e' from 'logic[2:0]' (IEEE 1800-2023 6.19.3) | %Error-ENUMVALUE: hw/ip/ascon/rtl/ascon_core.sv:256:68: Implicit conversion to enum 'enum{}prim_ascon_pkg::duplex_variant_e' from 'logic[1:0]' (IEEE 1800-2023 6.19.3) | %Error-ENUMVALUE: hw/ip/ascon/rtl/ascon_core.sv:267:75: Implicit conversion to enum 'enum{}ascon_pkg::data_type_in_e' from 'logic[11:0]' (IEEE 1800-2023 6.19.3)
+--- 进度 1/1 (成功 0) ---
+=== 完成: 成功 0  失败 1 ===
+  FAIL ascon: fail: %Error-ENUMVALUE: hw/ip/ascon/rtl/ascon_core.sv:255:64: Implicit conversion to enum 'enum{}prim_ascon_pkg::duplex_op_e' from 'logic[2:0]' (IEEE 
+=== fresh 批建开始: 1 模块 ===
+[ascon] fresh 缺件回退 3896 个: ['top_earlgrey/ip_autogen/rv_core_ibex/dv/sva/rv_core_ibex_bind.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_peri.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_addr_trans.sv (fresh 无此文件, 保留 CTF 版)']...
+[ascon] include 补件: ip/prim/rtl/prim_assert.sv
+[ascon] MODMISSING 轮0: 补 1/0 ()
+[ascon] include 补件: ip/prim/rtl/prim_assert.sv
+[ascon] MODMISSING 轮1: 补 1/0 ()
+[ascon] include 补件: ip/prim/rtl/prim_assert.sv
+[ascon] MODMISSING 轮2: 补 1/0 ()
+[ascon] include 补件: ip/prim/rtl/prim_assert.sv
+[ascon] MODMISSING 轮3: 补 1/0 ()
+[ascon] 全量覆盖失败 → 回退 own-rtl-only
+[ascon] own-rtl 覆盖 5 个文件 + compat 重应用
+[ascon] 回退后 filelist 重新生成
+[ascon] BUILD OK (own-rtl-only)
+--- 进度 1/1 (成功 1) ---
+=== 完成: 成功 1  失败 0 ===

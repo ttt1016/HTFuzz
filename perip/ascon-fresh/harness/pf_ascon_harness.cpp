@@ -24,19 +24,14 @@ static SigEntry g_sigs[] = {
 static const int g_nsig = sizeof(g_sigs) / sizeof(g_sigs[0]);
 
 static void bind_signals() {
-    #define CORE(name) rootp->ascon_perip_tb__DOT__u_dut__DOT__ascon_core__DOT__##name
     for (int i = 0; i < g_nsig; i++) {
         const char* n = g_sigs[i].name;
         void* p = nullptr;
-        if (0) {}
-        // key_share0_in_q 是 4 个独立 32bit 字（__BRA__31/63/95/127__KET__）
-        else if (strcmp(n, "ascon_core.key_share0_in_q") == 0) p = &CORE(key_share0_in_q__BRA__31__03a0__KET__);
-        else if (strcmp(n, "ascon_core.key_share1_in_q") == 0) p = &CORE(key_share1_in_q__BRA__31__03a0__KET__);
-        else if (strcmp(n, "ascon_core.key_share0_in_new_q") == 0) p = &CORE(key_share0_in_new_q);
-        else if (strcmp(n, "ascon_core.key_share1_in_new_q") == 0) p = &CORE(key_share1_in_new_q);
+        (void)p;
+        if (strcmp(n, "ascon_core.key_share0_in_new_q") == 0) p = &rootp->ascon_perip_tb__DOT__u_dut__DOT__ascon_core__DOT__key_share0_in_new_q;
+        else if (strcmp(n, "ascon_core.key_share1_in_new_q") == 0) p = &rootp->ascon_perip_tb__DOT__u_dut__DOT__ascon_core__DOT__key_share1_in_new_q;
         g_sigs[i].ptr = p;
     }
-    #undef CORE
 }
 
 static uint32_t sig_word(const SigEntry& s, int w) {
@@ -146,6 +141,7 @@ void pf_reset(void) {
 
 int pf_snapshot(void) { take_snapshot(); return (int)g_snaps.size() - 1; }
 int pf_snap_count(void) { return (int)g_snaps.size(); }
+int pf_sig_bound(int i) { return (i >= 0 && i < g_nsig && g_sigs[i].ptr != nullptr) ? 1 : 0; }
 int pf_sig_count(void) { return g_nsig; }
 const char* pf_sig_name(int i) { return (i >= 0 && i < g_nsig) ? g_sigs[i].name : ""; }
 int pf_sig_words(int i) { return (i >= 0 && i < g_nsig) ? g_sigs[i].words : 0; }
