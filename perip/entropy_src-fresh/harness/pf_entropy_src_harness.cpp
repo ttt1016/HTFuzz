@@ -73,46 +73,38 @@ static void bind_signals() {
     for (int i = 0; i < g_nsig; i++) {
         const char* n = g_sigs[i].name;
         void* p = nullptr;
-        // 前缀: rootp->entropy_src_perip_tb__DOT__u_dut__DOT__
-        #define CORE(name) rootp->entropy_src_perip_tb__DOT__u_dut__DOT__u_entropy_src_core__DOT__##name
-        if (0) {}
-        else if (strcmp(n, "u_core.es_rdata_capt_q") == 0) p = &CORE(es_rdata_capt_q);
-        else if (strcmp(n, "u_core.msg_data") == 0) p = &CORE(msg_data);
-        else if (strcmp(n, "u_sha3.keccak_data") == 0) p = &rootp->entropy_src_perip_tb__DOT__u_dut__DOT__u_entropy_src_core__DOT__u_sha3__DOT__keccak_data;
-        else if (strcmp(n, "u_core.repcnt_event_cnt") == 0) p = &CORE(repcnt_event_cnt);
-        else if (strcmp(n, "u_core.adaptp_hi_event_cnt") == 0) p = &CORE(adaptp_hi_event_cnt);
-        else if (strcmp(n, "u_core.adaptp_lo_event_cnt") == 0) p = &CORE(adaptp_lo_event_cnt);
-        else if (strcmp(n, "u_core.markov_hi_event_cnt") == 0) p = &CORE(markov_hi_event_cnt);
-        else if (strcmp(n, "u_core.markov_lo_event_cnt") == 0) p = &CORE(markov_lo_event_cnt);
-        else if (strcmp(n, "u_core.any_fail_pulse") == 0) p = &CORE(any_fail_pulse);
-        else if (strcmp(n, "u_core.ht_failed_q") == 0) p = &CORE(ht_failed_q);
-        else if (strcmp(n, "u_core.main_sm_state_raw") == 0) p = &rootp->entropy_src_perip_tb__DOT__u_dut__DOT__u_entropy_src_core__DOT__u_entropy_src_main_sm__DOT__u_state_regs__DOT__state_raw;
-        else if (strcmp(n, "u_core.ack_sm_state_raw") == 0) p = &rootp->entropy_src_perip_tb__DOT__u_dut__DOT__u_entropy_src_core__DOT__u_entropy_src_ack_sm__DOT__u_state_regs__DOT__state_raw;
-        else if (strcmp(n, "u_core.es_main_sm_idle") == 0) p = &CORE(es_main_sm_idle);
-        else if (strcmp(n, "u_core.main_sm_done_pulse") == 0) p = &CORE(main_sm_done_pulse);
-        else if (strcmp(n, "u_core.sfifo_esrng_full") == 0) p = &CORE(sfifo_esrng_full);
-        else if (strcmp(n, "u_core.sfifo_esrng_rdata") == 0) p = &CORE(sfifo_esrng_rdata);
-        else if (strcmp(n, "u_core.sfifo_observe_full") == 0) p = &CORE(sfifo_observe_full);
-        else if (strcmp(n, "u_core.sfifo_observe_depth") == 0) p = &CORE(sfifo_observe_depth);
-        else if (strcmp(n, "u_core.sfifo_esfinal_full") == 0) p = &CORE(sfifo_esfinal_full);
-        else if (strcmp(n, "u_core.sfifo_esfinal_rdata") == 0) p = &CORE(sfifo_esfinal_rdata);
-        else if (strcmp(n, "u_core.sfifo_distr_full") == 0) p = &CORE(sfifo_distr_full);
-        else if (strcmp(n, "u_core.fw_ov_wr_fifo_full") == 0) p = &CORE(fw_ov_wr_fifo_full);
-        else if (strcmp(n, "u_core.fw_ov_mode") == 0) p = &CORE(fw_ov_mode);
-        else if (strcmp(n, "u_core.fw_ov_mode_entropy_insert") == 0) p = &CORE(fw_ov_mode_entropy_insert);
-        else if (strcmp(n, "u_core.rng_enable_q") == 0) p = &CORE(rng_enable_q);
-        else if (strcmp(n, "u_core.rng_bit_sel") == 0) p = &CORE(rng_bit_sel);
-        else if (strcmp(n, "u_core.es_data_reg_rd_en") == 0) p = &CORE(es_data_reg_rd_en);
-        else if (strcmp(n, "u_core.es_bypass_mode") == 0) p = &CORE(es_bypass_mode);
-        else if (strcmp(n, "u_core.es_main_sm_alert") == 0) p = &CORE(es_main_sm_alert);
-        else if (strcmp(n, "u_core.es_ack_sm_err") == 0) p = &CORE(es_ack_sm_err);
-        else if (strcmp(n, "u_core.es_cntr_err") == 0) p = &CORE(es_cntr_err);
-        else if (strcmp(n, "u_core.es_bus_cmp_alert") == 0) p = &CORE(es_bus_cmp_alert);
-        else if (strcmp(n, "u_sha3.st_d") == 0) p = &rootp->entropy_src_perip_tb__DOT__u_dut__DOT__u_entropy_src_core__DOT__u_sha3__DOT__st_d;
+        (void)p;
+        if (strcmp(n, "u_core.adaptp_hi_event_cnt") == 0) p = &rootp->entropy_src_perip_tb__DOT__u_dut__DOT__u_entropy_src_core__DOT__adaptp_hi_event_cnt;
+        else if (strcmp(n, "u_core.adaptp_lo_event_cnt") == 0) p = &rootp->entropy_src_perip_tb__DOT__u_dut__DOT__u_entropy_src_core__DOT__adaptp_lo_event_cnt;
+        else if (strcmp(n, "u_core.es_ack_sm_err") == 0) p = &rootp->entropy_src_perip_tb__DOT__u_dut__DOT__u_entropy_src_core__DOT__es_ack_sm_err;
+        else if (strcmp(n, "u_core.es_bus_cmp_alert") == 0) p = &rootp->entropy_src_perip_tb__DOT__u_dut__DOT__u_entropy_src_core__DOT__es_bus_cmp_alert;
+        else if (strcmp(n, "u_core.es_bypass_mode") == 0) p = &rootp->entropy_src_perip_tb__DOT__u_dut__DOT__u_entropy_src_core__DOT__es_bypass_mode;
+        else if (strcmp(n, "u_core.es_data_reg_rd_en") == 0) p = &rootp->entropy_src_perip_tb__DOT__u_dut__DOT__u_entropy_src_core__DOT__es_data_reg_rd_en;
+        else if (strcmp(n, "u_core.es_main_sm_alert") == 0) p = &rootp->entropy_src_perip_tb__DOT__u_dut__DOT__u_entropy_src_core__DOT__es_main_sm_alert;
+        else if (strcmp(n, "u_core.es_main_sm_idle") == 0) p = &rootp->entropy_src_perip_tb__DOT__u_dut__DOT__u_entropy_src_core__DOT__es_main_sm_idle;
+        else if (strcmp(n, "u_core.es_rdata_capt_q") == 0) p = &rootp->entropy_src_perip_tb__DOT__u_dut__DOT__u_entropy_src_core__DOT__es_rdata_capt_q;
+        else if (strcmp(n, "u_core.fw_ov_mode") == 0) p = &rootp->entropy_src_perip_tb__DOT__u_dut__DOT__u_entropy_src_core__DOT__fw_ov_mode;
+        else if (strcmp(n, "u_core.fw_ov_mode_entropy_insert") == 0) p = &rootp->entropy_src_perip_tb__DOT__u_dut__DOT__u_entropy_src_core__DOT__fw_ov_mode_entropy_insert;
+        else if (strcmp(n, "u_core.fw_ov_wr_fifo_full") == 0) p = &rootp->entropy_src_perip_tb__DOT__u_dut__DOT__u_entropy_src_core__DOT__fw_ov_wr_fifo_full;
+        else if (strcmp(n, "u_core.ht_failed_q") == 0) p = &rootp->entropy_src_perip_tb__DOT__u_dut__DOT__u_entropy_src_core__DOT__ht_failed_q;
+        else if (strcmp(n, "u_core.main_sm_done_pulse") == 0) p = &rootp->entropy_src_perip_tb__DOT__u_dut__DOT__u_entropy_src_core__DOT__main_sm_done_pulse;
+        else if (strcmp(n, "u_core.markov_hi_event_cnt") == 0) p = &rootp->entropy_src_perip_tb__DOT__u_dut__DOT__u_entropy_src_core__DOT__markov_hi_event_cnt;
+        else if (strcmp(n, "u_core.markov_lo_event_cnt") == 0) p = &rootp->entropy_src_perip_tb__DOT__u_dut__DOT__u_entropy_src_core__DOT__markov_lo_event_cnt;
+        else if (strcmp(n, "u_core.msg_data") == 0) p = &rootp->entropy_src_perip_tb__DOT__u_dut__DOT__u_entropy_src_core__DOT__msg_data;
+        else if (strcmp(n, "u_core.repcnt_event_cnt") == 0) p = &rootp->entropy_src_perip_tb__DOT__u_dut__DOT__u_entropy_src_core__DOT__repcnt_event_cnt;
+        else if (strcmp(n, "u_core.rng_enable_q") == 0) p = &rootp->entropy_src_perip_tb__DOT__u_dut__DOT__u_entropy_src_core__DOT__rng_enable_q;
+        else if (strcmp(n, "u_core.sfifo_distr_full") == 0) p = &rootp->entropy_src_perip_tb__DOT__u_dut__DOT__u_entropy_src_core__DOT__sfifo_distr_full;
+        else if (strcmp(n, "u_core.sfifo_esfinal_full") == 0) p = &rootp->entropy_src_perip_tb__DOT__u_dut__DOT__u_entropy_src_core__DOT__sfifo_esfinal_full;
+        else if (strcmp(n, "u_core.sfifo_esfinal_rdata") == 0) p = &rootp->entropy_src_perip_tb__DOT__u_dut__DOT__u_entropy_src_core__DOT__sfifo_esfinal_rdata;
+        else if (strcmp(n, "u_core.sfifo_esrng_full") == 0) p = &rootp->entropy_src_perip_tb__DOT__u_dut__DOT__u_entropy_src_core__DOT__sfifo_esrng_full;
+        else if (strcmp(n, "u_core.sfifo_esrng_rdata") == 0) p = &rootp->entropy_src_perip_tb__DOT__u_dut__DOT__u_entropy_src_core__DOT__sfifo_esrng_rdata;
+        else if (strcmp(n, "u_core.sfifo_observe_depth") == 0) p = &rootp->entropy_src_perip_tb__DOT__u_dut__DOT__u_entropy_src_core__DOT__sfifo_observe_depth;
+        else if (strcmp(n, "u_core.sfifo_observe_full") == 0) p = &rootp->entropy_src_perip_tb__DOT__u_dut__DOT__u_entropy_src_core__DOT__sfifo_observe_full;
         else if (strcmp(n, "u_sha3.absorbed") == 0) p = &rootp->entropy_src_perip_tb__DOT__u_dut__DOT__u_entropy_src_core__DOT__u_sha3__DOT__absorbed;
+        else if (strcmp(n, "u_sha3.keccak_data") == 0) p = &rootp->entropy_src_perip_tb__DOT__u_dut__DOT__u_entropy_src_core__DOT__u_sha3__DOT__keccak_data;
         else if (strcmp(n, "u_sha3.squeezing") == 0) p = &rootp->entropy_src_perip_tb__DOT__u_dut__DOT__u_entropy_src_core__DOT__u_sha3__DOT__squeezing;
+        else if (strcmp(n, "u_sha3.st_d") == 0) p = &rootp->entropy_src_perip_tb__DOT__u_dut__DOT__u_entropy_src_core__DOT__u_sha3__DOT__st_d;
         else if (strcmp(n, "u_sha3.state_valid") == 0) p = &rootp->entropy_src_perip_tb__DOT__u_dut__DOT__u_entropy_src_core__DOT__u_sha3__DOT__state_valid;
-        #undef CORE
         g_sigs[i].ptr = p;
     }
 }
@@ -228,6 +220,7 @@ void pf_reset(void) {
 
 int pf_snapshot(void) { take_snapshot(); return (int)g_snaps.size() - 1; }
 int pf_snap_count(void) { return (int)g_snaps.size(); }
+int pf_sig_bound(int i) { return (i >= 0 && i < g_nsig && g_sigs[i].ptr != nullptr) ? 1 : 0; }
 int pf_sig_count(void) { return g_nsig; }
 const char* pf_sig_name(int i) { return (i >= 0 && i < g_nsig) ? g_sigs[i].name : ""; }
 int pf_sig_words(int i) { return (i >= 0 && i < g_nsig) ? g_sigs[i].words : 0; }

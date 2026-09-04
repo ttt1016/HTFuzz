@@ -77,6 +77,8 @@ TIMING_MODULES = {"keymgr"}  # wrapper 含事件控制(@), 需 --timing（C++ �
 FRESH_COMPAT = {
     # csrng: fresh csrng.sv 移除了 cs_aes_halt 接口 → wrapper 同步删接线
     "csrng": [],
+    # entropy_src: RNG 拍平 + xht meta + 无 cs_aes_halt（fresh 适配版 wrapper）
+    "entropy_src": [],
     # keymgr: fresh keymgr.sv/kmac_if 需要新版 kmac_pkg 字段与带 SkewCycles 的 prim 组件
     "keymgr": ["hw/ip/prim/rtl/prim_alert_sender.sv",
                "hw/ip/prim/rtl/prim_diff_decode.sv",
@@ -88,6 +90,13 @@ FRESH_COMPAT = {
 
 def fresh_compat(module, dst):
     """按模块登记的 fresh 版本兼容层: 从 fresh 树覆盖指定依赖文件"""
+    # fresh 适配版 wrapper 模板（perip/wrapper_fresh/）优先部署
+    wtpl = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                        "perip", "wrapper_fresh", f"{module}_perip_tb.sv")
+    wdst = os.path.join(dst, "rtl_wrapper", f"{module}_perip_tb.sv")
+    if os.path.exists(wtpl):
+        os.makedirs(os.path.join(dst, "rtl_wrapper"), exist_ok=True)
+        shutil.copy(wtpl, wdst)
     for f in FRESH_COMPAT.get(module, []):
         src = os.path.join(FRESH_TREE, f)
         dstp = os.path.join(dst, f)
