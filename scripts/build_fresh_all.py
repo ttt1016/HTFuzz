@@ -171,10 +171,11 @@ def build_one(module):
     hd = f"{PF}/perip/{module}-fresh/harness"
     if os.path.isdir(hd):
         cpps = [f for f in os.listdir(hd) if f.endswith(".cpp")]
+        pref = [f for f in cpps if module in f]   # 优先 <module>_harness.cpp
         if not cpps:
             log(f"[{module}] 无 harness cpp, SKIP")
             return module, "no_harness"
-        harness_cpp = cpps[0]
+        harness_cpp = (pref or cpps)[0]
     wd = f"{PF}/perip/{module}-fresh/rtl_wrapper"
     topmod = f"{module}_perip_tb"      # 默认顶层 = <module>_perip_tb
     cands = [f for f in os.listdir(wd) if f == f"{topmod}.sv"] if os.path.isdir(wd) else []

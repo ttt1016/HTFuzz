@@ -877,3 +877,49 @@
 [aon_timer] BUILD OK (own-rtl-only)
 --- 进度 1/1 (成功 1) ---
 === 完成: 成功 1  失败 0 ===
+=== fresh 批建开始: 1 模块 ===
+[alert_handler] fresh 缺件回退 3691 个: ['top_earlgrey/ip_autogen/rv_core_ibex/dv/sva/rv_core_ibex_bind.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_peri.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_addr_trans.sv (fresh 无此文件, 保留 CTF 版)']...
+[alert_handler] 全量覆盖失败 → 回退 own-rtl-only
+[alert_handler] own-rtl 覆盖 0 个文件 + compat 重应用
+[alert_handler] 回退后 filelist 重新生成
+[alert_handler] 缺包补件: hw/ip/prim_generic/rtl/prim_rom_pkg.sv (prim_rom_pkg)
+[alert_handler] MODMISSING 轮0: 补 1/0 ()
+[alert_handler] BUILD FAIL: _dut.rnd_valid', 'u_dut.rnd_err']
+../harness/pf_otbn_harness.cpp:3:10: fatal error: Votbn_perip_tb.h: No such file or directory
+    3 | #include "Votbn_perip_tb.h"
+      |          ^~~~~~~~~~~~~~~~~~
+
+--- 进度 1/1 (成功 0) ---
+=== 完成: 成功 0  失败 1 ===
+  FAIL alert_handler: fail: or: Votbn_perip_tb.h: No such file or directory
+    3 | #include "Votbn_perip_tb.h"
+      |          ^~~~~~~~~~~~~~~~~~
+
+=== fresh 批建开始: 1 模块 ===
+[alert_handler] fresh 缺件回退 3691 个: ['top_earlgrey/ip_autogen/rv_core_ibex/dv/sva/rv_core_ibex_bind.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_peri.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_addr_trans.sv (fresh 无此文件, 保留 CTF 版)']...
+[alert_handler] 全量覆盖失败 → 回退 own-rtl-only
+[alert_handler] own-rtl 覆盖 0 个文件 + compat 重应用
+[alert_handler] 回退后 filelist 重新生成
+[alert_handler] 缺包补件: hw/ip/prim_generic/rtl/prim_rom_pkg.sv (prim_rom_pkg)
+[alert_handler] MODMISSING 轮0: 补 1/0 ()
+[alert_handler] BUILD FAIL: _dut.rnd_valid', 'u_dut.rnd_err']
+../harness/pf_otbn_harness.cpp:3:10: fatal error: Votbn_perip_tb.h: No such file or directory
+    3 | #include "Votbn_perip_tb.h"
+      |          ^~~~~~~~~~~~~~~~~~
+
+--- 进度 1/1 (成功 0) ---
+=== 完成: 成功 0  失败 1 ===
+  FAIL alert_handler: fail: or: Votbn_perip_tb.h: No such file or directory
+    3 | #include "Votbn_perip_tb.h"
+      |          ^~~~~~~~~~~~~~~~~~
+
+=== fresh 批建开始: 1 模块 ===
+[alert_handler] fresh 缺件回退 3691 个: ['top_earlgrey/ip_autogen/rv_core_ibex/dv/sva/rv_core_ibex_bind.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_peri.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_addr_trans.sv (fresh 无此文件, 保留 CTF 版)']...
+[alert_handler] 全量覆盖失败 → 回退 own-rtl-only
+[alert_handler] own-rtl 覆盖 0 个文件 + compat 重应用
+[alert_handler] 回退后 filelist 重新生成
+[alert_handler] 缺包补件: hw/ip/prim_generic/rtl/prim_rom_pkg.sv (prim_rom_pkg)
+[alert_handler] MODMISSING 轮0: 补 1/0 ()
+[alert_handler] BUILD OK (own-rtl-only)
+--- 进度 1/1 (成功 1) ---
+=== 完成: 成功 1  失败 0 ===

@@ -58,8 +58,8 @@ module prim_ram_2p_async_adv import prim_ram_2p_pkg::*; #(
   output logic [1:0]       b_rerror_o, // Bit1: Uncorrectable, Bit0: Correctable
 
   // config
-  input  ram_2p_cfg_req_t  cfg_i,
-  output ram_2p_cfg_rsp_t  cfg_o
+  input  ram_2p_cfg_t      cfg_i,
+  output ram_2p_cfg_rsp_t  cfg_rsp_o
 );
 
 
@@ -75,7 +75,7 @@ module prim_ram_2p_async_adv import prim_ram_2p_pkg::*; #(
                              (Width <= 120) ? 8 : 8 ;
   localparam int TotalWidth = Width + ParWidth;
 
-  // If byte parity is enabled, the write enable bits are used to write memory columns
+  // If byte parity is enabled, the write enable bits are used to write memory colums
   // with 8 + 1 = 9 bit width (data plus corresponding parity bit).
   // If ECC is enabled, the DataBitsPerMask is ignored.
   localparam int LocalDataBitsPerMask = (EnableParity) ? 9          :
@@ -131,7 +131,7 @@ module prim_ram_2p_async_adv import prim_ram_2p_pkg::*; #(
     .b_rdata_o  (b_rdata_sram),
 
     .cfg_i,
-    .cfg_o
+    .cfg_rsp_o
   );
 
   always_ff @(posedge clk_a_i or negedge rst_a_ni) begin

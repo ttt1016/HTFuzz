@@ -1,0 +1,13 @@
+{
+ "verdict": "IDENTICAL",
+ "first_divergence": null,
+ "n_actions_compared": 427,
+ "n_divergences": 0,
+ "divergent_signals": {},
+ "evidence": [],
+ "n_stable_signals": 10,
+ "n_signals_total": 10,
+ "n_stable_readbacks": 427,
+ "module": "alert_handler",
+ "seed": 0
+}

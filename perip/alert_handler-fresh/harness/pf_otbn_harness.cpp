@@ -30,14 +30,7 @@ static void bind_signals() {
     for (int i = 0; i < g_nsig; i++) {
         const char* n = g_sigs[i].name;
         void* p = nullptr;
-        if (0) {}
-        else if (strcmp(n, "u_dut.controller_state") == 0) p = &rootp->otbn_perip_tb__DOT__u_dut__DOT__u_otbn_core__DOT__u_otbn_controller__DOT__u_state_regs__DOT__state_raw;
-        else if (strcmp(n, "u_dut.urnd_xoshiro") == 0) p = &rootp->otbn_perip_tb__DOT__u_dut__DOT__u_otbn_core__DOT__u_otbn_rnd__DOT__u_xoshiro256pp__DOT__xoshiro_q;
-        else if (strcmp(n, "u_dut.rnd_data") == 0) p = &rootp->otbn_perip_tb__DOT__u_dut__DOT__u_otbn_core__DOT__u_otbn_rnd__DOT__rnd_data_q;
-        else if (strcmp(n, "u_dut.rnd_valid") == 0) p = &rootp->otbn_perip_tb__DOT__u_dut__DOT__u_otbn_core__DOT__u_otbn_rnd__DOT__rnd_valid_q;
-        else if (strcmp(n, "u_dut.rnd_err") == 0) p = &rootp->otbn_perip_tb__DOT__u_dut__DOT__u_otbn_core__DOT__u_otbn_rnd__DOT__rnd_err_q;
-        else if (strcmp(n, "u_dut.busy_execute") == 0) p = &rootp->otbn_perip_tb__DOT__u_dut__DOT__busy_execute_q;
-        else if (strcmp(n, "u_dut.start_stop_fatal") == 0) p = &rootp->otbn_perip_tb__DOT__u_dut__DOT__u_otbn_core__DOT__start_stop_fatal_error;
+        (void)p;
         g_sigs[i].ptr = p;
     }
 }
@@ -147,6 +140,7 @@ void pf_reset(void) {
 
 int pf_snapshot(void) { take_snapshot(); return (int)g_snaps.size() - 1; }
 int pf_snap_count(void) { return (int)g_snaps.size(); }
+int pf_sig_bound(int i) { return (i >= 0 && i < g_nsig && g_sigs[i].ptr != nullptr) ? 1 : 0; }
 int pf_sig_count(void) { return g_nsig; }
 const char* pf_sig_name(int i) { return (i >= 0 && i < g_nsig) ? g_sigs[i].name : ""; }
 int pf_sig_words(int i) { return (i >= 0 && i < g_nsig) ? g_sigs[i].words : 0; }

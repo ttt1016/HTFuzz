@@ -5,7 +5,7 @@
 /**
  * State machine to handle actions that occur around the start and stop of OTBN.
  *
- * This receives the start signals from the top-level and passes them on to the
+ * This recieves the start signals from the top-level and passes them on to the
  * controller to begin execution when pre-start actions have finished.
  *
  * pre-start actions:
@@ -17,7 +17,6 @@
  *    -Delete Base registers
  *    -Delete Accumulator
  *    -Delete Modulus
- *    -Delete Accelerator ISPRs
  *    -Reset stack
  */
 
@@ -27,6 +26,8 @@ module otbn_start_stop_control
   import otbn_pkg::*;
   import prim_mubi_pkg::*;
 #(
+  // Disable URND advance when not in use. Useful for SCA only.
+  parameter bit SecMuteUrnd = 1'b0,
   // Skip URND re-seed at the start of the operation. Useful for SCA only.
   parameter bit SecSkipUrndReseedAtStart = 1'b0
 ) (
@@ -43,12 +44,7 @@ module otbn_start_stop_control
   output logic urnd_reseed_req_o,
   input  logic urnd_reseed_ack_i,
   output logic urnd_reseed_err_o,
-  // The urnd advance signal controls whether the URND PRNG should advance its state in this cycle.
-  // This can be over-steered by SW using the URND control feature / CSR. However, during secure
-  // wipes we must ensure that this control logic is disabled / the PRNG is always advanced. This
-  // is controlled via the must advance signal.
   output logic urnd_advance_o,
-  output logic urnd_must_advance_o,
 
   input   logic secure_wipe_req_i,
   output  logic secure_wipe_ack_o,
@@ -61,19 +57,9 @@ module otbn_start_stop_control
   output logic       sec_wipe_base_urnd_o,
   output logic [4:0] sec_wipe_addr_o,
 
-  output logic sec_wipe_mac_urnd_o,
+  output logic sec_wipe_acc_urnd_o,
   output logic sec_wipe_mod_urnd_o,
   output logic sec_wipe_zero_o,
-
-  output logic sec_wipe_mai_in0_s0_urnd_o,
-  output logic sec_wipe_mai_in0_s1_urnd_o,
-  output logic sec_wipe_mai_in1_s0_urnd_o,
-  output logic sec_wipe_mai_in1_s1_urnd_o,
-  output logic sec_wipe_mai_res_s0_urnd_o,
-  output logic sec_wipe_mai_res_s1_urnd_o,
-
-  output logic sec_wipe_kmac_data_s0_urnd_o,
-  output logic sec_wipe_kmac_data_s1_urnd_o,
 
   output logic ispr_init_o,
   output logic state_reset_o,
@@ -81,7 +67,8 @@ module otbn_start_stop_control
   output logic fatal_error_o
 );
 
-  // Create a lint error to reduce the risk of accidentally enabling this feature.
+  // Create lint errors to reduce the risk of accidentally enabling these features.
+  `ASSERT_STATIC_LINT_ERROR(OtbnSecMuteUrndNonDefault, SecMuteUrnd == 0)
   `ASSERT_STATIC_LINT_ERROR(OtbnSecSkipUrndReseedAtStartNonDefault, SecSkipUrndReseedAtStart == 0)
 
   otbn_start_stop_state_e state_q, state_d;
@@ -91,7 +78,6 @@ module otbn_start_stop_control
   logic state_error_q, state_error_d;
   logic mubi_err_q, mubi_err_d;
   logic urnd_reseed_err_q, urnd_reseed_err_d;
-  logic urnd_control_allowed;
   logic secure_wipe_error_q, secure_wipe_error_d;
   logic secure_wipe_running_q, secure_wipe_running_d;
   logic skip_reseed_q;
@@ -165,38 +151,29 @@ module otbn_start_stop_control
       otbn_start_stop_state_e, OtbnStartStopStateInitial)
 
   always_comb begin
-    urnd_reseed_req_o            = 1'b0;
-    urnd_advance_o               = 1'b0;
-    urnd_control_allowed         = 1'b0;
-    state_d                      = state_q;
-    ispr_init_o                  = 1'b0;
-    state_reset_o                = 1'b0;
-    insn_cnt_clear_int_o         = 1'b0;
-    sec_wipe_wdr_o               = 1'b0;
-    sec_wipe_wdr_urnd_o          = 1'b0;
-    sec_wipe_base_o              = 1'b0;
-    sec_wipe_base_urnd_o         = 1'b0;
-    sec_wipe_mac_urnd_o          = 1'b0;
-    sec_wipe_mod_urnd_o          = 1'b0;
-    sec_wipe_zero_o              = 1'b0;
-    sec_wipe_kmac_data_s0_urnd_o = 1'b0;
-    sec_wipe_kmac_data_s1_urnd_o = 1'b0;
-    sec_wipe_mai_in0_s0_urnd_o   = 1'b0;
-    sec_wipe_mai_in0_s1_urnd_o   = 1'b0;
-    sec_wipe_mai_in1_s0_urnd_o   = 1'b0;
-    sec_wipe_mai_in1_s1_urnd_o   = 1'b0;
-    sec_wipe_mai_res_s0_urnd_o   = 1'b0;
-    sec_wipe_mai_res_s1_urnd_o   = 1'b0;
-    addr_cnt_inc                 = 1'b0;
-    secure_wipe_ack_o            = 1'b0;
-    secure_wipe_running_d        = 1'b0;
-    state_error_d                = state_error_q;
-    allow_secure_wipe            = 1'b0;
-    expect_secure_wipe           = 1'b0;
-    spurious_urnd_ack_error      = 1'b0;
-    wipe_after_urnd_refresh_d    = wipe_after_urnd_refresh_q;
-    rma_ack_d                    = rma_ack_q;
-    mubi_err_d                   = mubi_err_q;
+    urnd_reseed_req_o         = 1'b0;
+    urnd_advance_o            = 1'b0;
+    state_d                   = state_q;
+    ispr_init_o               = 1'b0;
+    state_reset_o             = 1'b0;
+    insn_cnt_clear_int_o      = 1'b0;
+    sec_wipe_wdr_o            = 1'b0;
+    sec_wipe_wdr_urnd_o       = 1'b0;
+    sec_wipe_base_o           = 1'b0;
+    sec_wipe_base_urnd_o      = 1'b0;
+    sec_wipe_acc_urnd_o       = 1'b0;
+    sec_wipe_mod_urnd_o       = 1'b0;
+    sec_wipe_zero_o           = 1'b0;
+    addr_cnt_inc              = 1'b0;
+    secure_wipe_ack_o         = 1'b0;
+    secure_wipe_running_d     = 1'b0;
+    state_error_d             = state_error_q;
+    allow_secure_wipe         = 1'b0;
+    expect_secure_wipe        = 1'b0;
+    spurious_urnd_ack_error   = 1'b0;
+    wipe_after_urnd_refresh_d = wipe_after_urnd_refresh_q;
+    rma_ack_d                 = rma_ack_q;
+    mubi_err_d                = mubi_err_q;
 
     unique case (state_q)
       OtbnStartStopStateInitial: begin
@@ -275,9 +252,8 @@ module otbn_start_stop_control
         end
       end
       OtbnStartStopStateRunning: begin
-        urnd_advance_o       = 1'b1;
-        urnd_control_allowed = 1'b1;
-        allow_secure_wipe    = 1'b1;
+        urnd_advance_o    = ~SecMuteUrnd;
+        allow_secure_wipe = 1'b1;
 
         if (stop) begin
           secure_wipe_running_d = 1'b1;
@@ -319,40 +295,13 @@ module otbn_start_stop_control
         allow_secure_wipe     = 1'b1;
         expect_secure_wipe    = 1'b1;
         secure_wipe_running_d = 1'b1;
-        // The first two clock cycles are used to clear the internal MAC state (including the
-        // accumulator) and the modulus by overwriting it with random data.
-        sec_wipe_mac_urnd_o   = (addr_cnt_q == 6'b000000);
+        // The first two clock cycles are used to write random data to accumulator and modulus.
+        sec_wipe_acc_urnd_o   = (addr_cnt_q == 6'b000000);
         sec_wipe_mod_urnd_o   = (addr_cnt_q == 6'b000001);
-        // Suppress writes to the zero register and the call stack.
+        // Supress writes to the zero register and the call stack.
         sec_wipe_base_o       = (addr_cnt_q > 6'b000001);
         sec_wipe_base_urnd_o  = (addr_cnt_q > 6'b000001);
         if (addr_cnt_q == 6'b011111) begin
-          // Reset `addr_cnt` on the transition out of this state.
-          addr_cnt_inc = 1'b0;
-          state_d = OtbnStartStopSecureWipeExtIsprsUrnd;
-        end
-      end
-      // Writing random numbers to external ISPRs
-      OtbnStartStopSecureWipeExtIsprsUrnd: begin
-        urnd_advance_o        = 1'b1;
-        addr_cnt_inc          = 1'b1;
-        allow_secure_wipe     = 1'b1;
-        expect_secure_wipe    = 1'b1;
-        secure_wipe_running_d = 1'b1;
-        // reset registers in sequence
-        sec_wipe_kmac_data_s0_urnd_o = (addr_cnt_q == 6'b000000);
-        sec_wipe_kmac_data_s1_urnd_o = (addr_cnt_q == 6'b000001);
-        sec_wipe_mai_res_s0_urnd_o   = (addr_cnt_q == 6'b000010);
-        sec_wipe_mai_res_s1_urnd_o   = (addr_cnt_q == 6'b000011);
-        sec_wipe_mai_in0_s0_urnd_o   = (addr_cnt_q == 6'b000100);
-        sec_wipe_mai_in0_s1_urnd_o   = (addr_cnt_q == 6'b000101);
-        sec_wipe_mai_in1_s0_urnd_o   = (addr_cnt_q == 6'b000110);
-        sec_wipe_mai_in1_s1_urnd_o   = (addr_cnt_q == 6'b000111);
-        // We let this phase run for 32 cycles to allow future accelerator registers
-        // to be cleared in this stage without the need to adapt the DV model of OTBN.
-        if (addr_cnt_q == 6'b011111) begin
-          // Reset `addr_cnt` on the transition out of this state.
-          addr_cnt_inc = 1'b0;
           state_d = OtbnStartStopSecureWipeAllZero;
         end
       end
@@ -474,7 +423,7 @@ module otbn_start_stop_control
   // Clip the secure wipe address to [0..31].  This is safe because the wipe enable signals are
   // never set when the counter exceeds 5 bit, which we assert below.
   assign sec_wipe_addr_o = addr_cnt_q[4:0];
-  `ASSERT(NoSecWipeAbove32Bit_A, addr_cnt_q[5] |-> (!sec_wipe_wdr_o && !sec_wipe_mac_urnd_o))
+  `ASSERT(NoSecWipeAbove32Bit_A, addr_cnt_q[5] |-> (!sec_wipe_wdr_o && !sec_wipe_acc_urnd_o))
 
   // SEC_CM: START_STOP_CTRL.STATE.CONSISTENCY
   // A check for spurious or dropped secure wipe requests.
@@ -507,9 +456,6 @@ module otbn_start_stop_control
                                                      : urnd_reseed_err_q; // hold
   assign urnd_reseed_err_o = urnd_reseed_err_d;
 
-  // Enforce that URND is advanced when URND control is not allowed, i.e., during a secure wipe.
-  assign urnd_must_advance_o = !urnd_control_allowed && urnd_advance_o;
-
   assign fatal_error_o = urnd_reseed_err_o | state_error_d | secure_wipe_error_q | mubi_err_q;
 
   assign rma_ack_o = rma_ack_q;
@@ -523,7 +469,6 @@ module otbn_start_stop_control
                       OtbnStartStopStateRunning,
                       OtbnStartStopSecureWipeWdrUrnd,
                       OtbnStartStopSecureWipeAccModBaseUrnd,
-                      OtbnStartStopSecureWipeExtIsprsUrnd,
                       OtbnStartStopSecureWipeAllZero,
                       OtbnStartStopSecureWipeComplete,
                       OtbnStartStopStateLocked})

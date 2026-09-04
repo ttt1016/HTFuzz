@@ -130,8 +130,8 @@ module otbn_reg_top (
   // Create steering logic
   always_comb begin
     reg_steer =
-        tl_i.a_address[AW-1:0] inside {[16384:32767]} ? 2'd0 :
-        tl_i.a_address[AW-1:0] inside {[32768:49151]} ? 2'd1 :
+        tl_i.a_address[AW-1:0] inside {[16384:24575]} ? 2'd0 :
+        tl_i.a_address[AW-1:0] inside {[32768:35839]} ? 2'd1 :
         // Default set to register
         2'd2;
 
@@ -188,12 +188,8 @@ module otbn_reg_top (
   logic [7:0] cmd_wd;
   logic ctrl_re;
   logic ctrl_we;
-  logic ctrl_software_errs_fatal_qs;
-  logic ctrl_software_errs_fatal_wd;
-  logic ctrl_wfi_enabled_qs;
-  logic ctrl_wfi_enabled_wd;
-  logic ctrl_urnd_ctrl_enabled_qs;
-  logic ctrl_urnd_ctrl_enabled_wd;
+  logic ctrl_qs;
+  logic ctrl_wd;
   logic [7:0] status_qs;
   logic err_bits_re;
   logic err_bits_we;
@@ -213,8 +209,6 @@ module otbn_reg_top (
   logic err_bits_rnd_rep_chk_fail_wd;
   logic err_bits_rnd_fips_chk_fail_qs;
   logic err_bits_rnd_fips_chk_fail_wd;
-  logic err_bits_mai_software_error_qs;
-  logic err_bits_mai_software_error_wd;
   logic err_bits_imem_intg_violation_qs;
   logic err_bits_imem_intg_violation_wd;
   logic err_bits_dmem_intg_violation_qs;
@@ -384,55 +378,22 @@ module otbn_reg_top (
 
   // R[ctrl]: V(True)
   logic ctrl_qe;
-  logic [2:0] ctrl_flds_we;
+  logic [0:0] ctrl_flds_we;
   assign ctrl_qe = &ctrl_flds_we;
-  //   F[software_errs_fatal]: 0:0
   prim_subreg_ext #(
     .DW    (1)
-  ) u_ctrl_software_errs_fatal (
+  ) u_ctrl (
     .re     (ctrl_re),
     .we     (ctrl_we),
-    .wd     (ctrl_software_errs_fatal_wd),
-    .d      (hw2reg.ctrl.software_errs_fatal.d),
+    .wd     (ctrl_wd),
+    .d      (hw2reg.ctrl.d),
     .qre    (),
     .qe     (ctrl_flds_we[0]),
-    .q      (reg2hw.ctrl.software_errs_fatal.q),
+    .q      (reg2hw.ctrl.q),
     .ds     (),
-    .qs     (ctrl_software_errs_fatal_qs)
+    .qs     (ctrl_qs)
   );
-  assign reg2hw.ctrl.software_errs_fatal.qe = ctrl_qe;
-
-  //   F[wfi_enabled]: 1:1
-  prim_subreg_ext #(
-    .DW    (1)
-  ) u_ctrl_wfi_enabled (
-    .re     (ctrl_re),
-    .we     (ctrl_we),
-    .wd     (ctrl_wfi_enabled_wd),
-    .d      (hw2reg.ctrl.wfi_enabled.d),
-    .qre    (),
-    .qe     (ctrl_flds_we[1]),
-    .q      (reg2hw.ctrl.wfi_enabled.q),
-    .ds     (),
-    .qs     (ctrl_wfi_enabled_qs)
-  );
-  assign reg2hw.ctrl.wfi_enabled.qe = ctrl_qe;
-
-  //   F[urnd_ctrl_enabled]: 2:2
-  prim_subreg_ext #(
-    .DW    (1)
-  ) u_ctrl_urnd_ctrl_enabled (
-    .re     (ctrl_re),
-    .we     (ctrl_we),
-    .wd     (ctrl_urnd_ctrl_enabled_wd),
-    .d      (hw2reg.ctrl.urnd_ctrl_enabled.d),
-    .qre    (),
-    .qe     (ctrl_flds_we[2]),
-    .q      (reg2hw.ctrl.urnd_ctrl_enabled.q),
-    .ds     (),
-    .qs     (ctrl_urnd_ctrl_enabled_qs)
-  );
-  assign reg2hw.ctrl.urnd_ctrl_enabled.qe = ctrl_qe;
+  assign reg2hw.ctrl.qe = ctrl_qe;
 
 
   // R[status]: V(False)
@@ -465,7 +426,7 @@ module otbn_reg_top (
 
   // R[err_bits]: V(True)
   logic err_bits_qe;
-  logic [16:0] err_bits_flds_we;
+  logic [15:0] err_bits_flds_we;
   assign err_bits_qe = &err_bits_flds_we;
   //   F[bad_data_addr]: 0:0
   prim_subreg_ext #(
@@ -595,22 +556,6 @@ module otbn_reg_top (
   );
   assign reg2hw.err_bits.rnd_fips_chk_fail.qe = err_bits_qe;
 
-  //   F[mai_software_error]: 8:8
-  prim_subreg_ext #(
-    .DW    (1)
-  ) u_err_bits_mai_software_error (
-    .re     (err_bits_re),
-    .we     (err_bits_we),
-    .wd     (err_bits_mai_software_error_wd),
-    .d      (hw2reg.err_bits.mai_software_error.d),
-    .qre    (),
-    .qe     (err_bits_flds_we[8]),
-    .q      (reg2hw.err_bits.mai_software_error.q),
-    .ds     (),
-    .qs     (err_bits_mai_software_error_qs)
-  );
-  assign reg2hw.err_bits.mai_software_error.qe = err_bits_qe;
-
   //   F[imem_intg_violation]: 16:16
   prim_subreg_ext #(
     .DW    (1)
@@ -620,7 +565,7 @@ module otbn_reg_top (
     .wd     (err_bits_imem_intg_violation_wd),
     .d      (hw2reg.err_bits.imem_intg_violation.d),
     .qre    (),
-    .qe     (err_bits_flds_we[9]),
+    .qe     (err_bits_flds_we[8]),
     .q      (reg2hw.err_bits.imem_intg_violation.q),
     .ds     (),
     .qs     (err_bits_imem_intg_violation_qs)
@@ -636,7 +581,7 @@ module otbn_reg_top (
     .wd     (err_bits_dmem_intg_violation_wd),
     .d      (hw2reg.err_bits.dmem_intg_violation.d),
     .qre    (),
-    .qe     (err_bits_flds_we[10]),
+    .qe     (err_bits_flds_we[9]),
     .q      (reg2hw.err_bits.dmem_intg_violation.q),
     .ds     (),
     .qs     (err_bits_dmem_intg_violation_qs)
@@ -652,7 +597,7 @@ module otbn_reg_top (
     .wd     (err_bits_reg_intg_violation_wd),
     .d      (hw2reg.err_bits.reg_intg_violation.d),
     .qre    (),
-    .qe     (err_bits_flds_we[11]),
+    .qe     (err_bits_flds_we[10]),
     .q      (reg2hw.err_bits.reg_intg_violation.q),
     .ds     (),
     .qs     (err_bits_reg_intg_violation_qs)
@@ -668,7 +613,7 @@ module otbn_reg_top (
     .wd     (err_bits_bus_intg_violation_wd),
     .d      (hw2reg.err_bits.bus_intg_violation.d),
     .qre    (),
-    .qe     (err_bits_flds_we[12]),
+    .qe     (err_bits_flds_we[11]),
     .q      (reg2hw.err_bits.bus_intg_violation.q),
     .ds     (),
     .qs     (err_bits_bus_intg_violation_qs)
@@ -684,7 +629,7 @@ module otbn_reg_top (
     .wd     (err_bits_bad_internal_state_wd),
     .d      (hw2reg.err_bits.bad_internal_state.d),
     .qre    (),
-    .qe     (err_bits_flds_we[13]),
+    .qe     (err_bits_flds_we[12]),
     .q      (reg2hw.err_bits.bad_internal_state.q),
     .ds     (),
     .qs     (err_bits_bad_internal_state_qs)
@@ -700,7 +645,7 @@ module otbn_reg_top (
     .wd     (err_bits_illegal_bus_access_wd),
     .d      (hw2reg.err_bits.illegal_bus_access.d),
     .qre    (),
-    .qe     (err_bits_flds_we[14]),
+    .qe     (err_bits_flds_we[13]),
     .q      (reg2hw.err_bits.illegal_bus_access.q),
     .ds     (),
     .qs     (err_bits_illegal_bus_access_qs)
@@ -716,7 +661,7 @@ module otbn_reg_top (
     .wd     (err_bits_lifecycle_escalation_wd),
     .d      (hw2reg.err_bits.lifecycle_escalation.d),
     .qre    (),
-    .qe     (err_bits_flds_we[15]),
+    .qe     (err_bits_flds_we[14]),
     .q      (reg2hw.err_bits.lifecycle_escalation.q),
     .ds     (),
     .qs     (err_bits_lifecycle_escalation_qs)
@@ -732,7 +677,7 @@ module otbn_reg_top (
     .wd     (err_bits_fatal_software_wd),
     .d      (hw2reg.err_bits.fatal_software.d),
     .qre    (),
-    .qe     (err_bits_flds_we[16]),
+    .qe     (err_bits_flds_we[15]),
     .q      (reg2hw.err_bits.fatal_software.q),
     .ds     (),
     .qs     (err_bits_fatal_software_qs)
@@ -1053,11 +998,7 @@ module otbn_reg_top (
   assign ctrl_re = addr_hit[5] & reg_re & !reg_error;
   assign ctrl_we = addr_hit[5] & reg_we & !reg_error;
 
-  assign ctrl_software_errs_fatal_wd = reg_wdata[0];
-
-  assign ctrl_wfi_enabled_wd = reg_wdata[1];
-
-  assign ctrl_urnd_ctrl_enabled_wd = reg_wdata[2];
+  assign ctrl_wd = reg_wdata[0];
   assign err_bits_re = addr_hit[7] & reg_re & !reg_error;
   assign err_bits_we = addr_hit[7] & reg_we & !reg_error;
 
@@ -1076,8 +1017,6 @@ module otbn_reg_top (
   assign err_bits_rnd_rep_chk_fail_wd = reg_wdata[6];
 
   assign err_bits_rnd_fips_chk_fail_wd = reg_wdata[7];
-
-  assign err_bits_mai_software_error_wd = reg_wdata[8];
 
   assign err_bits_imem_intg_violation_wd = reg_wdata[16];
 
@@ -1144,9 +1083,7 @@ module otbn_reg_top (
       end
 
       addr_hit[5]: begin
-        reg_rdata_next[0] = ctrl_software_errs_fatal_qs;
-        reg_rdata_next[1] = ctrl_wfi_enabled_qs;
-        reg_rdata_next[2] = ctrl_urnd_ctrl_enabled_qs;
+        reg_rdata_next[0] = ctrl_qs;
       end
 
       addr_hit[6]: begin
@@ -1162,7 +1099,6 @@ module otbn_reg_top (
         reg_rdata_next[5] = err_bits_key_invalid_qs;
         reg_rdata_next[6] = err_bits_rnd_rep_chk_fail_qs;
         reg_rdata_next[7] = err_bits_rnd_fips_chk_fail_qs;
-        reg_rdata_next[8] = err_bits_mai_software_error_qs;
         reg_rdata_next[16] = err_bits_imem_intg_violation_qs;
         reg_rdata_next[17] = err_bits_dmem_intg_violation_qs;
         reg_rdata_next[18] = err_bits_reg_intg_violation_qs;

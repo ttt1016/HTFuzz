@@ -108,7 +108,6 @@ module otbn_controller
   // Bignum MAC
   output mac_bignum_operation_t mac_bignum_operation_o,
   input  logic [WLEN-1:0]       mac_bignum_operation_result_i,
-  input  logic                  mac_bignum_operation_valid_i,
   output logic                  mac_bignum_en_o,
   output logic                  mac_bignum_commit_o,
 
@@ -136,19 +135,12 @@ module otbn_controller
   input  logic [ExtWLEN-1:0]          ispr_rdata_intg_i,
   output logic                        ispr_rd_en_o,
 
-  // MAI
-  input logic mai_software_error_i,
-
   // RND interface
   output logic rnd_req_o,
   output logic rnd_prefetch_req_o,
   input  logic rnd_valid_i,
 
   input  logic urnd_reseed_err_i,
-
-  // WFI
-  output logic wfi_pending_o,
-  input  logic wfi_resume_i,
 
   // Secure Wipe
   output logic secure_wipe_req_o,
@@ -212,9 +204,6 @@ module otbn_controller
   logic ispr_stall;
   logic mem_stall;
   logic rf_indirect_stall;
-  logic mac_bignum_stall;
-  logic wfi_stall;
-  logic wfi_pending_d, wfi_pending_q;
   logic jump_or_branch;
   logic branch_taken;
   logic insn_executing;
@@ -343,7 +332,7 @@ module otbn_controller
       secure_wipe_running_q <= secure_wipe_running_d;
     end
   end
-  assign secure_wipe_req_o = start_secure_wipe | secure_wipe_running_q;
+  assign secure_wipe_req_o = start_secure_wipe | secure_wipe_running_q; 
 
   // Spot spurious acks on the secure wipe interface. There is a an ack at the end of the initial
   // secure wipe, and as `secure_wipe_running_q` is only high during secure wipes triggered by this
@@ -388,30 +377,7 @@ module otbn_controller
                               insn_dec_bignum_i.rf_b_indirect |
                               insn_dec_bignum_i.rf_d_indirect);
 
-  // Stall while a vectorized multicycle MAC calculation is ongoing
-  assign mac_bignum_stall = insn_valid_i &
-                            (insn_dec_shared_i.subset == InsnSubsetBignum) &
-                            insn_dec_bignum_i.mac_en &
-                            (~mac_bignum_operation_valid_i);
-
-  // Stall until the resume command arrives.
-  assign wfi_stall     = insn_valid_i && insn_dec_shared_i.wfi_insn && !wfi_resume_i;
-  assign wfi_pending_d = wfi_stall;
-
-  // The resume command should only be issued when we are already waiting.
-  `ASSERT(WfiResumeOnlyIfStalling, !wfi_pending_q |-> !wfi_resume_i)
-
-  // The wfi_pending is registered to avoid long paths into the IMEM/DMEM core/bus mux.
-  always_ff @(posedge clk_i or negedge rst_ni) begin
-    if (!rst_ni) begin
-      wfi_pending_q <= 1'b0;
-    end else begin
-      wfi_pending_q <= wfi_pending_d;
-    end
-  end
-  assign wfi_pending_o = wfi_pending_q;
-
-  assign stall = mem_stall | ispr_stall | rf_indirect_stall | mac_bignum_stall | wfi_stall;
+  assign stall = mem_stall | ispr_stall | rf_indirect_stall;
 
   // OTBN is done when it was executing something (in state OtbnStateRun or OtbnStateStall)
   // and either it executes an ecall or an error occurs. A pulse on the done signal raises the
@@ -646,15 +612,14 @@ module otbn_controller
                                              (insn_dec_base_i.a == 5'd1);
 
   // All software errors that aren't bad_insn_addr. Factored into bad_insn_addr so it is only raised
-  // if other software errors haven't occurred. As bad_insn_addr relates to the next instruction
+  // if other software errors haven't ocurred. As bad_insn_addr relates to the next instruction
   // begin fetched it cannot occur if the current instruction has seen an error and failed to
   // execute.
   assign non_insn_addr_software_err = |{key_invalid_err,
                                         loop_sw_err,
                                         illegal_insn_err,
                                         call_stack_sw_err,
-                                        bad_data_addr_err,
-                                        mai_software_error_i};
+                                        bad_data_addr_err};
 
   assign bad_insn_addr_err = imem_addr_err & ~non_insn_addr_software_err;
 
@@ -667,8 +632,7 @@ module otbn_controller
     illegal_insn:       illegal_insn_err,
     call_stack:         call_stack_sw_err,
     bad_data_addr:      bad_data_addr_err,
-    bad_insn_addr:      bad_insn_addr_err,
-    mai_error:          mai_software_error_i
+    bad_insn_addr:      bad_insn_addr_err
   };
 
   always_ff @(posedge clk_i or negedge rst_ni) begin
@@ -991,18 +955,8 @@ module otbn_controller
 
   // Bignum RF control signals from the controller aren't actually used, instead the predecoded
   // one-hot versions are. The predecoded versions get checked against the signals produced here.
-  // Buffer them to ensure they don't get optimised away (with a functionally correct OTBN / if
-  // there is no FI attack they will always be identical).
-
-  // The rf_bignum_rd_en_stall ensures that the BN RFs data is only read when it is actually used.
-  // For all instructions except multi-cycle multiplication we thus must suppress the read if the
-  // core stalls. The multi-cycle multiplications however read the data also while stalling and
-  // thus we force the read stall signal to low. This works as none of these instructions can
-  // trigger any of the other stall sources (mem_stall, ispr_stall or rf_indirect_stall). The only
-  // possible stall reason is the MAC module itself.
-  logic rf_bignum_rd_en_stall;
-  assign rf_bignum_rd_en_stall = insn_dec_bignum_i.mac_en ? 1'b0 : stall;
-
+  // Buffer them to ensure they don't get optimised away (with a functionaly correct OTBN they will
+  // always be identical).
   assign rf_bignum_rd_addr_a_unbuf = insn_dec_bignum_i.rf_a_indirect ? insn_bignum_rd_addr_a_q :
                                                                        insn_dec_bignum_i.a;
 
@@ -1013,9 +967,7 @@ module otbn_controller
     .out_o(rf_bignum_rd_addr_a_o)
   );
 
-  assign rf_bignum_rd_en_a_unbuf = insn_dec_bignum_i.rf_ren_a &
-                                   insn_valid_i               &
-                                   ~rf_bignum_rd_en_stall;
+  assign rf_bignum_rd_en_a_unbuf = insn_dec_bignum_i.rf_ren_a & insn_valid_i & ~stall;
 
   prim_buf #(
     .Width(1)
@@ -1034,9 +986,7 @@ module otbn_controller
     .out_o(rf_bignum_rd_addr_b_o)
   );
 
-  assign rf_bignum_rd_en_b_unbuf = insn_dec_bignum_i.rf_ren_b &
-                                   insn_valid_i               &
-                                   ~rf_bignum_rd_en_stall;
+  assign rf_bignum_rd_en_b_unbuf = insn_dec_bignum_i.rf_ren_b & insn_valid_i & ~stall;
 
   prim_buf #(
     .Width(1)
@@ -1047,7 +997,7 @@ module otbn_controller
 
   assign alu_bignum_operation_o.operand_a = rf_bignum_rd_data_a_no_intg;
 
-  // Bignum ALU Operand B MUX
+  // Base ALU Operand B MUX
   always_comb begin
     unique case (insn_dec_bignum_i.alu_op_b_sel)
       OpBSelRegister:  alu_bignum_operation_o.operand_b = rf_bignum_rd_data_b_no_intg;
@@ -1056,36 +1006,25 @@ module otbn_controller
     endcase
   end
 
-  assign alu_bignum_operation_o.op              = insn_dec_bignum_i.alu_op;
-  assign alu_bignum_operation_o.alu_elen        = insn_dec_bignum_i.alu_elen;
-  assign alu_bignum_operation_o.trn_elen        = insn_dec_bignum_i.trn_elen;
-  assign alu_bignum_operation_o.adder_carry_sel = insn_dec_bignum_i.alu_adder_carry_sel;
-  assign alu_bignum_operation_o.shift_right     = insn_dec_bignum_i.alu_shift_right;
-  assign alu_bignum_operation_o.shift_amt       = insn_dec_bignum_i.alu_shift_amt;
-  assign alu_bignum_operation_o.shift_mask      = insn_dec_bignum_i.alu_shift_mask;
-  assign alu_bignum_operation_o.flag_group      = insn_dec_bignum_i.alu_flag_group;
-  assign alu_bignum_operation_o.sel_flag        = insn_dec_bignum_i.alu_sel_flag;
-  assign alu_bignum_operation_o.alu_flag_en     = insn_dec_bignum_i.alu_flag_en & insn_valid_i;
-  assign alu_bignum_operation_o.mac_flag_en     = insn_dec_bignum_i.mac_flag_en & insn_valid_i;
+  assign alu_bignum_operation_o.op          = insn_dec_bignum_i.alu_op;
+  assign alu_bignum_operation_o.shift_right = insn_dec_bignum_i.alu_shift_right;
+  assign alu_bignum_operation_o.shift_amt   = insn_dec_bignum_i.alu_shift_amt;
+  assign alu_bignum_operation_o.flag_group  = insn_dec_bignum_i.alu_flag_group;
+  assign alu_bignum_operation_o.sel_flag    = insn_dec_bignum_i.alu_sel_flag;
+  assign alu_bignum_operation_o.alu_flag_en = insn_dec_bignum_i.alu_flag_en & insn_valid_i;
+  assign alu_bignum_operation_o.mac_flag_en = insn_dec_bignum_i.mac_flag_en & insn_valid_i;
 
   assign alu_bignum_operation_valid_o  = insn_valid_i;
   assign alu_bignum_operation_commit_o = insn_executing;
 
-  assign mac_bignum_operation_o.operand_a          = rf_bignum_rd_data_a_no_intg;
-  assign mac_bignum_operation_o.operand_b          = rf_bignum_rd_data_b_no_intg;
-  assign mac_bignum_operation_o.op_a_qw_sel_raw    = insn_dec_bignum_i.mac_op_a_qw_sel_raw;
-  assign mac_bignum_operation_o.op_b_elem0_sel_raw = insn_dec_bignum_i.mac_op_b_elem0_sel_raw;
-  assign mac_bignum_operation_o.op_b_elem1_sel_raw = insn_dec_bignum_i.mac_op_b_elem1_sel_raw;
-  assign mac_bignum_operation_o.wr_hw_sel_upper    = insn_dec_bignum_i.mac_wr_hw_sel_upper;
-  assign mac_bignum_operation_o.pre_acc_shift_imm  = insn_dec_bignum_i.mac_pre_acc_shift;
-  assign mac_bignum_operation_o.acc_add_en         = insn_dec_bignum_i.mac_acc_add_en;
-  assign mac_bignum_operation_o.shift_acc          = insn_dec_bignum_i.mac_shift_out;
-  assign mac_bignum_operation_o.is_vec             = insn_dec_bignum_i.mac_is_vec;
-  assign mac_bignum_operation_o.is_mod             = insn_dec_bignum_i.mac_is_mod;
-  assign mac_bignum_operation_o.is_lane            = insn_dec_bignum_i.mac_is_lane;
-  assign mac_bignum_operation_o.lane_index         = insn_dec_bignum_i.mac_lane_index;
-  assign mac_bignum_operation_o.elen               = insn_dec_bignum_i.mac_elen;
-  assign mac_bignum_operation_o.adder_carry_sel    = insn_dec_bignum_i.mac_adder_carry_sel;
+  assign mac_bignum_operation_o.operand_a         = rf_bignum_rd_data_a_no_intg;
+  assign mac_bignum_operation_o.operand_b         = rf_bignum_rd_data_b_no_intg;
+  assign mac_bignum_operation_o.operand_a_qw_sel  = insn_dec_bignum_i.mac_op_a_qw_sel;
+  assign mac_bignum_operation_o.operand_b_qw_sel  = insn_dec_bignum_i.mac_op_b_qw_sel;
+  assign mac_bignum_operation_o.wr_hw_sel_upper   = insn_dec_bignum_i.mac_wr_hw_sel_upper;
+  assign mac_bignum_operation_o.pre_acc_shift_imm = insn_dec_bignum_i.mac_pre_acc_shift;
+  assign mac_bignum_operation_o.zero_acc          = insn_dec_bignum_i.mac_zero_acc;
+  assign mac_bignum_operation_o.shift_acc         = insn_dec_bignum_i.mac_shift_out;
 
   assign mac_bignum_en_o     = insn_valid_i & insn_dec_bignum_i.mac_en;
   assign mac_bignum_commit_o = insn_executing;
@@ -1097,11 +1036,11 @@ module otbn_controller
   // Note that blanking both registers is not feasible nor absolutely required because:
   // - The flag group selection and flag selection are known in the predecoder stage but the actual
   //   flag isn't.
-  // - Selecting the flag in the predecoder stage using combinatorial inputs may lead to SCA leakage
+  // - Selecting the flag in the predocder stage using combinatorial inputs may lead to SCA leakage
   //   between the still combinatorial flag groups and flags within a group which might be
   //   undesirable as well.
   // - When executing a selection instruction, programmers can expected that there will be some SCA
-  //   leakage between the two options. But it may be much less expected for such leakage to occur
+  //   leakage between the two options. But it may be much lesse expected for such leakage to occur
   //   for other instructions.
   `ASSERT(SelFlagValid, insn_valid_i & insn_dec_bignum_i.sel_insn |->
     insn_dec_bignum_i.alu_sel_flag inside {FlagC, FlagL, FlagM, FlagZ})
@@ -1128,15 +1067,9 @@ module otbn_controller
     rf_bignum_wr_en_unbuf = 2'b00;
 
     // Only write if valid instruction wants a bignum rf write and it isn't stalled. If instruction
-    // doesn't execute (e.g. due to an error detected in the previous cycle) the write won't
-    // commit. The write enable is also high during the execution cycles of multi-cycle
-    // multiplications. However, the destination register may not be updated until the instruction
-    // finishes to avoid overwriting a source register (if source = destination). As the OTBN
-    // stalls during these cycles, the write commit signal is not set and the update will only be
-    // committed in the last cycle where the OTBN un-stalls.
+    // doesn't execute (e.g. due to an error) the write won't commit.
     if (insn_valid_i && insn_dec_bignum_i.rf_we && !rf_indirect_stall) begin
-      if (insn_dec_bignum_i.mac_en && insn_dec_bignum_i.mac_shift_out &&
-          !insn_dec_bignum_i.mac_is_vec) begin
+      if (insn_dec_bignum_i.mac_en && insn_dec_bignum_i.mac_shift_out) begin
         // Special handling for BN.MULQACC.SO, only enable upper or lower half depending on
         // mac_wr_hw_sel_upper.
         rf_bignum_wr_en_unbuf = insn_dec_bignum_i.mac_wr_hw_sel_upper ? 2'b10 : 2'b01;
@@ -1149,7 +1082,7 @@ module otbn_controller
 
   // Bignum RF control signals from the controller aren't actually used, instead the predecoded
   // one-hot versions are. The predecoded versions get checked against the signals produced here.
-  // Buffer them to ensure they don't get optimised away (with a functionally correct OTBN they will
+  // Buffer them to ensure they don't get optimised away (with a functionaly correct OTBN they will
   // always be identical).
   prim_buf #(
     .Width(2)
@@ -1208,7 +1141,7 @@ module otbn_controller
 
   // Bignum RF control signals from the controller aren't actually used, instead the predecoded
   // one-hot versions are. The predecoded versions get checked against the signals produced here.
-  // Buffer them to ensure they don't get optimised away (with a functionally correct OTBN they will
+  // Buffer them to ensure they don't get optimised away (with a functionaly correct OTBN they will
   // always be identical).
   assign rf_bignum_wr_addr_unbuf = insn_dec_bignum_i.rf_d_indirect ? insn_bignum_wr_addr_q :
                                                                      insn_dec_bignum_i.d;
@@ -1227,10 +1160,9 @@ module otbn_controller
   // (shift-out to bottom half and all other BN.MULQACC instructions) simply pass the MAC result
   // through unchanged as write data.
   assign mac_bignum_rf_wr_data[WLEN-1:WLEN/2] =
-      (insn_dec_bignum_i.mac_wr_hw_sel_upper &&
-       insn_dec_bignum_i.mac_shift_out       &&
-       !insn_dec_bignum_i.mac_is_vec)           ? mac_bignum_operation_result_i[WLEN/2-1:0] :
-                                                  mac_bignum_operation_result_i[WLEN-1:WLEN/2];
+      insn_dec_bignum_i.mac_wr_hw_sel_upper &&
+      insn_dec_bignum_i.mac_shift_out          ? mac_bignum_operation_result_i[WLEN/2-1:0] :
+                                                 mac_bignum_operation_result_i[WLEN-1:WLEN/2];
 
   assign mac_bignum_rf_wr_data[WLEN/2-1:0] = mac_bignum_operation_result_i[WLEN/2-1:0];
 
@@ -1334,42 +1266,6 @@ module otbn_controller
       end
       CsrUrnd: begin
         ispr_addr_base      = IsprUrnd;
-        ispr_word_addr_base = '0;
-      end
-      CsrUrndCtrl: begin
-        ispr_addr_base      = IsprUrndCtrl;
-        ispr_word_addr_base = '0;
-      end
-      CsrUrndStatus: begin
-        ispr_addr_base      = IsprUrndStatus;
-        ispr_word_addr_base = '0;
-      end
-      CsrKmacStatus: begin
-        ispr_addr_base      = IsprKmacStatus;
-        ispr_word_addr_base = '0;
-      end
-      CsrKmacCtrl: begin
-        ispr_addr_base      = IsprKmacCtrl;
-        ispr_word_addr_base = '0;
-      end
-      CsrKmacCfg: begin
-        ispr_addr_base      = IsprKmacCfg;
-        ispr_word_addr_base = '0;
-      end
-      CsrKmacStrb: begin
-        ispr_addr_base      = IsprKmacStrb;
-        ispr_word_addr_base = '0;
-      end
-      CsrMaiCtrl: begin
-        ispr_addr_base      = IsprMaiCtrl;
-        ispr_word_addr_base = '0;
-      end
-      CsrMaiStatus: begin
-        ispr_addr_base      = IsprMaiStatus;
-        ispr_word_addr_base = '0;
-      end
-      CsrInsnCnt: begin
-        ispr_addr_base      = IsprInsnCnt;
         ispr_word_addr_base = '0;
       end
       default: csr_illegal_addr = 1'b1;
@@ -1517,15 +1413,6 @@ module otbn_controller
         ispr_addr_bignum = IsprKeyS1H;
         key_invalid = ~sideload_key_shares_valid_i[1];
       end
-      WsrMaiResS0:   ispr_addr_bignum = IsprMaiResS0;
-      WsrMaiResS1:   ispr_addr_bignum = IsprMaiResS1;
-      WsrMaiIn0S0:   ispr_addr_bignum = IsprMaiIn0S0;
-      WsrMaiIn0S1:   ispr_addr_bignum = IsprMaiIn0S1;
-      WsrMaiIn1S0:   ispr_addr_bignum = IsprMaiIn1S0;
-      WsrMaiIn1S1:   ispr_addr_bignum = IsprMaiIn1S1;
-      WsrKmacDataS0: ispr_addr_bignum = IsprKmacDataS0;
-      WsrKmacDataS1: ispr_addr_bignum = IsprKmacDataS1;
-      WsrUrndState:  ispr_addr_bignum = IsprUrndState;
       default: wsr_illegal_addr = 1'b1;
     endcase
   end
@@ -1566,7 +1453,8 @@ module otbn_controller
   end
   assign ispr_bignum_wr_en_o = ispr_wr_bignum_insn & insn_valid_i;
 
-  assign ispr_wr_commit_o = ispr_wr_insn & insn_executing;
+  assign ispr_wr_commit_o = ispr_wr_insn & insn_executing; 
+  
   assign ispr_rd_en_o     = ispr_rd_insn & insn_valid_i &
     ~((insn_dec_shared_i.subset == InsnSubsetBase) & (csr_addr == CsrRndPrefetch));
 
@@ -1647,7 +1535,7 @@ module otbn_controller
   // Check stability property described above (see the lsu_addr_saved_sel signal) holds.
   `ASSERT(LsuAddrBlankedStable_A, insn_valid_i & stall & ~err |=> $stable(lsu_addr_blanked))
 
-  assign lsu_addr_o = lsu_addr_blanked;
+  assign lsu_addr_o = lsu_addr_blanked; 
 
   assign lsu_base_wdata_o   = rf_base_rd_data_b_intg_i;
   assign lsu_bignum_wdata_o = rf_bignum_rd_data_b_intg_i;

@@ -57,7 +57,7 @@ module prim_flash #(
 
   for (genvar bank = 0; bank < NumBanks; bank++) begin : gen_prim_flash_banks
 
-    prim_generic_flash_bank #(
+    prim_flash_bank #(
       .InfosPerBank(InfosPerBank),
       .InfoTypes(InfoTypes),
       .InfoTypesWidth(InfoTypesWidth),
@@ -142,7 +142,5 @@ module prim_flash #(
   assign unused_obs = |obs_ctrl_i;
   assign fla_obs_o = '0;
 
-  `ASSERT_PRIM_REG_WE_ONEHOT_ERROR_TRIGGER_ALERT(PrimRegWeOnehotCheck_A,
-      u_reg_top, flash_ctrl.alert_tx_o[3])
 
 endmodule // prim_flash

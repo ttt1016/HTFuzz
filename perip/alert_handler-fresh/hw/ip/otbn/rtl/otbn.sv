@@ -13,28 +13,17 @@ module otbn
   import otbn_pkg::*;
   import otbn_reg_pkg::*;
 #(
-  parameter bit                   Stub            = 1'b0,
-  parameter regfile_e             RegFile         = RegFileFF,
-  parameter logic [NumAlerts-1:0] AlertAsyncOn    = {NumAlerts{1'b1}},
-  // Number of cycles a differential skew is tolerated on the alert signal
-  parameter int unsigned          AlertSkewCycles = 1,
+  parameter bit                   Stub         = 1'b0,
+  parameter regfile_e             RegFile      = RegFileFF,
+  parameter logic [NumAlerts-1:0] AlertAsyncOn = {NumAlerts{1'b1}},
 
   // Default seed for URND PRNG
   parameter urnd_prng_seed_t RndCnstUrndPrngSeed = RndCnstUrndPrngSeedDefault,
 
+  // Disable URND advance when not in use. Useful for SCA only.
+  parameter bit SecMuteUrnd = 1'b0,
   // Skip URND re-seed at the start of an operation. Useful for SCA only.
   parameter bit SecSkipUrndReseedAtStart = 1'b0,
-  // Masking accelerator interface will not randomize operand start indexes.
-  parameter bit SecFixMaiOpSeq = 1'b0,
-  // BN MAC will not randomize the order in which the vector elements are processed for vectorized
-  // multiplication instructions.
-  parameter bit SecFixMacOpSeq = 1'b0,
-
-  // Masking accelerator is not present. Useful for resource-bound targets only.
-  parameter bit FeatStubMai = 1'b0,
-
-  // Compile-time permutation for URND permutation in BN MAC
-  parameter bn_mac_urnd_perm_t RndCnstBnMacUrndPerm = RndCnstBnMacUrndPermDefault,
 
   // Default seed and nonce for scrambling
   parameter otp_ctrl_pkg::otbn_key_t   RndCnstOtbnKey   = RndCnstOtbnKeyDefault,
@@ -63,10 +52,10 @@ module otbn
   output lc_ctrl_pkg::lc_tx_t lc_rma_ack_o,
 
   // Memory configuration
-  input  prim_ram_1p_pkg::ram_1p_cfg_req_t ram_cfg_imem_i,
-  input  prim_ram_1p_pkg::ram_1p_cfg_req_t ram_cfg_dmem_i,
-  output prim_ram_1p_pkg::ram_1p_cfg_rsp_t ram_cfg_imem_o,
-  output prim_ram_1p_pkg::ram_1p_cfg_rsp_t ram_cfg_dmem_o,
+  input  prim_ram_1p_pkg::ram_1p_cfg_t     ram_cfg_imem_i,
+  input  prim_ram_1p_pkg::ram_1p_cfg_t     ram_cfg_dmem_i,
+  output prim_ram_1p_pkg::ram_1p_cfg_rsp_t ram_cfg_rsp_imem_o,
+  output prim_ram_1p_pkg::ram_1p_cfg_rsp_t ram_cfg_rsp_dmem_o,
 
   // EDN clock and interface
   input                     clk_edn_i,
@@ -83,11 +72,7 @@ module otbn
   output otp_ctrl_pkg::otbn_otp_key_req_t otbn_otp_key_o,
   input  otp_ctrl_pkg::otbn_otp_key_rsp_t otbn_otp_key_i,
 
-  input keymgr_pkg::otbn_key_req_t keymgr_key_i,
-
-  // KMAC application interface.
-  output kmac_pkg::app_req_t kmac_data_o,
-  input  kmac_pkg::app_rsp_t kmac_data_i
+  input keymgr_pkg::otbn_key_req_t keymgr_key_i
 );
 
   import prim_mubi_pkg::*;
@@ -107,21 +92,17 @@ module otbn
   //
   // DMEM is actually a bit bigger than OTBN_DMEM_SIZE: there are an extra DmemScratchSizeByte bytes
   // that aren't accessible over the bus.
-  localparam int ImemSizeByte    = int'(otbn_reg_pkg::OTBN_IMEM_SIZE);
-  localparam int DmemBusSizeByte = int'(otbn_reg_pkg::OTBN_DMEM_SIZE);
-  localparam int DmemSizeByte    = DmemBusSizeByte + DmemScratchSizeByte;
+  localparam int ImemSizeByte = int'(otbn_reg_pkg::OTBN_IMEM_SIZE);
+  localparam int DmemSizeByte = int'(otbn_reg_pkg::OTBN_DMEM_SIZE + DmemScratchSizeByte);
 
-  localparam int ImemAddrWidth    = vbits(ImemSizeByte);
-  localparam int DmemBusAddrWidth = vbits(DmemBusSizeByte);
-  localparam int DmemAddrWidth    = vbits(DmemSizeByte);
+  localparam int ImemAddrWidth = vbits(ImemSizeByte);
+  localparam int DmemAddrWidth = vbits(DmemSizeByte);
 
   `ASSERT_INIT(ImemSizePowerOfTwo, 2 ** ImemAddrWidth == ImemSizeByte)
   `ASSERT_INIT(DmemSizePowerOfTwo, 2 ** DmemAddrWidth == DmemSizeByte)
 
   logic start_d, start_q;
   logic busy_execute_d, busy_execute_q;
-  logic wfi_pending;
-  logic wfi_resume_d, wfi_resume_q;
   logic done, done_core, locking, locking_q;
   logic busy_secure_wipe;
   logic init_sec_wipe_done_d, init_sec_wipe_done_q;
@@ -146,8 +127,6 @@ module otbn
   logic err_bits_clear;
 
   logic software_errs_fatal_q, software_errs_fatal_d;
-  logic wfi_enabled_q, wfi_enabled_d;
-  logic urnd_ctrl_enabled_q, urnd_ctrl_enabled_d;
 
   otbn_reg2hw_t reg2hw;
   otbn_hw2reg_t hw2reg;
@@ -164,13 +143,11 @@ module otbn
 
   // The clock can be gated and some registers can be updated as long as OTBN isn't currently
   // running. Other registers can only be updated when OTBN is in the Idle state (which also implies
-  // we are not locked). In addition, OTBN may not be gated when it is paused so a RESUME command
-  // can be properly detected.
+  // we are not locked).
   logic is_not_running_d, is_not_running_q;
   logic otbn_dmem_scramble_key_req_busy, otbn_imem_scramble_key_req_busy;
 
   assign is_not_running_d = ~|{busy_execute_d,
-                               wfi_pending,
                                otbn_dmem_scramble_key_req_busy,
                                otbn_imem_scramble_key_req_busy,
                                busy_secure_wipe};
@@ -233,14 +210,7 @@ module otbn
 
   // Interrupts ================================================================
 
-  // Interrupt is set when OTBN is no longer busy. This is the case when it gets paused or ends
-  // execution. The done interrupt is also set when a direct paused to locked transition occurs.
-  // This can happen under some faults where the secure wipe is skipped. These faults raise a fatal
-  // alert but for consistency we still set the interrupt. The faults are:
-  // - An invalid MuBi on lc_escalate_en_i
-  // - Spurious URND reseed ACK
-  assign done = ((is_busy_status(status_q) & ~is_busy_status(status_d)) |
-                 (status_q == StatusPaused) & (status_d == StatusLocked)) & init_sec_wipe_done_q;
+  assign done = is_busy_status(status_q) & ~is_busy_status(status_d) & init_sec_wipe_done_q;
 
   prim_intr_hw #(
     .Width(1)
@@ -391,7 +361,7 @@ module otbn
     .raddr_o  (),
     .rerror_o (),
     .cfg_i    (ram_cfg_imem_i),
-    .cfg_o    (ram_cfg_imem_o),
+    .cfg_rsp_o(ram_cfg_rsp_imem_o),
 
     .wr_collision_o   (imem_wr_collision),
     .write_pending_o  (imem_wpending),
@@ -441,9 +411,8 @@ module otbn
   );
 
 
-  // IMEM access is granted to the core (not the bus) if the core is executing, being started, or
-  // is paused by a WFI instruction.
-  assign imem_access_core = busy_execute_q | start_q | wfi_pending;
+  // Mux core and bus access into IMEM
+  assign imem_access_core = busy_execute_q | start_q;
 
   assign imem_req   = imem_access_core ? imem_req_core        : imem_req_bus;
   assign imem_write = imem_access_core ? imem_write_core      : imem_write_bus;
@@ -474,10 +443,9 @@ module otbn
 
   // SEC_CM: DATA_REG_SW.SCA
   // Blank bus read data interface during core operation to avoid leaking the currently executed
-  // instruction from IMEM through the bus unintentionally. Also blank when OTBN is paused, is
-  // returning a dummy response (responding to an illegal bus access), and when OTBN is locked.
-  assign imem_rdata_bus_en_d =
-      ~(busy_execute_d | start_d | wfi_pending) & ~imem_dummy_response_d & ~locking;
+  // instruction from IMEM through the bus unintentionally. Also blank when OTBN is returning
+  // a dummy response (responding to an illegal bus access) and when OTBN is locked.
+  assign imem_rdata_bus_en_d = 1'b1;
 
   always_ff @(posedge clk_i or negedge rst_ni) begin
     if (!rst_ni) begin
@@ -498,8 +466,8 @@ module otbn
   // through. Data bits are always left un-modified. A registered version of `locking` is used for
   // timing reasons. When a read comes in when `locking` has just been asserted, `locking_q` will be
   // set the following cycle and the rdata will be forced to 0 with appropriate ECC. When `locking`
-  // is asserted the cycle the rdata is being returned no locking was occurring when the request
-  // came in so it is reasonable to proceed with returning the supplied integrity.
+  // is asserted the cycle the rdata is being returned no locking was ocurring when the request came
+  // in so it is reasonable to proceed with returning the supplied integrity.
   assign imem_rdata_bus =
     {locking_q ? prim_secded_pkg::SecdedInv3932ZeroEcc : imem_rdata_bus_raw[38:32],
      imem_rdata_bus_raw[31:0]};
@@ -527,7 +495,7 @@ module otbn
   localparam int DmemSizeWords = DmemSizeByte / (WLEN / 8);
   localparam int DmemIndexWidth = vbits(DmemSizeWords);
 
-  localparam int DmemBusSizeWords = DmemBusSizeByte / (WLEN / 8);
+  localparam int DmemBusSizeWords = int'(otbn_reg_pkg::OTBN_DMEM_SIZE) / (WLEN / 8);
   localparam int DmemBusIndexWidth = vbits(DmemBusSizeWords);
 
   // Access select to DMEM: core (1), or bus (0)
@@ -564,7 +532,7 @@ module otbn
   logic [ExtWLEN-1:0] dmem_wmask_bus;
   logic [ExtWLEN-1:0] dmem_rdata_bus, dmem_rdata_bus_raw;
   logic dmem_rdata_bus_en_q, dmem_rdata_bus_en_d;
-  logic [DmemBusAddrWidth-1:0] dmem_addr_bus;
+  logic [DmemAddrWidth-1:0] dmem_addr_bus;
   logic unused_dmem_addr_bus;
   logic [31:0] dmem_wdata_narrow_bus;
   logic [top_pkg::TL_DBW-1:0] dmem_byte_mask_bus;
@@ -610,7 +578,7 @@ module otbn
     .raddr_o  (),
     .rerror_o (),
     .cfg_i    (ram_cfg_dmem_i),
-    .cfg_o    (ram_cfg_dmem_o),
+    .cfg_rsp_o(ram_cfg_rsp_dmem_o),
 
     .wr_collision_o   (dmem_wr_collision),
     .write_pending_o  (dmem_wpending),
@@ -648,8 +616,7 @@ module otbn
     // Only report an error where the word was actually accessed. Otherwise uninitialised memory
     // that OTBN isn't using will cause false errors. dmem_rerror is only reported for reads from
     // OTBN. For Ibex reads integrity checking on TL responses will serve the same purpose.
-    assign dmem_rerror_vec[i_word*2 +: 2] = dmem_rerror_raw &
-        {2{dmem_rmask_core_q[i_word] & dmem_rvalid & dmem_access_core}};
+    assign dmem_rerror_vec[i_word*2 +: 2] = {2{dmem_rmask_core_q[i_word] & dmem_rvalid & dmem_access_core}};
   end
 
   // dmem_rerror_vec is 2 bits wide and is used to report ECC errors. Bit 1 is set if there's an
@@ -695,16 +662,14 @@ module otbn
     .write_pending_i            (dmem_wpending)
   );
 
-  // Mux core and bus access into dmem. While paused, busy_execute_q is low so the DMEM is
-  // accessible to the bus.
+  // Mux core and bus access into dmem
   assign dmem_access_core = busy_execute_q;
 
   assign dmem_req = dmem_access_core ? dmem_req_core : dmem_req_bus;
   assign dmem_write = dmem_access_core ? dmem_write_core : dmem_write_bus;
   assign dmem_wmask = dmem_access_core ? dmem_wmask_core : dmem_wmask_bus;
   // SEC_CM: DATA.MEM.SW_NOACCESS
-  assign dmem_index = dmem_access_core ? dmem_index_core :
-    {{(DmemIndexWidth-DmemBusIndexWidth){1'b0}}, {dmem_index_bus}};
+  assign dmem_index = dmem_access_core ? dmem_index_core : dmem_index_bus;
   assign dmem_wdata = dmem_access_core ? dmem_wdata_core : dmem_wdata_bus;
 
   assign dmem_illegal_bus_access = dmem_req_bus & dmem_access_core;
@@ -722,7 +687,7 @@ module otbn
   // Blank bus read data interface during core operation to avoid leaking DMEM data through the bus
   // unintentionally. Also blank when OTBN is returning a dummy response (responding to an illegal
   // bus access) and when OTBN is locked.
-  assign dmem_rdata_bus_en_d = ~(busy_execute_d | start_d) & ~dmem_dummy_response_d & ~locking;
+  assign dmem_rdata_bus_en_d = 1'b1;
 
   always_ff @(posedge clk_i or negedge rst_ni) begin
     if (!rst_ni) begin
@@ -744,8 +709,8 @@ module otbn
   // timing reasons. When a read comes in when `locking` has just been asserted, `locking_q` will be
   // timing reasons. When a read comes in when `locking` has just been asserted, `locking_q` will be
   // set the following cycle and the rdata will be forced to 0 with appropriate ECC. When `locking`
-  // is asserted the cycle the rdata is being returned no locking was occurring when the request
-  // came in so it is reasonable to proceed with returning the supplied integrity.
+  // is asserted the cycle the rdata is being returned no locking was ocurring when the request came
+  // in so it is reasonable to proceed with returning the supplied integrity.
   for (genvar i_word = 0; i_word < BaseWordsPerWLEN; ++i_word) begin : g_dmem_rdata_bus
     assign dmem_rdata_bus[i_word*39+:39] =
       {locking_q ? prim_secded_pkg::SecdedInv3932ZeroEcc : dmem_rdata_bus_raw[i_word*39+32+:7],
@@ -769,16 +734,13 @@ module otbn
   assign dmem_rerror_bus  = 2'b00;
   assign dmem_rerror_core = dmem_rerror;
 
-  assign dmem_addr_bus         = tl_win_h2d[TlWinDmem].a_address[DmemBusAddrWidth-1:0];
+  assign dmem_addr_bus = tl_win_h2d[TlWinDmem].a_address[DmemAddrWidth-1:0];
   assign dmem_wdata_narrow_bus = tl_win_h2d[TlWinDmem].a_data[31:0];
-  assign dmem_byte_mask_bus    = tl_win_h2d[TlWinDmem].a_mask;
+  assign dmem_byte_mask_bus = tl_win_h2d[TlWinDmem].a_mask;
 
   // Memory Load Integrity =====================================================
-  // CRC logic below assumes an incoming data bus width of 32 bits and considers
-  // 15 bits of the 32-bit word based addresses.
+  // CRC logic below assumes a incoming data bus width of 32 bits
   `ASSERT_INIT(TLDWIs32Bit_A, top_pkg::TL_DW == 32)
-  `ASSERT_INIT(ImemAddrTooWideForLoadCrc_A, ImemIndexWidth <= 15)
-  `ASSERT_INIT(DmemBusAddrTooWideForLoadCrc_A, (DmemBusAddrWidth - 2) <= 15)
 
   // Only advance CRC calculation on full 32-bit writes;
   assign mem_crc_data_in_valid   = ~(dmem_access_core | imem_access_core) &
@@ -787,15 +749,14 @@ module otbn
 
   assign mem_crc_data_in.wr_data = imem_req_bus ? imem_wdata_bus[31:0] :
                                                   dmem_wdata_narrow_bus[31:0];
-  // The CRC operates on the 32 bits from the bus. For IMEM we can take the index. But for DMEM
-  // we must take the relevant part of dmem_addr_bus because dmem_index_bus indexes 256-bit words.
   assign mem_crc_data_in.index   = imem_req_bus ? {{15 - ImemIndexWidth{1'b0}}, imem_index_bus} :
-                                                   {{15 - (DmemBusAddrWidth - 2){1'b0}},
-                                                    dmem_addr_bus[DmemBusAddrWidth-1:2]};
+                                                   {{15 - (DmemAddrWidth - 2){1'b0}},
+                                                    dmem_addr_bus[DmemAddrWidth-1:2]};
   assign mem_crc_data_in.imem    = imem_req_bus;
 
   // Only the bits that factor into the dmem index and dmem word enables are required
-  assign unused_dmem_addr_bus = ^dmem_addr_bus[1:0];
+  assign unused_dmem_addr_bus = ^{dmem_addr_bus[DmemAddrWidth-1:DmemIndexWidth],
+                                  dmem_addr_bus[1:0]};
 
   // SEC_CM: WRITE.MEM.INTEGRITY
   prim_crc32 #(
@@ -842,10 +803,8 @@ module otbn
 
   // CMD register
   always_comb begin
-    // start and resume are flopped to avoid long timing paths from the TL fabric into OTBN
-    // internals.
+    // start is flopped to avoid long timing paths from the TL fabric into OTBN internals.
     start_d       = 1'b0;
-    wfi_resume_d  = 1'b0;
     dmem_sec_wipe = 1'b0;
     imem_sec_wipe = 1'b0;
 
@@ -859,18 +818,12 @@ module otbn
           default: ;
         endcase
       end
-    end else if (busy_execute_q || status_q == StatusPaused) begin
+    end else if (busy_execute_q) begin
       // OTBN can command a secure wipe of IMEM and DMEM. This occurs when OTBN encounters a fatal
       // error.
       if (mems_sec_wipe) begin
         dmem_sec_wipe = 1'b1;
         imem_sec_wipe = 1'b1;
-      end
-      // Resume execution once the cmd arrives.
-      if (status_q == StatusPaused) begin
-        if (reg2hw.cmd.qe && (reg2hw.cmd.q == CmdResume)) begin
-          wfi_resume_d = 1'b1;
-        end
       end
     end
   end
@@ -909,7 +862,6 @@ module otbn
   // interrupt and any change to the idle signal will be delayed by 2 cycles.
   assign status_d = locking                         ? StatusLocked          :
                     busy_secure_wipe                ? StatusBusySecWipeInt  :
-                    wfi_pending & ~wfi_resume_q     ? StatusPaused          :
                     busy_execute_d                  ? StatusBusyExecute     :
                     otbn_dmem_scramble_key_req_busy ? StatusBusySecWipeDmem :
                     otbn_imem_scramble_key_req_busy ? StatusBusySecWipeImem :
@@ -938,34 +890,18 @@ module otbn
 
   // CTRL register
   assign software_errs_fatal_d =
-    reg2hw.ctrl.software_errs_fatal.qe && (status_q == StatusIdle) ?
-        reg2hw.ctrl.software_errs_fatal.q : software_errs_fatal_q;
-
-  assign wfi_enabled_d =
-    reg2hw.ctrl.wfi_enabled.qe && (status_q == StatusIdle) ?
-        reg2hw.ctrl.wfi_enabled.q : wfi_enabled_q;
-
-  // The URND control enable bit must be stable during an OTBN execution because it is used to
-  // control a blanker inside otbn_rnd.sv
-  assign urnd_ctrl_enabled_d =
-    reg2hw.ctrl.urnd_ctrl_enabled.qe && (status_q == StatusIdle) ?
-        reg2hw.ctrl.urnd_ctrl_enabled.q : urnd_ctrl_enabled_q;
+    reg2hw.ctrl.qe && (status_q == StatusIdle) ? reg2hw.ctrl.q :
+                                                 software_errs_fatal_q;
 
   always_ff @(posedge clk_i or negedge rst_ni) begin
     if (!rst_ni) begin
       software_errs_fatal_q <= 1'b0;
-      wfi_enabled_q         <= 1'b0;
-      urnd_ctrl_enabled_q   <= 1'b0;
     end else begin
       software_errs_fatal_q <= software_errs_fatal_d;
-      wfi_enabled_q         <= wfi_enabled_d;
-      urnd_ctrl_enabled_q   <= urnd_ctrl_enabled_d;
     end
   end
 
-  assign hw2reg.ctrl.software_errs_fatal.d = software_errs_fatal_q;
-  assign hw2reg.ctrl.wfi_enabled.d         = wfi_enabled_q;
-  assign hw2reg.ctrl.urnd_ctrl_enabled.d   = urnd_ctrl_enabled_q;
+  assign hw2reg.ctrl.d = software_errs_fatal_q;
 
   // ERR_BITS register
   // The error bits for an OTBN operation get stored on the cycle that done is
@@ -987,7 +923,6 @@ module otbn
   assign hw2reg.err_bits.illegal_bus_access.d = err_bits_q.illegal_bus_access;
   assign hw2reg.err_bits.lifecycle_escalation.d = err_bits_q.lifecycle_escalation;
   assign hw2reg.err_bits.fatal_software.d = err_bits_q.fatal_software;
-  assign hw2reg.err_bits.mai_software_error.d = err_bits_q.mai_error;
 
   assign err_bits_clear = reg2hw.err_bits.bad_data_addr.qe & is_not_running_q;
   assign err_bits_d = err_bits_clear ? '0 : err_bits;
@@ -1012,8 +947,7 @@ module otbn
                                     reg2hw.err_bits.bad_internal_state,
                                     reg2hw.err_bits.illegal_bus_access,
                                     reg2hw.err_bits.lifecycle_escalation,
-                                    reg2hw.err_bits.fatal_software,
-                                    reg2hw.err_bits.mai_software_error};
+                                    reg2hw.err_bits.fatal_software};
 
   always_ff @(posedge clk_i or negedge rst_ni) begin
     if (!rst_ni) begin
@@ -1082,7 +1016,6 @@ module otbn
   for (genvar i = 0; i < NumAlerts; i++) begin : gen_alert_tx
     prim_alert_sender #(
       .AsyncOn(AlertAsyncOn[i]),
-      .SkewCycles(AlertSkewCycles),
       .IsFatal(i == AlertFatal)
     ) u_prim_alert_sender (
       .clk_i,
@@ -1102,8 +1035,12 @@ module otbn
   logic [EdnDataWidth-1:0] edn_rnd_data;
   logic edn_rnd_fips, edn_rnd_err;
 
-  // This EDN request module synchronizes the data coming from EDN and stack the 32 bit EDN words
-  // to achieve an internal entropy width of 256 bit.
+  logic edn_urnd_req, edn_urnd_ack;
+  logic [EdnDataWidth-1:0] edn_urnd_data;
+
+  // These synchronize the data coming from EDN and stack the 32 bit EDN words to achieve an
+  // internal entropy width of 256 bit.
+
   prim_edn_req #(
     .EnRstChks(1'b1),
     .OutWidth(EdnDataWidth),
@@ -1124,47 +1061,37 @@ module otbn
     .edn_i      ( edn_rnd_i )
   );
 
-  edn_pkg::edn_req_t edn_urnd_req;
-  edn_pkg::edn_rsp_t edn_urnd_rsp;
-
-  // Synchronize the data from the EDN network to the main clock of OTBN.
-  prim_sync_reqack_data #(
-    .Width(edn_pkg::ENDPOINT_BUS_WIDTH + 32'd1),
+  prim_edn_req #(
     .EnRstChks(1'b1),
-    .DataSrc2Dst(1'b0),
-    .DataReg(1'b0)
-  ) u_prim_sync_reqack_data_urnd (
-    .clk_src_i (clk_i),
-    .rst_src_ni(rst_n),
-    .clk_dst_i (clk_edn_i),
-    .rst_dst_ni(rst_edn_ni),
-    .req_chk_i (1'b1),
-    .src_req_i (edn_urnd_req.edn_req),
-    .src_ack_o (edn_urnd_rsp.edn_ack),
-    .dst_req_o (edn_urnd_o.edn_req),
-    .dst_ack_i (edn_urnd_i.edn_ack),
-    .data_i    ({edn_urnd_i.edn_fips,   edn_urnd_i.edn_bus  }),
-    .data_o    ({edn_urnd_rsp.edn_fips, edn_urnd_rsp.edn_bus})
+    .OutWidth(EdnDataWidth)
+  ) u_prim_edn_urnd_req (
+    .clk_i,
+    .rst_ni     ( rst_n         ),
+    .req_chk_i  ( 1'b1          ),
+    .req_i      ( edn_urnd_req  ),
+    .ack_o      ( edn_urnd_ack  ),
+    .data_o     ( edn_urnd_data ),
+    .fips_o     (               ), // unused
+    .err_o      (               ), // unused
+    .clk_edn_i,
+    .rst_edn_ni,
+    .edn_o      ( edn_urnd_o    ),
+    .edn_i      ( edn_urnd_i    )
   );
+
 
   // OTBN Core =================================================================
 
   always_ff @(posedge clk_i or negedge rst_n) begin
     if (!rst_n) begin
       busy_execute_q       <= 1'b0;
-      wfi_resume_q         <= 1'b0;
       init_sec_wipe_done_q <= 1'b0;
     end else begin
       busy_execute_q       <= busy_execute_d;
-      wfi_resume_q         <= wfi_resume_d;
       init_sec_wipe_done_q <= init_sec_wipe_done_d;
     end
   end
-  // OTBN is busy executing once started or resumed until it is done or gets paused. The
-  // wfi_pending signal has only effect if we haven't already received the resume command.
-  assign busy_execute_d = wfi_resume_d |
-                          ((busy_execute_q | start_d) &
-                           ~(done_core | (wfi_pending & ~wfi_resume_q)));
+  assign busy_execute_d = (busy_execute_q | start_d) & ~done_core;
   assign init_sec_wipe_done_d = init_sec_wipe_done_q | ~busy_secure_wipe;
 
   otbn_core #(
@@ -1172,11 +1099,8 @@ module otbn
     .DmemSizeByte(DmemSizeByte),
     .ImemSizeByte(ImemSizeByte),
     .RndCnstUrndPrngSeed(RndCnstUrndPrngSeed),
-    .SecFixMaiOpSeq(SecFixMaiOpSeq),
-    .SecFixMacOpSeq(SecFixMacOpSeq),
-    .FeatStubMai(FeatStubMai),
-    .SecSkipUrndReseedAtStart(SecSkipUrndReseedAtStart),
-    .RndCnstBnMacUrndPerm(RndCnstBnMacUrndPerm)
+    .SecMuteUrnd(SecMuteUrnd),
+    .SecSkipUrndReseedAtStart(SecSkipUrndReseedAtStart)
   ) u_otbn_core (
     .clk_i,
     .rst_ni                      (rst_n),
@@ -1210,14 +1134,9 @@ module otbn
     .edn_rnd_fips_i              (edn_rnd_fips),
     .edn_rnd_err_i               (edn_rnd_err),
 
-    .edn_urnd_o                  (edn_urnd_req),
-    .edn_urnd_i                  (edn_urnd_rsp),
-
-    .wfi_enabled_i               (wfi_enabled_q),
-    .wfi_pending_o               (wfi_pending),
-    .wfi_resume_i                (wfi_resume_q),
-
-    .urnd_ctrl_enabled_i         (urnd_ctrl_enabled_q),
+    .edn_urnd_req_o              (edn_urnd_req),
+    .edn_urnd_ack_i              (edn_urnd_ack),
+    .edn_urnd_data_i             (edn_urnd_data),
 
     .insn_cnt_o                  (insn_cnt),
     .insn_cnt_clear_i            (insn_cnt_clear),
@@ -1234,12 +1153,7 @@ module otbn
     .software_errs_fatal_i       (software_errs_fatal_q),
 
     .sideload_key_shares_i       (keymgr_key_i.key),
-    .sideload_key_shares_valid_i ({2{keymgr_key_i.valid}}),
-
-    // The naming kmac_data is just to be consistent with other IPs connecting to KMAC. From here
-    // on use more sensible name.
-    .kmac_app_req_o(kmac_data_o),
-    .kmac_app_rsp_i(kmac_data_i)
+    .sideload_key_shares_valid_i ({2{keymgr_key_i.valid}})
   );
 
   always_ff @(posedge clk_i or negedge rst_n) begin
@@ -1286,8 +1200,7 @@ module otbn
     illegal_insn:         core_err_bits.illegal_insn,
     call_stack:           core_err_bits.call_stack,
     bad_insn_addr:        core_err_bits.bad_insn_addr,
-    bad_data_addr:        core_err_bits.bad_data_addr,
-    mai_error:            core_err_bits.mai_error
+    bad_data_addr:        core_err_bits.bad_data_addr
   };
 
   // An error signal going down into the core to show that it should locally escalate. In
@@ -1305,7 +1218,7 @@ module otbn
 
   // Asserts ===================================================================
   for (genvar i = 0; i < LoopStackDepth; ++i) begin : gen_loop_stack_cntr_asserts
-    `ASSERT_PRIM_COUNT_ERROR_TRIGGER_ALERT_IN(
+    `ASSERT_PRIM_COUNT_ERROR_TRIGGER_ALERT(
       LoopStackCntAlertCheck_A,
       u_otbn_core.u_otbn_controller.u_otbn_loop_controller.g_loop_counters[i].u_loop_count,
       alert_tx_o[AlertFatal]
@@ -1318,7 +1231,7 @@ module otbn
   // secure wiping complete.
   // 2. mubi_err_d of start_stop_control disables the internal secure wipe related assertion
   // because a fatal error affecting internal secure wiping could cause an immediate locking
-  // behaviour in which it's not guaranteed to see a successful secure wipe.
+  // behaviour in which it's not guaranteed to see a succesful secure wipe.
   for (genvar i = 2; i < NGpr; ++i) begin : gen_sec_wipe_gpr_asserts
     // Initial secure wipe needs to initialise all registers to nonzero
     `ASSERT(InitSecWipeNonZeroBaseRegs_A,
@@ -1358,7 +1271,7 @@ module otbn
     // have secure wiping complete.
     // 2. mubi_err_d of start_stop_control disables the internal secure wipe related assertion
     // because a fatal error affecting internal secure wiping could cause an immediate locking
-    // behaviour in which it's not guaranteed to see a successful secure wipe.
+    // behaviour in which it's not guaranteed to see a succesful secure wipe.
     for (genvar i = 0; i < NWdr; ++i) begin : gen_sec_wipe_wdr_asserts
       // Initial secure wipe needs to initialise all registers to nonzero
       `ASSERT(InitSecWipeNonZeroWideRegs_A,
@@ -1390,7 +1303,7 @@ module otbn
   // secure wiping complete.
   // 2. mubi_err_d of start_stop_control disables the secure wipe related assertions because a
   // fatal error affecting internal secure wiping could cause an immediate locking behaviour
-  // in which it's not guaranteed to see a successful secure wipe.
+  // in which it's not guaranteed to see a succesful secure wipe.
   `ASSERT(SecWipeInvalidCallStack_A,
           $fell(busy_secure_wipe) |-> (!u_otbn_core.u_otbn_rf_base.u_call_stack.top_valid_o),
           clk_i,
@@ -1463,20 +1376,10 @@ module otbn
   `ASSERT_KNOWN(IdleOKnown_A, idle_o)
   `ASSERT_KNOWN(IntrDoneOKnown_A, intr_done_o)
   `ASSERT_KNOWN(AlertTxOKnown_A, alert_tx_o)
-  `ASSERT_KNOWN(LcRmaAckKnown_A, lc_rma_ack_o)
-  `ASSERT_KNOWN(RamCfgDmemKnown_A, ram_cfg_dmem_o)
-  `ASSERT_KNOWN(RamCfgImemKnown_A, ram_cfg_imem_o)
   `ASSERT_KNOWN(EdnRndOKnown_A, edn_rnd_o, clk_edn_i, !rst_edn_ni)
   `ASSERT_KNOWN(EdnUrndOKnown_A, edn_urnd_o, clk_edn_i, !rst_edn_ni)
   `ASSERT_KNOWN(OtbnOtpKeyO_A, otbn_otp_key_o, clk_otp_i, !rst_otp_ni)
   `ASSERT_KNOWN(ErrBitsKnown_A, err_bits)
-  // The data part of the request directly originates from WSRs. These are non resettable flops.
-  // When a simulation starts, these are still X as only a secure wipe will set a value. We thus
-  // only check whether the data is known when the valid is set.
-  `ASSERT_KNOWN(KmacReqKnown_A, {kmac_data_o.req_last, kmac_data_o.req_valid,
-                                 kmac_data_o.rsp_ready, kmac_data_o.strb})
-  `ASSERT_KNOWN_IF(KmacReqDataKnown_A, {kmac_data_o.data_s0, kmac_data_o.data_s1},
-                   kmac_data_o.req_valid)
 
   // Incoming key must be valid (other inputs go via prim modules that handle the X checks).
   `ASSERT_KNOWN(KeyMgrKeyValid_A, keymgr_key_i.valid)
@@ -1492,29 +1395,12 @@ module otbn
           (hw2reg.status.d inside {StatusBusyExecute, StatusLocked}) & dmem_rvalid_bus
           |-> dmem_rdata_bus == 'd0)
 
-  // While paused OTBN must not report idle, so the clock keeps running to observe CMD.RESUME.
-  `ASSERT(WfiPendingNotIdle_A, wfi_pending |-> (idle_o == prim_mubi_pkg::MuBi4False))
-
-  // While paused the DMEM is released to the bus until the resume command arrived.
-  `ASSERT(PausedDmemReleased_A, (status_q == StatusPaused) && !wfi_resume_q |-> !dmem_access_core)
-
-  // The paused status and the core's pending WFI cannot drift apart except when a wipe starts on a
-  // WFI instruction.
-  `ASSERT(PausedImpliesWfiPending_A, (status_q == StatusPaused) && !busy_secure_wipe
-          |-> wfi_pending)
-
-  // OTBN can only be paused if the WFI instruction is enabled.
-  `ASSERT(WfiPendingImpliesEnabled_A, wfi_pending |-> wfi_enabled_q)
-
-  // CTRL.wfi_enabled is only writable while idle, so it must not change otherwise.
-  `ASSERT(WfiEnabledStableUnlessIdle_A, (status_q != StatusIdle) |=> $stable(wfi_enabled_q))
-
   // From the cycle the core is told to start to when it is done, it must always be busy executing,
-  // locking, or paused -- even if the core is never done.  We use this property to enable blanking
+  // locking, or both -- even if the core is never done.  We use this property to enable blanking
   // while the core is executing or locking, and this assertion ensures that there is no gap
-  // between execution and locking (except a valid pause).
+  // between execution and locking.
   `ASSERT(BusyOrLockingFromStartToDone_A,
-          $rose(start_q) |-> (busy_execute_d | locking | wfi_pending) |-> ##[0:$] $rose(done_core))
+          $rose(start_q) |-> (busy_execute_d | locking) |-> ##[0:$] $rose(done_core))
 
   // Error handling: if we pass an error signal down to the core then we should also be setting an
   // error flag. Note that this uses err_bits, not err_bits_q, because the latter signal only gets
@@ -1524,124 +1410,47 @@ module otbn
   // Constraint from package, check here as we cannot have `ASSERT_INIT in package
   `ASSERT_INIT(WsrESizeMatchesParameter_A, $bits(wsr_e) == WsrNumWidth)
 
-  `ASSERT_PRIM_FSM_ERROR_TRIGGER_ALERT_IN(
-    OtbnStartStopFsmCheck_A,
-    u_otbn_core.u_otbn_start_stop_control.u_state_regs,
-    gen_alert_tx[AlertFatalIdx].u_prim_alert_sender.alert_req_i
-  )
-  `ASSERT_PRIM_FSM_ERROR_TRIGGER_ALERT_IN(
-    OtbnControllerFsmCheck_A,
-    u_otbn_core.u_otbn_controller.u_state_regs,
-    gen_alert_tx[AlertFatalIdx].u_prim_alert_sender.alert_req_i
-  )
-  `ASSERT_PRIM_FSM_ERROR_TRIGGER_ALERT_IN(
-    OtbnScrambleCtrlFsmCheck_A,
-    u_otbn_scramble_ctrl.u_state_regs,
-    gen_alert_tx[AlertFatalIdx].u_prim_alert_sender.alert_req_i
-  )
+  `ASSERT_PRIM_FSM_ERROR_TRIGGER_ALERT(OtbnStartStopFsmCheck_A,
+    u_otbn_core.u_otbn_start_stop_control.u_state_regs, alert_tx_o[AlertFatal])
+  `ASSERT_PRIM_FSM_ERROR_TRIGGER_ALERT(OtbnControllerFsmCheck_A,
+    u_otbn_core.u_otbn_controller.u_state_regs, alert_tx_o[AlertFatal])
+  `ASSERT_PRIM_FSM_ERROR_TRIGGER_ALERT(OtbnScrambleCtrlFsmCheck_A,
+    u_otbn_scramble_ctrl.u_state_regs, alert_tx_o[AlertFatal])
 
-  `ASSERT_PRIM_FSM_ERROR_TRIGGER_ALERT_IN(
-    OtbnKmacFsmCheck_A,
-    u_otbn_core.u_otbn_kmac_if.u_state_regs,
-    gen_alert_tx[AlertFatalIdx].u_prim_alert_sender.alert_req_i
-  )
-
-  `ASSERT_PRIM_COUNT_ERROR_TRIGGER_ALERT_IN(
-    OtbnCallStackWrPtrAlertCheck_A,
-    u_otbn_core.u_otbn_rf_base.u_call_stack.u_stack_wr_ptr,
-    gen_alert_tx[AlertFatalIdx].u_prim_alert_sender.alert_req_i
-  )
-  `ASSERT_PRIM_COUNT_ERROR_TRIGGER_ALERT_IN(
-    OtbnLoopInfoStackWrPtrAlertCheck_A,
+  `ASSERT_PRIM_COUNT_ERROR_TRIGGER_ALERT(OtbnCallStackWrPtrAlertCheck_A,
+    u_otbn_core.u_otbn_rf_base.u_call_stack.u_stack_wr_ptr, alert_tx_o[AlertFatal])
+  `ASSERT_PRIM_COUNT_ERROR_TRIGGER_ALERT(OtbnLoopInfoStackWrPtrAlertCheck_A,
     u_otbn_core.u_otbn_controller.u_otbn_loop_controller.loop_info_stack.u_stack_wr_ptr,
-    gen_alert_tx[AlertFatalIdx].u_prim_alert_sender.alert_req_i
-  )
-  `ASSERT_PRIM_COUNT_ERROR_TRIGGER_ALERT_IN(
-    OtbnKmacMsgSelectorCntAlertCheck_A,
-    u_otbn_core.u_otbn_kmac_if.u_msg_selector_count,
-    gen_alert_tx[AlertFatalIdx].u_prim_alert_sender.alert_req_i
-  )
-
-  `ASSERT_ERROR_TRIGGER_ALERT_IN(
-    OtbnBnMacCycleCountAlertCheck_A,
-    u_otbn_core.u_otbn_mac_bignum.u_mac_bignum_fsm,
-    gen_alert_tx[AlertFatalIdx].u_prim_alert_sender.alert_req_i,
-    0, 2, state_err_o)
+    alert_tx_o[AlertFatal])
 
   // Alert assertions for reg_we onehot check
-  `ASSERT_PRIM_REG_WE_ONEHOT_ERROR_TRIGGER_ALERT_IN(
-    RegWeOnehotCheck_A,
-    u_reg,
-    gen_alert_tx[AlertFatalIdx].u_prim_alert_sender.alert_req_i
-  )
+  `ASSERT_PRIM_REG_WE_ONEHOT_ERROR_TRIGGER_ALERT(RegWeOnehotCheck_A,
+      u_reg, alert_tx_o[AlertFatal])
   // other onehot checks
-  `ASSERT_PRIM_ONEHOT_ERROR_TRIGGER_ALERT_IN(
-    RfBaseOnehotCheck_A,
-    u_otbn_core.u_otbn_rf_base.gen_rf_base_ff.u_otbn_rf_base_inner.u_prim_onehot_check,
-    gen_alert_tx[AlertFatalIdx].u_prim_alert_sender.alert_req_i
-  )
-  `ASSERT_PRIM_ONEHOT_ERROR_TRIGGER_ALERT_IN(
-    RfBignumOnehotCheck_A,
-    u_otbn_core.u_otbn_rf_bignum.gen_rf_bignum_ff.u_otbn_rf_bignum_inner.u_prim_onehot_check,
-    gen_alert_tx[AlertFatalIdx].u_prim_alert_sender.alert_req_i
-  )
+  `ASSERT_PRIM_ONEHOT_ERROR_TRIGGER_ALERT(RfBaseOnehotCheck_A,
+      u_otbn_core.u_otbn_rf_base.gen_rf_base_ff.u_otbn_rf_base_inner.u_prim_onehot_check,
+      alert_tx_o[AlertFatal])
+  `ASSERT_PRIM_ONEHOT_ERROR_TRIGGER_ALERT(RfBignumOnehotCheck_A,
+      u_otbn_core.u_otbn_rf_bignum.gen_rf_bignum_ff.u_otbn_rf_bignum_inner.u_prim_onehot_check,
+      alert_tx_o[AlertFatal])
 
-  `ASSERT_PRIM_FIFO_SYNC_ERROR_TRIGGERS_ALERT1_IN(
-    DmemRspFifo,
-    u_tlul_adapter_sram_dmem.u_rspfifo,
-    gen_alert_tx[AlertFatalIdx].u_prim_alert_sender.alert_req_i
-  )
-  `ASSERT_PRIM_FIFO_SYNC_ERROR_TRIGGERS_ALERT1_IN(
-    DmemSramReqFifo,
-    u_tlul_adapter_sram_dmem.u_sramreqfifo,
-    gen_alert_tx[AlertFatalIdx].u_prim_alert_sender.alert_req_i
-  )
-  `ASSERT_PRIM_FIFO_SYNC_ERROR_TRIGGERS_ALERT1_IN(
-    DmemReqFifo,
-    u_tlul_adapter_sram_dmem.u_reqfifo,
-    gen_alert_tx[AlertFatalIdx].u_prim_alert_sender.alert_req_i
-  )
+  `ASSERT_PRIM_FIFO_SYNC_ERROR_TRIGGERS_ALERT1(DmemRspFifo,
+                                               u_tlul_adapter_sram_dmem.u_rspfifo,
+                                               alert_tx_o[AlertFatal])
+  `ASSERT_PRIM_FIFO_SYNC_ERROR_TRIGGERS_ALERT1(DmemSramReqFifo,
+                                               u_tlul_adapter_sram_dmem.u_sramreqfifo,
+                                               alert_tx_o[AlertFatal])
+  `ASSERT_PRIM_FIFO_SYNC_ERROR_TRIGGERS_ALERT1(DmemReqFifo,
+                                               u_tlul_adapter_sram_dmem.u_reqfifo,
+                                               alert_tx_o[AlertFatal])
 
-  `ASSERT_PRIM_FIFO_SYNC_ERROR_TRIGGERS_ALERT1_IN(
-    ImemRspFifo,
-    u_tlul_adapter_sram_imem.u_rspfifo,
-    gen_alert_tx[AlertFatalIdx].u_prim_alert_sender.alert_req_i
-  )
-  `ASSERT_PRIM_FIFO_SYNC_ERROR_TRIGGERS_ALERT1_IN(
-    ImemSramReqFifo,
-    u_tlul_adapter_sram_imem.u_sramreqfifo,
-    gen_alert_tx[AlertFatalIdx].u_prim_alert_sender.alert_req_i
-  )
-  `ASSERT_PRIM_FIFO_SYNC_ERROR_TRIGGERS_ALERT1_IN(
-    ImemReqFifo,
-    u_tlul_adapter_sram_imem.u_reqfifo,
-    gen_alert_tx[AlertFatalIdx].u_prim_alert_sender.alert_req_i
-  )
-  `ASSERT_PRIM_COUNT_ERROR_TRIGGER_ALERT_IN(
-    MaiMaskFifoWptrCheck_A,
-    u_otbn_core.gen_mai.u_otbn_mai.u_otbn_mask_accelerator.u_prim_fifo_sync_mask
-      .gen_normal_fifo.u_fifo_cnt.gen_secure_ptrs.u_wptr,
-    gen_alert_tx[AlertFatalIdx].u_prim_alert_sender.alert_req_i
-  )
-  `ASSERT_PRIM_COUNT_ERROR_TRIGGER_ALERT_IN(
-    MaiMaskFifoRptrCheck_A,
-    u_otbn_core.gen_mai.u_otbn_mai.u_otbn_mask_accelerator.u_prim_fifo_sync_mask
-      .gen_normal_fifo.u_fifo_cnt.gen_secure_ptrs.u_rptr,
-    gen_alert_tx[AlertFatalIdx].u_prim_alert_sender.alert_req_i
-  )
-  `ASSERT_PRIM_COUNT_ERROR_TRIGGER_ALERT_IN(
-    OtbnMaiMaskCntAlertCheck_A,
-    u_otbn_core.gen_mai.u_otbn_mai.u_otbn_mask_accelerator.u_otbn_sec_add_mod.u_prim_count_add_inp,
-    gen_alert_tx[AlertFatalIdx].u_prim_alert_sender.alert_req_i
-  )
-  `ASSERT_PRIM_COUNT_ERROR_TRIGGER_ALERT_IN(
-    OtbnMaiInputCntAlertCheck_A,
-    u_otbn_core.gen_mai.u_otbn_mai.u_prim_count_input_word_select,
-    gen_alert_tx[AlertFatalIdx].u_prim_alert_sender.alert_req_i
-  )
-  `ASSERT_PRIM_COUNT_ERROR_TRIGGER_ALERT_IN(
-    OtbnMaiOutputCntAlertCheck_A,
-    u_otbn_core.gen_mai.u_otbn_mai.u_prim_count_output_word_select,
-    gen_alert_tx[AlertFatalIdx].u_prim_alert_sender.alert_req_i
-  )
+  `ASSERT_PRIM_FIFO_SYNC_ERROR_TRIGGERS_ALERT1(ImemRspFifo,
+                                               u_tlul_adapter_sram_imem.u_rspfifo,
+                                               alert_tx_o[AlertFatal])
+  `ASSERT_PRIM_FIFO_SYNC_ERROR_TRIGGERS_ALERT1(ImemSramReqFifo,
+                                               u_tlul_adapter_sram_imem.u_sramreqfifo,
+                                               alert_tx_o[AlertFatal])
+  `ASSERT_PRIM_FIFO_SYNC_ERROR_TRIGGERS_ALERT1(ImemReqFifo,
+                                               u_tlul_adapter_sram_imem.u_reqfifo,
+                                               alert_tx_o[AlertFatal])
 endmodule

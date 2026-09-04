@@ -14,7 +14,6 @@ module entropy_src_cntr_reg #(
    // functional interface
   input logic                   clear_i,
   input logic                   event_i,
-  input  logic [RegWidth-1:0]   step_i,
   output logic [RegWidth-1:0]   value_o,
   output logic                  err_o
 );
@@ -33,7 +32,7 @@ module entropy_src_cntr_reg #(
     .set_cnt_i(RegWidth'(0)),
     .incr_en_i(event_i && (~counter_value != '0)),
     .decr_en_i(1'b0),
-    .step_i,
+    .step_i(RegWidth'(1)),
     .commit_i(1'b1),
     .cnt_o(counter_value),
     .cnt_after_commit_o(),
