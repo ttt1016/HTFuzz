@@ -1,0 +1,965 @@
+{
+ "verdict": "DIVERGENT",
+ "first_divergence": {
+  "idx": 0,
+  "channel": "sig",
+  "signal": "u_slow_fsm.state_raw",
+  "word": 0,
+  "kind": "write_read",
+  "addr": 0,
+  "ctf": 0,
+  "fresh": 86
+ },
+ "n_actions_compared": 94,
+ "n_divergences": 94,
+ "divergent_signals": {
+  "u_slow_fsm.state_raw": 94
+ },
+ "evidence": [
+  {
+   "idx": 0,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 0,
+   "ctf": 0,
+   "fresh": 86
+  },
+  {
+   "idx": 1,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 4,
+   "ctf": 0,
+   "fresh": 86
+  },
+  {
+   "idx": 2,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 8,
+   "ctf": 0,
+   "fresh": 86
+  },
+  {
+   "idx": 3,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 12,
+   "ctf": 0,
+   "fresh": 86
+  },
+  {
+   "idx": 4,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 16,
+   "ctf": 0,
+   "fresh": 86
+  },
+  {
+   "idx": 5,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 20,
+   "ctf": 0,
+   "fresh": 86
+  },
+  {
+   "idx": 6,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 24,
+   "ctf": 0,
+   "fresh": 86
+  },
+  {
+   "idx": 7,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 28,
+   "ctf": 0,
+   "fresh": 86
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 86
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 36,
+   "ctf": 0,
+   "fresh": 86
+  },
+  {
+   "idx": 10,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 40,
+   "ctf": 0,
+   "fresh": 86
+  },
+  {
+   "idx": 11,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 44,
+   "ctf": 0,
+   "fresh": 86
+  },
+  {
+   "idx": 12,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 48,
+   "ctf": 0,
+   "fresh": 86
+  },
+  {
+   "idx": 13,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 52,
+   "ctf": 0,
+   "fresh": 86
+  },
+  {
+   "idx": 14,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 56,
+   "ctf": 0,
+   "fresh": 86
+  },
+  {
+   "idx": 15,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 60,
+   "ctf": 0,
+   "fresh": 86
+  },
+  {
+   "idx": 16,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 64,
+   "ctf": 0,
+   "fresh": 86
+  },
+  {
+   "idx": 17,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 24,
+   "ctf": 0,
+   "fresh": 86
+  },
+  {
+   "idx": 18,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 16,
+   "ctf": 0,
+   "fresh": 86
+  },
+  {
+   "idx": 19,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 86
+  },
+  {
+   "idx": 20,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "step",
+   "addr": null,
+   "ctf": 0,
+   "fresh": 86
+  },
+  {
+   "idx": 21,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 8,
+   "ctf": 0,
+   "fresh": 86
+  },
+  {
+   "idx": 22,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "step",
+   "addr": null,
+   "ctf": 0,
+   "fresh": 86
+  },
+  {
+   "idx": 23,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "read",
+   "addr": 12,
+   "ctf": 0,
+   "fresh": 86
+  },
+  {
+   "idx": 24,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 40,
+   "ctf": 0,
+   "fresh": 86
+  },
+  {
+   "idx": 25,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "read",
+   "addr": 24,
+   "ctf": 0,
+   "fresh": 86
+  },
+  {
+   "idx": 26,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "step",
+   "addr": null,
+   "ctf": 0,
+   "fresh": 86
+  },
+  {
+   "idx": 27,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 64,
+   "ctf": 0,
+   "fresh": 86
+  },
+  {
+   "idx": 28,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 0,
+   "ctf": 0,
+   "fresh": 86
+  },
+  {
+   "idx": 29,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "read",
+   "addr": 48,
+   "ctf": 0,
+   "fresh": 86
+  },
+  {
+   "idx": 30,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "read",
+   "addr": 0,
+   "ctf": 0,
+   "fresh": 86
+  },
+  {
+   "idx": 31,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "read",
+   "addr": 40,
+   "ctf": 0,
+   "fresh": 86
+  },
+  {
+   "idx": 32,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 40,
+   "ctf": 0,
+   "fresh": 86
+  },
+  {
+   "idx": 33,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "step",
+   "addr": null,
+   "ctf": 0,
+   "fresh": 86
+  },
+  {
+   "idx": 34,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "step",
+   "addr": null,
+   "ctf": 0,
+   "fresh": 86
+  },
+  {
+   "idx": 35,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 16,
+   "ctf": 0,
+   "fresh": 86
+  },
+  {
+   "idx": 36,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "read",
+   "addr": 8,
+   "ctf": 0,
+   "fresh": 86
+  },
+  {
+   "idx": 37,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 40,
+   "ctf": 0,
+   "fresh": 86
+  },
+  {
+   "idx": 38,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "read",
+   "addr": 60,
+   "ctf": 0,
+   "fresh": 86
+  },
+  {
+   "idx": 39,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 36,
+   "ctf": 0,
+   "fresh": 86
+  },
+  {
+   "idx": 40,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 40,
+   "ctf": 0,
+   "fresh": 86
+  },
+  {
+   "idx": 41,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "step",
+   "addr": null,
+   "ctf": 0,
+   "fresh": 86
+  },
+  {
+   "idx": 42,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "step",
+   "addr": null,
+   "ctf": 0,
+   "fresh": 86
+  },
+  {
+   "idx": 43,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 48,
+   "ctf": 0,
+   "fresh": 86
+  },
+  {
+   "idx": 44,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "read",
+   "addr": 36,
+   "ctf": 0,
+   "fresh": 86
+  },
+  {
+   "idx": 45,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 20,
+   "ctf": 0,
+   "fresh": 86
+  },
+  {
+   "idx": 46,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 86
+  },
+  {
+   "idx": 47,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "read",
+   "addr": 8,
+   "ctf": 0,
+   "fresh": 86
+  },
+  {
+   "idx": 48,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "read",
+   "addr": 16,
+   "ctf": 0,
+   "fresh": 86
+  },
+  {
+   "idx": 49,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "step",
+   "addr": null,
+   "ctf": 0,
+   "fresh": 86
+  },
+  {
+   "idx": 50,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "step",
+   "addr": null,
+   "ctf": 0,
+   "fresh": 86
+  },
+  {
+   "idx": 51,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "step",
+   "addr": null,
+   "ctf": 0,
+   "fresh": 86
+  },
+  {
+   "idx": 52,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "read",
+   "addr": 28,
+   "ctf": 0,
+   "fresh": 86
+  },
+  {
+   "idx": 53,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "step",
+   "addr": null,
+   "ctf": 0,
+   "fresh": 86
+  },
+  {
+   "idx": 54,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "read",
+   "addr": 56,
+   "ctf": 0,
+   "fresh": 86
+  },
+  {
+   "idx": 55,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "read",
+   "addr": 44,
+   "ctf": 0,
+   "fresh": 86
+  },
+  {
+   "idx": 56,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 12,
+   "ctf": 0,
+   "fresh": 86
+  },
+  {
+   "idx": 57,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "read",
+   "addr": 40,
+   "ctf": 0,
+   "fresh": 86
+  },
+  {
+   "idx": 58,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "step",
+   "addr": null,
+   "ctf": 0,
+   "fresh": 86
+  },
+  {
+   "idx": 59,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 86
+  },
+  {
+   "idx": 60,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "read",
+   "addr": 44,
+   "ctf": 0,
+   "fresh": 86
+  },
+  {
+   "idx": 61,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "read",
+   "addr": 40,
+   "ctf": 0,
+   "fresh": 86
+  },
+  {
+   "idx": 62,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 4,
+   "ctf": 0,
+   "fresh": 86
+  },
+  {
+   "idx": 63,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "read",
+   "addr": 28,
+   "ctf": 0,
+   "fresh": 86
+  },
+  {
+   "idx": 64,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 8,
+   "ctf": 0,
+   "fresh": 86
+  },
+  {
+   "idx": 65,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 24,
+   "ctf": 0,
+   "fresh": 86
+  },
+  {
+   "idx": 66,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "step",
+   "addr": null,
+   "ctf": 0,
+   "fresh": 86
+  },
+  {
+   "idx": 67,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 44,
+   "ctf": 0,
+   "fresh": 86
+  },
+  {
+   "idx": 68,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "step",
+   "addr": null,
+   "ctf": 0,
+   "fresh": 86
+  },
+  {
+   "idx": 69,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "read",
+   "addr": 24,
+   "ctf": 0,
+   "fresh": 86
+  },
+  {
+   "idx": 70,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "step",
+   "addr": null,
+   "ctf": 0,
+   "fresh": 86
+  },
+  {
+   "idx": 71,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "read",
+   "addr": 60,
+   "ctf": 0,
+   "fresh": 86
+  },
+  {
+   "idx": 72,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 4,
+   "ctf": 0,
+   "fresh": 86
+  },
+  {
+   "idx": 73,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "read",
+   "addr": 52,
+   "ctf": 0,
+   "fresh": 86
+  },
+  {
+   "idx": 74,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 86
+  },
+  {
+   "idx": 75,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 8,
+   "ctf": 0,
+   "fresh": 86
+  },
+  {
+   "idx": 76,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 52,
+   "ctf": 0,
+   "fresh": 86
+  },
+  {
+   "idx": 77,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "reset",
+   "addr": null,
+   "ctf": 34,
+   "fresh": 55
+  },
+  {
+   "idx": 78,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "read",
+   "addr": 0,
+   "ctf": 175,
+   "fresh": 55
+  },
+  {
+   "idx": 79,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "read",
+   "addr": 4,
+   "ctf": 175,
+   "fresh": 55
+  },
+  {
+   "idx": 80,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "read",
+   "addr": 8,
+   "ctf": 175,
+   "fresh": 55
+  },
+  {
+   "idx": 81,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "read",
+   "addr": 12,
+   "ctf": 175,
+   "fresh": 55
+  },
+  {
+   "idx": 82,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "read",
+   "addr": 16,
+   "ctf": 175,
+   "fresh": 55
+  },
+  {
+   "idx": 83,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "read",
+   "addr": 20,
+   "ctf": 175,
+   "fresh": 55
+  },
+  {
+   "idx": 84,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "read",
+   "addr": 24,
+   "ctf": 175,
+   "fresh": 55
+  },
+  {
+   "idx": 85,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "read",
+   "addr": 28,
+   "ctf": 175,
+   "fresh": 55
+  },
+  {
+   "idx": 86,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "read",
+   "addr": 32,
+   "ctf": 175,
+   "fresh": 55
+  },
+  {
+   "idx": 87,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "read",
+   "addr": 36,
+   "ctf": 175,
+   "fresh": 55
+  },
+  {
+   "idx": 88,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "read",
+   "addr": 40,
+   "ctf": 145,
+   "fresh": 55
+  },
+  {
+   "idx": 89,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "read",
+   "addr": 44,
+   "ctf": 188,
+   "fresh": 55
+  },
+  {
+   "idx": 90,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "read",
+   "addr": 48,
+   "ctf": 188,
+   "fresh": 55
+  },
+  {
+   "idx": 91,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "read",
+   "addr": 52,
+   "ctf": 188,
+   "fresh": 55
+  },
+  {
+   "idx": 92,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "read",
+   "addr": 56,
+   "ctf": 188,
+   "fresh": 55
+  },
+  {
+   "idx": 93,
+   "channel": "sig",
+   "signal": "u_slow_fsm.state_raw",
+   "word": 0,
+   "kind": "read",
+   "addr": 60,
+   "ctf": 188,
+   "fresh": 55
+  }
+ ],
+ "n_stable_signals": 8,
+ "n_signals_total": 8,
+ "n_stable_readbacks": 94,
+ "module": "pwrmgr",
+ "seed": 0
+}

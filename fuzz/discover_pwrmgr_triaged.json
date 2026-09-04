@@ -1,0 +1,15 @@
+{
+ "module": "pwrmgr",
+ "triaged": [],
+ "diff_verdict": "DIVERGENT",
+ "diff_first_divergence": {
+  "idx": 0,
+  "channel": "sig",
+  "signal": "u_slow_fsm.state_raw",
+  "word": 0,
+  "kind": "write_read",
+  "addr": 0,
+  "ctf": 0,
+  "fresh": 86
+ }
+}
