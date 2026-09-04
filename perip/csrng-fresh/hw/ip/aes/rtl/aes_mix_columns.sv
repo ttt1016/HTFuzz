@@ -16,6 +16,7 @@ module aes_mix_columns (
   logic [3:0][3:0][7:0] data_i_transposed;
   logic [3:0][3:0][7:0] data_o_transposed;
 
+  // Pre-transform input for column-wise parallel processing
   assign data_i_transposed = aes_transpose(data_i);
 
   // Individually mix columns
@@ -27,6 +28,7 @@ module aes_mix_columns (
     );
   end
 
+  // Final output transformation
   assign data_o = aes_transpose(data_o_transposed);
 
 endmodule

@@ -595,3 +595,44 @@
 [uart] BUILD OK (full-overlay)
 --- 进度 1/1 (成功 1) ---
 === 完成: 成功 1  失败 0 ===
+=== fresh 批建开始: 1 模块 ===
+[csrng] fresh 缺件回退 3895 个: ['top_earlgrey/ip_autogen/rv_core_ibex/dv/sva/rv_core_ibex_bind.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_peri.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_addr_trans.sv (fresh 无此文件, 保留 CTF 版)']...
+[csrng] 全量覆盖失败 → 回退 own-rtl-only
+[csrng] own-rtl 覆盖 10 个文件 + compat 重应用
+[csrng] 回退后 filelist 重新生成
+[csrng] PINNOTFOUND 补件: hw/ip/prim/rtl/prim_alert_sender.sv (prim_alert_sender.SkewCycles)
+[csrng] MODMISSING 轮0: 补 1/0 ()
+[csrng] PINNOTFOUND 补件: hw/ip/prim/rtl/prim_diff_decode.sv (prim_diff_decode.SkewCycles)
+[csrng] PINNOTFOUND 补件: hw/ip/prim/rtl/prim_diff_decode.sv (prim_diff_decode.SkewCycles)
+[csrng] MODMISSING 轮1: 补 2/0 ()
+[csrng] BUILD FAIL: %Error-PINNOTFOUND: rtl_wrapper/csrng_perip_tb.sv:129:6: Pin not found: 'cs_aes_halt_i' | %Error-PINNOTFOUND: rtl_wrapper/csrng_perip_tb.sv:130:6: Pin not found: 'cs_aes_halt_o' | %Error: Exiting due to 2 error(s)
+--- 进度 1/1 (成功 0) ---
+=== 完成: 成功 0  失败 1 ===
+  FAIL csrng: fail: %Error-PINNOTFOUND: rtl_wrapper/csrng_perip_tb.sv:129:6: Pin not found: 'cs_aes_halt_i'; %Error-PINNOTFOUND: rtl_wrapper/csrng_perip_tb.sv:130:6
+=== fresh 批建开始: 1 模块 ===
+[csrng] fresh 缺件回退 3895 个: ['top_earlgrey/ip_autogen/rv_core_ibex/dv/sva/rv_core_ibex_bind.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_peri.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_addr_trans.sv (fresh 无此文件, 保留 CTF 版)']...
+[csrng] 全量覆盖失败 → 回退 own-rtl-only
+[csrng] own-rtl 覆盖 10 个文件 + compat 重应用
+[csrng] 回退后 filelist 重新生成
+[csrng] PINNOTFOUND 补件: hw/ip/prim/rtl/prim_alert_sender.sv (prim_alert_sender.SkewCycles)
+[csrng] MODMISSING 轮0: 补 1/0 ()
+[csrng] PINNOTFOUND 补件: hw/ip/prim/rtl/prim_diff_decode.sv (prim_diff_decode.SkewCycles)
+[csrng] PINNOTFOUND 补件: hw/ip/prim/rtl/prim_diff_decode.sv (prim_diff_decode.SkewCycles)
+[csrng] MODMISSING 轮1: 补 2/0 ()
+[csrng] BUILD FAIL: %Error-PINNOTFOUND: rtl_wrapper/csrng_perip_tb.sv:129:6: Pin not found: 'cs_aes_halt_i' | %Error-PINNOTFOUND: rtl_wrapper/csrng_perip_tb.sv:130:6: Pin not found: 'cs_aes_halt_o' | %Error: Exiting due to 2 error(s)
+--- 进度 1/1 (成功 0) ---
+=== 完成: 成功 0  失败 1 ===
+  FAIL csrng: fail: %Error-PINNOTFOUND: rtl_wrapper/csrng_perip_tb.sv:129:6: Pin not found: 'cs_aes_halt_i'; %Error-PINNOTFOUND: rtl_wrapper/csrng_perip_tb.sv:130:6
+=== fresh 批建开始: 1 模块 ===
+[csrng] fresh 缺件回退 3895 个: ['top_earlgrey/ip_autogen/rv_core_ibex/dv/sva/rv_core_ibex_bind.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_peri.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_addr_trans.sv (fresh 无此文件, 保留 CTF 版)']...
+[csrng] 全量覆盖失败 → 回退 own-rtl-only
+[csrng] own-rtl 覆盖 10 个文件 + compat 重应用
+[csrng] 回退后 filelist 重新生成
+[csrng] PINNOTFOUND 补件: hw/ip/prim/rtl/prim_alert_sender.sv (prim_alert_sender.SkewCycles)
+[csrng] MODMISSING 轮0: 补 1/0 ()
+[csrng] PINNOTFOUND 补件: hw/ip/prim/rtl/prim_diff_decode.sv (prim_diff_decode.SkewCycles)
+[csrng] PINNOTFOUND 补件: hw/ip/prim/rtl/prim_diff_decode.sv (prim_diff_decode.SkewCycles)
+[csrng] MODMISSING 轮1: 补 2/0 ()
+[csrng] BUILD OK (own-rtl-only)
+--- 进度 1/1 (成功 1) ---
+=== 完成: 成功 1  失败 0 ===

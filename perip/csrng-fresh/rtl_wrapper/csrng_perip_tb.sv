@@ -106,9 +106,6 @@ module csrng_perip_tb (
   end
   assign entropy_src_hw_if_i = '{es_ack: 1'b1, es_bits: esrng_lfsr_q, es_fips: 4'hF};
 
-  cs_aes_halt_req_t cs_aes_halt_i;
-  cs_aes_halt_rsp_t cs_aes_halt_o;
-  assign cs_aes_halt_i.cs_aes_halt_req = 1'b0;
 
   csrng_req_t [NHwApps-1:0] csrng_cmd_i;
   csrng_rsp_t [NHwApps-1:0] csrng_cmd_o;
@@ -126,8 +123,6 @@ module csrng_perip_tb (
     .lc_hw_debug_en_i(lc_hw_debug_en),
     .entropy_src_hw_if_o(entropy_src_hw_if),
     .entropy_src_hw_if_i(entropy_src_hw_if_i),
-    .cs_aes_halt_i(cs_aes_halt_i),
-    .cs_aes_halt_o(cs_aes_halt_o),
     .csrng_cmd_i(csrng_cmd_i),
     .csrng_cmd_o(csrng_cmd_o),
     .alert_rx_i(alert_rx),

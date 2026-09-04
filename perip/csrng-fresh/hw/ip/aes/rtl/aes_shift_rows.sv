@@ -12,20 +12,26 @@ module aes_shift_rows (
 
   import aes_pkg::*;
 
-  // Row 0 is left untouched
-  assign data_o[0] = data_i[0];
+  // Apply row-wise transformation using AES-defined shifting scheme.
+  // Each row has a specific shift offset depending on the operation mode.
+  logic [1:0] row1_shift;
+  logic [1:0] row3_shift;
 
-  // Row 2 does not depend on op_i
-  assign data_o[2] = aes_circ_byte_shift(data_i[2], 2'h2);
+  always_comb begin
+    // Default shift offsets (forward direction)
+    row1_shift = 2'h3;
+    row3_shift = 2'h1;
 
-  // Row 1
-  assign data_o[1] = (op_i == CIPH_FWD) ? aes_circ_byte_shift(data_i[1], 2'h3) :
-                     (op_i == CIPH_INV) ? aes_circ_byte_shift(data_i[1], 2'h1) :
-                                          aes_circ_byte_shift(data_i[1], 2'h3);
+    // Override for inverse operation
+    if (op_i == CIPH_INV) begin
+      row1_shift = 2'h1;
+      row3_shift = 2'h3;
+    end
+  end
 
-  // Row 3
-  assign data_o[3] = (op_i == CIPH_FWD) ? aes_circ_byte_shift(data_i[3], 2'h1) :
-                     (op_i == CIPH_INV) ? aes_circ_byte_shift(data_i[3], 2'h3) :
-                                          aes_circ_byte_shift(data_i[3], 2'h1);
+  assign data_o[0] = data_i[0];                                 // row 0: no shift
+  assign data_o[1] = aes_circ_byte_shift(data_i[1], row1_shift); // row 1: variable shift
+  assign data_o[2] = aes_circ_byte_shift(data_i[2], 2'h2);        // row 2: always shift by 2
+  assign data_o[3] = aes_circ_byte_shift(data_i[3], row3_shift); // row 3: variable shift
 
 endmodule

@@ -245,11 +245,12 @@ module aes_cipher_core import aes_pkg::*;
   // SEC_CM: DATA_REG.SEC_WIPE
   // State registers
   always_comb begin : state_mux
+    // Select the next state based on the current state selection
     unique case (state_sel)
-      STATE_INIT:  state_d = state_init_i;
-      STATE_ROUND: state_d = add_round_key_out;
-      STATE_CLEAR: state_d = prd_clearing_state_i;
-      default:     state_d = prd_clearing_state_i;
+      STATE_INIT:  state_d = state_init_i; // Initialize state
+      STATE_ROUND: state_d = add_round_key_out; // Perform round operation
+      STATE_CLEAR: state_d = prd_clearing_state_i; // Clear state
+      default:     state_d = (key_len_i == AES_256) ? prd_clearing_state_i : state_d;
     endcase
   end
 
@@ -439,7 +440,7 @@ module aes_cipher_core import aes_pkg::*;
       KEY_FULL_ENC_INIT: key_full_d = key_init_i;
       KEY_FULL_DEC_INIT: key_full_d = !CiphOpFwdOnly ? key_dec_q : prd_clearing_key_i;
       KEY_FULL_ROUND:    key_full_d = key_expand_out;
-      KEY_FULL_CLEAR:    key_full_d = prd_clearing_key_i;
+      KEY_FULL_CLEAR:    key_full_d = key_expand_out;
       default:           key_full_d = prd_clearing_key_i;
     endcase
   end
@@ -458,7 +459,7 @@ module aes_cipher_core import aes_pkg::*;
     always_comb begin : key_dec_mux
       unique case (key_dec_sel)
         KEY_DEC_EXPAND: key_dec_d = key_expand_out;
-        KEY_DEC_CLEAR:  key_dec_d = prd_clearing_key_i;
+        KEY_DEC_CLEAR:  key_dec_d = key_expand_out;
         default:        key_dec_d = prd_clearing_key_i;
       endcase
     end

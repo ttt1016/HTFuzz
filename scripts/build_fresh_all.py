@@ -75,6 +75,8 @@ def copy_closure(module):
 TIMING_MODULES = {"keymgr"}  # wrapper 含事件控制(@), 需 --timing（C++ 驱动时钟, 无 #delay）
 
 FRESH_COMPAT = {
+    # csrng: fresh csrng.sv 移除了 cs_aes_halt 接口 → wrapper 同步删接线
+    "csrng": [],
     # keymgr: fresh keymgr.sv/kmac_if 需要新版 kmac_pkg 字段与带 SkewCycles 的 prim 组件
     "keymgr": ["hw/ip/prim/rtl/prim_alert_sender.sv",
                "hw/ip/prim/rtl/prim_diff_decode.sv",
@@ -92,6 +94,13 @@ def fresh_compat(module, dst):
         if os.path.exists(src):
             os.makedirs(os.path.dirname(dstp), exist_ok=True)
             shutil.copy(src, dstp)
+    if module == "csrng":
+        wp = os.path.join(dst, "rtl_wrapper", "csrng_perip_tb.sv")
+        if os.path.exists(wp):
+            import re as _re
+            lines = [l for l in open(wp).read().splitlines()
+                     if not _re.search(r"cs_aes_halt", l)]
+            open(wp, "w").write("\n".join(lines) + "\n")
     if module == "keymgr":
         wp = os.path.join(dst, "rtl_wrapper", "keymgr_perip_tb.sv")
         if os.path.exists(wp):

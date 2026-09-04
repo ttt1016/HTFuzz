@@ -35,16 +35,14 @@ static void bind_signals() {
     for (int i = 0; i < g_nsig; i++) {
         const char* n = g_sigs[i].name;
         void* p = nullptr;
-        if (0) {}
-        else if (strcmp(n, "u_dut.u_csrng_core.u_csrng_main_sm.u_state_regs.state_raw") == 0) p = &rootp->csrng_perip_tb__DOT__u_dut__DOT__u_csrng_core__DOT__u_csrng_main_sm__DOT__u_state_regs__DOT__state_raw;
-        else if (strcmp(n, "u_dut.u_csrng_core.u_csrng_ctr_drbg_gen.u_state_regs.state_raw") == 0) p = &rootp->csrng_perip_tb__DOT__u_dut__DOT__u_csrng_core__DOT__u_csrng_ctr_drbg_gen__DOT__u_state_regs__DOT__state_raw;
-        else if (strcmp(n, "u_dut.u_csrng_core.acmd_q") == 0) p = &rootp->csrng_perip_tb__DOT__u_dut__DOT__u_csrng_core__DOT__acmd_q;
+        (void)p;
+        if (strcmp(n, "u_dut.u_csrng_core.acmd_q") == 0) p = &rootp->csrng_perip_tb__DOT__u_dut__DOT__u_csrng_core__DOT__acmd_q;
+        else if (strcmp(n, "u_dut.u_csrng_core.cmd_stage_sm_err_sum") == 0) p = &rootp->csrng_perip_tb__DOT__u_dut__DOT__u_csrng_core__DOT__cmd_stage_sm_err_sum;
         else if (strcmp(n, "u_dut.u_csrng_core.cs_bus_cmp_alert") == 0) p = &rootp->csrng_perip_tb__DOT__u_dut__DOT__u_csrng_core__DOT__cs_bus_cmp_alert;
         else if (strcmp(n, "u_dut.u_csrng_core.fatal_loc_events") == 0) p = &rootp->csrng_perip_tb__DOT__u_dut__DOT__u_csrng_core__DOT__fatal_loc_events;
-        else if (strcmp(n, "u_dut.u_csrng_core.cmd_stage_sm_err_sum") == 0) p = &rootp->csrng_perip_tb__DOT__u_dut__DOT__u_csrng_core__DOT__cmd_stage_sm_err_sum;
-        else if (strcmp(n, "u_dut.u_csrng_core.aes_cipher_sm_err_sum") == 0) p = &rootp->csrng_perip_tb__DOT__u_dut__DOT__u_csrng_core__DOT__aes_cipher_sm_err_sum;
-        else if (strcmp(n, "u_dut.u_csrng_core.block_encrypt_sfifo_blkenc_err_sum") == 0) p = &rootp->csrng_perip_tb__DOT__u_dut__DOT__u_csrng_core__DOT__block_encrypt_sfifo_blkenc_err_sum;
         else if (strcmp(n, "u_dut.u_csrng_core.u_csrng_block_encrypt.u_aes_cipher_core.add_rk_sel_raw") == 0) p = &rootp->csrng_perip_tb__DOT__u_dut__DOT__u_csrng_core__DOT__u_csrng_block_encrypt__DOT__u_aes_cipher_core__DOT__add_rk_sel_raw;
+        else if (strcmp(n, "u_dut.u_csrng_core.u_csrng_ctr_drbg_gen.u_state_regs.state_raw") == 0) p = &rootp->csrng_perip_tb__DOT__u_dut__DOT__u_csrng_core__DOT__gen_cmd_stage__BRA__0__KET____DOT__u_csrng_cmd_stage__DOT__u_state_regs__DOT__state_raw;
+        else if (strcmp(n, "u_dut.u_csrng_core.u_csrng_main_sm.u_state_regs.state_raw") == 0) p = &rootp->csrng_perip_tb__DOT__u_dut__DOT__u_csrng_core__DOT__gen_cmd_stage__BRA__0__KET____DOT__u_csrng_cmd_stage__DOT__u_state_regs__DOT__state_raw;
         g_sigs[i].ptr = p;
     }
 }
@@ -129,6 +127,7 @@ void pf_reset(void) {
     eval_cycle();
 }
 
+int pf_sig_bound(int i) { return (i >= 0 && i < g_nsig && g_sigs[i].ptr != nullptr) ? 1 : 0; }
 int pf_sig_count(void) { return g_nsig; }
 const char* pf_sig_name(int i) { return (i >= 0 && i < g_nsig) ? g_sigs[i].name : ""; }
 int pf_sig_words(int i) { return (i >= 0 && i < g_nsig) ? g_sigs[i].words : 0; }

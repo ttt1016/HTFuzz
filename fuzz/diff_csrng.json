@@ -1,0 +1,13 @@
+{
+ "verdict": "IDENTICAL",
+ "first_divergence": null,
+ "n_actions_compared": 103,
+ "n_divergences": 0,
+ "divergent_signals": {},
+ "evidence": [],
+ "n_stable_signals": 0,
+ "n_signals_total": 0,
+ "n_stable_readbacks": 103,
+ "module": "csrng",
+ "seed": 0
+}

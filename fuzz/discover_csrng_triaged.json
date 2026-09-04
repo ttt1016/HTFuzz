@@ -1,0 +1,18 @@
+{
+ "module": "csrng",
+ "triaged": [
+  {
+   "level": "LOW",
+   "oracle": "O-J-errprop",
+   "signal": "u_dut.u_csrng_core.cs_bus_cmp_alert,u_dut.u_csrng_core.cmd_stage_sm_err_sum,u_dut.u_csrng_core.aes_cipher_sm_err_sum",
+   "sec_cm": [],
+   "sensitive": false,
+   "cross_oracle": 0,
+   "rtl_wipe_nearby": false,
+   "evidence": "全部 3 类错误触发均未引起任何 alert/err 信号置位 → 错误传播链断裂",
+   "diff": "DIFF-REFUTED"
+  }
+ ],
+ "diff_verdict": "IDENTICAL",
+ "diff_first_divergence": null
+}
