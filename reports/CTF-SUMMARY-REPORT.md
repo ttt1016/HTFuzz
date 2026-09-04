@@ -231,6 +231,7 @@ python3 scripts/aes_bug81_test.py  # 及完整流程 + CLEAR + 白盒扫 data_in
 |---|---|---|
 | hmac | O-A: secret_key[28] 清除后残留 | Bug#20/60（wipe 极性反转）|
 | aes | O-A: key_init 残留；O-C: data_out_q 等价类异常 | Bug#81/#12/#32 |
+| spi_host | OK（自动化） | ⚪ IDENTICAL 首偏离 —  | |
 | alert_handler | OK（自动化） | ⚪ IDENTICAL 首偏离 —  | |
 | aon_timer | OK（自动化） | ⚪ IDENTICAL 首偏离 —  | |
 | pwrmgr | OK（自动化） | ✅ DIVERGENT 首偏离 0 u_slow_fsm.state_raw | |

@@ -39,50 +39,12 @@ static SigEntry g_sigs[] = {
 static const int g_nsig = sizeof(g_sigs) / sizeof(g_sigs[0]);
 
 static void bind_signals() {
-    #define FSM(name) rootp->spi_host_perip_tb->__PVT__u_dut__DOT__u_spi_core__DOT__u_fsm__DOT__##name
     for (int i = 0; i < g_nsig; i++) {
         const char* n = g_sigs[i].name;
         void* p = nullptr;
-        if (0) {}
-        else if (strcmp(n, "u_fsm.state_q") == 0) p = &FSM(state_q);
-        else if (strcmp(n, "u_fsm.state_d") == 0) p = &FSM(state_d);
-        else if (strcmp(n, "u_fsm.state_changing") == 0) p = &FSM(state_changing);
-        else if (strcmp(n, "u_fsm.fsm_en") == 0) p = &FSM(fsm_en);
-        else if (strcmp(n, "u_fsm.bit_cntr_q") == 0) p = &FSM(bit_cntr_q);
-        else if (strcmp(n, "u_fsm.byte_cntr_cpha0_q") == 0) p = &FSM(byte_cntr_cpha0_q);
-        else if (strcmp(n, "u_fsm.byte_cntr_cpha1_q") == 0) p = &FSM(byte_cntr_cpha1_q);
-        else if (strcmp(n, "u_fsm.clk_cntr_q") == 0) p = &FSM(clk_cntr_q);
-        else if (strcmp(n, "u_fsm.clkdiv_q") == 0) p = &FSM(clkdiv_q);
-        else if (strcmp(n, "u_fsm.cmd_rd_en_q") == 0) p = &FSM(cmd_rd_en_q);
-        else if (strcmp(n, "u_fsm.cmd_wr_en_q") == 0) p = &FSM(cmd_wr_en_q);
-        else if (strcmp(n, "u_fsm.cmd_speed_q") == 0) p = &FSM(cmd_speed_q);
-        else if (strcmp(n, "u_fsm.cpha_q") == 0) p = &FSM(cpha_q);
-        else if (strcmp(n, "u_fsm.byte_starting") == 0) p = &FSM(byte_starting);
-        else if (strcmp(n, "u_cmd_queue.cmd_fifo.full_o") == 0) p = &rootp->spi_host_perip_tb->__PVT__u_dut__DOT__u_cmd_queue__DOT__cmd_fifo__DOT__full_o;
-        else if (strcmp(n, "u_data_fifos.rx_depth") == 0) p = &rootp->spi_host_perip_tb->__PVT__u_dut__DOT__u_data_fifos__DOT__rx_depth;
-        else if (strcmp(n, "cmdq.wptr_q") == 0) p = &rootp->spi_host_perip_tb->__PVT__u_dut__DOT__u_cmd_queue__DOT__cmd_fifo__DOT__gen_normal_fifo__DOT__u_fifo_cnt__DOT__wptr_wrap_cnt_q;
-        else if (strcmp(n, "cmdq.rptr_q") == 0) p = &rootp->spi_host_perip_tb->__PVT__u_dut__DOT__u_cmd_queue__DOT__cmd_fifo__DOT__gen_normal_fifo__DOT__u_fifo_cnt__DOT__rptr_wrap_cnt_q;
-        else if (strcmp(n, "cmdq.storage") == 0) p = &rootp->spi_host_perip_tb->__PVT__u_dut__DOT__u_cmd_queue__DOT__cmd_fifo__DOT__gen_normal_fifo__DOT__storage;
-        else if (strcmp(n, "tb.core_command_valid") == 0) p = &rootp->spi_host_perip_tb->__PVT__u_dut__DOT__core_command_valid;
-        else if (strcmp(n, "tb.error_cmd_inval") == 0) p = &rootp->spi_host_perip_tb->__PVT__u_dut__DOT__error_cmd_inval;
-        else if (strcmp(n, "tb.error_csid_inval") == 0) p = &rootp->spi_host_perip_tb->__PVT__u_dut__DOT__error_csid_inval;
-        else if (strcmp(n, "tb.en") == 0) p = &rootp->spi_host_perip_tb->__PVT__u_dut__DOT__en;
-        else if (strcmp(n, "dbg.regwe_cnt") == 0) p = &rootp->spi_host_perip_tb->dbg_regwe_cnt;
-        else if (strcmp(n, "dbg.regre_cnt") == 0) p = &rootp->spi_host_perip_tb->dbg_regre_cnt;
-        else if (strcmp(n, "dbg.done_cnt") == 0) p = &rootp->spi_host_perip_tb->dbg_done_cnt;
-        else if (strcmp(n, "reg.csid_q") == 0) p = &rootp->spi_host_perip_tb->__PVT__u_dut__DOT__u_spi_core__DOT__u_fsm__DOT__csid_q;
-        else if (strcmp(n, "fsm.new_command") == 0) p = &rootp->spi_host_perip_tb->__PVT__u_dut__DOT__u_spi_core__DOT__u_fsm__DOT__new_command;
-        else if (strcmp(n, "fsm.stall") == 0) p = &rootp->spi_host_perip_tb->__PVT__u_dut__DOT__u_spi_core__DOT__u_fsm__DOT__stall;
-        else if (strcmp(n, "cmdq.under_rst") == 0) p = &rootp->spi_host_perip_tb->__PVT__u_dut__DOT__u_cmd_queue__DOT__cmd_fifo__DOT__gen_normal_fifo__DOT__under_rst;
-        else if (strcmp(n, "cmdq.full_o") == 0) p = &rootp->spi_host_perip_tb->__PVT__u_dut__DOT__u_cmd_queue__DOT__cmd_fifo__DOT__full_o;
-        else if (strcmp(n, "reg.intg_err") == 0) p = &rootp->spi_host_perip_tb->__PVT__u_dut__DOT__u_reg__DOT__intg_err;
-        else if (strcmp(n, "reg.reg_error") == 0) p = &rootp->spi_host_perip_tb->__PVT__u_dut__DOT__u_reg__DOT__reg_error;
-        else if (strcmp(n, "reg.reg_steer") == 0) p = &rootp->spi_host_perip_tb->__PVT__u_dut__DOT__u_reg__DOT__reg_steer;
-        else if (strcmp(n, "cmdq.fifo_incr_wptr") == 0) p = &rootp->spi_host_perip_tb->__PVT__u_dut__DOT__u_cmd_queue__DOT__cmd_fifo__DOT__gen_normal_fifo__DOT__fifo_incr_wptr;
-        else if (strcmp(n, "cmdq.fifo_incr_rptr") == 0) p = &rootp->spi_host_perip_tb->__PVT__u_dut__DOT__u_cmd_queue__DOT__cmd_fifo__DOT__gen_normal_fifo__DOT__fifo_incr_rptr;
+        (void)p;
         g_sigs[i].ptr = p;
     }
-    #undef FSM
 }
 
 static uint32_t sig_word(const SigEntry& s, int w) {
@@ -189,6 +151,7 @@ void pf_reset(void) {
 
 int pf_snapshot(void) { take_snapshot(); return (int)g_snaps.size() - 1; }
 int pf_snap_count(void) { return (int)g_snaps.size(); }
+int pf_sig_bound(int i) { return (i >= 0 && i < g_nsig && g_sigs[i].ptr != nullptr) ? 1 : 0; }
 int pf_sig_count(void) { return g_nsig; }
 const char* pf_sig_name(int i) { return (i >= 0 && i < g_nsig) ? g_sigs[i].name : ""; }
 int pf_sig_words(int i) { return (i >= 0 && i < g_nsig) ? g_sigs[i].words : 0; }
