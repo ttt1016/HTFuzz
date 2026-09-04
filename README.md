@@ -208,6 +208,19 @@ python3 scripts/ok_invariant.py gen <module>
 | 白盒批量扩充 | gpio 3→72, keymgr 1→127, csrng 13→319, pwrmgr 12→71, rstmgr 8→51 | |
 | **60% 目标（48 编号）** | 还差 13 个 | Phase D(ibex CSR TB+keymgr sideload+lc TB) |
 
+### Phase D 具体计划（解锁最后 13 个 ID）
+| 目标 | bug ID | 方法 | 检测机制 |
+|------|--------|------|---------|
+| tlul #34 地址截断 | 1 | tlul DUT 已有越界判定→O-K bus_intg_check 验证 | 即时 |
+| lc_ctrl #2 token 截断 | 1 | 扩展 lc_fsm_test: RMA token 低 32 位匹配场景 | TB 扩展 |
+| lc_ctrl #3/#14/#22 | 3 | lc_fsm_test 场景扩展(IdleSt 非法转移/hash 校验) | TB 扩展 |
+| ibex #5/#6 msecfg | 2 | 单元 TB: 写 mseccfg → 读回验证位不可清 | TB 新建 |
+| ibex #32 icache | 1 | 单元 TB: 强开 icache 场景 | 同上 |
+| keymgr #4/#5 sideload | 2 | wrapper 暴露 key_o → 消费者检测 | wrapper 修 |
+| otp_ctrl #46/#57 | 2 | SEC_CM oracle: debug lock 面检测 | 即时 |
+| gpio #13 | 1 | 白盒扩表后定向差分 | 已扩表 |
+| **合计** | **13** | → 35+13=48 = 60% ✓ | |
+
 ### 到 60% 的路径分解
 | 路径 | 可解锁 ID 数 | 状态 |
 |------|-------------|------|
