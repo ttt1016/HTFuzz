@@ -63,9 +63,9 @@ package lc_ctrl_pkg;
   } lc_tx_t;
   parameter lc_tx_t LC_TX_DEFAULT = lc_tx_t'(Off);
 
-  parameter int RmaSeedWidth = 32;
-  typedef logic [RmaSeedWidth-1:0] lc_flash_rma_seed_t;
-  parameter lc_flash_rma_seed_t LC_FLASH_RMA_SEED_DEFAULT = '0;
+  parameter int RmaSeedWidth = 64;
+  typedef logic [RmaSeedWidth-1:0] lc_nvm_rma_seed_t;
+  parameter lc_nvm_rma_seed_t LC_NVM_RMA_SEED_DEFAULT = '0;
 
   parameter int LcKeymgrDivWidth = 128;
   typedef logic [LcKeymgrDivWidth-1:0] lc_keymgr_div_t;
@@ -100,6 +100,20 @@ package lc_ctrl_pkg;
   function automatic prim_mubi_pkg::mubi4_t lc_to_mubi4(lc_tx_t val);
     return prim_mubi_pkg::mubi4_t'(val ^ (On ^ prim_mubi_pkg::MuBi4True));
   endfunction : lc_to_mubi4
+
+  // Same as lc_to_mubi4 but, but for an input that is Off, return MuBi4True
+  // for an input that is On, return MuBi4False
+  function automatic prim_mubi_pkg::mubi4_t lc_to_mubi4_inv(lc_tx_t val);
+    return prim_mubi_pkg::mubi4_t'(val ^ (Off ^ prim_mubi_pkg::MuBi4True));
+  endfunction : lc_to_mubi4_inv
+
+  // Convert a life cycle signal to mubi8. See also lc_to_mubi4.
+  function automatic prim_mubi_pkg::mubi8_t lc_to_mubi8(lc_tx_t val);
+    return prim_mubi_pkg::mubi8_t'({
+      lc_to_mubi4_inv(val),
+      lc_to_mubi4(val)
+    });
+  endfunction : lc_to_mubi8
 
   function automatic lc_tx_t mubi4_to_lc(prim_mubi_pkg::mubi4_t val);
     return lc_tx_t'(val ^ (prim_mubi_pkg::MuBi4True ^ On));
@@ -191,7 +205,7 @@ package lc_ctrl_pkg;
   // !act | act  | !act
   // act  | act  | act
   //
-  // Noite: The lc_tx_and() function does not suffer from the strictness problem
+  // Note: The lc_tx_and() function does not suffer from the strictness problem
   // that the lc_tx_or function above does, since only one output value in the
   // truth table is strictly "act". It can hence be used in most scenarios without issues.
   // If however the lc_tx_and() function should be strictly rectifying (i.e., only
@@ -287,7 +301,7 @@ package lc_ctrl_pkg;
     CntProgSt     = 16'b0000110001010100,
     TransCheckSt  = 16'b0110111010110000,
     TokenHashSt   = 16'b1101001000111111,
-    FlashRmaSt    = 16'b1110100010001111,
+    NvmRmaSt      = 16'b1110100010001111,
     TokenCheck0St = 16'b0010000011000000,
     TokenCheck1St = 16'b1101010101101111,
     TransProgSt   = 16'b1000000110101011,

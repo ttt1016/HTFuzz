@@ -5,6 +5,6 @@
 
 package prim_pkg;
   // The name of the technology implementation.
-  parameter PrimTechName = "Generic";
+  parameter PrimTechName = "XilinxUltrascale";
 
 endpackage // prim_pkg

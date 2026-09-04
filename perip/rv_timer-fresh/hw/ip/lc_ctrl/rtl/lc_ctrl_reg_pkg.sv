@@ -28,6 +28,13 @@ package lc_ctrl_reg_pkg;
   parameter int NumRegsRegs = 35;
   parameter int NumRegsDmi = 0;
 
+  // Alert indices
+  typedef enum int {
+    AlertFatalProgErrorIdx = 0,
+    AlertFatalStateErrorIdx = 1,
+    AlertFatalBusIntegErrorIdx = 2
+  } lc_ctrl_alert_idx_t;
+
   ///////////////////////////////////////////////
   // Typedefs for registers for regs interface //
   ///////////////////////////////////////////////
@@ -98,7 +105,7 @@ package lc_ctrl_reg_pkg;
     } otp_error;
     struct packed {
       logic        d;
-    } flash_rma_error;
+    } nvm_rma_error;
     struct packed {
       logic        d;
     } token_error;

@@ -23,6 +23,7 @@ module tlul_adapter_sram
 #(
   parameter int SramAw            = 12,
   parameter int SramDw            = 32, // Must be multiple of the TL width
+  parameter int SramDepth         = 2**SramAw, // Must be <= 2**SramAw
   parameter int Outstanding       = 1,  // Only one request is accepted
   parameter int SramBusBankAW     = 12, // SRAM bus address width of the SRAM bank. Only used
                                         // when DataXorAddr=1.
@@ -90,6 +91,7 @@ module tlul_adapter_sram
   logic tlul_error;
   logic readback_error;
   logic sram_byte_readback_error;
+  logic addr_miss_error;
 
   // readback check
   logic readback_error_q;
@@ -163,6 +165,16 @@ module tlul_adapter_sram
     assign rd_vld_error = 1'b0;
   end
 
+  if (2**SramAw == SramDepth) begin : gen_no_addr_chk
+    // The depth of the memory is a power of two. Here, we only ever get to see addresses that hit
+    // in the memory.
+    assign addr_miss_error = 1'b0;
+  end else begin : gen_addr_chk
+    // The depth of the memory is not a power of two. We have to signal an error if the address
+    // hits the unmapped range.
+    assign addr_miss_error = tl_i.a_address[DataBitWidth +: SramAw] >= SramDepth;
+  end
+
   // tlul protocol check
   tlul_err u_err (
     .clk_i,
@@ -173,7 +185,7 @@ module tlul_adapter_sram
 
   // error return is transactional and thus does not used the "latched" intg_err signal
   assign error_det = wr_attr_error | wr_vld_error | rd_vld_error | instr_error |
-                     tlul_error    | intg_error;
+                     tlul_error    | intg_error   | addr_miss_error;
 
   // from sram_byte to adapter logic
   tl_h2d_t tl_i_int;
@@ -225,14 +237,8 @@ module tlul_adapter_sram
     logic [SramBusBankAW-1:0] addr; // Address of the request going to the memory.
   } sram_req_addr_t ;
 
-  typedef enum logic [1:0] {
-    OpWrite,
-    OpRead,
-    OpUnknown
-  } req_op_e ;
-
   typedef struct packed {
-    req_op_e                    op ;
+    logic                       is_read ;
     logic                       error ;
     prim_mubi_pkg::mubi4_t      instr_type;
     logic [top_pkg::TL_SZW-1:0] size ;
@@ -295,7 +301,7 @@ module tlul_adapter_sram
       if (reqfifo_rdata.error) begin
         // Return error response. Assume no request went out to SRAM
         d_valid = 1'b1;
-      end else if (reqfifo_rdata.op == OpRead) begin
+      end else if (reqfifo_rdata.is_read) begin
         d_valid = rspfifo_rvalid;
       end else begin
         // Write without error
@@ -312,7 +318,7 @@ module tlul_adapter_sram
     d_error = 1'b0;
 
     if (reqfifo_rvalid) begin
-      if (reqfifo_rdata.op == OpRead) begin
+      if (reqfifo_rdata.is_read) begin
         d_error = rspfifo_rdata.error | reqfifo_rdata.error;
       end else begin
         d_error = reqfifo_rdata.error;
@@ -323,7 +329,7 @@ module tlul_adapter_sram
   end
 
   logic vld_rd_rsp;
-  assign vld_rd_rsp = d_valid & rspfifo_rvalid & (reqfifo_rdata.op == OpRead);
+  assign vld_rd_rsp = d_valid & rspfifo_rvalid & reqfifo_rdata.is_read;
   // If the response data is not valid, we set it to an illegal blanking value which is determined
   // by whether the current transaction is an instruction fetch or a regular read operation.
   logic [top_pkg::TL_DW-1:0] error_blanking_data;
@@ -381,7 +387,7 @@ module tlul_adapter_sram
 
   assign tl_o_int = '{
       d_valid  : d_valid ,
-      d_opcode : (d_valid && reqfifo_rdata.op != OpRead) ? AccessAck : AccessAckData,
+      d_opcode : (d_valid && !reqfifo_rdata.is_read) ? AccessAck : AccessAckData,
       d_param  : '0,
       d_size   : (d_valid) ? reqfifo_rdata.size : '0,
       d_source : (d_valid) ? reqfifo_rdata.source : '0,
@@ -471,7 +477,7 @@ module tlul_adapter_sram
 
   assign reqfifo_wvalid = a_ack ; // Push to FIFO only when granted
   assign reqfifo_wdata  = '{
-    op:     (tl_i_int.a_opcode != Get) ? OpWrite : OpRead, // To return AccessAck for opcode error
+    is_read: tl_i_int.a_opcode == Get,
     error:  error_internal,
     instr_type: tl_i_int.a_user.instr_type,
     size:   tl_i_int.a_size,
@@ -541,8 +547,7 @@ module tlul_adapter_sram
     data_intg : EnableDataIntgPt ? rdata_tlword[DataWidth-1 -: DataIntgWidth] : '0,
     error     : rerror_i[1] // Only care for Uncorrectable error
   };
-  assign rspfifo_rready = (reqfifo_rdata.op == OpRead & ~reqfifo_rdata.error)
-                        ? reqfifo_rready : 1'b0 ;
+  assign rspfifo_rready = reqfifo_rdata.is_read & ~reqfifo_rdata.error & reqfifo_rready;
 
   // This module only cares about uncorrectable errors.
   logic unused_rerror;
@@ -651,6 +656,11 @@ module tlul_adapter_sram
 
   `ASSERT_INIT(SramDwHasByteGranularity_A, SramDw % 8 == 0)
   `ASSERT_INIT(SramDwIsMultipleOfTlulWidth_A, SramDw % top_pkg::TL_DW == 0)
+  // Either the memory has a power-of-two depth and the address width perfectly matches, or the
+  // depth is not a power of two but the address width is still minimal.
+  `ASSERT_INIT(SramAwCorrectlySizedForDepth_A,
+      ((SramDepth & (SramDepth - 1)) == 0) ? (2**SramAw == SramDepth) :
+                                             ($clog2(SramDepth) == SramAw))
 
   // These parameter options cannot both be true at the same time
   `ASSERT_INIT(DataIntgOptions_A, ~(EnableDataIntgGen & EnableDataIntgPt))

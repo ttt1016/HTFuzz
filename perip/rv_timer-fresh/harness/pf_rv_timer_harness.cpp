@@ -26,11 +26,8 @@ static void bind_signals() {
     for (int i = 0; i < g_nsig; i++) {
         const char* n = g_sigs[i].name;
         void* p = nullptr;
-        if (0) {}
-        else if (strcmp(n, "u_core.tick_count") == 0) p = &rootp->rv_timer_perip_tb__DOT__u_dut__DOT__gen_harts__BRA__0__KET____DOT__u_core__DOT__tick_count;
-        else if (strcmp(n, "u_dut.mtimecmp") == 0) p = &rootp->rv_timer_perip_tb__DOT__u_dut__DOT__mtimecmp;
-        else if (strcmp(n, "u_dut.mtime_lo") == 0) p = &rootp->rv_timer_perip_tb__DOT__u_dut__DOT__hw2reg[1];
-        else if (strcmp(n, "u_dut.intr_set") == 0) p = &rootp->rv_timer_perip_tb__DOT__u_dut__DOT__hw2reg[0];
+        (void)p;
+        if (strcmp(n, "u_core.tick_count") == 0) p = &rootp->rv_timer_perip_tb__DOT__u_dut__DOT__gen_harts__BRA__0__KET____DOT__u_core__DOT__tick_count;
         g_sigs[i].ptr = p;
     }
 }
@@ -138,6 +135,7 @@ void pf_reset(void) {
 
 int pf_snapshot(void) { take_snapshot(); return (int)g_snaps.size() - 1; }
 int pf_snap_count(void) { return (int)g_snaps.size(); }
+int pf_sig_bound(int i) { return (i >= 0 && i < g_nsig && g_sigs[i].ptr != nullptr) ? 1 : 0; }
 int pf_sig_count(void) { return g_nsig; }
 const char* pf_sig_name(int i) { return (i >= 0 && i < g_nsig) ? g_sigs[i].name : ""; }
 int pf_sig_words(int i) { return (i >= 0 && i < g_nsig) ? g_sigs[i].words : 0; }

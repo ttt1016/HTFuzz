@@ -30,7 +30,7 @@
 //    PartialSeedWidth-wide part of the state has been overwritten once.
 //    To enable updating the primitive and using the key stream during the reseed operation, the
 //    number of output bits produced per update (OutputWidth) should be greater than the width of
-//    the smallest NFSR in the primitve (MinNfsrWidth = 84). Thanks to the strong diffusion
+//    the smallest NFSR in the primitive (MinNfsrWidth = 84). Thanks to the strong diffusion
 //    properties of the primitives, the majority of state and key stream bits change after
 //    reseeding the first state part and performing the first couple of updates if OutputWidth is
 //    chosen sufficiently large. For Bivium, a quick evaluation hints that for OutputWidth equal
@@ -64,7 +64,7 @@ module prim_trivium import prim_trivium_pkg::*;
                                                      // restore to the default seed, or 0: allow
                                                      // to keep the all zero state if requested by
                                                      // allow_lockup_i.
-  parameter seed_type_e  SeedType = SeedTypeStateFull, // Reseeding inteface selection, see
+  parameter seed_type_e  SeedType = SeedTypeStateFull, // Reseeding interface selection, see
                                                        // prim_trivium_pkg.sv for possible values.
   parameter int unsigned PartialSeedWidth = PartialSeedWidthDefault,
 
@@ -92,12 +92,13 @@ module prim_trivium import prim_trivium_pkg::*;
   input  logic [StateWidth-1:0]       seed_state_full_i,    // Seed input for SeedTypeStateFull
   input  logic [PartialSeedWidth-1:0] seed_state_partial_i, // Seed input for SeedTypeStatePartial
 
-  output logic [OutputWidth-1:0] key_o, // Key stream output
-  output logic                   err_o  // The primitive entered an all zero state and may have
-                                        // locked up or entered the default state defined by
-                                        // RndCnstTriviumLfsrSeed depending on the
-                                        // StrictLockupProtection parameter and the allow_lockup_i
-                                        // signal.
+  output logic [OutputWidth-1:0] key_o,   // Key stream output
+  output logic [StateWidth-1:0]  state_o, // The current cipher state
+  output logic                   err_o    // The primitive entered an all zero state and may have
+                                          // locked up or entered the default state defined by
+                                          // RndCnstTriviumLfsrSeed depending on the
+                                          // StrictLockupProtection parameter and the
+                                          // allow_lockup_i signal.
 );
 
   localparam int unsigned LastStatePartFractional = StateWidth % PartialSeedWidth != 0 ? 1 : 0;
@@ -143,6 +144,8 @@ module prim_trivium import prim_trivium_pkg::*;
       end
     end
   end
+
+  assign state_o = state_q;
 
   ///////////////
   // Reseeding //
@@ -308,7 +311,7 @@ module prim_trivium import prim_trivium_pkg::*;
 
   // While performing a partial reseed of the state, the primitive can be updated. However, this
   // should only be done if the number of produced bits per update / shift amount per update is
-  // greater than the width of the smallest NFSR (= 84) inside the primitve. Otherwise, there is a
+  // greater than the width of the smallest NFSR (= 84) inside the primitive. Otherwise, there is a
   // risk of overwriting the previously provided partial seed which reduces the amount of fresh
   // entropy injected per full reseed operation.
   `ASSERT(PrimTriviumPartialStateSeedWhileUpdate_A,
