@@ -50,7 +50,7 @@
  "ascon": {
   "elapsed_s": 0.1,
   "rc": 0,
-  "raw": 12,
+  "raw": 58,
   "findings": [
    {
     "oracle": "O-A-residual",
@@ -60,7 +60,57 @@
    {
     "oracle": "O-A-residual",
     "signal": "ascon_core.key_share1_in_q",
-    "desc": "敏感信号 ascon_core.key_share1_in_q[0] 在清除/操作序列后残留写入标记值"
+    "desc": "敏感信号 ascon_core.key_share1_in_q[1] 在清除/操作序列后残留写入标记值"
+   },
+   {
+    "oracle": "O-B-determinism",
+    "signal": "u_reg.u_ctrl_shadowed_masked_ad_input.shadow_q",
+    "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_ad_input.shadow_q 两次独立执行逐位相同 → 无随机性（静态掩码/PRNG 不动）"
+   },
+   {
+    "oracle": "O-B-determinism",
+    "signal": "u_reg.u_ctrl_shadowed_masked_ad_input.shadow_wd",
+    "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_ad_input.shadow_wd 两次独立执行逐位相同 → 无随机性（静态掩码/PRNG 不动）"
+   },
+   {
+    "oracle": "O-B-determinism",
+    "signal": "u_reg.u_ctrl_shadowed_masked_ad_input.shadow_we",
+    "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_ad_input.shadow_we 两次独立执行逐位相同 → 无随机性（静态掩码/PRNG 不动）"
+   },
+   {
+    "oracle": "O-B-determinism",
+    "signal": "u_reg.u_ctrl_shadowed_masked_msg_input.shadow_q",
+    "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_msg_input.shadow_q 两次独立执行逐位相同 → 无随机性（静态掩码/PRNG 不动）"
+   },
+   {
+    "oracle": "O-B-determinism",
+    "signal": "u_reg.u_ctrl_shadowed_masked_msg_input.shadow_wd",
+    "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_msg_input.shadow_wd 两次独立执行逐位相同 → 无随机性（静态掩码/PRNG 不动）"
+   },
+   {
+    "oracle": "O-B-determinism",
+    "signal": "u_reg.u_ctrl_shadowed_masked_msg_input.shadow_we",
+    "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_msg_input.shadow_we 两次独立执行逐位相同 → 无随机性（静态掩码/PRNG 不动）"
+   },
+   {
+    "oracle": "O-F-stream",
+    "signal": "ascon_core.ascon_duplex.u_round_counter.err_q",
+    "desc": "计数器 ascon_core.ascon_duplex.u_round_counter.err_q 在数据流使能后 300 拍三次采样完全不变（值 0xf000000）→ 疑似计数器冻结/数据流卡死"
+   },
+   {
+    "oracle": "O-F-stream",
+    "signal": "ascon_core.ascon_duplex.u_round_counter.gen_cnts__BRA__0__KET__.cnt_unforced_q",
+    "desc": "计数器 ascon_core.ascon_duplex.u_round_counter.gen_cnts__BRA__0__KET__.cnt_unforced_q 在数据流使能后 300 拍三次采样完全不变（值 0xf0f00）→ 疑似计数器冻结/数据流卡死"
+   },
+   {
+    "oracle": "O-F-stream",
+    "signal": "ascon_core.ascon_duplex.u_round_counter.gen_cnts__BRA__1__KET__.cnt_unforced_q",
+    "desc": "计数器 ascon_core.ascon_duplex.u_round_counter.gen_cnts__BRA__1__KET__.cnt_unforced_q 在数据流使能后 300 拍三次采样完全不变（值 0xf）→ 疑似计数器冻结/数据流卡死"
+   },
+   {
+    "oracle": "O-J-errprop",
+    "signal": "u_reg.ctrl_shadowed_masked_ad_input_storage_err,u_reg.ctrl_shadowed_masked_ad_input_update_err,u_reg.ctrl_shadowed_masked_msg_input_storage_err",
+    "desc": "错误传播不完整: 静默触发 ['T1-invalid-cfg']（3 类已传播）→ 疑似部分错误路径被吞没"
    }
   ],
   "err_head": ""
