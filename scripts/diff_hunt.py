@@ -90,6 +90,21 @@ DIRECTED = {
         {"step": 20},
         {"reset": True},
     ],
+    "tlul": [
+        # #34 地址截断: 写有效区(0x00-0x1C) + 越界区(0x20-0xFF) → 对比 rsp_error
+        {"wr": (0x00, 0xAAAAAAAA), "step": 3},
+        {"wr": (0x04, 0x55555555), "step": 2},
+        {"wr": (0x1C, 0xDEADBEEF), "step": 2},    # 最后一个有效寄存器
+        {"wr": (0x20, 0x12345678), "step": 5},     # 越界!
+        {"wr": (0x24, 0xCAFEBABE), "step": 5},     # 越界
+        {"wr": (0x100, 0x12345678), "step": 5},    # 远越界
+        {"rd": 0x20}, {"rd": 0x24}, {"rd": 0x28},  # 读越界区
+        {"reset": True},
+        # 二次: 只写越界
+        {"wr": (0x100, 0x12345678), "step": 5},
+        {"rd": 0x100},
+        {"wr": (0x200, 0xBEEFDEAD), "step": 3},
+    ],
     "pwrmgr": [
         # 写 WAKEUP/RESET en → 等 FSM 推进 → 观察 slow FSM
         {"wr": (0x4, 0xFFFFFFFF), "step": 2},     # WAKEUP_EN

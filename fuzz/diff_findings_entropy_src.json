@@ -4,29 +4,15 @@
  "findings": [
   {
    "oracle": "O-DIFF-directed",
-   "signal": "u_core.markov_lo_event_cnt",
-   "desc": "定向刺激偏离: u_core.markov_lo_event_cnt ctf=0 fresh=255",
+   "signal": "u_sha3.absorbed",
+   "desc": "定向刺激偏离: u_sha3.absorbed ctf=9 fresh=0",
    "first_idx": 0,
    "channel": "sig"
   },
   {
    "oracle": "O-DIFF-directed",
-   "signal": "u_sha3.st_d",
-   "desc": "定向刺激偏离: u_sha3.st_d ctf=44 fresh=0",
-   "first_idx": 0,
-   "channel": "sig"
-  },
-  {
-   "oracle": "O-DIFF-directed",
-   "signal": "u_core.es_bypass_mode",
-   "desc": "定向刺激偏离: u_core.es_bypass_mode ctf=1 fresh=0",
-   "first_idx": 0,
-   "channel": "sig"
-  },
-  {
-   "oracle": "O-DIFF-directed",
-   "signal": "u_core.ack_sm_state_raw",
-   "desc": "定向刺激偏离: u_core.ack_sm_state_raw ctf=29 fresh=0",
+   "signal": "u_core.es_main_sm_idle",
+   "desc": "定向刺激偏离: u_core.es_main_sm_idle ctf=1 fresh=0",
    "first_idx": 0,
    "channel": "sig"
   },
@@ -39,15 +25,8 @@
   },
   {
    "oracle": "O-DIFF-directed",
-   "signal": "u_core.main_sm_state_raw",
-   "desc": "定向刺激偏离: u_core.main_sm_state_raw ctf=245 fresh=0",
-   "first_idx": 0,
-   "channel": "sig"
-  },
-  {
-   "oracle": "O-DIFF-directed",
-   "signal": "u_core.sfifo_distr_full",
-   "desc": "定向刺激偏离: u_core.sfifo_distr_full ctf=0 fresh=1",
+   "signal": "u_core.ack_sm_state_raw",
+   "desc": "定向刺激偏离: u_core.ack_sm_state_raw ctf=29 fresh=0",
    "first_idx": 0,
    "channel": "sig"
   },
@@ -67,15 +46,8 @@
   },
   {
    "oracle": "O-DIFF-directed",
-   "signal": "u_sha3.absorbed",
-   "desc": "定向刺激偏离: u_sha3.absorbed ctf=9 fresh=0",
-   "first_idx": 0,
-   "channel": "sig"
-  },
-  {
-   "oracle": "O-DIFF-directed",
-   "signal": "u_core.es_main_sm_idle",
-   "desc": "定向刺激偏离: u_core.es_main_sm_idle ctf=1 fresh=0",
+   "signal": "u_core.es_bypass_mode",
+   "desc": "定向刺激偏离: u_core.es_bypass_mode ctf=1 fresh=0",
    "first_idx": 0,
    "channel": "sig"
   },
@@ -83,27 +55,41 @@
    "oracle": "O-DIFF-directed",
    "signal": "u_core.markov_lo_event_cnt",
    "desc": "定向刺激偏离: u_core.markov_lo_event_cnt ctf=0 fresh=255",
-   "first_idx": 1,
+   "first_idx": 0,
+   "channel": "sig"
+  },
+  {
+   "oracle": "O-DIFF-directed",
+   "signal": "u_core.main_sm_state_raw",
+   "desc": "定向刺激偏离: u_core.main_sm_state_raw ctf=245 fresh=0",
+   "first_idx": 0,
+   "channel": "sig"
+  },
+  {
+   "oracle": "O-DIFF-directed",
+   "signal": "u_core.sfifo_distr_full",
+   "desc": "定向刺激偏离: u_core.sfifo_distr_full ctf=0 fresh=1",
+   "first_idx": 0,
    "channel": "sig"
   },
   {
    "oracle": "O-DIFF-directed",
    "signal": "u_sha3.st_d",
    "desc": "定向刺激偏离: u_sha3.st_d ctf=44 fresh=0",
+   "first_idx": 0,
+   "channel": "sig"
+  },
+  {
+   "oracle": "O-DIFF-directed",
+   "signal": "u_sha3.absorbed",
+   "desc": "定向刺激偏离: u_sha3.absorbed ctf=9 fresh=0",
    "first_idx": 1,
    "channel": "sig"
   },
   {
    "oracle": "O-DIFF-directed",
-   "signal": "u_core.es_bypass_mode",
-   "desc": "定向刺激偏离: u_core.es_bypass_mode ctf=1 fresh=0",
-   "first_idx": 1,
-   "channel": "sig"
-  },
-  {
-   "oracle": "O-DIFF-directed",
-   "signal": "u_core.ack_sm_state_raw",
-   "desc": "定向刺激偏离: u_core.ack_sm_state_raw ctf=29 fresh=0",
+   "signal": "u_core.es_main_sm_idle",
+   "desc": "定向刺激偏离: u_core.es_main_sm_idle ctf=1 fresh=0",
    "first_idx": 1,
    "channel": "sig"
   },
@@ -116,15 +102,8 @@
   },
   {
    "oracle": "O-DIFF-directed",
-   "signal": "u_core.main_sm_state_raw",
-   "desc": "定向刺激偏离: u_core.main_sm_state_raw ctf=245 fresh=0",
-   "first_idx": 1,
-   "channel": "sig"
-  },
-  {
-   "oracle": "O-DIFF-directed",
-   "signal": "u_core.sfifo_distr_full",
-   "desc": "定向刺激偏离: u_core.sfifo_distr_full ctf=0 fresh=1",
+   "signal": "u_core.ack_sm_state_raw",
+   "desc": "定向刺激偏离: u_core.ack_sm_state_raw ctf=29 fresh=0",
    "first_idx": 1,
    "channel": "sig"
   },
@@ -144,15 +123,8 @@
   },
   {
    "oracle": "O-DIFF-directed",
-   "signal": "u_sha3.absorbed",
-   "desc": "定向刺激偏离: u_sha3.absorbed ctf=9 fresh=0",
-   "first_idx": 1,
-   "channel": "sig"
-  },
-  {
-   "oracle": "O-DIFF-directed",
-   "signal": "u_core.es_main_sm_idle",
-   "desc": "定向刺激偏离: u_core.es_main_sm_idle ctf=1 fresh=0",
+   "signal": "u_core.es_bypass_mode",
+   "desc": "定向刺激偏离: u_core.es_bypass_mode ctf=1 fresh=0",
    "first_idx": 1,
    "channel": "sig"
   },
@@ -160,27 +132,41 @@
    "oracle": "O-DIFF-directed",
    "signal": "u_core.markov_lo_event_cnt",
    "desc": "定向刺激偏离: u_core.markov_lo_event_cnt ctf=0 fresh=255",
-   "first_idx": 2,
+   "first_idx": 1,
+   "channel": "sig"
+  },
+  {
+   "oracle": "O-DIFF-directed",
+   "signal": "u_core.main_sm_state_raw",
+   "desc": "定向刺激偏离: u_core.main_sm_state_raw ctf=245 fresh=0",
+   "first_idx": 1,
+   "channel": "sig"
+  },
+  {
+   "oracle": "O-DIFF-directed",
+   "signal": "u_core.sfifo_distr_full",
+   "desc": "定向刺激偏离: u_core.sfifo_distr_full ctf=0 fresh=1",
+   "first_idx": 1,
    "channel": "sig"
   },
   {
    "oracle": "O-DIFF-directed",
    "signal": "u_sha3.st_d",
    "desc": "定向刺激偏离: u_sha3.st_d ctf=44 fresh=0",
+   "first_idx": 1,
+   "channel": "sig"
+  },
+  {
+   "oracle": "O-DIFF-directed",
+   "signal": "u_sha3.absorbed",
+   "desc": "定向刺激偏离: u_sha3.absorbed ctf=9 fresh=0",
    "first_idx": 2,
    "channel": "sig"
   },
   {
    "oracle": "O-DIFF-directed",
-   "signal": "u_core.es_bypass_mode",
-   "desc": "定向刺激偏离: u_core.es_bypass_mode ctf=1 fresh=0",
-   "first_idx": 2,
-   "channel": "sig"
-  },
-  {
-   "oracle": "O-DIFF-directed",
-   "signal": "u_core.ack_sm_state_raw",
-   "desc": "定向刺激偏离: u_core.ack_sm_state_raw ctf=29 fresh=0",
+   "signal": "u_core.es_main_sm_idle",
+   "desc": "定向刺激偏离: u_core.es_main_sm_idle ctf=1 fresh=0",
    "first_idx": 2,
    "channel": "sig"
   },
@@ -193,15 +179,8 @@
   },
   {
    "oracle": "O-DIFF-directed",
-   "signal": "u_core.main_sm_state_raw",
-   "desc": "定向刺激偏离: u_core.main_sm_state_raw ctf=245 fresh=0",
-   "first_idx": 2,
-   "channel": "sig"
-  },
-  {
-   "oracle": "O-DIFF-directed",
-   "signal": "u_core.sfifo_distr_full",
-   "desc": "定向刺激偏离: u_core.sfifo_distr_full ctf=0 fresh=1",
+   "signal": "u_core.ack_sm_state_raw",
+   "desc": "定向刺激偏离: u_core.ack_sm_state_raw ctf=29 fresh=0",
    "first_idx": 2,
    "channel": "sig"
   },
@@ -221,15 +200,36 @@
   },
   {
    "oracle": "O-DIFF-directed",
-   "signal": "u_sha3.absorbed",
-   "desc": "定向刺激偏离: u_sha3.absorbed ctf=9 fresh=0",
+   "signal": "u_core.es_bypass_mode",
+   "desc": "定向刺激偏离: u_core.es_bypass_mode ctf=1 fresh=0",
    "first_idx": 2,
    "channel": "sig"
   },
   {
    "oracle": "O-DIFF-directed",
-   "signal": "u_core.es_main_sm_idle",
-   "desc": "定向刺激偏离: u_core.es_main_sm_idle ctf=1 fresh=0",
+   "signal": "u_core.markov_lo_event_cnt",
+   "desc": "定向刺激偏离: u_core.markov_lo_event_cnt ctf=0 fresh=255",
+   "first_idx": 2,
+   "channel": "sig"
+  },
+  {
+   "oracle": "O-DIFF-directed",
+   "signal": "u_core.main_sm_state_raw",
+   "desc": "定向刺激偏离: u_core.main_sm_state_raw ctf=245 fresh=0",
+   "first_idx": 2,
+   "channel": "sig"
+  },
+  {
+   "oracle": "O-DIFF-directed",
+   "signal": "u_core.sfifo_distr_full",
+   "desc": "定向刺激偏离: u_core.sfifo_distr_full ctf=0 fresh=1",
+   "first_idx": 2,
+   "channel": "sig"
+  },
+  {
+   "oracle": "O-DIFF-directed",
+   "signal": "u_sha3.st_d",
+   "desc": "定向刺激偏离: u_sha3.st_d ctf=44 fresh=0",
    "first_idx": 2,
    "channel": "sig"
   }

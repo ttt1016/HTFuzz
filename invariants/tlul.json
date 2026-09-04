@@ -1,0 +1,14 @@
+{
+ "module": "tlul",
+ "invariants": [
+  {
+   "signal": "u_dut.rsp_error",
+   "rule": "bus_intg_check",
+   "desc": "\u8d8a\u754c\u5730\u5740\u8bbf\u95ee\u5fc5\u987b\u7f6e rsp_error"
+  },
+  {
+   "signal": "u_dut.u_reg_if.rdata_q",
+   "rule": "read_only_leak"
+  }
+ ]
+}

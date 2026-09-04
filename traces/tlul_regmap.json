@@ -1,0 +1,42 @@
+[
+ {
+  "kind": "reg",
+  "name": "reg0",
+  "offset": 0
+ },
+ {
+  "kind": "reg",
+  "name": "reg1",
+  "offset": 4
+ },
+ {
+  "kind": "reg",
+  "name": "reg2",
+  "offset": 8
+ },
+ {
+  "kind": "reg",
+  "name": "reg3",
+  "offset": 12
+ },
+ {
+  "kind": "reg",
+  "name": "reg4",
+  "offset": 16
+ },
+ {
+  "kind": "reg",
+  "name": "reg5",
+  "offset": 20
+ },
+ {
+  "kind": "reg",
+  "name": "reg6",
+  "offset": 24
+ },
+ {
+  "kind": "reg",
+  "name": "reg7",
+  "offset": 28
+ }
+]
