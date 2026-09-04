@@ -138,6 +138,17 @@ export PF_TARGET_RTL=/workspace/opentitan
 3. **O-K 不变量来源**: 安全规范标准（SEC_CM/hjson），非 CSV 归纳
 4. **LLM**: 自建本地服务，无外部 API 依赖
 
+### 任务 5: 差分层（2026-09-04 新增，导师放开 fresh 对照）
+- 三件套: `scripts/dut_trace.py`（确定性重放）+ `scripts/diff_replay.py`（三遍比对器）+
+  `triage_nofresh.py`（已升级: fresh DUT 存在时自动差分验证）
+- 用法: `python3 scripts/diff_replay.py hmac`（三遍跑法: CTF/fresh×2）
+- 变异测试: `python3 scripts/mutate_fresh.py hmac`（宿主机运行, 需 docker）
+- 已验证: hmac DIVERGENT（secret_key 78 拍偏离, #20/60 精确命中）;
+  wipe_noop 变异体双通道杀伤（oracle 17 条 + diff DIVERGENT）
+- 大坑: **objdir 里的陈旧 *_cov*.so 会被旧加载逻辑选为 API 句柄** → 子进程段错误 +
+  检出力静默降级（hmac 丢 3 条）。已修复: 排除 _cov + 有序选择（discover_engine DUT.__init__）
+- 下一步: 全模块 fresh DUT 批建; MUTANTS 注册表扩族; DIFF-REFUTED 实数据演示
+
 ## 关键文件清单（2026-09-03 收敛后）
 
 | 文件 | 用途 |
@@ -152,7 +163,10 @@ export PF_TARGET_RTL=/workspace/opentitan
 | `scripts/ol_full_loop.py` | 闭环 fuzzing |
 | `scripts/pf_profile.py` | 模块信号 profile |
 | `scripts/environments/dut_env.py` | Environment 抽象 |
-| `scripts/triage_nofresh.py` | 置信度分级 |
+| `scripts/triage_nofresh.py` | 置信度分级 + 差分验证（DIFF-CONFIRMED/REFUTED）|
+| `scripts/dut_trace.py` | 差分: 确定性轨迹重放器 |
+| `scripts/diff_replay.py` | 差分: CTF/fresh×2 三遍比对器 |
+| `scripts/mutate_fresh.py` | 变异测试闭环（杀伤率统计）|
 | `scripts/autobuild.sh`(perip 内联) | 新 DUT 依赖闭包自动解析 |
 | `reports/CTF-SUMMARY-REPORT.md` | 主报告（38 章，按日期归档 reports/YYYYMMDD/）|
 | `reports/20260903/ORACLE-TAXONOMY.md` | 十大属性族分类学 |

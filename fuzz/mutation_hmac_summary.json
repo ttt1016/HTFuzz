@@ -1,0 +1,28 @@
+[
+ {
+  "module": "hmac",
+  "mutant": "wipe_noop",
+  "inject": "wipe 分支写回原值（擦除失效族）",
+  "oracle_findings": 17,
+  "oracle_killed": true,
+  "diff_verdict": "DIVERGENT",
+  "diff_killed": true,
+  "first_divergence": {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.secret_key",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  "signals": [
+   "hmac.SHA-512",
+   "u_dut.done_state_q",
+   "u_dut.secret_key",
+   "u_dut.secret_key_d",
+   "u_dut.u_reg.reg_error,u_dut.u_reg.intg_err,u_dut.u_reg.u_err_code.q"
+  ]
+ }
+]

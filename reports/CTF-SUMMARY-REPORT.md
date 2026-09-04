@@ -1870,3 +1870,53 @@ spi_tpm/mbx 需要特殊激励（TPM 侧/核侧 req/ack）。otbn 最重（处�
   （char* argv[1]={nullptr}; commandArgs(0, argv)，(0,nullptr) 有二义性编译错）
 - prim_flop_en / prim_ram_1p / prim_and2 等 primgen 生成件用 prim_generic_* 改名 shim
 - 公共闭包策略升级：新 DUT 的 prim/tlul 从 mbx-ctf（最全）整批拷贝，缺件走 MODMISSING 循环
+
+## 41. 差分引擎上线：fresh 对照层 + triage 差分验证 + 变异测试闭环（2026-09-04）
+
+背景：导师确认可用干净源码环境后，在既有性质法之上增加**行为差分层**——
+性质法继续当海选（覆盖面），差分当验证放大器（证据力），两者互补而非替代。
+
+### 41.1 三件套
+| 脚本 | 职责 |
+|------|------|
+| `scripts/dut_trace.py` | 确定性激励重放器：seed 决定的四相剧本（遍历/游走/擦除探测/复位后态），每动作快照全部白盒信号，落盘 JSON |
+| `scripts/diff_replay.py` | 三遍比对器：CTF 一遍 + fresh 两遍；fresh-vs-fresh 基线过滤合法非确定性（RNG/熵/掩码）；稳定集内找首偏离 |
+| `scripts/triage_nofresh.py`（升级） | fresh DUT 存在时自动差分验证：信号 ∈ 偏离集 → **DIFF-CONFIRMED**；verdict=IDENTICAL → **DIFF-REFUTED**（误报出局）；其余 DIFF-UNKNOWN |
+
+配套：`perip/<module>-fresh/` DUT 构建管线（闭包从 opentitan-fresh 整批对应拷贝，
+wrapper/harness/filelist 与 CTF 版**共用同一份文件**——hmac 92 个闭包文件全部在 fresh 树对应上，首编即过）。
+
+### 41.2 hmac 差分冒烟（已知注入回测）
+- 判定 **DIVERGENT**；首偏离 idx=8 `u_dut.secret_key[0]`
+- 偏离信号榜：secret_key / secret_key_d 各 78 拍、sha2.hash_q/digest_q 77 拍——
+  **精确命中已知注入 #20/60 的擦除残留路径**；43/43 信号进稳定集
+- 双证据链：O-A 性质违反 + 差分行为偏离 → triage 报 DIFF-CONFIRMED
+
+### 41.3 重要修复：DUT 加载误选陈旧 _cov 库
+- `hmac-ctf/obj_so` 里 9 月 3 日的覆盖实验模型 `libpf_hmac_cov.so` 被 DUT 类选为
+  API 句柄（旧逻辑 api_libs[0]），导致 ①子进程段错误（差分重放受阻）②**batch 一直在用
+  陈旧模型跑 hmac**——O-D/O-J/O-L 三条真实检出被静默丢弃
+- 修复：排除 *_cov* 库 + 有序选择（精确名 → 含模块名 → 旧约定）。回归后全量
+  **27 条唯一发现 / 14 模块**（hmac 5 条：O-A×2 + O-D + O-J + O-L SHA-512 HIGH 全部回归）
+
+### 41.4 triage 差分验证实测（hmac）
+| finding | 原级别 | 差分叠加 |
+|---|---|---|
+| O-A secret_key / secret_key_d（×5） | HIGH | **DIFF-CONFIRMED** |
+| O-J 错误传播（u_err_code.q 偏离） | LOW | **DIFF-CONFIRMED**（组件级匹配） |
+| O-D done_state_q | LOW | DIFF-UNKNOWN（通用剧本未触达该 FSM 边界，诚实标注） |
+| O-L KAT | LOW | DIFF-UNKNOWN（语义级检查非信号差分面） |
+
+### 41.5 变异测试闭环（mutate_fresh.py）
+- 框架：fresh 副本 → 文本级变异注入 → 容器内重建 → 引擎 + 差分双通道评估 → 杀伤率落盘
+- 首个变异体 **wipe_noop**（擦除失效族：wipe 分支写回原值）：
+  - oracle 杀伤 ✅ 17 条检出
+  - 差分杀伤 ✅ DIVERGENT，首偏离 idx=8 `u_dut.secret_key`
+- 结论：分类学"样本外有效性"验证管线已兑现（39.3 待办 → 41.5 落地），
+  后续按族扩充 MUTANTS 注册表即可量化各 oracle 杀伤谱
+
+### 41.6 遗留与下一步
+- 全模块 fresh DUT 批建（闭包管线现成，每模块 ~10 分钟机器时间）
+- DIFF-REFUTED 演示路径：对良性模块的候选跑差分 → 自动出局（逻辑已就位，待真实数据）
+- MUTANTS 注册表扩族：极性反转 / 稀疏 FSM 编码 / MUBI 损坏 / shadow 双写破坏
+- O-K 后置校验（write-only 标签误报）可改用差分 ground truth 复核
