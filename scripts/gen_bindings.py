@@ -51,13 +51,19 @@ def main():
         if cand in members:
             found[nm] = cand
             continue
-        # 兜底: 末段成员匹配（取最短路径=最内层）
+        # 兜底1: 末段成员匹配（取最短路径=最内层）
         last = nm.split(".")[-1]
         cands = sorted(mm for mm in members if mm.endswith("__DOT__" + last))
         if cands:
             found[nm] = cands[0]
-        else:
-            unbound.append(nm)
+            continue
+        # 兜底2: 词切分数组成员（key_share0_in_q__BRA__N__hex__KET__ 形态）→ 绑首词
+        base_cand = prefix + nm.replace(".", "__DOT__")
+        arr_cands = sorted(mm for mm in members if mm.startswith(base_cand + "__BRA__"))
+        if arr_cands:
+            found[nm] = arr_cands[0]
+            continue
+        unbound.append(nm)
 
     # 重写 bind_signals()
     body = ['static void bind_signals() {',

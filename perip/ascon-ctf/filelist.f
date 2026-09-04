@@ -1,3 +1,13 @@
++incdir+hw
++incdir+hw/ip/ascon/rtl
++incdir+hw/ip/csrng/rtl
++incdir+hw/ip/edn/rtl
++incdir+hw/ip/entropy_src/rtl
++incdir+hw/ip/keymgr/rtl
++incdir+hw/ip/prim/rtl
++incdir+hw/ip/prim_generic/rtl
++incdir+hw/ip/tlul/rtl
++incdir+hw/top_earlgrey/rtl
 hw/ip/ascon/rtl/ascon_pkg.sv
 hw/ip/ascon/rtl/ascon_reg_pkg.sv
 hw/ip/csrng/rtl/csrng_pkg.sv

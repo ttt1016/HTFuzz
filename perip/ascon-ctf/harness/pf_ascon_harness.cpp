@@ -114,7 +114,9 @@ static void bind_signals() {
         else if (strcmp(n, "ascon_core.ascon_duplex.u_state_regs.state_raw") == 0) p = &rootp->ascon_perip_tb__DOT__u_dut__DOT__ascon_core__DOT__ascon_duplex__DOT__u_state_regs__DOT__state_raw;
         else if (strcmp(n, "ascon_core.flag_error") == 0) p = &rootp->ascon_perip_tb__DOT__u_dut__DOT__ascon_core__DOT__flag_error;
         else if (strcmp(n, "ascon_core.key_share0_in_new_q") == 0) p = &rootp->ascon_perip_tb__DOT__u_dut__DOT__ascon_core__DOT__key_share0_in_new_q;
+        else if (strcmp(n, "ascon_core.key_share0_in_q") == 0) p = &rootp->ascon_perip_tb__DOT__u_dut__DOT__ascon_core__DOT__key_share0_in_q__BRA__127__03a96__KET__;
         else if (strcmp(n, "ascon_core.key_share1_in_new_q") == 0) p = &rootp->ascon_perip_tb__DOT__u_dut__DOT__ascon_core__DOT__key_share1_in_new_q;
+        else if (strcmp(n, "ascon_core.key_share1_in_q") == 0) p = &rootp->ascon_perip_tb__DOT__u_dut__DOT__ascon_core__DOT__key_share1_in_q__BRA__127__03a96__KET__;
         else if (strcmp(n, "ascon_core.nonce_error") == 0) p = &rootp->ascon_perip_tb__DOT__u_dut__DOT__ascon_core__DOT__nonce_error;
         else if (strcmp(n, "ascon_core.order_error") == 0) p = &rootp->ascon_perip_tb__DOT__u_dut__DOT__ascon_core__DOT__order_error;
         else if (strcmp(n, "u_reg.alert_test_we") == 0) p = &rootp->ascon_perip_tb__DOT__u_dut__DOT__u_reg__DOT__alert_test_we;
