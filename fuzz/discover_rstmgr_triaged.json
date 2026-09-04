@@ -3,63 +3,16 @@
  "triaged": [
   {
    "level": "LOW",
-   "oracle": "O-C-equivclass",
-   "signal": "i2c0_chk.dst_fsm_cs",
+   "oracle": "O-J-errprop",
+   "signal": "alert_info.slots_q",
    "sec_cm": [],
    "sensitive": false,
    "cross_oracle": 0,
    "rtl_wipe_nearby": false,
-   "evidence": "语义等价序列产生不同控制状态 → 可能存在中间读副作用/相位错误"
-  },
-  {
-   "level": "LOW",
-   "oracle": "O-C-equivclass",
-   "signal": "i2c0_chk.dst_fsm_cs",
-   "sec_cm": [],
-   "sensitive": false,
-   "cross_oracle": 0,
-   "rtl_wipe_nearby": false,
-   "evidence": "语义等价序列产生不同控制状态 → 可能存在中间读副作用/相位错误"
-  },
-  {
-   "level": "LOW",
-   "oracle": "O-C-equivclass",
-   "signal": "i2c0_chk.dst_fsm_cs",
-   "sec_cm": [],
-   "sensitive": false,
-   "cross_oracle": 0,
-   "rtl_wipe_nearby": false,
-   "evidence": "语义等价序列产生不同控制状态 → 可能存在中间读副作用/相位错误"
-  },
-  {
-   "level": "LOW",
-   "oracle": "O-C-equivclass",
-   "signal": "i2c0_chk.dst_fsm_cs",
-   "sec_cm": [],
-   "sensitive": false,
-   "cross_oracle": 0,
-   "rtl_wipe_nearby": false,
-   "evidence": "语义等价序列产生不同控制状态 → 可能存在中间读副作用/相位错误"
-  },
-  {
-   "level": "LOW",
-   "oracle": "O-C-equivclass",
-   "signal": "i2c0_chk.dst_fsm_cs",
-   "sec_cm": [],
-   "sensitive": false,
-   "cross_oracle": 0,
-   "rtl_wipe_nearby": false,
-   "evidence": "语义等价序列产生不同控制状态 → 可能存在中间读副作用/相位错误"
-  },
-  {
-   "level": "LOW",
-   "oracle": "O-C-equivclass",
-   "signal": "i2c0_chk.dst_fsm_cs",
-   "sec_cm": [],
-   "sensitive": false,
-   "cross_oracle": 0,
-   "rtl_wipe_nearby": false,
-   "evidence": "语义等价序列产生不同控制状态 → 可能存在中间读副作用/相位错误"
+   "evidence": "全部 3 类错误触发均未引起任何 alert/err 信号置位 → 错误传播链断裂",
+   "diff": "DIFF-REFUTED"
   }
- ]
+ ],
+ "diff_verdict": "IDENTICAL",
+ "diff_first_divergence": null
 }
