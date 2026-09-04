@@ -1,3 +1,3 @@
 {
- "rom_ctrl": "fail: %Error: hw/ip/prim/rtl/prim_rom.sv:19:9: Can't find typedef/interface: 'rom_cfg_t'; %Error: hw/ip/prim/rtl/prim_rom_adv.sv:24:9: Can't find typedef/interface: 'rom_cfg_t'; %Error-PINNOTFOUND: hw/ip/rom_ctrl/rtl/rom_ctrl_scrambled_rom.sv:212:6: Pin not found: 'cfg_o'"
+ "ibex": "fail: %Error: Specified --top-module 'ibex_mini_tb' was not found in design.; %Error: Exiting due to 1 error(s)"
 }

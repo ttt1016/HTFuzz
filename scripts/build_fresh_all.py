@@ -10,7 +10,7 @@
 产物: perip/<module>-fresh/obj_so/libpf_<module>_fresh.so
 日志: reports/fresh_build.log
 """
-import os, re, shutil, subprocess, sys
+import glob, os, re, shutil, subprocess, sys
 from concurrent.futures import ThreadPoolExecutor
 
 PF = os.environ.get("PF_ROOT",
@@ -157,16 +157,30 @@ def build_one(module):
             log(f"[{module}] 无 harness cpp, SKIP")
             return module, "no_harness"
         harness_cpp = cpps[0]
-    wrapper_sv = f"{PF}/perip/{module}-fresh/rtl_wrapper/{module}_perip_tb.sv"
-    if not os.path.exists(wrapper_sv):
-        log(f"[{module}] 无 wrapper {wrapper_sv}, SKIP")
-        return module, "no_wrapper"
+    wd = f"{PF}/perip/{module}-fresh/rtl_wrapper"
+    cands = [f for f in os.listdir(wd) if f.endswith("_perip_tb.sv")] if os.path.isdir(wd) else []
+    if not cands:
+        # 无 perip_tb wrapper 的模块（单元 TB 集合, 如 ibex）→ 沿用 CTF 构建的顶层
+        mk = glob.glob(f"{PF}/perip/{module}-ctf/obj_so/V*.mk")
+        if mk:
+            mm = re.search(r"V(\w+)\.mk", sorted(m for m in os.listdir(
+                f"{PF}/perip/{module}-ctf/obj_so") if m.endswith(".mk"))[0])
+            topmod = mm.group(1) if mm else None
+        else:
+            topmod = None
+        if not topmod:
+            log(f"[{module}] 无 wrapper/顶层, SKIP")
+            return module, "no_wrapper"
+        # 确认顶层文件存在于 rtl_wrapper
+        if not os.path.exists(f"{PF}/perip/{module}-fresh/rtl_wrapper/{topmod}.sv"):
+            log(f"[{module}] 顶层 {topmod}.sv 不在 rtl_wrapper, SKIP")
+            return module, "no_wrapper"
     extra = "--timing" if module in TIMING_MODULES else ""
     cmd = f'''
 export PATH=/tools/verilator/v5.050/bin:$PATH
 cd /workspace/HTFuzz/perip/{module}-fresh
 rm -rf obj_so
-verilator --cc --lib-create pf_{module}_fresh --top-module {module}_perip_tb \
+verilator --cc --lib-create pf_{module}_fresh --top-module {topmod} \
   -f filelist.f --Mdir obj_so -CFLAGS -fPIC -LDFLAGS -fPIC -Wno-fatal {extra} -j 10 \
   2>&1 | grep -E "%Error" | head -4
 cd obj_so
@@ -174,7 +188,7 @@ python3 /workspace/HTFuzz/scripts/gen_bindings.py .. 2>&1 | head -2
 g++ -c -fPIC -fcoroutines -O2 -I/tools/verilator/v5.050/share/verilator/include \
   -I/tools/verilator/v5.050/share/verilator/include/vltstd -I. \
   ../harness/{harness_cpp} -o pf_fresh_harness.o 2>&1 | head -3
-make -f V{module}_perip_tb.mk libpf_{module}_fresh.a libpf_{module}_fresh.so \
+make -f V{topmod}.mk libpf_{module}_fresh.a libpf_{module}_fresh.so \
   VK_USER_OBJS=pf_fresh_harness.o -j 10 2>&1 | grep -E "%Error|error:" | head -4
 ls libpf_{module}_fresh.so >/dev/null 2>&1 && echo FRESH_BUILD_OK
 '''
@@ -189,7 +203,25 @@ ls libpf_{module}_fresh.so >/dev/null 2>&1 && echo FRESH_BUILD_OK
             missing = sorted(set(re.findall(
                 r"Cannot find file containing module: '([^']+)'", out)))
             added = 0
-            # 缺包/缺对象 → 从 fresh 树找定义者, 拷贝并插到引用者之前
+            # 缺 include (.svh) → 按 basename 在 fresh 树找, 拷到引用者同目录
+            for ref_file, inc_name in sorted(set(re.findall(
+                    r"(hw/[^: ]+\.sv):\d+:\d+: Cannot find include file: '([^']+)'", out))):
+                src_hit = None
+                for root2, dirs2, files2 in os.walk(FRESH_TREE):
+                    if inc_name == files2 or inc_name in files2:
+                        src_hit = os.path.join(root2, inc_name)
+                        break
+                if not src_hit:
+                    continue
+                parent = os.path.join(f"{PF}/perip/{module}-fresh", ref_file)
+                inc_dir = (os.path.relpath(os.path.dirname(ref_file), "hw")
+                           if os.path.exists(parent) else "hw/ip/prim/rtl")
+                dstp = os.path.join(f"{PF}/perip/{module}-fresh/hw", inc_dir, inc_name)
+                os.makedirs(os.path.dirname(dstp), exist_ok=True)
+                shutil.copy(src_hit, dstp)
+                log(f"[{module}] include 补件: {inc_dir}/{inc_name}")
+                added += 1
+            # PINNOTFOUND(参数/引脚不存在) → 实例化的子模块文件过旧, 从 fresh 树覆盖
             for ref_file, pkg_name in sorted(set(re.findall(
                     r"(hw/[^: ]+\.sv):\d+:\d+: Import (?:package|object) not found: '(\w+)'", out))):
                 hit = None
