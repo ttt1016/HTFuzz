@@ -208,6 +208,13 @@ python3 scripts/ok_invariant.py gen <module>
 | 白盒批量扩充 | gpio 3→72, keymgr 1→127, csrng 13→319, pwrmgr 12→71, rstmgr 8→51 | |
 | **60% 目标（48 编号）** | 还差 13 个 | Phase D(ibex CSR TB+keymgr sideload+lc TB) |
 
+### Phase D 执行状态
+lc_fsm_tb.sv 扩展场景已编写（T2:IdleSt非法转移/T3:volatile_raw_unlock/T4:hash截断/T5:otp_program），
+但 lc-ctf/hw 依赖链不完整（缺 prim_clock_mux2/ast_pkg/keymgr_pkg/lc_ctrl_pkg 等），
+原始构建不可复现 → 需先补齐闭包。其余 Phase D 项同理需逐个构建。
+
+| **Phase D 状态** | **pending** | 依赖链修复 + 新 TB 编写 | 预估 2-3 天/项 |
+
 ### Phase D 具体计划（解锁最后 13 个 ID）
 | 目标 | bug ID | 方法 | 检测机制 |
 |------|--------|------|---------|
