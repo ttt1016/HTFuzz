@@ -46,12 +46,12 @@ class DUT:
                 except OSError as e:
                     print(f"  [warn] {f}: {e}")
         # API 句柄选择（有序）:
-        #   1) 精确名 libpf_<name>_ctf.so / liblibpf_<name>_ctf.so
+        #   1) 精确名 libpf_<name>_ctf.so（新式单库）
         #   2) 含 "<name>" 的 api lib（keymgr 的 *_api.so 配对模式）
         #   3) 旧约定 api_libs[0]，否则 DUT lib 本体
+        # 注意: liblibpf_* 是无 harness 的裸模型, 绝不可当 API 句柄
         def pick_api():
-            exact = [f for f in libs if f in (f"libpf_{name}_ctf.so",
-                                              f"liblibpf_{name}_ctf.so")]
+            exact = [f for f in libs if f == f"libpf_{name}_ctf.so"]
             if exact:
                 return ctypes.CDLL(os.path.join(objdir, exact[0]), mode=ctypes.RTLD_GLOBAL)
             by_name = [f for f in api_libs if name in f]

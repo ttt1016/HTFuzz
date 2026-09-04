@@ -1,0 +1,46 @@
+{
+ "verdict": "DIVERGENT",
+ "first_divergence": {
+  "idx": 60,
+  "channel": "sig",
+  "signal": "state",
+  "word": 0,
+  "kind": "reset",
+  "addr": null,
+  "ctf": 711,
+  "fresh": 865
+ },
+ "n_actions_compared": 61,
+ "n_divergences": 2,
+ "divergent_signals": {
+  "state": 1,
+  "key_state_word": 1
+ },
+ "evidence": [
+  {
+   "idx": 60,
+   "channel": "sig",
+   "signal": "state",
+   "word": 0,
+   "kind": "reset",
+   "addr": null,
+   "ctf": 711,
+   "fresh": 865
+  },
+  {
+   "idx": 60,
+   "channel": "sig",
+   "signal": "key_state_word",
+   "word": 0,
+   "kind": "reset",
+   "addr": null,
+   "ctf": 711,
+   "fresh": 865
+  }
+ ],
+ "n_stable_signals": 10,
+ "n_signals_total": 10,
+ "n_stable_readbacks": 61,
+ "module": "keymgr",
+ "seed": 0
+}

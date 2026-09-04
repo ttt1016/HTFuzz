@@ -61,6 +61,45 @@ def copy_closure(module):
     return fallbacks
 
 
+TIMING_MODULES = {"keymgr"}  # wrapper 含事件控制(@), 需 --timing（C++ 驱动时钟, 无 #delay）
+
+FRESH_COMPAT = {
+    # keymgr: fresh keymgr.sv/kmac_if 需要新版 kmac_pkg 字段与带 SkewCycles 的 prim 组件
+    "keymgr": ["hw/ip/prim/rtl/prim_alert_sender.sv",
+               "hw/ip/prim/rtl/prim_diff_decode.sv",
+               "hw/ip/kmac/rtl/kmac_pkg.sv",
+               "hw/ip/kmac/rtl/sha3_pkg.sv",
+               "hw/ip/prim/rtl/prim_sec_anchor_const.sv"],
+}
+
+
+def fresh_compat(module, dst):
+    """按模块登记的 fresh 版本兼容层: 从 fresh 树覆盖指定依赖文件"""
+    for f in FRESH_COMPAT.get(module, []):
+        src = os.path.join(FRESH_TREE, f)
+        dstp = os.path.join(dst, f)
+        if os.path.exists(src):
+            os.makedirs(os.path.dirname(dstp), exist_ok=True)
+            shutil.copy(src, dstp)
+    if module == "keymgr":
+        wp = os.path.join(dst, "rtl_wrapper", "keymgr_perip_tb.sv")
+        if os.path.exists(wp):
+            s = open(wp).read()
+            s = s.replace("""  assign kmac_rsp.ready = 1'b1;
+  assign kmac_rsp.done = 1'b1;
+  assign kmac_rsp.digest_share0 = {kmac_pkg::AppDigestW{1'b0}};
+  assign kmac_rsp.digest_share1 = {kmac_pkg::AppDigestW{1'b0}};
+  assign kmac_rsp.error = 1'b0;""",
+"""  // fresh kmac_pkg 的 app_rsp_t 字段名
+  assign kmac_rsp.req_ready = 1'b1;
+  assign kmac_rsp.rsp_valid = kmac_req.req_valid;
+  assign kmac_rsp.rsp_finish = kmac_req.req_valid;
+  assign kmac_rsp.digest_s0 = {kmac_pkg::AppDigestW{1'b0}};
+  assign kmac_rsp.digest_s1 = {kmac_pkg::AppDigestW{1'b0}};
+  assign kmac_rsp.error = 1'b0;""")
+            open(wp, "w").write(s)
+
+
 def overlay_own_rtl(module, dst):
     """回退策略 B: 仅覆盖 DUT 自身 rtl（hw/ip/<module>/rtl/）为 fresh 版,
     公共闭包保持 CTF 版——规避 fresh 包文件引入的未满足新依赖。
@@ -85,6 +124,7 @@ def build_one(module):
         log(f"[{module}] SKIP (已建成)")
         return module, "ok"
     fb = copy_closure(module)
+    fresh_compat(module, f"{PF}/perip/{module}-fresh")
     # 无 filelist 的模块（老会话构建）→ 通用生成器推导
     if not os.path.exists(f"{PF}/perip/{module}-fresh/filelist.f"):
         g = subprocess.run([sys.executable,
@@ -110,12 +150,13 @@ def build_one(module):
     if not os.path.exists(wrapper_sv):
         log(f"[{module}] 无 wrapper {wrapper_sv}, SKIP")
         return module, "no_wrapper"
+    extra = "--timing" if module in TIMING_MODULES else ""
     cmd = f'''
 export PATH=/tools/verilator/v5.050/bin:$PATH
 cd /workspace/HTFuzz/perip/{module}-fresh
 rm -rf obj_so
 verilator --cc --lib-create pf_{module}_fresh --top-module {module}_perip_tb \
-  -f filelist.f --Mdir obj_so -CFLAGS -fPIC -LDFLAGS -fPIC -Wno-fatal -j 10 \
+  -f filelist.f --Mdir obj_so -CFLAGS -fPIC -LDFLAGS -fPIC -Wno-fatal {extra} -j 10 \
   2>&1 | grep -E "%Error" | head -4
 cd obj_so
 python3 /workspace/HTFuzz/scripts/gen_bindings.py .. 2>&1 | head -2
@@ -136,9 +177,39 @@ ls libpf_{module}_fresh.so >/dev/null 2>&1 && echo FRESH_BUILD_OK
                 break
             missing = sorted(set(re.findall(
                 r"Cannot find file containing module: '([^']+)'", out)))
+            added = 0
+            # PINNOTFOUND(参数/引脚不存在) → 实例化的子模块文件过旧, 从 fresh 树覆盖
+            for mfile, mline, pn in sorted(set(re.findall(
+                    r"(hw/[^: ]+\.sv):(\d+):\d+: (?:Parameter|Pin) not found: '(\w+)'", out))):
+                parent = os.path.join(f"{PF}/perip/{module}-fresh", mfile)
+                if not os.path.exists(parent):
+                    continue
+                plines = open(parent, errors="ignore").read().splitlines()
+                # 从报错行向上找实例化语句的模块类型名
+                modtype = None
+                for ln in range(int(mline) - 1, max(0, int(mline) - 12), -1):
+                    mm = re.match(r"\s*(\w+)\s*(?:#\s*\(|\w)", plines[ln - 1])
+                    if mm and mm.group(1) not in (pn,):
+                        cand = mm.group(1)
+                        if not cand.startswith(("logic", "assign", "wire", "reg")):
+                            modtype = cand
+                            break
+                if not modtype:
+                    continue
+                hit = None
+                for root2, dirs2, files2 in os.walk(FRESH_TREE):
+                    if modtype + ".sv" in files2:
+                        hit = os.path.join(root2, modtype + ".sv")
+                        break
+                if hit:
+                    rel = os.path.relpath(hit, FRESH_TREE)
+                    dstp = os.path.join(f"{PF}/perip/{module}-fresh", rel)
+                    os.makedirs(os.path.dirname(dstp), exist_ok=True)
+                    shutil.copy(hit, dstp)
+                    log(f"[{module}] PINNOTFOUND 补件: {rel} ({modtype}.{pn})")
+                    added += 1
             if not missing:
                 break
-            added = 0
             for modname in missing:
                 if "/" in modname:
                     # 路径式: 检查闭包内文件是否存在, 缺则从 fresh 树补
@@ -187,7 +258,8 @@ ls libpf_{module}_fresh.so >/dev/null 2>&1 && echo FRESH_BUILD_OK
                                                           "lint", "dv", "fpv", "doc"),
                             symlinks=True)
             n = overlay_own_rtl(module, f"{PF}/perip/{module}-fresh")
-            log(f"[{module}] own-rtl 覆盖 {n} 个文件")
+            fresh_compat(module, f"{PF}/perip/{module}-fresh")
+            log(f"[{module}] own-rtl 覆盖 {n} 个文件 + compat 重应用")
             g = subprocess.run([sys.executable,
                                 os.path.join(os.path.dirname(os.path.abspath(__file__)),
                                              "gen_filelist.py"),

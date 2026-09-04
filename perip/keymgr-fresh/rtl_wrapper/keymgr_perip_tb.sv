@@ -13,10 +13,12 @@ module keymgr_perip_tb;
 
   kmac_pkg::app_req_t kmac_req;
   kmac_pkg::app_rsp_t kmac_rsp;
-  assign kmac_rsp.ready = 1'b1;
-  assign kmac_rsp.done = 1'b1;
-  assign kmac_rsp.digest_share0 = {kmac_pkg::AppDigestW{1'b0}};
-  assign kmac_rsp.digest_share1 = {kmac_pkg::AppDigestW{1'b0}};
+  // fresh kmac_pkg 的 app_rsp_t 字段名
+  assign kmac_rsp.req_ready = 1'b1;
+  assign kmac_rsp.rsp_valid = kmac_req.req_valid;
+  assign kmac_rsp.rsp_finish = kmac_req.req_valid;
+  assign kmac_rsp.digest_s0 = {kmac_pkg::AppDigestW{1'b0}};
+  assign kmac_rsp.digest_s1 = {kmac_pkg::AppDigestW{1'b0}};
   assign kmac_rsp.error = 1'b0;
 
   edn_pkg::edn_req_t edn_req;

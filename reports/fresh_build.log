@@ -301,3 +301,102 @@
 [kmac] BUILD OK (full-overlay)
 --- 进度 1/1 (成功 1) ---
 === 完成: 成功 1  失败 0 ===
+=== fresh 批建开始: 1 模块 ===
+[keymgr] fresh 缺件回退 3897 个: ['top_earlgrey/ip_autogen/rv_core_ibex/dv/sva/rv_core_ibex_bind.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_peri.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_addr_trans.sv (fresh 无此文件, 保留 CTF 版)']...
+[keymgr] 全量覆盖失败 → 回退 own-rtl-only
+[keymgr] own-rtl 覆盖 14 个文件
+[keymgr] 回退后 filelist 重新生成
+[keymgr] BUILD FAIL: %Error-PINNOTFOUND: hw/ip/keymgr/rtl/keymgr.sv:744:6: Parameter not found: 'SkewCycles' | %Error-PINNOTFOUND: hw/ip/keymgr/rtl/keymgr.sv:762:6: Parameter not found: 'SkewCycles' | %Error: Exiting due to 2 error(s)
+--- 进度 1/1 (成功 0) ---
+=== 完成: 成功 0  失败 1 ===
+  FAIL keymgr: fail: %Error-PINNOTFOUND: hw/ip/keymgr/rtl/keymgr.sv:744:6: Parameter not found: 'SkewCycles'; %Error-PINNOTFOUND: hw/ip/keymgr/rtl/keymgr.sv:762:6: P
+=== fresh 批建开始: 1 模块 ===
+[keymgr] fresh 缺件回退 3897 个: ['top_earlgrey/ip_autogen/rv_core_ibex/dv/sva/rv_core_ibex_bind.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_peri.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_addr_trans.sv (fresh 无此文件, 保留 CTF 版)']...
+[keymgr] 全量覆盖失败 → 回退 own-rtl-only
+[keymgr] own-rtl 覆盖 14 个文件
+[keymgr] 回退后 filelist 重新生成
+[keymgr] PINNOTFOUND 补件: hw/top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_peri.sv (SkewCycles)
+=== fresh 批建开始: 1 模块 ===
+[keymgr] fresh 缺件回退 3897 个: ['top_earlgrey/ip_autogen/rv_core_ibex/dv/sva/rv_core_ibex_bind.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_peri.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_addr_trans.sv (fresh 无此文件, 保留 CTF 版)']...
+[keymgr] 全量覆盖失败 → 回退 own-rtl-only
+[keymgr] own-rtl 覆盖 14 个文件
+[keymgr] 回退后 filelist 重新生成
+[keymgr] PINNOTFOUND 补件: hw/top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_peri.sv (SkewCycles)
+=== fresh 批建开始: 1 模块 ===
+[keymgr] fresh 缺件回退 3897 个: ['top_earlgrey/ip_autogen/rv_core_ibex/dv/sva/rv_core_ibex_bind.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_peri.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_addr_trans.sv (fresh 无此文件, 保留 CTF 版)']...
+[keymgr] 全量覆盖失败 → 回退 own-rtl-only
+[keymgr] own-rtl 覆盖 14 个文件
+[keymgr] 回退后 filelist 重新生成
+[keymgr] PINNOTFOUND 补件: hw/top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_peri.sv (SkewCycles)
+[keymgr] BUILD FAIL: %Error-PINNOTFOUND: hw/ip/keymgr/rtl/keymgr.sv:744:6: Parameter not found: 'SkewCycles' | %Error-PINNOTFOUND: hw/ip/keymgr/rtl/keymgr.sv:762:6: Parameter not found: 'SkewCycles' | %Error: Exiting due to 2 error(s)
+--- 进度 1/1 (成功 0) ---
+=== 完成: 成功 0  失败 1 ===
+  FAIL keymgr: fail: %Error-PINNOTFOUND: hw/ip/keymgr/rtl/keymgr.sv:744:6: Parameter not found: 'SkewCycles'; %Error-PINNOTFOUND: hw/ip/keymgr/rtl/keymgr.sv:762:6: P
+=== fresh 批建开始: 1 模块 ===
+[keymgr] fresh 缺件回退 3897 个: ['top_earlgrey/ip_autogen/rv_core_ibex/dv/sva/rv_core_ibex_bind.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_peri.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_addr_trans.sv (fresh 无此文件, 保留 CTF 版)']...
+[keymgr] 全量覆盖失败 → 回退 own-rtl-only
+[keymgr] own-rtl 覆盖 14 个文件
+[keymgr] 回退后 filelist 重新生成
+[keymgr] BUILD FAIL: %Error-PINNOTFOUND: hw/ip/keymgr/rtl/keymgr.sv:744:6: Parameter not found: 'SkewCycles' | %Error-PINNOTFOUND: hw/ip/keymgr/rtl/keymgr.sv:762:6: Parameter not found: 'SkewCycles' | %Error: Exiting due to 2 error(s)
+--- 进度 1/1 (成功 0) ---
+=== 完成: 成功 0  失败 1 ===
+  FAIL keymgr: fail: %Error-PINNOTFOUND: hw/ip/keymgr/rtl/keymgr.sv:744:6: Parameter not found: 'SkewCycles'; %Error-PINNOTFOUND: hw/ip/keymgr/rtl/keymgr.sv:762:6: P
+=== fresh 批建开始: 1 模块 ===
+[keymgr] fresh 缺件回退 3897 个: ['top_earlgrey/ip_autogen/rv_core_ibex/dv/sva/rv_core_ibex_bind.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_peri.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_addr_trans.sv (fresh 无此文件, 保留 CTF 版)']...
+[keymgr] 全量覆盖失败 → 回退 own-rtl-only
+[keymgr] own-rtl 覆盖 14 个文件
+[keymgr] 回退后 filelist 重新生成
+=== fresh 批建开始: 1 模块 ===
+[keymgr] fresh 缺件回退 3897 个: ['top_earlgrey/ip_autogen/rv_core_ibex/dv/sva/rv_core_ibex_bind.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_peri.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_addr_trans.sv (fresh 无此文件, 保留 CTF 版)']...
+[keymgr] 全量覆盖失败 → 回退 own-rtl-only
+[keymgr] own-rtl 覆盖 14 个文件
+[keymgr] 回退后 filelist 重新生成
+[keymgr] PINNOTFOUND 补件: hw/ip/prim/rtl/prim_alert_sender.sv (prim_alert_sender.SkewCycles)
+[keymgr] PINNOTFOUND 补件: hw/ip/prim/rtl/prim_alert_sender.sv (prim_alert_sender.SkewCycles)
+[keymgr] BUILD FAIL: %Error-PINNOTFOUND: hw/ip/keymgr/rtl/keymgr.sv:744:6: Parameter not found: 'SkewCycles' | %Error-PINNOTFOUND: hw/ip/keymgr/rtl/keymgr.sv:762:6: Parameter not found: 'SkewCycles' | %Error: Exiting due to 2 error(s)
+--- 进度 1/1 (成功 0) ---
+=== 完成: 成功 0  失败 1 ===
+  FAIL keymgr: fail: %Error-PINNOTFOUND: hw/ip/keymgr/rtl/keymgr.sv:744:6: Parameter not found: 'SkewCycles'; %Error-PINNOTFOUND: hw/ip/keymgr/rtl/keymgr.sv:762:6: P
+=== fresh 批建开始: 1 模块 ===
+[keymgr] fresh 缺件回退 3897 个: ['top_earlgrey/ip_autogen/rv_core_ibex/dv/sva/rv_core_ibex_bind.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_peri.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_addr_trans.sv (fresh 无此文件, 保留 CTF 版)']...
+[keymgr] 全量覆盖失败 → 回退 own-rtl-only
+[keymgr] own-rtl 覆盖 14 个文件
+[keymgr] 回退后 filelist 重新生成
+[keymgr] PINNOTFOUND 补件: hw/ip/prim/rtl/prim_alert_sender.sv (prim_alert_sender.SkewCycles)
+[keymgr] PINNOTFOUND 补件: hw/ip/prim/rtl/prim_alert_sender.sv (prim_alert_sender.SkewCycles)
+[keymgr] BUILD FAIL: %Error-PINNOTFOUND: hw/ip/keymgr/rtl/keymgr.sv:744:6: Parameter not found: 'SkewCycles' | %Error-PINNOTFOUND: hw/ip/keymgr/rtl/keymgr.sv:762:6: Parameter not found: 'SkewCycles' | %Error: Exiting due to 2 error(s)
+--- 进度 1/1 (成功 0) ---
+=== 完成: 成功 0  失败 1 ===
+  FAIL keymgr: fail: %Error-PINNOTFOUND: hw/ip/keymgr/rtl/keymgr.sv:744:6: Parameter not found: 'SkewCycles'; %Error-PINNOTFOUND: hw/ip/keymgr/rtl/keymgr.sv:762:6: P
+=== fresh 批建开始: 1 模块 ===
+[keymgr] fresh 缺件回退 3897 个: ['top_earlgrey/ip_autogen/rv_core_ibex/dv/sva/rv_core_ibex_bind.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_peri.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_addr_trans.sv (fresh 无此文件, 保留 CTF 版)']...
+[keymgr] 全量覆盖失败 → 回退 own-rtl-only
+[keymgr] own-rtl 覆盖 14 个文件
+[keymgr] 回退后 filelist 重新生成
+[keymgr] PINNOTFOUND 补件: hw/ip/prim/rtl/prim_alert_sender.sv (prim_alert_sender.SkewCycles)
+[keymgr] PINNOTFOUND 补件: hw/ip/prim/rtl/prim_alert_sender.sv (prim_alert_sender.SkewCycles)
+[keymgr] BUILD FAIL: %Error-PINNOTFOUND: hw/ip/keymgr/rtl/keymgr.sv:744:6: Parameter not found: 'SkewCycles' | %Error-PINNOTFOUND: hw/ip/keymgr/rtl/keymgr.sv:762:6: Parameter not found: 'SkewCycles' | %Error: Exiting due to 2 error(s)
+--- 进度 1/1 (成功 0) ---
+=== 完成: 成功 0  失败 1 ===
+  FAIL keymgr: fail: %Error-PINNOTFOUND: hw/ip/keymgr/rtl/keymgr.sv:744:6: Parameter not found: 'SkewCycles'; %Error-PINNOTFOUND: hw/ip/keymgr/rtl/keymgr.sv:762:6: P
+=== fresh 批建开始: 1 模块 ===
+[keymgr] fresh 缺件回退 3897 个: ['top_earlgrey/ip_autogen/rv_core_ibex/dv/sva/rv_core_ibex_bind.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_peri.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_addr_trans.sv (fresh 无此文件, 保留 CTF 版)']...
+[keymgr] 全量覆盖失败 → 回退 own-rtl-only
+[keymgr] own-rtl 覆盖 14 个文件 + compat 重应用
+[keymgr] 回退后 filelist 重新生成
+[keymgr] MODMISSING 轮0: 补 1/1 (prim_const_sec)
+[keymgr] BUILD FAIL: %Error-NEEDTIMINGOPT: rtl_wrapper/keymgr_perip_tb.sv:102:18: Use --timing or --no-timing to specify how event controls should be handled | %Error-NEEDTIMINGOPT: rtl_wrapper/keymgr_perip_tb.sv:104:19: Use --timing or --no-timing to specify how event controls should be handled | %Error-NEEDTIMINGOPT: rtl_wrapper/keymgr_perip_tb.sv:126:21: Use --timing or --no-timing to specify how event controls should be handled
+--- 进度 1/1 (成功 0) ---
+=== 完成: 成功 0  失败 1 ===
+  FAIL keymgr: fail: %Error-NEEDTIMINGOPT: rtl_wrapper/keymgr_perip_tb.sv:102:18: Use --timing or --no-timing to specify how event controls should be handled; %Error
+=== fresh 批建开始: 1 模块 ===
+[keymgr] fresh 缺件回退 3897 个: ['top_earlgrey/ip_autogen/rv_core_ibex/dv/sva/rv_core_ibex_bind.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_peri.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_addr_trans.sv (fresh 无此文件, 保留 CTF 版)']...
+=== fresh 批建开始: 1 模块 ===
+[keymgr] fresh 缺件回退 3897 个: ['top_earlgrey/ip_autogen/rv_core_ibex/dv/sva/rv_core_ibex_bind.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_peri.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_addr_trans.sv (fresh 无此文件, 保留 CTF 版)']...
+[keymgr] 全量覆盖失败 → 回退 own-rtl-only
+[keymgr] own-rtl 覆盖 14 个文件 + compat 重应用
+[keymgr] 回退后 filelist 重新生成
+[keymgr] MODMISSING 轮0: 补 1/1 (prim_const_sec)
+[keymgr] BUILD OK (own-rtl-only)
+--- 进度 1/1 (成功 1) ---
+=== 完成: 成功 1  失败 0 ===
