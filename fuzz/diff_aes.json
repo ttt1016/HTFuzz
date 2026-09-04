@@ -1,0 +1,2028 @@
+{
+ "verdict": "DIVERGENT",
+ "first_divergence": {
+  "idx": 0,
+  "channel": "sig",
+  "signal": "u_dut.data_out_we",
+  "word": 0,
+  "kind": "write_read",
+  "addr": 4,
+  "ctf": 4,
+  "fresh": 0
+ },
+ "n_actions_compared": 87,
+ "n_divergences": 416,
+ "divergent_signals": {
+  "u_dut.data_out_we": 87,
+  "u_dut.data_in_prev_q": 70,
+  "u_dut.key_full_q": 70,
+  "u_dut.key_dec_q": 70,
+  "u_dut.u_aes_core.data_in_prev_q": 70,
+  "u_dut.u_aes_core.u_aes_control.gen_fsm__BRA__1__KET__.gen_fsm_p.u_aes_control_fsm_i.u_aes_control_fsm.u_state_regs.state_raw": 3,
+  "u_dut.u_aes_core.u_aes_control.gen_fsm__BRA__0__KET__.gen_fsm_p.u_aes_control_fsm_i.u_aes_control_fsm.u_state_regs.state_raw": 3,
+  "u_dut.u_aes_core.u_aes_control.gen_fsm__BRA__2__KET__.gen_fsm_n.u_aes_control_fsm_i.u_aes_control_fsm.u_state_regs.state_raw": 3,
+  "u_dut.u_aes_core.u_aes_ctr.ctr_i_rev": 3,
+  "u_dut.u_aes_core.u_aes_ctr.ctr_o_rev": 3
+ },
+ "evidence": [
+  {
+   "idx": 0,
+   "channel": "sig",
+   "signal": "u_dut.data_out_we",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 4,
+   "ctf": 4,
+   "fresh": 0
+  },
+  {
+   "idx": 1,
+   "channel": "sig",
+   "signal": "u_dut.data_out_we",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 36,
+   "ctf": 4,
+   "fresh": 0
+  },
+  {
+   "idx": 2,
+   "channel": "sig",
+   "signal": "u_dut.data_out_we",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 68,
+   "ctf": 4,
+   "fresh": 0
+  },
+  {
+   "idx": 3,
+   "channel": "sig",
+   "signal": "u_dut.data_out_we",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 84,
+   "ctf": 4,
+   "fresh": 0
+  },
+  {
+   "idx": 4,
+   "channel": "sig",
+   "signal": "u_dut.data_out_we",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 100,
+   "ctf": 4,
+   "fresh": 0
+  },
+  {
+   "idx": 5,
+   "channel": "readback",
+   "kind": "write_read",
+   "addr": 116,
+   "ctf": 4481,
+   "fresh": 4605
+  },
+  {
+   "idx": 5,
+   "channel": "sig",
+   "signal": "u_dut.data_in_prev_q",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 116,
+   "ctf": 3823568514,
+   "fresh": 100700054
+  },
+  {
+   "idx": 5,
+   "channel": "sig",
+   "signal": "u_dut.data_in_prev_q",
+   "word": 1,
+   "kind": "write_read",
+   "addr": 116,
+   "ctf": 0,
+   "fresh": 2828539171
+  },
+  {
+   "idx": 5,
+   "channel": "sig",
+   "signal": "u_dut.data_in_prev_q",
+   "word": 2,
+   "kind": "write_read",
+   "addr": 116,
+   "ctf": 0,
+   "fresh": 100700054
+  },
+  {
+   "idx": 5,
+   "channel": "sig",
+   "signal": "u_dut.data_in_prev_q",
+   "word": 3,
+   "kind": "write_read",
+   "addr": 116,
+   "ctf": 0,
+   "fresh": 2828539171
+  },
+  {
+   "idx": 5,
+   "channel": "sig",
+   "signal": "u_dut.key_full_q",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 116,
+   "ctf": 0,
+   "fresh": 100700054
+  },
+  {
+   "idx": 5,
+   "channel": "sig",
+   "signal": "u_dut.key_full_q",
+   "word": 1,
+   "kind": "write_read",
+   "addr": 116,
+   "ctf": 0,
+   "fresh": 2828539171
+  },
+  {
+   "idx": 5,
+   "channel": "sig",
+   "signal": "u_dut.key_full_q",
+   "word": 2,
+   "kind": "write_read",
+   "addr": 116,
+   "ctf": 0,
+   "fresh": 100700054
+  },
+  {
+   "idx": 5,
+   "channel": "sig",
+   "signal": "u_dut.key_full_q",
+   "word": 3,
+   "kind": "write_read",
+   "addr": 116,
+   "ctf": 0,
+   "fresh": 2828539171
+  },
+  {
+   "idx": 5,
+   "channel": "sig",
+   "signal": "u_dut.key_full_q",
+   "word": 4,
+   "kind": "write_read",
+   "addr": 116,
+   "ctf": 0,
+   "fresh": 100700054
+  },
+  {
+   "idx": 5,
+   "channel": "sig",
+   "signal": "u_dut.key_full_q",
+   "word": 5,
+   "kind": "write_read",
+   "addr": 116,
+   "ctf": 0,
+   "fresh": 2828539171
+  },
+  {
+   "idx": 5,
+   "channel": "sig",
+   "signal": "u_dut.key_full_q",
+   "word": 6,
+   "kind": "write_read",
+   "addr": 116,
+   "ctf": 0,
+   "fresh": 100700054
+  },
+  {
+   "idx": 5,
+   "channel": "sig",
+   "signal": "u_dut.key_full_q",
+   "word": 7,
+   "kind": "write_read",
+   "addr": 116,
+   "ctf": 0,
+   "fresh": 2828539171
+  },
+  {
+   "idx": 5,
+   "channel": "sig",
+   "signal": "u_dut.key_dec_q",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 116,
+   "ctf": 0,
+   "fresh": 100700054
+  },
+  {
+   "idx": 5,
+   "channel": "sig",
+   "signal": "u_dut.key_dec_q",
+   "word": 1,
+   "kind": "write_read",
+   "addr": 116,
+   "ctf": 0,
+   "fresh": 2828539171
+  },
+  {
+   "idx": 5,
+   "channel": "sig",
+   "signal": "u_dut.key_dec_q",
+   "word": 2,
+   "kind": "write_read",
+   "addr": 116,
+   "ctf": 0,
+   "fresh": 100700054
+  },
+  {
+   "idx": 5,
+   "channel": "sig",
+   "signal": "u_dut.key_dec_q",
+   "word": 3,
+   "kind": "write_read",
+   "addr": 116,
+   "ctf": 0,
+   "fresh": 2828539171
+  },
+  {
+   "idx": 5,
+   "channel": "sig",
+   "signal": "u_dut.key_dec_q",
+   "word": 4,
+   "kind": "write_read",
+   "addr": 116,
+   "ctf": 0,
+   "fresh": 100700054
+  },
+  {
+   "idx": 5,
+   "channel": "sig",
+   "signal": "u_dut.key_dec_q",
+   "word": 5,
+   "kind": "write_read",
+   "addr": 116,
+   "ctf": 0,
+   "fresh": 2828539171
+  },
+  {
+   "idx": 5,
+   "channel": "sig",
+   "signal": "u_dut.key_dec_q",
+   "word": 6,
+   "kind": "write_read",
+   "addr": 116,
+   "ctf": 0,
+   "fresh": 100700054
+  },
+  {
+   "idx": 5,
+   "channel": "sig",
+   "signal": "u_dut.key_dec_q",
+   "word": 7,
+   "kind": "write_read",
+   "addr": 116,
+   "ctf": 0,
+   "fresh": 2828539171
+  },
+  {
+   "idx": 5,
+   "channel": "sig",
+   "signal": "u_dut.data_out_we",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 116,
+   "ctf": 3,
+   "fresh": 1
+  },
+  {
+   "idx": 5,
+   "channel": "sig",
+   "signal": "u_dut.u_aes_core.data_in_prev_q",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 116,
+   "ctf": 3823568514,
+   "fresh": 100700054
+  },
+  {
+   "idx": 5,
+   "channel": "sig",
+   "signal": "u_dut.u_aes_core.data_in_prev_q",
+   "word": 1,
+   "kind": "write_read",
+   "addr": 116,
+   "ctf": 0,
+   "fresh": 2828539171
+  },
+  {
+   "idx": 5,
+   "channel": "sig",
+   "signal": "u_dut.u_aes_core.data_in_prev_q",
+   "word": 2,
+   "kind": "write_read",
+   "addr": 116,
+   "ctf": 0,
+   "fresh": 100700054
+  },
+  {
+   "idx": 5,
+   "channel": "sig",
+   "signal": "u_dut.u_aes_core.data_in_prev_q",
+   "word": 3,
+   "kind": "write_read",
+   "addr": 116,
+   "ctf": 0,
+   "fresh": 2828539171
+  },
+  {
+   "idx": 6,
+   "channel": "sig",
+   "signal": "u_dut.data_in_prev_q",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 120,
+   "ctf": 3823568514,
+   "fresh": 100700054
+  },
+  {
+   "idx": 6,
+   "channel": "sig",
+   "signal": "u_dut.data_in_prev_q",
+   "word": 1,
+   "kind": "write_read",
+   "addr": 120,
+   "ctf": 0,
+   "fresh": 2828539171
+  },
+  {
+   "idx": 6,
+   "channel": "sig",
+   "signal": "u_dut.data_in_prev_q",
+   "word": 2,
+   "kind": "write_read",
+   "addr": 120,
+   "ctf": 0,
+   "fresh": 100700054
+  },
+  {
+   "idx": 6,
+   "channel": "sig",
+   "signal": "u_dut.data_in_prev_q",
+   "word": 3,
+   "kind": "write_read",
+   "addr": 120,
+   "ctf": 0,
+   "fresh": 2828539171
+  },
+  {
+   "idx": 6,
+   "channel": "sig",
+   "signal": "u_dut.key_full_q",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 120,
+   "ctf": 1667457891,
+   "fresh": 100700054
+  },
+  {
+   "idx": 6,
+   "channel": "sig",
+   "signal": "u_dut.key_full_q",
+   "word": 1,
+   "kind": "write_read",
+   "addr": 120,
+   "ctf": 1667457891,
+   "fresh": 2828539171
+  },
+  {
+   "idx": 6,
+   "channel": "sig",
+   "signal": "u_dut.key_full_q",
+   "word": 2,
+   "kind": "write_read",
+   "addr": 120,
+   "ctf": 1667457891,
+   "fresh": 100700054
+  },
+  {
+   "idx": 6,
+   "channel": "sig",
+   "signal": "u_dut.key_full_q",
+   "word": 3,
+   "kind": "write_read",
+   "addr": 120,
+   "ctf": 1667457891,
+   "fresh": 2828539171
+  },
+  {
+   "idx": 6,
+   "channel": "sig",
+   "signal": "u_dut.key_full_q",
+   "word": 4,
+   "kind": "write_read",
+   "addr": 120,
+   "ctf": 0,
+   "fresh": 100700054
+  },
+  {
+   "idx": 6,
+   "channel": "sig",
+   "signal": "u_dut.key_full_q",
+   "word": 5,
+   "kind": "write_read",
+   "addr": 120,
+   "ctf": 0,
+   "fresh": 2828539171
+  },
+  {
+   "idx": 6,
+   "channel": "sig",
+   "signal": "u_dut.key_full_q",
+   "word": 6,
+   "kind": "write_read",
+   "addr": 120,
+   "ctf": 0,
+   "fresh": 100700054
+  },
+  {
+   "idx": 6,
+   "channel": "sig",
+   "signal": "u_dut.key_full_q",
+   "word": 7,
+   "kind": "write_read",
+   "addr": 120,
+   "ctf": 0,
+   "fresh": 2828539171
+  },
+  {
+   "idx": 6,
+   "channel": "sig",
+   "signal": "u_dut.key_dec_q",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 120,
+   "ctf": 1667457891,
+   "fresh": 100700054
+  },
+  {
+   "idx": 6,
+   "channel": "sig",
+   "signal": "u_dut.key_dec_q",
+   "word": 1,
+   "kind": "write_read",
+   "addr": 120,
+   "ctf": 1667457891,
+   "fresh": 2828539171
+  },
+  {
+   "idx": 6,
+   "channel": "sig",
+   "signal": "u_dut.key_dec_q",
+   "word": 2,
+   "kind": "write_read",
+   "addr": 120,
+   "ctf": 1667457891,
+   "fresh": 100700054
+  },
+  {
+   "idx": 6,
+   "channel": "sig",
+   "signal": "u_dut.key_dec_q",
+   "word": 3,
+   "kind": "write_read",
+   "addr": 120,
+   "ctf": 1667457891,
+   "fresh": 2828539171
+  },
+  {
+   "idx": 6,
+   "channel": "sig",
+   "signal": "u_dut.key_dec_q",
+   "word": 4,
+   "kind": "write_read",
+   "addr": 120,
+   "ctf": 0,
+   "fresh": 100700054
+  },
+  {
+   "idx": 6,
+   "channel": "sig",
+   "signal": "u_dut.key_dec_q",
+   "word": 5,
+   "kind": "write_read",
+   "addr": 120,
+   "ctf": 0,
+   "fresh": 2828539171
+  },
+  {
+   "idx": 6,
+   "channel": "sig",
+   "signal": "u_dut.key_dec_q",
+   "word": 6,
+   "kind": "write_read",
+   "addr": 120,
+   "ctf": 0,
+   "fresh": 100700054
+  },
+  {
+   "idx": 6,
+   "channel": "sig",
+   "signal": "u_dut.key_dec_q",
+   "word": 7,
+   "kind": "write_read",
+   "addr": 120,
+   "ctf": 0,
+   "fresh": 2828539171
+  },
+  {
+   "idx": 6,
+   "channel": "sig",
+   "signal": "u_dut.data_out_we",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 120,
+   "ctf": 4,
+   "fresh": 0
+  },
+  {
+   "idx": 6,
+   "channel": "sig",
+   "signal": "u_dut.u_aes_core.data_in_prev_q",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 120,
+   "ctf": 3823568514,
+   "fresh": 100700054
+  },
+  {
+   "idx": 6,
+   "channel": "sig",
+   "signal": "u_dut.u_aes_core.data_in_prev_q",
+   "word": 1,
+   "kind": "write_read",
+   "addr": 120,
+   "ctf": 0,
+   "fresh": 2828539171
+  },
+  {
+   "idx": 6,
+   "channel": "sig",
+   "signal": "u_dut.u_aes_core.data_in_prev_q",
+   "word": 2,
+   "kind": "write_read",
+   "addr": 120,
+   "ctf": 0,
+   "fresh": 100700054
+  },
+  {
+   "idx": 6,
+   "channel": "sig",
+   "signal": "u_dut.u_aes_core.data_in_prev_q",
+   "word": 3,
+   "kind": "write_read",
+   "addr": 120,
+   "ctf": 0,
+   "fresh": 2828539171
+  },
+  {
+   "idx": 7,
+   "channel": "sig",
+   "signal": "u_dut.data_in_prev_q",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 124,
+   "ctf": 3823568514,
+   "fresh": 100700054
+  },
+  {
+   "idx": 7,
+   "channel": "sig",
+   "signal": "u_dut.data_in_prev_q",
+   "word": 1,
+   "kind": "write_read",
+   "addr": 124,
+   "ctf": 0,
+   "fresh": 2828539171
+  },
+  {
+   "idx": 7,
+   "channel": "sig",
+   "signal": "u_dut.data_in_prev_q",
+   "word": 2,
+   "kind": "write_read",
+   "addr": 124,
+   "ctf": 0,
+   "fresh": 100700054
+  },
+  {
+   "idx": 7,
+   "channel": "sig",
+   "signal": "u_dut.data_in_prev_q",
+   "word": 3,
+   "kind": "write_read",
+   "addr": 124,
+   "ctf": 0,
+   "fresh": 2828539171
+  },
+  {
+   "idx": 7,
+   "channel": "sig",
+   "signal": "u_dut.key_full_q",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 124,
+   "ctf": 1667457891,
+   "fresh": 100700054
+  },
+  {
+   "idx": 7,
+   "channel": "sig",
+   "signal": "u_dut.key_full_q",
+   "word": 1,
+   "kind": "write_read",
+   "addr": 124,
+   "ctf": 1667457891,
+   "fresh": 2828539171
+  },
+  {
+   "idx": 7,
+   "channel": "sig",
+   "signal": "u_dut.key_full_q",
+   "word": 2,
+   "kind": "write_read",
+   "addr": 124,
+   "ctf": 1667457891,
+   "fresh": 100700054
+  },
+  {
+   "idx": 7,
+   "channel": "sig",
+   "signal": "u_dut.key_full_q",
+   "word": 3,
+   "kind": "write_read",
+   "addr": 124,
+   "ctf": 1667457891,
+   "fresh": 2828539171
+  },
+  {
+   "idx": 7,
+   "channel": "sig",
+   "signal": "u_dut.key_full_q",
+   "word": 4,
+   "kind": "write_read",
+   "addr": 124,
+   "ctf": 0,
+   "fresh": 100700054
+  },
+  {
+   "idx": 7,
+   "channel": "sig",
+   "signal": "u_dut.key_full_q",
+   "word": 5,
+   "kind": "write_read",
+   "addr": 124,
+   "ctf": 0,
+   "fresh": 2828539171
+  },
+  {
+   "idx": 7,
+   "channel": "sig",
+   "signal": "u_dut.key_full_q",
+   "word": 6,
+   "kind": "write_read",
+   "addr": 124,
+   "ctf": 0,
+   "fresh": 100700054
+  },
+  {
+   "idx": 7,
+   "channel": "sig",
+   "signal": "u_dut.key_full_q",
+   "word": 7,
+   "kind": "write_read",
+   "addr": 124,
+   "ctf": 0,
+   "fresh": 2828539171
+  },
+  {
+   "idx": 7,
+   "channel": "sig",
+   "signal": "u_dut.key_dec_q",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 124,
+   "ctf": 1667457891,
+   "fresh": 100700054
+  },
+  {
+   "idx": 7,
+   "channel": "sig",
+   "signal": "u_dut.key_dec_q",
+   "word": 1,
+   "kind": "write_read",
+   "addr": 124,
+   "ctf": 1667457891,
+   "fresh": 2828539171
+  },
+  {
+   "idx": 7,
+   "channel": "sig",
+   "signal": "u_dut.key_dec_q",
+   "word": 2,
+   "kind": "write_read",
+   "addr": 124,
+   "ctf": 1667457891,
+   "fresh": 100700054
+  },
+  {
+   "idx": 7,
+   "channel": "sig",
+   "signal": "u_dut.key_dec_q",
+   "word": 3,
+   "kind": "write_read",
+   "addr": 124,
+   "ctf": 1667457891,
+   "fresh": 2828539171
+  },
+  {
+   "idx": 7,
+   "channel": "sig",
+   "signal": "u_dut.key_dec_q",
+   "word": 4,
+   "kind": "write_read",
+   "addr": 124,
+   "ctf": 0,
+   "fresh": 100700054
+  },
+  {
+   "idx": 7,
+   "channel": "sig",
+   "signal": "u_dut.key_dec_q",
+   "word": 5,
+   "kind": "write_read",
+   "addr": 124,
+   "ctf": 0,
+   "fresh": 2828539171
+  },
+  {
+   "idx": 7,
+   "channel": "sig",
+   "signal": "u_dut.key_dec_q",
+   "word": 6,
+   "kind": "write_read",
+   "addr": 124,
+   "ctf": 0,
+   "fresh": 100700054
+  },
+  {
+   "idx": 7,
+   "channel": "sig",
+   "signal": "u_dut.key_dec_q",
+   "word": 7,
+   "kind": "write_read",
+   "addr": 124,
+   "ctf": 0,
+   "fresh": 2828539171
+  },
+  {
+   "idx": 7,
+   "channel": "sig",
+   "signal": "u_dut.data_out_we",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 124,
+   "ctf": 4,
+   "fresh": 0
+  },
+  {
+   "idx": 7,
+   "channel": "sig",
+   "signal": "u_dut.u_aes_core.data_in_prev_q",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 124,
+   "ctf": 3823568514,
+   "fresh": 100700054
+  },
+  {
+   "idx": 7,
+   "channel": "sig",
+   "signal": "u_dut.u_aes_core.data_in_prev_q",
+   "word": 1,
+   "kind": "write_read",
+   "addr": 124,
+   "ctf": 0,
+   "fresh": 2828539171
+  },
+  {
+   "idx": 7,
+   "channel": "sig",
+   "signal": "u_dut.u_aes_core.data_in_prev_q",
+   "word": 2,
+   "kind": "write_read",
+   "addr": 124,
+   "ctf": 0,
+   "fresh": 100700054
+  },
+  {
+   "idx": 7,
+   "channel": "sig",
+   "signal": "u_dut.u_aes_core.data_in_prev_q",
+   "word": 3,
+   "kind": "write_read",
+   "addr": 124,
+   "ctf": 0,
+   "fresh": 2828539171
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.data_in_prev_q",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 128,
+   "ctf": 0,
+   "fresh": 100700054
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.data_in_prev_q",
+   "word": 1,
+   "kind": "write_read",
+   "addr": 128,
+   "ctf": 0,
+   "fresh": 2828539171
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.data_in_prev_q",
+   "word": 2,
+   "kind": "write_read",
+   "addr": 128,
+   "ctf": 0,
+   "fresh": 100700054
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.data_in_prev_q",
+   "word": 3,
+   "kind": "write_read",
+   "addr": 128,
+   "ctf": 0,
+   "fresh": 2828539171
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.key_full_q",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 128,
+   "ctf": 1667457891,
+   "fresh": 1544499968
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.key_full_q",
+   "word": 1,
+   "kind": "write_read",
+   "addr": 128,
+   "ctf": 0,
+   "fresh": 1562673246
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.key_full_q",
+   "word": 2,
+   "kind": "write_read",
+   "addr": 128,
+   "ctf": 0,
+   "fresh": 1544499968
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.key_full_q",
+   "word": 3,
+   "kind": "write_read",
+   "addr": 128,
+   "ctf": 1667457891,
+   "fresh": 1562673246
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.key_full_q",
+   "word": 4,
+   "kind": "write_read",
+   "addr": 128,
+   "ctf": 0,
+   "fresh": 1544499968
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.key_full_q",
+   "word": 5,
+   "kind": "write_read",
+   "addr": 128,
+   "ctf": 1667457891,
+   "fresh": 1562673246
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.key_full_q",
+   "word": 6,
+   "kind": "write_read",
+   "addr": 128,
+   "ctf": 0,
+   "fresh": 1544499968
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.key_full_q",
+   "word": 7,
+   "kind": "write_read",
+   "addr": 128,
+   "ctf": 1667457891,
+   "fresh": 1562673246
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.key_dec_q",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 128,
+   "ctf": 1667457891,
+   "fresh": 1544499968
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.key_dec_q",
+   "word": 1,
+   "kind": "write_read",
+   "addr": 128,
+   "ctf": 0,
+   "fresh": 1562673246
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.key_dec_q",
+   "word": 2,
+   "kind": "write_read",
+   "addr": 128,
+   "ctf": 0,
+   "fresh": 1544499968
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.key_dec_q",
+   "word": 3,
+   "kind": "write_read",
+   "addr": 128,
+   "ctf": 1667457891,
+   "fresh": 1562673246
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.key_dec_q",
+   "word": 4,
+   "kind": "write_read",
+   "addr": 128,
+   "ctf": 0,
+   "fresh": 1544499968
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.key_dec_q",
+   "word": 5,
+   "kind": "write_read",
+   "addr": 128,
+   "ctf": 1667457891,
+   "fresh": 1562673246
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.key_dec_q",
+   "word": 6,
+   "kind": "write_read",
+   "addr": 128,
+   "ctf": 0,
+   "fresh": 1544499968
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.key_dec_q",
+   "word": 7,
+   "kind": "write_read",
+   "addr": 128,
+   "ctf": 1667457891,
+   "fresh": 1562673246
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.data_out_we",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 128,
+   "ctf": 4,
+   "fresh": 0
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.u_aes_core.u_aes_control.gen_fsm__BRA__1__KET__.gen_fsm_p.u_aes_control_fsm_i.u_aes_control_fsm.u_state_regs.state_raw",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 128,
+   "ctf": 9,
+   "fresh": 61
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.u_aes_core.u_aes_control.gen_fsm__BRA__0__KET__.gen_fsm_p.u_aes_control_fsm_i.u_aes_control_fsm.u_state_regs.state_raw",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 128,
+   "ctf": 9,
+   "fresh": 61
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.u_aes_core.u_aes_control.gen_fsm__BRA__2__KET__.gen_fsm_n.u_aes_control_fsm_i.u_aes_control_fsm.u_state_regs.state_raw",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 128,
+   "ctf": 9,
+   "fresh": 61
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.u_aes_core.u_aes_ctr.ctr_i_rev",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 128,
+   "ctf": 1585456221,
+   "fresh": 588617896
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.u_aes_core.u_aes_ctr.ctr_i_rev",
+   "word": 1,
+   "kind": "write_read",
+   "addr": 128,
+   "ctf": 3346268,
+   "fresh": 2525954054
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.u_aes_core.u_aes_ctr.ctr_i_rev",
+   "word": 2,
+   "kind": "write_read",
+   "addr": 128,
+   "ctf": 1585456221,
+   "fresh": 588617896
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.u_aes_core.u_aes_ctr.ctr_i_rev",
+   "word": 3,
+   "kind": "write_read",
+   "addr": 128,
+   "ctf": 3346268,
+   "fresh": 2525954054
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.u_aes_core.u_aes_ctr.ctr_o_rev",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 128,
+   "ctf": 1585456221,
+   "fresh": 588617896
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.u_aes_core.u_aes_ctr.ctr_o_rev",
+   "word": 1,
+   "kind": "write_read",
+   "addr": 128,
+   "ctf": 3346268,
+   "fresh": 2525954054
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.u_aes_core.u_aes_ctr.ctr_o_rev",
+   "word": 2,
+   "kind": "write_read",
+   "addr": 128,
+   "ctf": 1585456221,
+   "fresh": 588617896
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.u_aes_core.u_aes_ctr.ctr_o_rev",
+   "word": 3,
+   "kind": "write_read",
+   "addr": 128,
+   "ctf": 3346268,
+   "fresh": 2525954054
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.u_aes_core.data_in_prev_q",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 128,
+   "ctf": 0,
+   "fresh": 100700054
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.u_aes_core.data_in_prev_q",
+   "word": 1,
+   "kind": "write_read",
+   "addr": 128,
+   "ctf": 0,
+   "fresh": 2828539171
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.u_aes_core.data_in_prev_q",
+   "word": 2,
+   "kind": "write_read",
+   "addr": 128,
+   "ctf": 0,
+   "fresh": 100700054
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.u_aes_core.data_in_prev_q",
+   "word": 3,
+   "kind": "write_read",
+   "addr": 128,
+   "ctf": 0,
+   "fresh": 2828539171
+  },
+  {
+   "idx": 9,
+   "channel": "readback",
+   "kind": "write_read",
+   "addr": 132,
+   "ctf": 17,
+   "fresh": 16
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.data_in_prev_q",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 132,
+   "ctf": 0,
+   "fresh": 100700054
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.data_in_prev_q",
+   "word": 1,
+   "kind": "write_read",
+   "addr": 132,
+   "ctf": 0,
+   "fresh": 2828539171
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.data_in_prev_q",
+   "word": 2,
+   "kind": "write_read",
+   "addr": 132,
+   "ctf": 0,
+   "fresh": 100700054
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.data_in_prev_q",
+   "word": 3,
+   "kind": "write_read",
+   "addr": 132,
+   "ctf": 0,
+   "fresh": 2828539171
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.key_full_q",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 132,
+   "ctf": 1667457891,
+   "fresh": 1544499968
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.key_full_q",
+   "word": 1,
+   "kind": "write_read",
+   "addr": 132,
+   "ctf": 0,
+   "fresh": 1562673246
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.key_full_q",
+   "word": 2,
+   "kind": "write_read",
+   "addr": 132,
+   "ctf": 0,
+   "fresh": 1544499968
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.key_full_q",
+   "word": 3,
+   "kind": "write_read",
+   "addr": 132,
+   "ctf": 1667457891,
+   "fresh": 1562673246
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.key_full_q",
+   "word": 4,
+   "kind": "write_read",
+   "addr": 132,
+   "ctf": 0,
+   "fresh": 1544499968
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.key_full_q",
+   "word": 5,
+   "kind": "write_read",
+   "addr": 132,
+   "ctf": 1667457891,
+   "fresh": 1562673246
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.key_full_q",
+   "word": 6,
+   "kind": "write_read",
+   "addr": 132,
+   "ctf": 0,
+   "fresh": 1544499968
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.key_full_q",
+   "word": 7,
+   "kind": "write_read",
+   "addr": 132,
+   "ctf": 1667457891,
+   "fresh": 1562673246
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.key_dec_q",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 132,
+   "ctf": 1667457891,
+   "fresh": 1544499968
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.key_dec_q",
+   "word": 1,
+   "kind": "write_read",
+   "addr": 132,
+   "ctf": 0,
+   "fresh": 1562673246
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.key_dec_q",
+   "word": 2,
+   "kind": "write_read",
+   "addr": 132,
+   "ctf": 0,
+   "fresh": 1544499968
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.key_dec_q",
+   "word": 3,
+   "kind": "write_read",
+   "addr": 132,
+   "ctf": 1667457891,
+   "fresh": 1562673246
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.key_dec_q",
+   "word": 4,
+   "kind": "write_read",
+   "addr": 132,
+   "ctf": 0,
+   "fresh": 1544499968
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.key_dec_q",
+   "word": 5,
+   "kind": "write_read",
+   "addr": 132,
+   "ctf": 1667457891,
+   "fresh": 1562673246
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.key_dec_q",
+   "word": 6,
+   "kind": "write_read",
+   "addr": 132,
+   "ctf": 0,
+   "fresh": 1544499968
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.key_dec_q",
+   "word": 7,
+   "kind": "write_read",
+   "addr": 132,
+   "ctf": 1667457891,
+   "fresh": 1562673246
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.data_out_we",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 132,
+   "ctf": 4,
+   "fresh": 0
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.u_aes_core.u_aes_control.gen_fsm__BRA__1__KET__.gen_fsm_p.u_aes_control_fsm_i.u_aes_control_fsm.u_state_regs.state_raw",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 132,
+   "ctf": 9,
+   "fresh": 61
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.u_aes_core.u_aes_control.gen_fsm__BRA__0__KET__.gen_fsm_p.u_aes_control_fsm_i.u_aes_control_fsm.u_state_regs.state_raw",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 132,
+   "ctf": 9,
+   "fresh": 61
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.u_aes_core.u_aes_control.gen_fsm__BRA__2__KET__.gen_fsm_n.u_aes_control_fsm_i.u_aes_control_fsm.u_state_regs.state_raw",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 132,
+   "ctf": 9,
+   "fresh": 61
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.u_aes_core.u_aes_ctr.ctr_i_rev",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 132,
+   "ctf": 1585456221,
+   "fresh": 588617896
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.u_aes_core.u_aes_ctr.ctr_i_rev",
+   "word": 1,
+   "kind": "write_read",
+   "addr": 132,
+   "ctf": 3346268,
+   "fresh": 2525954054
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.u_aes_core.u_aes_ctr.ctr_i_rev",
+   "word": 2,
+   "kind": "write_read",
+   "addr": 132,
+   "ctf": 1585456221,
+   "fresh": 588617896
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.u_aes_core.u_aes_ctr.ctr_i_rev",
+   "word": 3,
+   "kind": "write_read",
+   "addr": 132,
+   "ctf": 3346268,
+   "fresh": 2525954054
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.u_aes_core.u_aes_ctr.ctr_o_rev",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 132,
+   "ctf": 1585456221,
+   "fresh": 588617896
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.u_aes_core.u_aes_ctr.ctr_o_rev",
+   "word": 1,
+   "kind": "write_read",
+   "addr": 132,
+   "ctf": 3346268,
+   "fresh": 2525954054
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.u_aes_core.u_aes_ctr.ctr_o_rev",
+   "word": 2,
+   "kind": "write_read",
+   "addr": 132,
+   "ctf": 1585456221,
+   "fresh": 588617896
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.u_aes_core.u_aes_ctr.ctr_o_rev",
+   "word": 3,
+   "kind": "write_read",
+   "addr": 132,
+   "ctf": 3346268,
+   "fresh": 2525954054
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.u_aes_core.data_in_prev_q",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 132,
+   "ctf": 0,
+   "fresh": 100700054
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.u_aes_core.data_in_prev_q",
+   "word": 1,
+   "kind": "write_read",
+   "addr": 132,
+   "ctf": 0,
+   "fresh": 2828539171
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.u_aes_core.data_in_prev_q",
+   "word": 2,
+   "kind": "write_read",
+   "addr": 132,
+   "ctf": 0,
+   "fresh": 100700054
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.u_aes_core.data_in_prev_q",
+   "word": 3,
+   "kind": "write_read",
+   "addr": 132,
+   "ctf": 0,
+   "fresh": 2828539171
+  },
+  {
+   "idx": 10,
+   "channel": "readback",
+   "kind": "write_read",
+   "addr": 136,
+   "ctf": 4294967295,
+   "fresh": 1025
+  },
+  {
+   "idx": 10,
+   "channel": "sig",
+   "signal": "u_dut.data_in_prev_q",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 136,
+   "ctf": 0,
+   "fresh": 100700054
+  },
+  {
+   "idx": 10,
+   "channel": "sig",
+   "signal": "u_dut.data_in_prev_q",
+   "word": 1,
+   "kind": "write_read",
+   "addr": 136,
+   "ctf": 0,
+   "fresh": 2828539171
+  },
+  {
+   "idx": 10,
+   "channel": "sig",
+   "signal": "u_dut.data_in_prev_q",
+   "word": 2,
+   "kind": "write_read",
+   "addr": 136,
+   "ctf": 0,
+   "fresh": 100700054
+  },
+  {
+   "idx": 10,
+   "channel": "sig",
+   "signal": "u_dut.data_in_prev_q",
+   "word": 3,
+   "kind": "write_read",
+   "addr": 136,
+   "ctf": 0,
+   "fresh": 2828539171
+  },
+  {
+   "idx": 10,
+   "channel": "sig",
+   "signal": "u_dut.key_full_q",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 136,
+   "ctf": 1667457891,
+   "fresh": 1544499968
+  },
+  {
+   "idx": 10,
+   "channel": "sig",
+   "signal": "u_dut.key_full_q",
+   "word": 1,
+   "kind": "write_read",
+   "addr": 136,
+   "ctf": 0,
+   "fresh": 1562673246
+  },
+  {
+   "idx": 10,
+   "channel": "sig",
+   "signal": "u_dut.key_full_q",
+   "word": 2,
+   "kind": "write_read",
+   "addr": 136,
+   "ctf": 0,
+   "fresh": 1544499968
+  },
+  {
+   "idx": 10,
+   "channel": "sig",
+   "signal": "u_dut.key_full_q",
+   "word": 3,
+   "kind": "write_read",
+   "addr": 136,
+   "ctf": 1667457891,
+   "fresh": 1562673246
+  },
+  {
+   "idx": 10,
+   "channel": "sig",
+   "signal": "u_dut.key_full_q",
+   "word": 4,
+   "kind": "write_read",
+   "addr": 136,
+   "ctf": 0,
+   "fresh": 1544499968
+  },
+  {
+   "idx": 10,
+   "channel": "sig",
+   "signal": "u_dut.key_full_q",
+   "word": 5,
+   "kind": "write_read",
+   "addr": 136,
+   "ctf": 1667457891,
+   "fresh": 1562673246
+  },
+  {
+   "idx": 10,
+   "channel": "sig",
+   "signal": "u_dut.key_full_q",
+   "word": 6,
+   "kind": "write_read",
+   "addr": 136,
+   "ctf": 0,
+   "fresh": 1544499968
+  },
+  {
+   "idx": 10,
+   "channel": "sig",
+   "signal": "u_dut.key_full_q",
+   "word": 7,
+   "kind": "write_read",
+   "addr": 136,
+   "ctf": 1667457891,
+   "fresh": 1562673246
+  },
+  {
+   "idx": 10,
+   "channel": "sig",
+   "signal": "u_dut.key_dec_q",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 136,
+   "ctf": 1667457891,
+   "fresh": 1544499968
+  },
+  {
+   "idx": 10,
+   "channel": "sig",
+   "signal": "u_dut.key_dec_q",
+   "word": 1,
+   "kind": "write_read",
+   "addr": 136,
+   "ctf": 0,
+   "fresh": 1562673246
+  },
+  {
+   "idx": 10,
+   "channel": "sig",
+   "signal": "u_dut.key_dec_q",
+   "word": 2,
+   "kind": "write_read",
+   "addr": 136,
+   "ctf": 0,
+   "fresh": 1544499968
+  },
+  {
+   "idx": 10,
+   "channel": "sig",
+   "signal": "u_dut.key_dec_q",
+   "word": 3,
+   "kind": "write_read",
+   "addr": 136,
+   "ctf": 1667457891,
+   "fresh": 1562673246
+  },
+  {
+   "idx": 10,
+   "channel": "sig",
+   "signal": "u_dut.key_dec_q",
+   "word": 4,
+   "kind": "write_read",
+   "addr": 136,
+   "ctf": 0,
+   "fresh": 1544499968
+  },
+  {
+   "idx": 10,
+   "channel": "sig",
+   "signal": "u_dut.key_dec_q",
+   "word": 5,
+   "kind": "write_read",
+   "addr": 136,
+   "ctf": 1667457891,
+   "fresh": 1562673246
+  },
+  {
+   "idx": 10,
+   "channel": "sig",
+   "signal": "u_dut.key_dec_q",
+   "word": 6,
+   "kind": "write_read",
+   "addr": 136,
+   "ctf": 0,
+   "fresh": 1544499968
+  },
+  {
+   "idx": 10,
+   "channel": "sig",
+   "signal": "u_dut.key_dec_q",
+   "word": 7,
+   "kind": "write_read",
+   "addr": 136,
+   "ctf": 1667457891,
+   "fresh": 1562673246
+  },
+  {
+   "idx": 10,
+   "channel": "sig",
+   "signal": "u_dut.data_out_we",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 136,
+   "ctf": 4,
+   "fresh": 0
+  },
+  {
+   "idx": 10,
+   "channel": "sig",
+   "signal": "u_dut.u_aes_core.u_aes_control.gen_fsm__BRA__1__KET__.gen_fsm_p.u_aes_control_fsm_i.u_aes_control_fsm.u_state_regs.state_raw",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 136,
+   "ctf": 9,
+   "fresh": 61
+  },
+  {
+   "idx": 10,
+   "channel": "sig",
+   "signal": "u_dut.u_aes_core.u_aes_control.gen_fsm__BRA__0__KET__.gen_fsm_p.u_aes_control_fsm_i.u_aes_control_fsm.u_state_regs.state_raw",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 136,
+   "ctf": 9,
+   "fresh": 61
+  },
+  {
+   "idx": 10,
+   "channel": "sig",
+   "signal": "u_dut.u_aes_core.u_aes_control.gen_fsm__BRA__2__KET__.gen_fsm_n.u_aes_control_fsm_i.u_aes_control_fsm.u_state_regs.state_raw",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 136,
+   "ctf": 9,
+   "fresh": 61
+  },
+  {
+   "idx": 10,
+   "channel": "sig",
+   "signal": "u_dut.u_aes_core.u_aes_ctr.ctr_i_rev",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 136,
+   "ctf": 1585456221,
+   "fresh": 588617896
+  },
+  {
+   "idx": 10,
+   "channel": "sig",
+   "signal": "u_dut.u_aes_core.u_aes_ctr.ctr_i_rev",
+   "word": 1,
+   "kind": "write_read",
+   "addr": 136,
+   "ctf": 3346268,
+   "fresh": 2525954054
+  },
+  {
+   "idx": 10,
+   "channel": "sig",
+   "signal": "u_dut.u_aes_core.u_aes_ctr.ctr_i_rev",
+   "word": 2,
+   "kind": "write_read",
+   "addr": 136,
+   "ctf": 1585456221,
+   "fresh": 588617896
+  },
+  {
+   "idx": 10,
+   "channel": "sig",
+   "signal": "u_dut.u_aes_core.u_aes_ctr.ctr_i_rev",
+   "word": 3,
+   "kind": "write_read",
+   "addr": 136,
+   "ctf": 3346268,
+   "fresh": 2525954054
+  },
+  {
+   "idx": 10,
+   "channel": "sig",
+   "signal": "u_dut.u_aes_core.u_aes_ctr.ctr_o_rev",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 136,
+   "ctf": 1585456221,
+   "fresh": 588617896
+  },
+  {
+   "idx": 10,
+   "channel": "sig",
+   "signal": "u_dut.u_aes_core.u_aes_ctr.ctr_o_rev",
+   "word": 1,
+   "kind": "write_read",
+   "addr": 136,
+   "ctf": 3346268,
+   "fresh": 2525954054
+  },
+  {
+   "idx": 10,
+   "channel": "sig",
+   "signal": "u_dut.u_aes_core.u_aes_ctr.ctr_o_rev",
+   "word": 2,
+   "kind": "write_read",
+   "addr": 136,
+   "ctf": 1585456221,
+   "fresh": 588617896
+  },
+  {
+   "idx": 10,
+   "channel": "sig",
+   "signal": "u_dut.u_aes_core.u_aes_ctr.ctr_o_rev",
+   "word": 3,
+   "kind": "write_read",
+   "addr": 136,
+   "ctf": 3346268,
+   "fresh": 2525954054
+  },
+  {
+   "idx": 10,
+   "channel": "sig",
+   "signal": "u_dut.u_aes_core.data_in_prev_q",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 136,
+   "ctf": 0,
+   "fresh": 100700054
+  },
+  {
+   "idx": 10,
+   "channel": "sig",
+   "signal": "u_dut.u_aes_core.data_in_prev_q",
+   "word": 1,
+   "kind": "write_read",
+   "addr": 136,
+   "ctf": 0,
+   "fresh": 2828539171
+  },
+  {
+   "idx": 10,
+   "channel": "sig",
+   "signal": "u_dut.u_aes_core.data_in_prev_q",
+   "word": 2,
+   "kind": "write_read",
+   "addr": 136,
+   "ctf": 0,
+   "fresh": 100700054
+  },
+  {
+   "idx": 10,
+   "channel": "sig",
+   "signal": "u_dut.u_aes_core.data_in_prev_q",
+   "word": 3,
+   "kind": "write_read",
+   "addr": 136,
+   "ctf": 0,
+   "fresh": 2828539171
+  },
+  {
+   "idx": 11,
+   "channel": "sig",
+   "signal": "u_dut.data_in_prev_q",
+   "word": 0,
+   "kind": "step",
+   "addr": null,
+   "ctf": 0,
+   "fresh": 1544499968
+  },
+  {
+   "idx": 11,
+   "channel": "sig",
+   "signal": "u_dut.data_in_prev_q",
+   "word": 1,
+   "kind": "step",
+   "addr": null,
+   "ctf": 0,
+   "fresh": 1562673246
+  },
+  {
+   "idx": 11,
+   "channel": "sig",
+   "signal": "u_dut.data_in_prev_q",
+   "word": 2,
+   "kind": "step",
+   "addr": null,
+   "ctf": 0,
+   "fresh": 1544499968
+  },
+  {
+   "idx": 11,
+   "channel": "sig",
+   "signal": "u_dut.data_in_prev_q",
+   "word": 3,
+   "kind": "step",
+   "addr": null,
+   "ctf": 0,
+   "fresh": 1562673246
+  },
+  {
+   "idx": 11,
+   "channel": "sig",
+   "signal": "u_dut.key_full_q",
+   "word": 0,
+   "kind": "step",
+   "addr": null,
+   "ctf": 1667457891,
+   "fresh": 1544499968
+  },
+  {
+   "idx": 11,
+   "channel": "sig",
+   "signal": "u_dut.key_full_q",
+   "word": 1,
+   "kind": "step",
+   "addr": null,
+   "ctf": 0,
+   "fresh": 1562673246
+  },
+  {
+   "idx": 11,
+   "channel": "sig",
+   "signal": "u_dut.key_full_q",
+   "word": 2,
+   "kind": "step",
+   "addr": null,
+   "ctf": 0,
+   "fresh": 1544499968
+  },
+  {
+   "idx": 11,
+   "channel": "sig",
+   "signal": "u_dut.key_full_q",
+   "word": 3,
+   "kind": "step",
+   "addr": null,
+   "ctf": 1667457891,
+   "fresh": 1562673246
+  },
+  {
+   "idx": 11,
+   "channel": "sig",
+   "signal": "u_dut.key_full_q",
+   "word": 4,
+   "kind": "step",
+   "addr": null,
+   "ctf": 0,
+   "fresh": 1544499968
+  }
+ ],
+ "n_stable_signals": 26,
+ "n_signals_total": 26,
+ "n_stable_readbacks": 87,
+ "module": "aes",
+ "seed": 0
+}

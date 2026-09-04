@@ -14,7 +14,7 @@
   C 擦除探测:   敏感寄存器写标记 → 混合操作 → 快照（O-A 差分版）
   D 复位后态:   复位 + 寄存器回读
 """
-import json, os, random, sys
+import ctypes, json, os, random, sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from discover_engine import DUT  # noqa: E402
@@ -39,6 +39,18 @@ def run(dut_dir, module, regmap_path, out_path, seed=0):
 
     os.chdir(PF)
     dut = DUT(dut_dir, module)
+    # 差分可比性: 只采样两侧都绑定的白盒信号（fresh 侧未绑定 → pf_sig_bound=0）
+    bound = None
+    try:
+        a = dut.api
+        a.pf_sig_bound.restype = ctypes.c_int
+        a.pf_sig_bound.argtypes = [ctypes.c_int]
+        bound = set()
+        for i, nm in enumerate(dut.sigs):
+            if a.pf_sig_bound(i):
+                bound.add(nm)
+    except Exception:
+        bound = None  # 无 pf_sig_bound 的旧 harness: 全采样
     trace = []
     idx = 0
 
@@ -49,7 +61,8 @@ def run(dut_dir, module, regmap_path, out_path, seed=0):
             "addr": addr, "data": data,
             "readback": readback, "error": error,
             "cycle": int(dut.api.pf_get_cycle()) if hasattr(dut.api, "pf_get_cycle") else 0,
-            "sigs": dut.snapshot(),
+            "sigs": {k: v for k, v in dut.snapshot().items()
+                     if bound is None or k in bound},
         })
         idx += 1
 

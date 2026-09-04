@@ -2,6 +2,138 @@
  "module": "aes",
  "triaged": [
   {
+   "level": "LOW",
+   "oracle": "O-C-equivclass",
+   "signal": "u_dut.u_aes_core.u_aes_control.gen_fsm__BRA__1__KET__.gen_fsm_p.u_aes_control_fsm_i.u_aes_control_fsm.u_state_regs.state_raw",
+   "sec_cm": [],
+   "sensitive": false,
+   "cross_oracle": 0,
+   "rtl_wipe_nearby": false,
+   "evidence": "语义等价序列产生不同控制状态 → 可能存在中间读副作用/相位错误",
+   "diff": "DIFF-CONFIRMED"
+  },
+  {
+   "level": "LOW",
+   "oracle": "O-C-equivclass",
+   "signal": "u_dut.u_aes_core.u_aes_control.gen_fsm__BRA__0__KET__.gen_fsm_p.u_aes_control_fsm_i.u_aes_control_fsm.u_state_regs.state_raw",
+   "sec_cm": [],
+   "sensitive": false,
+   "cross_oracle": 0,
+   "rtl_wipe_nearby": false,
+   "evidence": "语义等价序列产生不同控制状态 → 可能存在中间读副作用/相位错误",
+   "diff": "DIFF-CONFIRMED"
+  },
+  {
+   "level": "LOW",
+   "oracle": "O-C-equivclass",
+   "signal": "u_dut.u_aes_core.u_aes_control.gen_fsm__BRA__2__KET__.gen_fsm_n.u_aes_control_fsm_i.u_aes_control_fsm.u_state_regs.state_raw",
+   "sec_cm": [],
+   "sensitive": false,
+   "cross_oracle": 0,
+   "rtl_wipe_nearby": false,
+   "evidence": "语义等价序列产生不同控制状态 → 可能存在中间读副作用/相位错误",
+   "diff": "DIFF-CONFIRMED"
+  },
+  {
+   "level": "LOW",
+   "oracle": "O-C-equivclass",
+   "signal": "u_dut.u_aes_core.u_aes_control.gen_fsm__BRA__1__KET__.gen_fsm_p.u_aes_control_fsm_i.u_aes_control_fsm.u_state_regs.state_raw",
+   "sec_cm": [],
+   "sensitive": false,
+   "cross_oracle": 0,
+   "rtl_wipe_nearby": false,
+   "evidence": "语义等价序列产生不同控制状态 → 可能存在中间读副作用/相位错误",
+   "diff": "DIFF-CONFIRMED"
+  },
+  {
+   "level": "LOW",
+   "oracle": "O-C-equivclass",
+   "signal": "u_dut.u_aes_core.u_aes_control.gen_fsm__BRA__0__KET__.gen_fsm_p.u_aes_control_fsm_i.u_aes_control_fsm.u_state_regs.state_raw",
+   "sec_cm": [],
+   "sensitive": false,
+   "cross_oracle": 0,
+   "rtl_wipe_nearby": false,
+   "evidence": "语义等价序列产生不同控制状态 → 可能存在中间读副作用/相位错误",
+   "diff": "DIFF-CONFIRMED"
+  },
+  {
+   "level": "LOW",
+   "oracle": "O-C-equivclass",
+   "signal": "u_dut.u_aes_core.u_aes_control.gen_fsm__BRA__2__KET__.gen_fsm_n.u_aes_control_fsm_i.u_aes_control_fsm.u_state_regs.state_raw",
+   "sec_cm": [],
+   "sensitive": false,
+   "cross_oracle": 0,
+   "rtl_wipe_nearby": false,
+   "evidence": "语义等价序列产生不同控制状态 → 可能存在中间读副作用/相位错误",
+   "diff": "DIFF-CONFIRMED"
+  },
+  {
+   "level": "LOW",
+   "oracle": "O-C-equivclass",
+   "signal": "u_dut.u_aes_core.u_aes_control.gen_fsm__BRA__1__KET__.gen_fsm_p.u_aes_control_fsm_i.u_aes_control_fsm.u_state_regs.state_raw",
+   "sec_cm": [],
+   "sensitive": false,
+   "cross_oracle": 0,
+   "rtl_wipe_nearby": false,
+   "evidence": "语义等价序列产生不同控制状态 → 可能存在中间读副作用/相位错误",
+   "diff": "DIFF-CONFIRMED"
+  },
+  {
+   "level": "LOW",
+   "oracle": "O-C-equivclass",
+   "signal": "u_dut.u_aes_core.u_aes_control.gen_fsm__BRA__0__KET__.gen_fsm_p.u_aes_control_fsm_i.u_aes_control_fsm.u_state_regs.state_raw",
+   "sec_cm": [],
+   "sensitive": false,
+   "cross_oracle": 0,
+   "rtl_wipe_nearby": false,
+   "evidence": "语义等价序列产生不同控制状态 → 可能存在中间读副作用/相位错误",
+   "diff": "DIFF-CONFIRMED"
+  },
+  {
+   "level": "LOW",
+   "oracle": "O-C-equivclass",
+   "signal": "u_dut.u_aes_core.u_aes_control.gen_fsm__BRA__2__KET__.gen_fsm_n.u_aes_control_fsm_i.u_aes_control_fsm.u_state_regs.state_raw",
+   "sec_cm": [],
+   "sensitive": false,
+   "cross_oracle": 0,
+   "rtl_wipe_nearby": false,
+   "evidence": "语义等价序列产生不同控制状态 → 可能存在中间读副作用/相位错误",
+   "diff": "DIFF-CONFIRMED"
+  },
+  {
+   "level": "LOW",
+   "oracle": "O-C-equivclass",
+   "signal": "u_dut.u_aes_core.u_aes_control.gen_fsm__BRA__1__KET__.gen_fsm_p.u_aes_control_fsm_i.u_aes_control_fsm.u_state_regs.state_raw",
+   "sec_cm": [],
+   "sensitive": false,
+   "cross_oracle": 0,
+   "rtl_wipe_nearby": false,
+   "evidence": "语义等价序列产生不同控制状态 → 可能存在中间读副作用/相位错误",
+   "diff": "DIFF-CONFIRMED"
+  },
+  {
+   "level": "LOW",
+   "oracle": "O-C-equivclass",
+   "signal": "u_dut.u_aes_core.u_aes_control.gen_fsm__BRA__0__KET__.gen_fsm_p.u_aes_control_fsm_i.u_aes_control_fsm.u_state_regs.state_raw",
+   "sec_cm": [],
+   "sensitive": false,
+   "cross_oracle": 0,
+   "rtl_wipe_nearby": false,
+   "evidence": "语义等价序列产生不同控制状态 → 可能存在中间读副作用/相位错误",
+   "diff": "DIFF-CONFIRMED"
+  },
+  {
+   "level": "LOW",
+   "oracle": "O-C-equivclass",
+   "signal": "u_dut.u_aes_core.u_aes_control.gen_fsm__BRA__2__KET__.gen_fsm_n.u_aes_control_fsm_i.u_aes_control_fsm.u_state_regs.state_raw",
+   "sec_cm": [],
+   "sensitive": false,
+   "cross_oracle": 0,
+   "rtl_wipe_nearby": false,
+   "evidence": "语义等价序列产生不同控制状态 → 可能存在中间读副作用/相位错误",
+   "diff": "DIFF-CONFIRMED"
+  },
+  {
    "level": "HIGH",
    "oracle": "O-A-residual",
    "signal": "u_dut.key_init",
@@ -9,7 +141,8 @@
    "sensitive": true,
    "cross_oracle": 0,
    "rtl_wipe_nearby": true,
-   "evidence": "敏感信号 u_dut.key_init[0] 在清除/操作序列后残留写入标记值"
+   "evidence": "敏感信号 u_dut.key_init[0] 在清除/操作序列后残留写入标记值",
+   "diff": "DIFF-UNKNOWN"
   },
   {
    "level": "HIGH",
@@ -19,7 +152,140 @@
    "sensitive": true,
    "cross_oracle": 0,
    "rtl_wipe_nearby": true,
-   "evidence": "敏感信号 u_dut.key_init[0] 在清除/操作序列后残留写入标记值"
+   "evidence": "敏感信号 u_dut.key_init[0] 在清除/操作序列后残留写入标记值",
+   "diff": "DIFF-UNKNOWN"
+  },
+  {
+   "level": "HIGH",
+   "oracle": "O-B-determinism",
+   "signal": "u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.u_prim_bivium.state_q",
+   "sec_cm": [],
+   "sensitive": true,
+   "cross_oracle": 0,
+   "rtl_wipe_nearby": true,
+   "evidence": "掩码/熵信号 u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.u_prim_bivium.state_q 两次独立执行逐位相同 → 无随机性（静态掩码/PRNG 不动）",
+   "diff": "DIFF-UNKNOWN"
+  },
+  {
+   "level": "HIGH",
+   "oracle": "O-B-determinism",
+   "signal": "u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.u_prim_bivium.state_q",
+   "sec_cm": [],
+   "sensitive": true,
+   "cross_oracle": 0,
+   "rtl_wipe_nearby": true,
+   "evidence": "掩码/熵信号 u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.u_prim_bivium.state_q 两次独立执行逐位相同 → 无随机性（静态掩码/PRNG 不动）",
+   "diff": "DIFF-UNKNOWN"
+  },
+  {
+   "level": "HIGH",
+   "oracle": "O-B-determinism",
+   "signal": "u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.u_prim_bivium.state_q",
+   "sec_cm": [],
+   "sensitive": true,
+   "cross_oracle": 0,
+   "rtl_wipe_nearby": true,
+   "evidence": "掩码/熵信号 u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.u_prim_bivium.state_q 两次独立执行逐位相同 → 无随机性（静态掩码/PRNG 不动）",
+   "diff": "DIFF-UNKNOWN"
+  },
+  {
+   "level": "HIGH",
+   "oracle": "O-B-determinism",
+   "signal": "u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.u_prim_bivium.state_q",
+   "sec_cm": [],
+   "sensitive": true,
+   "cross_oracle": 0,
+   "rtl_wipe_nearby": true,
+   "evidence": "掩码/熵信号 u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.u_prim_bivium.state_q 两次独立执行逐位相同 → 无随机性（静态掩码/PRNG 不动）",
+   "diff": "DIFF-UNKNOWN"
+  },
+  {
+   "level": "HIGH",
+   "oracle": "O-B-determinism",
+   "signal": "u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.u_prim_bivium.state_q",
+   "sec_cm": [],
+   "sensitive": true,
+   "cross_oracle": 0,
+   "rtl_wipe_nearby": true,
+   "evidence": "掩码/熵信号 u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.u_prim_bivium.state_q 两次独立执行逐位相同 → 无随机性（静态掩码/PRNG 不动）",
+   "diff": "DIFF-UNKNOWN"
+  },
+  {
+   "level": "HIGH",
+   "oracle": "O-B-determinism",
+   "signal": "u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.u_prim_bivium.state_q",
+   "sec_cm": [],
+   "sensitive": true,
+   "cross_oracle": 0,
+   "rtl_wipe_nearby": true,
+   "evidence": "掩码/熵信号 u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.u_prim_bivium.state_q 两次独立执行逐位相同 → 无随机性（静态掩码/PRNG 不动）",
+   "diff": "DIFF-UNKNOWN"
+  },
+  {
+   "level": "MEDIUM",
+   "oracle": "O-B-determinism",
+   "signal": "u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.prng_key",
+   "sec_cm": [],
+   "sensitive": true,
+   "cross_oracle": 0,
+   "rtl_wipe_nearby": false,
+   "evidence": "掩码/熵信号 u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.prng_key 两次独立执行逐位相同 → 无随机性（静态掩码/PRNG 不动）",
+   "diff": "DIFF-UNKNOWN"
+  },
+  {
+   "level": "MEDIUM",
+   "oracle": "O-B-determinism",
+   "signal": "u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.prng_key",
+   "sec_cm": [],
+   "sensitive": true,
+   "cross_oracle": 0,
+   "rtl_wipe_nearby": false,
+   "evidence": "掩码/熵信号 u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.prng_key 两次独立执行逐位相同 → 无随机性（静态掩码/PRNG 不动）",
+   "diff": "DIFF-UNKNOWN"
+  },
+  {
+   "level": "MEDIUM",
+   "oracle": "O-B-determinism",
+   "signal": "u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.prng_key",
+   "sec_cm": [],
+   "sensitive": true,
+   "cross_oracle": 0,
+   "rtl_wipe_nearby": false,
+   "evidence": "掩码/熵信号 u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.prng_key 两次独立执行逐位相同 → 无随机性（静态掩码/PRNG 不动）",
+   "diff": "DIFF-UNKNOWN"
+  },
+  {
+   "level": "MEDIUM",
+   "oracle": "O-B-determinism",
+   "signal": "u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.prng_key",
+   "sec_cm": [],
+   "sensitive": true,
+   "cross_oracle": 0,
+   "rtl_wipe_nearby": false,
+   "evidence": "掩码/熵信号 u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.prng_key 两次独立执行逐位相同 → 无随机性（静态掩码/PRNG 不动）",
+   "diff": "DIFF-UNKNOWN"
+  },
+  {
+   "level": "MEDIUM",
+   "oracle": "O-B-determinism",
+   "signal": "u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.prng_key",
+   "sec_cm": [],
+   "sensitive": true,
+   "cross_oracle": 0,
+   "rtl_wipe_nearby": false,
+   "evidence": "掩码/熵信号 u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.prng_key 两次独立执行逐位相同 → 无随机性（静态掩码/PRNG 不动）",
+   "diff": "DIFF-UNKNOWN"
+  },
+  {
+   "level": "MEDIUM",
+   "oracle": "O-B-determinism",
+   "signal": "u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.prng_key",
+   "sec_cm": [],
+   "sensitive": true,
+   "cross_oracle": 0,
+   "rtl_wipe_nearby": false,
+   "evidence": "掩码/熵信号 u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.prng_key 两次独立执行逐位相同 → 无随机性（静态掩码/PRNG 不动）",
+   "diff": "DIFF-UNKNOWN"
   },
   {
    "level": "LOW",
@@ -29,7 +295,8 @@
    "sensitive": false,
    "cross_oracle": 0,
    "rtl_wipe_nearby": true,
-   "evidence": "语义等价序列产生不同控制状态 → 可能存在中间读副作用/相位错误"
+   "evidence": "语义等价序列产生不同控制状态 → 可能存在中间读副作用/相位错误",
+   "diff": "DIFF-UNKNOWN"
   },
   {
    "level": "LOW",
@@ -39,7 +306,8 @@
    "sensitive": false,
    "cross_oracle": 0,
    "rtl_wipe_nearby": true,
-   "evidence": "语义等价序列产生不同控制状态 → 可能存在中间读副作用/相位错误"
+   "evidence": "语义等价序列产生不同控制状态 → 可能存在中间读副作用/相位错误",
+   "diff": "DIFF-UNKNOWN"
   },
   {
    "level": "LOW",
@@ -49,7 +317,8 @@
    "sensitive": false,
    "cross_oracle": 0,
    "rtl_wipe_nearby": true,
-   "evidence": "语义等价序列产生不同控制状态 → 可能存在中间读副作用/相位错误"
+   "evidence": "语义等价序列产生不同控制状态 → 可能存在中间读副作用/相位错误",
+   "diff": "DIFF-UNKNOWN"
   },
   {
    "level": "LOW",
@@ -59,7 +328,30 @@
    "sensitive": false,
    "cross_oracle": 0,
    "rtl_wipe_nearby": true,
-   "evidence": "语义等价序列产生不同控制状态 → 可能存在中间读副作用/相位错误"
+   "evidence": "语义等价序列产生不同控制状态 → 可能存在中间读副作用/相位错误",
+   "diff": "DIFF-UNKNOWN"
+  },
+  {
+   "level": "LOW",
+   "oracle": "O-J-errprop",
+   "signal": "u_dut.u_aes_core.u_aes_ctr.gen_fsm__BRA__1__KET__.gen_fsm_p.u_aes_ctr_fsm_i.u_aes_ctr_fsm.alert_counter_q,u_dut.u_aes_core.u_aes_ctr.gen_fsm__BRA__0__KET__.gen_fsm_p.u_aes_ctr_fsm_i.u_aes_ctr_fsm.alert_counter_q,u_dut.u_aes_core.u_aes_ctr.gen_fsm__BRA__2__KET__.gen_fsm_n.u_aes_ctr_fsm_i.u_aes_ctr_fsm.alert_counter_q",
+   "sec_cm": [],
+   "sensitive": false,
+   "cross_oracle": 0,
+   "rtl_wipe_nearby": false,
+   "evidence": "全部 4 类错误触发均未引起任何 alert/err 信号置位 → 错误传播链断裂",
+   "diff": "DIFF-UNKNOWN"
   }
- ]
+ ],
+ "diff_verdict": "DIVERGENT",
+ "diff_first_divergence": {
+  "idx": 0,
+  "channel": "sig",
+  "signal": "u_dut.data_out_we",
+  "word": 0,
+  "kind": "write_read",
+  "addr": 4,
+  "ctf": 4,
+  "fresh": 0
+ }
 }

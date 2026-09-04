@@ -1920,3 +1920,19 @@ wrapper/harness/filelist 与 CTF 版**共用同一份文件**——hmac 92 个�
 - DIFF-REFUTED 演示路径：对良性模块的候选跑差分 → 自动出局（逻辑已就位，待真实数据）
 - MUTANTS 注册表扩族：极性反转 / 稀疏 FSM 编码 / MUBI 损坏 / shadow 双写破坏
 - O-K 后置校验（write-only 标签误报）可改用差分 ground truth 复核
+
+## 42. 差分层逐模块推广（2026-09-04 · 持续更新）
+
+工作模式（每模块）: fresh DUT 构建（gen_filelist 包拓扑 + MODMISSING 自动补件 + gen_bindings
+自动绑定 + own-rtl 回退）→ 模块测试（diff_replay 三遍比对 + triage 差分叠加）→ 本台账 + git 提交。
+
+| 模块 | fresh 构建 | 差分判定 | 首偏离 | 检出模块测试 |
+|------|-----------|---------|--------|-------------|
+| hmac | ✅ 全量覆盖 | DIVERGENT（secret_key 78 拍 → #20/60 命中） | idx=8 secret_key | O-A×2 DIFF-CONFIRMED + O-J CONFIRMED |
+| aes | ✅ 全量覆盖+gen_filelist+gen_bindings(26/29) | ✅ DIVERGENT 首偏离 idx=0 data_out_we（#32 面）key_full/dec_q 70 拍 | 引擎 8 条照常 |
+
+构建基建（本阶段沉淀）:
+- `gen_filelist.py`: 闭包自动 filelist（prim_assert 最前 + 包 import 拓扑排序 + wrapper 殿后）
+- 自动 MODMISSING 循环（路径式/模块名式双正则, 最多 4 轮）
+- `gen_bindings.py`: 白盒绑定从 root 头自动推导（未绑定信号差分自动排除; aes 26/29）
+- 构建回退链: 全量覆盖 → own-rtl-only（公共闭包保 CTF 版, 覆盖范围=模块自身 RTL）→ 记录

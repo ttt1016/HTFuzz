@@ -1,0 +1,297 @@
+=== fresh 批建开始: 27 模块 ===
+[adc_ctrl] 闭包回退 16 个文件: ['top_earlgrey/rtl/top_racl_pkg.sv', 'hw/ip/prim/rtl/prim_pulse_sync.sv', 'hw/ip/prim/rtl/prim_sync_reqack.sv', 'hw/ip/prim/rtl/prim_mubi_pkg.sv']...
+[alert_handler] 闭包回退 72 个文件: ['top_earlgrey/top_racl_pkg.sv', 'top_earlgrey/jtag_pkg.sv', 'top_earlgrey/top_pkg.sv', 'top_earlgrey/rtl/otp_ctrl_scrmbl.sv']...
+[adc_ctrl] BUILD FAIL: %Error: hw/top_earlgrey/ip/ast/rtl/ast_pkg.sv:76:3: Package/class for ':: reference' not found: 'prim_ram_1p_pkg' | %Error: hw/top_earlgrey/ip/ast/rtl/ast_pkg.sv:76:3: Package/class for 'class/package reference' not found: 'prim_ram_1p_pkg' | %Error: hw/top_earlgrey/ip/ast/rtl/ast_pkg.sv:77:3: Package/class for ':: reference' not found: 'prim_ram_1p_pkg'
+--- 进度 1/27 (成功 0) ---
+[aon_timer] 闭包回退 1 个文件: ['top_earlgrey/rtl/top_racl_pkg.sv']
+[alert_handler] BUILD FAIL: %Error: hw/ip/csrng/rtl/csrng_pkg.sv:8:45: Package/class for ':: reference' not found: 'csrng_reg_pkg' | %Error: Exiting due to 1 error(s)
+[aon_timer] BUILD FAIL: %Error: hw/ip/lc_ctrl/rtl/lc_ctrl_pkg.sv:6:10: Cannot find include file: 'prim_assert.sv' | %Error: hw/ip/lc_ctrl/rtl/lc_ctrl_pkg.sv:85:3: Define or directive not defined: '`ASSERT_STATIC_IN_PACKAGE' | %Error: hw/ip/lc_ctrl/rtl/lc_ctrl_pkg.sv:85:28: syntax error, unexpected '('
+=== fresh 批建开始: 27 模块 ===
+[aes] SKIP_NO_FILELIST
+[adc_ctrl] fresh 缺件回退 16 个: ['top_earlgrey/rtl/top_racl_pkg.sv', 'hw/ip/prim/rtl/prim_pulse_sync.sv', 'hw/ip/prim/rtl/prim_sync_reqack.sv']...
+[adc_ctrl] 无 harness cpp, SKIP
+--- 进度 1/27 (成功 0) ---
+--- 进度 2/27 (成功 0) ---
+[aon_timer] fresh 缺件回退 1 个: ['top_earlgrey/rtl/top_racl_pkg.sv']
+[aon_timer] 无 harness cpp, SKIP
+[ascon] fresh 缺件回退 3 个: ['ip/prim/rtl/lc_ctrl_reg_pkg.sv', 'ip/prim/rtl/lc_ctrl_state_pkg.sv', 'ip/prim/rtl/lc_ctrl_pkg.sv']
+[ascon] 无 harness cpp, SKIP
+[alert_handler] fresh 缺件回退 72 个: ['top_earlgrey/top_racl_pkg.sv', 'top_earlgrey/jtag_pkg.sv', 'top_earlgrey/top_pkg.sv']...
+[alert_handler] 无 harness cpp, SKIP
+--- 进度 3/27 (成功 0) ---
+--- 进度 4/27 (成功 0) ---
+--- 进度 5/27 (成功 0) ---
+[clkmgr] fresh 缺件回退 21 个: ['top_earlgrey/top_racl_pkg.sv', 'top_earlgrey/top_pkg.sv', 'ip/pwrmgr/rtl/pwrmgr_reg_pkg.sv']...
+[clkmgr] 无 harness cpp, SKIP
+--- 进度 6/27 (成功 0) ---
+[entropy_src] fresh 缺件回退 1 个: ['ip/prim/rtl/lc_ctrl_pkg.sv']
+[entropy_src] 无 harness cpp, SKIP
+[csrng] fresh 缺件回退 10 个: ['workspace/opentitan/hw/ip/prim/rtl/prim_edge_detector.sv', 'workspace/opentitan/hw/ip/prim/rtl/prim_mubi8_sync.sv', 'workspace/opentitan/hw/ip/prim/rtl/prim_arbiter_ppc.sv']...
+[csrng] 无 harness cpp, SKIP
+--- 进度 7/27 (成功 0) ---
+--- 进度 8/27 (成功 0) ---
+[ibex] SKIP_NO_FILELIST
+[gpio] fresh 缺件回退 34 个: ['hw/top_earlgrey/ip_autogen/gpio/rtl/gpio_reg_top.sv', 'hw/top_earlgrey/ip_autogen/gpio/rtl/gpio_reg_pkg.sv', 'hw/top_earlgrey/ip_autogen/gpio/rtl/gpio.sv']...
+[gpio] 无 harness cpp, SKIP
+--- 进度 9/27 (成功 0) ---
+--- 进度 10/27 (成功 0) ---
+[kmac] SKIP_NO_FILELIST
+[keymgr] fresh 缺件回退 4 个: ['ip/prim/rtl/prim_buf.sv', 'ip/prim/rtl/prim_flop.sv', 'ip/prim/rtl/prim_flop_2sync.sv']...
+[keymgr] 无 harness cpp, SKIP
+--- 进度 11/27 (成功 0) ---
+--- 进度 12/27 (成功 0) ---
+[lc] fresh 缺件回退 25 个: ['top_earlgrey/jtag_pkg.sv', 'top_earlgrey/dm_pkg.sv', 'top_earlgrey/rtl/top_racl_pkg.sv']...
+[lc] 无 harness cpp, SKIP
+--- 进度 13/27 (成功 0) ---
+[mbx] fresh 缺件回退 10 个: ['top_earlgrey/rtl/top_racl_pkg.sv', 'ip/prim/rtl/prim_generic_flop_2sync.sv', 'ip/prim/rtl/prim_generic_flop.sv']...
+[mbx] 无 harness cpp, SKIP
+--- 进度 14/27 (成功 0) ---
+[otbn] fresh 缺件回退 14 个: ['top_earlgrey/rtl/top_racl_pkg.sv', 'ip/prim/rtl/prim_generic_flop_2sync.sv', 'ip/prim/rtl/prim_generic_flop.sv']...
+[otbn] 无 harness cpp, SKIP
+--- 进度 15/27 (成功 0) ---
+[otp_ctrl] fresh 缺件回退 10 个: ['top_earlgrey/rtl/top_racl_pkg.sv', 'ip/pwrmgr/rtl/pwrmgr_pkg.sv', 'ip/prim/rtl/prim_generic_flop_2sync.sv']...
+[otp_ctrl] 无 harness cpp, SKIP
+--- 进度 16/27 (成功 0) ---
+[pwrmgr] fresh 缺件回退 16 个: ['top_earlgrey/rtl/top_racl_pkg.sv', 'ip/pwrmgr/rtl/pwrmgr_cdc_pulse.sv', 'ip/pwrmgr/rtl/rom_ctrl_pkg.sv']...
+[pwrmgr] 无 harness cpp, SKIP
+[rom_ctrl] fresh 缺件回退 2 个: ['ip/prim/rtl/prim_rom.sv', 'ip/prim/rtl/prim_rom_pkg.sv']
+[rom_ctrl] 无 harness cpp, SKIP
+[pattgen] fresh 缺件回退 8 个: ['top_earlgrey/top_racl_pkg.sv', 'top_earlgrey/top_pkg.sv', 'ip/lc_ctrl/rtl/prim_assert_yosys_macros.svh']...
+[pattgen] 无 harness cpp, SKIP
+--- 进度 17/27 (成功 0) ---
+--- 进度 18/27 (成功 0) ---
+--- 进度 19/27 (成功 0) ---
+[rv_dm] fresh 缺件回退 30 个: ['debug_rom/debug_rom.sv', 'prim/rtl/prim_sync_reqack.sv', 'prim/rtl/prim_assert_yosys_macros.svh']...
+[rv_dm] 无 harness cpp, SKIP
+[rstmgr] fresh 缺件回退 27 个: ['top_earlgrey/top_racl_pkg.sv', 'top_earlgrey/top_pkg.sv', 'ip/rv_core_ibex/rtl/ibex_pkg.sv']...
+[rstmgr] 无 harness cpp, SKIP
+--- 进度 20/27 (成功 0) ---
+--- 进度 21/27 (成功 0) ---
+[rv_timer] fresh 缺件回退 8 个: ['top_earlgrey/top_racl_pkg.sv', 'top_earlgrey/top_pkg.sv', 'ip/lc_ctrl/rtl/prim_assert_yosys_macros.svh']...
+[rv_timer] 无 harness cpp, SKIP
+--- 进度 22/27 (成功 0) ---
+[spi_tpm] fresh 缺件回退 9 个: ['top_earlgrey/top_pkg.sv', 'ip/prim/rtl/prim_generic_flop_2sync.sv', 'ip/prim/rtl/prim_generic_flop.sv']...
+[spi_tpm] 无 harness cpp, SKIP
+[spi_host] fresh 缺件回退 1 个: ['top_earlgrey/rtl/top_racl_pkg.sv']
+[spi_host] 无 harness cpp, SKIP
+--- 进度 23/27 (成功 0) ---
+--- 进度 24/27 (成功 0) ---
+[tlul] fresh 缺件回退 3 个: ['top_earlgrey/rtl/top_racl_pkg.sv', 'hw/ip/prim/rtl/prim_mubi_pkg.sv', 'hw/ip/prim/rtl/prim_subreg_pkg.sv']
+[tlul] 无 harness cpp, SKIP
+[sram_ctrl] fresh 缺件回退 5 个: ['top_earlgrey/rtl/top_racl_pkg.sv', 'ip/prim/rtl/prim_and2.sv', 'ip/prim/rtl/prim_ram_1p_pkg.sv']...
+[sram_ctrl] 无 harness cpp, SKIP
+--- 进度 25/27 (成功 0) ---
+--- 进度 26/27 (成功 0) ---
+[uart] fresh 缺件回退 19 个: ['top_earlgrey/rtl/top_racl_pkg.sv', 'hw/ip/tlul/rtl/tlul_data_integ_dec.sv', 'hw/ip/tlul/rtl/tlul_data_integ_enc.sv']...
+[uart] 无 harness cpp, SKIP
+--- 进度 27/27 (成功 0) ---
+=== 完成: 成功 0  失败 27 ===
+  FAIL adc_ctrl: no_harness
+  FAIL aes: no_filelist
+  FAIL alert_handler: no_harness
+  FAIL aon_timer: no_harness
+  FAIL ascon: no_harness
+  FAIL clkmgr: no_harness
+  FAIL csrng: no_harness
+  FAIL entropy_src: no_harness
+  FAIL gpio: no_harness
+  FAIL ibex: no_filelist
+  FAIL keymgr: no_harness
+  FAIL kmac: no_filelist
+  FAIL lc: no_harness
+  FAIL mbx: no_harness
+  FAIL otbn: no_harness
+  FAIL otp_ctrl: no_harness
+  FAIL pattgen: no_harness
+  FAIL pwrmgr: no_harness
+  FAIL rom_ctrl: no_harness
+  FAIL rstmgr: no_harness
+  FAIL rv_dm: no_harness
+  FAIL rv_timer: no_harness
+  FAIL spi_host: no_harness
+  FAIL spi_tpm: no_harness
+  FAIL sram_ctrl: no_harness
+  FAIL tlul: no_harness
+  FAIL uart: no_harness
+=== fresh 批建开始: 27 模块 ===
+[aes] SKIP_NO_FILELIST
+[adc_ctrl] fresh 缺件回退 3937 个: ['top_earlgrey/ip_autogen/rv_core_ibex/dv/sva/rv_core_ibex_bind.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_peri.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_addr_trans.sv (fresh 无此文件, 保留 CTF 版)']...
+[alert_handler] fresh 缺件回退 3691 个: ['top_earlgrey/ip_autogen/rv_core_ibex/dv/sva/rv_core_ibex_bind.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_peri.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_addr_trans.sv (fresh 无此文件, 保留 CTF 版)']...
+[adc_ctrl] BUILD FAIL: %Error: hw/top_earlgrey/ip/ast/rtl/ast_pkg.sv:76:3: Package/class for ':: reference' not found: 'prim_ram_1p_pkg' | %Error: hw/top_earlgrey/ip/ast/rtl/ast_pkg.sv:76:3: Package/class for 'class/package reference' not found: 'prim_ram_1p_pkg' | %Error: hw/top_earlgrey/ip/ast/rtl/ast_pkg.sv:77:3: Package/class for ':: reference' not found: 'prim_ram_1p_pkg'
+--- 进度 1/27 (成功 0) ---
+--- 进度 2/27 (成功 0) ---
+[aon_timer] fresh 缺件回退 3901 个: ['top_earlgrey/ip_autogen/rv_core_ibex/dv/sva/rv_core_ibex_bind.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_peri.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_addr_trans.sv (fresh 无此文件, 保留 CTF 版)']...
+[alert_handler] BUILD FAIL: %Error: hw/ip/csrng/rtl/csrng_pkg.sv:8:45: Package/class for ':: reference' not found: 'csrng_reg_pkg' | %Error: Exiting due to 1 error(s)
+--- 进度 3/27 (成功 0) ---
+[ascon] fresh 缺件回退 3896 个: ['top_earlgrey/ip_autogen/rv_core_ibex/dv/sva/rv_core_ibex_bind.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_peri.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_addr_trans.sv (fresh 无此文件, 保留 CTF 版)']...
+[aon_timer] BUILD FAIL: %Error: hw/ip/lc_ctrl/rtl/lc_ctrl_pkg.sv:6:10: Cannot find include file: 'prim_assert.sv' | %Error: hw/ip/lc_ctrl/rtl/lc_ctrl_pkg.sv:85:3: Define or directive not defined: '`ASSERT_STATIC_IN_PACKAGE' | %Error: hw/ip/lc_ctrl/rtl/lc_ctrl_pkg.sv:85:28: syntax error, unexpected '('
+--- 进度 4/27 (成功 0) ---
+[clkmgr] fresh 缺件回退 3758 个: ['top_earlgrey/ip_autogen/rv_core_ibex/dv/sva/rv_core_ibex_bind.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_peri.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_addr_trans.sv (fresh 无此文件, 保留 CTF 版)']...
+[ascon] BUILD FAIL: %Error: hw/ip/prim/rtl/lc_ctrl_pkg.sv:6:10: Cannot find include file: 'prim_assert.sv' | %Error: hw/ip/prim/rtl/lc_ctrl_pkg.sv:85:3: Define or directive not defined: '`ASSERT_STATIC_IN_PACKAGE' | %Error: hw/ip/prim/rtl/lc_ctrl_pkg.sv:85:28: syntax error, unexpected '('
+--- 进度 5/27 (成功 0) ---
+[csrng] fresh 缺件回退 3895 个: ['top_earlgrey/ip_autogen/rv_core_ibex/dv/sva/rv_core_ibex_bind.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_peri.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_addr_trans.sv (fresh 无此文件, 保留 CTF 版)']...
+[csrng] BUILD FAIL: %Error: rtl_wrapper/csrng_perip_tb.sv:109:3: Can't find typedef/interface: 'cs_aes_halt_req_t' | %Error: rtl_wrapper/csrng_perip_tb.sv:110:3: Can't find typedef/interface: 'cs_aes_halt_rsp_t' | %Error-PINNOTFOUND: rtl_wrapper/csrng_perip_tb.sv:129:6: Pin not found: 'cs_aes_halt_i'
+[entropy_src] fresh 缺件回退 3878 个: ['top_earlgrey/ip_autogen/rv_core_ibex/dv/sva/rv_core_ibex_bind.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_peri.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_addr_trans.sv (fresh 无此文件, 保留 CTF 版)']...
+[entropy_src] BUILD FAIL: %Error: hw/ip/prim/rtl/prim_assert.sv:103:11: Cannot find include file: 'prim_assert_dummy_macros.svh' | %Error: hw/ip/prim/rtl/prim_assert.sv:187:10: Cannot find include file: 'prim_assert_sec_cm.svh' | %Error: hw/ip/prim/rtl/prim_assert.sv:188:10: Cannot find include file: 'prim_flop_macros.sv'
+[gpio] fresh 缺件回退 3956 个: ['top_earlgrey/ip_autogen/rv_core_ibex/dv/sva/rv_core_ibex_bind.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_peri.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_addr_trans.sv (fresh 无此文件, 保留 CTF 版)']...
+[clkmgr] BUILD OK
+--- 进度 6/27 (成功 1) ---
+--- 进度 7/27 (成功 1) ---
+--- 进度 8/27 (成功 1) ---
+[ibex] SKIP_NO_FILELIST
+[gpio] BUILD OK
+--- 进度 9/27 (成功 2) ---
+--- 进度 10/27 (成功 2) ---
+[kmac] SKIP_NO_FILELIST
+[keymgr] fresh 缺件回退 3897 个: ['top_earlgrey/ip_autogen/rv_core_ibex/dv/sva/rv_core_ibex_bind.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_peri.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_addr_trans.sv (fresh 无此文件, 保留 CTF 版)']...
+[lc] fresh 缺件回退 3911 个: ['top_earlgrey/ip_autogen/rv_core_ibex/dv/sva/rv_core_ibex_bind.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_peri.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_addr_trans.sv (fresh 无此文件, 保留 CTF 版)']...
+[lc] BUILD FAIL: %Error: hw/ip/lc_ctrl/rtl/lc_ctrl_fsm.sv:113:10: Import package not found: 'lc_ctrl_token_pkg' | %Error: Exiting due to 1 error(s)
+[keymgr] BUILD FAIL: %Error: hw/ip/otp_ctrl/rtl/otp_ctrl_pkg.sv:20:40: Package/class for ':: reference' not found: 'keymgr_dpe_pkg' | %Error: hw/ip/otp_ctrl/rtl/otp_ctrl_pkg.sv:111:12: Package/class for ':: reference' not found: 'keymgr_dpe_pkg' | %Error: hw/ip/otp_ctrl/rtl/otp_ctrl_pkg.sv:113:12: Package/class for ':: reference' not found: 'keymgr_dpe_pkg'
+--- 进度 11/27 (成功 2) ---
+--- 进度 12/27 (成功 2) ---
+--- 进度 13/27 (成功 2) ---
+[mbx] fresh 缺件回退 3896 个: ['top_earlgrey/ip_autogen/rv_core_ibex/dv/sva/rv_core_ibex_bind.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_peri.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_addr_trans.sv (fresh 无此文件, 保留 CTF 版)']...
+[otbn] fresh 缺件回退 3856 个: ['top_earlgrey/ip_autogen/rv_core_ibex/dv/sva/rv_core_ibex_bind.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_peri.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_addr_trans.sv (fresh 无此文件, 保留 CTF 版)']...
+[otbn] BUILD FAIL: %Error: hw/ip/prim_generic/rtl/prim_generic_ram_1p.sv:26:10: Can't find typedef/interface: 'ram_1p_cfg_t' | %Error: hw/ip/prim/rtl/prim_ram_1p.sv:18:27: Can't find typedef/interface: 'ram_1p_cfg_t' | %Error-PINNOTFOUND: hw/ip/prim/rtl/prim_ram_1p_adv.sv:168:8: Pin not found: 'cfg_o'
+[otp_ctrl] fresh 缺件回退 3876 个: ['top_earlgrey/ip_autogen/rv_core_ibex/dv/sva/rv_core_ibex_bind.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_peri.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_addr_trans.sv (fresh 无此文件, 保留 CTF 版)']...
+[otp_ctrl] BUILD FAIL: %Error: hw/ip/otp_macro/rtl/otp_macro.sv:440:10: Cannot find include file: 'prim_secded_inc.svh' | %Error: hw/ip/otp_macro/rtl/otp_macro.sv:442:1: Define or directive not defined: '`SECDED_INST_ENC' | %Error: hw/ip/otp_macro/rtl/otp_macro.sv:442:17: syntax error, unexpected '('
+[pattgen] fresh 缺件回退 3755 个: ['top_earlgrey/ip_autogen/rv_core_ibex/dv/sva/rv_core_ibex_bind.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_peri.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_addr_trans.sv (fresh 无此文件, 保留 CTF 版)']...
+[mbx] BUILD OK
+--- 进度 14/27 (成功 3) ---
+--- 进度 15/27 (成功 3) ---
+--- 进度 16/27 (成功 3) ---
+[pwrmgr] fresh 缺件回退 3899 个: ['top_earlgrey/ip_autogen/rv_core_ibex/dv/sva/rv_core_ibex_bind.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_peri.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_addr_trans.sv (fresh 无此文件, 保留 CTF 版)']...
+[pwrmgr] BUILD FAIL: %Error: hw/ip/lc_ctrl/rtl/lc_ctrl_pkg.sv:6:10: Cannot find include file: 'prim_assert.sv' | %Error: hw/ip/lc_ctrl/rtl/lc_ctrl_pkg.sv:85:3: Define or directive not defined: '`ASSERT_STATIC_IN_PACKAGE' | %Error: hw/ip/lc_ctrl/rtl/lc_ctrl_pkg.sv:85:28: syntax error, unexpected '('
+[rom_ctrl] fresh 缺件回退 3899 个: ['top_earlgrey/ip_autogen/rv_core_ibex/dv/sva/rv_core_ibex_bind.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_peri.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_addr_trans.sv (fresh 无此文件, 保留 CTF 版)']...
+[pattgen] BUILD OK
+--- 进度 17/27 (成功 4) ---
+--- 进度 18/27 (成功 4) ---
+[rom_ctrl] BUILD FAIL: %Error: hw/ip/prim/rtl/prim_assert.sv:103:11: Cannot find include file: 'prim_assert_dummy_macros.svh' | %Error: hw/ip/prim/rtl/prim_assert.sv:187:10: Cannot find include file: 'prim_assert_sec_cm.svh' | %Error: hw/ip/prim/rtl/prim_assert.sv:188:10: Cannot find include file: 'prim_flop_macros.sv'
+--- 进度 19/27 (成功 4) ---
+[rstmgr] fresh 缺件回退 3757 个: ['top_earlgrey/ip_autogen/rv_core_ibex/dv/sva/rv_core_ibex_bind.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_peri.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_addr_trans.sv (fresh 无此文件, 保留 CTF 版)']...
+[rv_dm] fresh 缺件回退 3973 个: ['top_earlgrey/ip_autogen/rv_core_ibex/dv/sva/rv_core_ibex_bind.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_peri.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_addr_trans.sv (fresh 无此文件, 保留 CTF 版)']...
+[rv_dm] BUILD OK
+[spi_host] fresh 缺件回退 3895 个: ['top_earlgrey/ip_autogen/rv_core_ibex/dv/sva/rv_core_ibex_bind.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_peri.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_addr_trans.sv (fresh 无此文件, 保留 CTF 版)']...
+[spi_host] BUILD FAIL: %Error: hw/ip/prim/rtl/prim_assert.sv:103:11: Cannot find include file: 'prim_assert_dummy_macros.svh' | %Error: hw/ip/prim/rtl/prim_assert.sv:187:10: Cannot find include file: 'prim_assert_sec_cm.svh' | %Error: hw/ip/prim/rtl/prim_assert.sv:188:10: Cannot find include file: 'prim_flop_macros.sv'
+[spi_tpm] fresh 缺件回退 3922 个: ['top_earlgrey/ip_autogen/rv_core_ibex/dv/sva/rv_core_ibex_bind.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_peri.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_addr_trans.sv (fresh 无此文件, 保留 CTF 版)']...
+[rstmgr] BUILD OK
+--- 进度 20/27 (成功 5) ---
+--- 进度 21/27 (成功 6) ---
+[sram_ctrl] fresh 缺件回退 3889 个: ['top_earlgrey/ip_autogen/rv_core_ibex/dv/sva/rv_core_ibex_bind.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_peri.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_addr_trans.sv (fresh 无此文件, 保留 CTF 版)']...
+[sram_ctrl] BUILD FAIL: %Error: hw/ip/lc_ctrl/rtl/lc_ctrl_pkg.sv:6:10: Cannot find include file: 'prim_assert.sv' | %Error: hw/ip/lc_ctrl/rtl/lc_ctrl_pkg.sv:85:3: Define or directive not defined: '`ASSERT_STATIC_IN_PACKAGE' | %Error: hw/ip/lc_ctrl/rtl/lc_ctrl_pkg.sv:85:28: syntax error, unexpected '('
+[spi_tpm] BUILD OK
+=== fresh 批建开始: 1 模块 ===
+[aes] SKIP_NO_FILELIST
+--- 进度 1/1 (成功 0) ---
+=== 完成: 成功 0  失败 1 ===
+  FAIL aes: no_filelist
+=== fresh 批建开始: 1 模块 ===
+[aes] SKIP_NO_FILELIST
+--- 进度 1/1 (成功 0) ---
+=== 完成: 成功 0  失败 1 ===
+  FAIL aes: no_filelist
+=== fresh 批建开始: 1 模块 ===
+=== fresh 批建开始: 1 模块 ===
+[aes] filelist 由 gen_filelist 生成
+[aes] fresh 缺件回退 3846 个: ['top_earlgrey/ip_autogen/rv_core_ibex/dv/sva/rv_core_ibex_bind.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_peri.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_addr_trans.sv (fresh 无此文件, 保留 CTF 版)']...
+[aes] 全量覆盖失败 → 回退 own-rtl-only
+=== fresh 批建开始: 1 模块 ===
+[aes] filelist 由 gen_filelist 生成
+[aes] fresh 缺件回退 3846 个: ['top_earlgrey/ip_autogen/rv_core_ibex/dv/sva/rv_core_ibex_bind.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_peri.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_addr_trans.sv (fresh 无此文件, 保留 CTF 版)']...
+[aes] 全量覆盖失败 → 回退 own-rtl-only
+=== fresh 批建开始: 1 模块 ===
+[aes] filelist 由 gen_filelist 生成
+[aes] fresh 缺件回退 3846 个: ['top_earlgrey/ip_autogen/rv_core_ibex/dv/sva/rv_core_ibex_bind.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_peri.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_addr_trans.sv (fresh 无此文件, 保留 CTF 版)']...
+[aes] 全量覆盖失败 → 回退 own-rtl-only
+=== fresh 批建开始: 1 模块 ===
+[aes] filelist 由 gen_filelist 生成
+[aes] fresh 缺件回退 3846 个: ['top_earlgrey/ip_autogen/rv_core_ibex/dv/sva/rv_core_ibex_bind.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_peri.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_addr_trans.sv (fresh 无此文件, 保留 CTF 版)']...
+[aes] 全量覆盖失败 → 回退 own-rtl-only
+[aes] own-rtl 覆盖 40 个文件
+[aes] BUILD FAIL: %Error-MODMISSING: hw/ip/aes/rtl/aes_ghash.sv:250:5: Cannot find file containing module: 'prim_blanker' | %Error-MODMISSING: hw/ip/aes/rtl/aes_ghash.sv:344:7: Cannot find file containing module: 'prim_onehot_mux' | %Error-MODMISSING: hw/ip/aes/rtl/aes_ghash.sv:471:5: Cannot find file containing module: 'prim_blanker'
+--- 进度 1/1 (成功 0) ---
+=== 完成: 成功 0  失败 1 ===
+  FAIL aes: fail: %Error-MODMISSING: hw/ip/aes/rtl/aes_ghash.sv:250:5: Cannot find file containing module: 'prim_blanker'; %Error-MODMISSING: hw/ip/aes/rtl/aes_gh
+=== fresh 批建开始: 1 模块 ===
+[aes] filelist 由 gen_filelist 生成
+[aes] fresh 缺件回退 3846 个: ['top_earlgrey/ip_autogen/rv_core_ibex/dv/sva/rv_core_ibex_bind.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_peri.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_addr_trans.sv (fresh 无此文件, 保留 CTF 版)']...
+=== fresh 批建开始: 1 模块 ===
+[aes] filelist 由 gen_filelist 生成
+[aes] fresh 缺件回退 3846 个: ['top_earlgrey/ip_autogen/rv_core_ibex/dv/sva/rv_core_ibex_bind.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_peri.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_addr_trans.sv (fresh 无此文件, 保留 CTF 版)']...
+=== fresh 批建开始: 1 模块 ===
+[aes] filelist 由 gen_filelist 生成
+[aes] fresh 缺件回退 3846 个: ['top_earlgrey/ip_autogen/rv_core_ibex/dv/sva/rv_core_ibex_bind.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_peri.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_addr_trans.sv (fresh 无此文件, 保留 CTF 版)']...
+[aes] MODMISSING 轮0: 补 2/2 (aes_ctrl_gcm_reg_shadowed, aes_ghash)
+[aes] MODMISSING 轮1: 补 2/2 (prim_blanker, prim_onehot_mux)
+[aes] MODMISSING 轮2: 补 1/1 (prim_gf_mult)
+[aes] 全量覆盖失败 → 回退 own-rtl-only
+[aes] own-rtl 覆盖 40 个文件
+[aes] BUILD FAIL: %Error: Cannot find file containing module: 'hw/ip/prim/rtl/prim_blanker.sv' | %Error: Cannot find file containing module: 'hw/ip/prim/rtl/prim_onehot_mux.sv' | %Error: Cannot find file containing module: 'hw/ip/prim/rtl/prim_gf_mult.sv'
+--- 进度 1/1 (成功 0) ---
+=== 完成: 成功 0  失败 1 ===
+  FAIL aes: fail: %Error: Cannot find file containing module: 'hw/ip/prim/rtl/prim_blanker.sv'; %Error: Cannot find file containing module: 'hw/ip/prim/rtl/prim_o
+=== fresh 批建开始: 1 模块 ===
+[aes] filelist 由 gen_filelist 生成
+[aes] fresh 缺件回退 3846 个: ['top_earlgrey/ip_autogen/rv_core_ibex/dv/sva/rv_core_ibex_bind.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_peri.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_addr_trans.sv (fresh 无此文件, 保留 CTF 版)']...
+[aes] MODMISSING 轮0: 补 2/2 (aes_ctrl_gcm_reg_shadowed, aes_ghash)
+[aes] MODMISSING 轮1: 补 2/2 (prim_blanker, prim_onehot_mux)
+[aes] MODMISSING 轮2: 补 1/1 (prim_gf_mult)
+[aes] 全量覆盖失败 → 回退 own-rtl-only
+[aes] own-rtl 覆盖 40 个文件
+[aes] 回退后 filelist 重新生成
+[aes] MODMISSING 轮0: 补 2/2 (prim_blanker, prim_onehot_mux)
+[aes] MODMISSING 轮1: 补 1/1 (prim_gf_mult)
+[aes] BUILD FAIL: ___024root’ has no member named ‘aes_perip_tb__DOT__u_dut__DOT__u_aes_core__DOT__u_aes_control__DOT__sp_data_out_we’
+   15 | #define SIGD(n) rootp->aes_perip_tb__DOT__u_dut__DOT__u_aes_core__DOT__##n
+
+--- 进度 1/1 (成功 0) ---
+=== 完成: 成功 0  失败 1 ===
+  FAIL aes: fail: _u_aes_control__DOT__sp_data_out_we’
+   15 | #define SIGD(n) rootp->aes_perip_tb__DOT__u_dut__DOT__u_aes_core__DOT__##n
+
+=== fresh 批建开始: 1 模块 ===
+[aes] filelist 由 gen_filelist 生成
+[aes] fresh 缺件回退 3846 个: ['top_earlgrey/ip_autogen/rv_core_ibex/dv/sva/rv_core_ibex_bind.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_peri.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_addr_trans.sv (fresh 无此文件, 保留 CTF 版)']...
+[aes] MODMISSING 轮0: 补 2/2 (aes_ctrl_gcm_reg_shadowed, aes_ghash)
+[aes] MODMISSING 轮1: 补 2/2 (prim_blanker, prim_onehot_mux)
+[aes] MODMISSING 轮2: 补 1/1 (prim_gf_mult)
+[aes] 全量覆盖失败 → 回退 own-rtl-only
+[aes] own-rtl 覆盖 40 个文件
+[aes] 回退后 filelist 重新生成
+[aes] MODMISSING 轮0: 补 2/2 (prim_blanker, prim_onehot_mux)
+[aes] MODMISSING 轮1: 补 1/1 (prim_gf_mult)
+[aes] BUILD FAIL: ___024root’ has no member named ‘aes_perip_tb__DOT__u_dut__DOT__u_aes_core__DOT__u_aes_control__DOT__sp_data_out_we’
+   15 | #define SIGD(n) rootp->aes_perip_tb__DOT__u_dut__DOT__u_aes_core__DOT__##n
+
+--- 进度 1/1 (成功 0) ---
+=== 完成: 成功 0  失败 1 ===
+  FAIL aes: fail: _u_aes_control__DOT__sp_data_out_we’
+   15 | #define SIGD(n) rootp->aes_perip_tb__DOT__u_dut__DOT__u_aes_core__DOT__##n
+
+=== fresh 批建开始: 1 模块 ===
+[aes] filelist 由 gen_filelist 生成
+[aes] fresh 缺件回退 3846 个: ['top_earlgrey/ip_autogen/rv_core_ibex/dv/sva/rv_core_ibex_bind.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_peri.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_addr_trans.sv (fresh 无此文件, 保留 CTF 版)']...
+[aes] MODMISSING 轮0: 补 2/2 (aes_ctrl_gcm_reg_shadowed, aes_ghash)
+[aes] MODMISSING 轮1: 补 2/2 (prim_blanker, prim_onehot_mux)
+[aes] MODMISSING 轮2: 补 1/1 (prim_gf_mult)
+[aes] 全量覆盖失败 → 回退 own-rtl-only
+[aes] own-rtl 覆盖 40 个文件
+[aes] 回退后 filelist 重新生成
+[aes] MODMISSING 轮0: 补 2/2 (prim_blanker, prim_onehot_mux)
+[aes] MODMISSING 轮1: 补 1/1 (prim_gf_mult)
+[aes] BUILD FAIL: es_harness.cpp:58:9: error: ‘else’ without a previous ‘if’
+   58 |         else if (strcmp(n, "u_dut.data_in_prev_q") == 0) p = &rootp->aes_perip_tb__DOT__u_dut__DOT__u_aes_core__DOT__data_in_prev_q;
+
+--- 进度 1/1 (成功 0) ---
+=== 完成: 成功 0  失败 1 ===
+  FAIL aes: fail: if (strcmp(n, "u_dut.data_in_prev_q") == 0) p = &rootp->aes_perip_tb__DOT__u_dut__DOT__u_aes_core__DOT__data_in_prev_q;
+
+=== fresh 批建开始: 1 模块 ===
+[aes] filelist 由 gen_filelist 生成
+[aes] fresh 缺件回退 3846 个: ['top_earlgrey/ip_autogen/rv_core_ibex/dv/sva/rv_core_ibex_bind.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_peri.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_addr_trans.sv (fresh 无此文件, 保留 CTF 版)']...
+[aes] MODMISSING 轮0: 补 2/2 (aes_ctrl_gcm_reg_shadowed, aes_ghash)
+[aes] MODMISSING 轮1: 补 2/2 (prim_blanker, prim_onehot_mux)
+[aes] MODMISSING 轮2: 补 1/1 (prim_gf_mult)
+[aes] BUILD OK (full-overlay)
+--- 进度 1/1 (成功 1) ---
+=== 完成: 成功 1  失败 0 ===
