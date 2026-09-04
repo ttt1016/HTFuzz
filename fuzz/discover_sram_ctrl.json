@@ -1,4 +1,11 @@
 {
  "module": "sram_ctrl",
- "findings": []
+ "findings": [
+  {
+   "oracle": "O-K2-midreset",
+   "signal": "CSR.scr_key_rotated",
+   "desc": "中途复位后 CSR scr_key_rotated 残留 0x5a5aa5a5（应归零）",
+   "trigger": "mid_reset_csr"
+  }
+ ]
 }

@@ -1,0 +1,76 @@
+{
+ "module": "kmac",
+ "verdict": "DIVERGENT",
+ "findings": [
+  {
+   "oracle": "O-DIFF-directed",
+   "signal": "u_dut.u_kmac_core.kmac_valid",
+   "desc": "定向刺激偏离: u_dut.u_kmac_core.kmac_valid ctf=0 fresh=2829",
+   "first_idx": 0,
+   "channel": "sig"
+  },
+  {
+   "oracle": "O-DIFF-directed",
+   "signal": "u_dut.err_processed",
+   "desc": "定向刺激偏离: u_dut.err_processed ctf=167772160 fresh=0",
+   "first_idx": 0,
+   "channel": "sig"
+  },
+  {
+   "oracle": "O-DIFF-directed",
+   "signal": "u_dut.u_kmac_core.kmac_valid",
+   "desc": "定向刺激偏离: u_dut.u_kmac_core.kmac_valid ctf=0 fresh=2829",
+   "first_idx": 1,
+   "channel": "sig"
+  },
+  {
+   "oracle": "O-DIFF-directed",
+   "signal": "u_dut.err_processed",
+   "desc": "定向刺激偏离: u_dut.err_processed ctf=167772160 fresh=0",
+   "first_idx": 1,
+   "channel": "sig"
+  },
+  {
+   "oracle": "O-DIFF-directed",
+   "signal": "u_dut.u_kmac_core.kmac_valid",
+   "desc": "定向刺激偏离: u_dut.u_kmac_core.kmac_valid ctf=0 fresh=2829",
+   "first_idx": 2,
+   "channel": "sig"
+  },
+  {
+   "oracle": "O-DIFF-directed",
+   "signal": "u_dut.err_processed",
+   "desc": "定向刺激偏离: u_dut.err_processed ctf=167772160 fresh=0",
+   "first_idx": 2,
+   "channel": "sig"
+  },
+  {
+   "oracle": "O-DIFF-directed",
+   "signal": "u_dut.u_kmac_core.kmac_valid",
+   "desc": "定向刺激偏离: u_dut.u_kmac_core.kmac_valid ctf=0 fresh=2829",
+   "first_idx": 3,
+   "channel": "sig"
+  },
+  {
+   "oracle": "O-DIFF-directed",
+   "signal": "u_dut.err_processed",
+   "desc": "定向刺激偏离: u_dut.err_processed ctf=167772160 fresh=0",
+   "first_idx": 3,
+   "channel": "sig"
+  },
+  {
+   "oracle": "O-DIFF-directed",
+   "signal": "u_dut.u_kmac_core.kmac_valid",
+   "desc": "定向刺激偏离: u_dut.u_kmac_core.kmac_valid ctf=0 fresh=2829",
+   "first_idx": 4,
+   "channel": "sig"
+  },
+  {
+   "oracle": "O-DIFF-directed",
+   "signal": "u_dut.err_processed",
+   "desc": "定向刺激偏离: u_dut.err_processed ctf=167772160 fresh=0",
+   "first_idx": 4,
+   "channel": "sig"
+  }
+ ]
+}

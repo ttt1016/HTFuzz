@@ -1,0 +1,41 @@
+{
+ "module": "ascon",
+ "verdict": "DIVERGENT",
+ "findings": [
+  {
+   "oracle": "O-DIFF-directed",
+   "signal": "ascon_core.key_share0_in_q",
+   "desc": "定向刺激偏离: ascon_core.key_share0_in_q ctf=17 fresh=0",
+   "first_idx": 0,
+   "channel": "sig"
+  },
+  {
+   "oracle": "O-DIFF-directed",
+   "signal": "ascon_core.key_share1_in_q",
+   "desc": "定向刺激偏离: ascon_core.key_share1_in_q ctf=3735928559 fresh=0",
+   "first_idx": 1,
+   "channel": "sig"
+  },
+  {
+   "oracle": "O-DIFF-directed",
+   "signal": "ascon_core.key_share0_in_q",
+   "desc": "定向刺激偏离: ascon_core.key_share0_in_q ctf=17 fresh=0",
+   "first_idx": 1,
+   "channel": "sig"
+  },
+  {
+   "oracle": "O-DIFF-directed",
+   "signal": "ascon_core.key_share1_in_q",
+   "desc": "定向刺激偏离: ascon_core.key_share1_in_q ctf=3735928559 fresh=0",
+   "first_idx": 2,
+   "channel": "sig"
+  },
+  {
+   "oracle": "O-DIFF-directed",
+   "signal": "ascon_core.key_share0_in_q",
+   "desc": "定向刺激偏离: ascon_core.key_share0_in_q ctf=17 fresh=0",
+   "first_idx": 2,
+   "channel": "sig"
+  }
+ ]
+}

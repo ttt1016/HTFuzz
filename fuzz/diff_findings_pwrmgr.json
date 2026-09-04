@@ -1,0 +1,27 @@
+{
+ "module": "pwrmgr",
+ "verdict": "DIVERGENT",
+ "findings": [
+  {
+   "oracle": "O-DIFF-directed",
+   "signal": "u_slow_fsm.state_raw",
+   "desc": "定向刺激偏离: u_slow_fsm.state_raw ctf=0 fresh=86",
+   "first_idx": 0,
+   "channel": "sig"
+  },
+  {
+   "oracle": "O-DIFF-directed",
+   "signal": "u_slow_fsm.state_raw",
+   "desc": "定向刺激偏离: u_slow_fsm.state_raw ctf=0 fresh=86",
+   "first_idx": 1,
+   "channel": "sig"
+  },
+  {
+   "oracle": "O-DIFF-directed",
+   "signal": "u_slow_fsm.state_raw",
+   "desc": "定向刺激偏离: u_slow_fsm.state_raw ctf=0 fresh=86",
+   "first_idx": 2,
+   "channel": "sig"
+  }
+ ]
+}

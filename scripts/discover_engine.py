@@ -210,6 +210,95 @@ def classify(sigs):
     return sens, ctrl, other
 
 # ---------- O-A: 残留 oracle ----------
+
+# ---------- O-K2: 中途复位 oracle ----------
+def oracle_midreset(dut, regmap, findings, cfg):
+    """敏感操作进行中 assert 复位 → 敏感信号必须归零。
+    P2 #21/#22 (aes data_in_prev/data_out SEC_WIPE on reset) 类"""
+    sens, ctrl, other = classify(dut.sigs)
+    if not sens:
+        return
+    wr_targets = [(nm, off) for nm, off in regmap.items()
+                  if any(k in nm.lower() for k in ["key", "wdata", "wr_data", "data_in", "secret", "msg"])]
+    start_targets = [(nm, off) for nm, off in regmap.items()
+                     if any(k in nm.lower() for k in ["start", "trigger", "cmd", "control"])]
+    if not wr_targets:
+        return
+    # 白盒敏感信号只取 P0 级（key/secret/seed/digest 类），排除 wr_en/we 等触发线
+    def is_p0(nm):
+        low = nm.lower()
+        if re.search(r"\.(we|strb|wr_en|wd|re)$", low):
+            return False
+        if re.search(r"alert|err|fatal|_d$|_we$|_re$|wdata_q|cmd", low):
+            return False
+        return any(k in low for k in ["key", "secret", "seed", "digest", "hash", "mask", "state_raw", "share"])
+    p0_sigs = [s for s in sens if is_p0(s)]
+    if not p0_sigs:
+        return
+    rnd = random.Random(cfg.get("seed", 0xC0FFEE) + 42)
+    for trial in range(cfg.get("trials", 6)):
+        dut.reset()
+        dut.step(5)
+        # 写敏感数据
+        for nm, off in wr_targets[:4]:
+            if off is not None:
+                dut.write(off, 0xDEAD_BEEF if trial % 2 == 0 else 0xC0FF_EEEE)
+                dut.step(2)
+        # 启动操作（使操作真正进行中）
+        for nm, off in start_targets[:2]:
+            if off is not None:
+                dut.write(off, 0x1)
+                dut.step(5)
+        dut.step(10)  # 操作进行中
+        # **中途复位**
+        dut.reset()
+        dut.step(10)  # 复位释放后等 FSM 回稳
+        # 扫描敏感信号残留
+        for nm in p0_sigs:
+            words = dut.sig_all(nm)
+            nz = [w for w in words if w != 0]
+            if nz:
+                findings.append({
+                    "oracle": "O-K2-midreset", "signal": nm,
+                    "desc": f"中途复位后 {nm} 残留非零值 {[hex(w) for w in nz[:3]]}"
+                            f"（SEC_WIPE on reset 应归零）",
+                    "trigger": "mid_reset", "residual": [hex(w) for w in nz[:3]],
+                })
+                break  # 每 trial 一个发现即可
+    # 第二场景: 操作中写不同 pattern → 复位 → 读回 CSR 残留
+    for trial in range(3):
+        dut.reset()
+        dut.step(5)
+        for nm, off in wr_targets[:2]:
+            if off is not None:
+                dut.write(off, 0x5A5A_A5A5 + trial)
+                dut.step(2)
+        for nm, off in start_targets[:2]:
+            if off is not None:
+                dut.write(off, 0x1)
+                dut.step(3)
+        # 复位前快照 CSR
+        pre_reset_csr = {}
+        for nm, off in list(regmap.items())[:10]:
+            if off is not None and off < 0x100:
+                pre_reset_csr[nm] = dut.read(off)
+        dut.reset()
+        dut.step(10)
+        # 复位后敏感 CSR 必须归零（除非 RO/常值）
+        for nm, off in regmap.items():
+            low = nm.lower()
+            if any(k in low for k in ["key", "secret", "seed", "digest", "wdata"]):
+                if off is not None and off < 0x100:
+                    v = dut.read(off)
+                    if v != 0:
+                        findings.append({
+                            "oracle": "O-K2-midreset", "signal": f"CSR.{nm}",
+                            "desc": f"中途复位后 CSR {nm} 残留 {hex(v)}（应归零）",
+                            "trigger": "mid_reset_csr",
+                        })
+                        break
+        break  # CSR 扫描只做一次
+
 def oracle_residual(dut, regmap, findings, cfg):
     """敏感数据写入 → 多种清除/操作序列 → 扫描残留"""
     sens, ctrl, other = classify(dut.sigs)
@@ -1035,6 +1124,12 @@ def main():
     print("[O-G] 脉冲宽度 oracle...")
     oracle_pulse(dut, norm, findings, cfg)
     print("  → %d 条" % sum(1 for f in findings if f["oracle"]=="O-G-pulse"))
+    print("[O-K2] 中途复位 oracle...")
+    try:
+        oracle_midreset(dut, norm, findings, cfg)
+        print("  → %d 条" % sum(1 for f in findings if f["oracle"]=="O-K2-midreset"))
+    except Exception as e:
+        print(f"  [warn] O-K2 执行异常: {e}")
     print("[O-J] 错误传播 oracle...")
     try:
         oracle_errprop(dut, norm, findings, cfg)

@@ -434,6 +434,60 @@
    "desc": "计数器 ascon_core.ascon_duplex.u_round_counter.gen_cnts__BRA__1__KET__.cnt_unforced_q 在数据流使能后 300 拍三次采样完全不变（值 0xf）→ 疑似计数器冻结/数据流卡死"
   },
   {
+   "oracle": "O-K2-midreset",
+   "signal": "ascon_core.ascon_duplex.sel_mux_key_word1",
+   "desc": "中途复位后 ascon_core.ascon_duplex.sel_mux_key_word1 残留非零值 ['0x10001']（SEC_WIPE on reset 应归零）",
+   "trigger": "mid_reset",
+   "residual": [
+    "0x10001"
+   ]
+  },
+  {
+   "oracle": "O-K2-midreset",
+   "signal": "ascon_core.ascon_duplex.sel_mux_key_word1",
+   "desc": "中途复位后 ascon_core.ascon_duplex.sel_mux_key_word1 残留非零值 ['0x10001']（SEC_WIPE on reset 应归零）",
+   "trigger": "mid_reset",
+   "residual": [
+    "0x10001"
+   ]
+  },
+  {
+   "oracle": "O-K2-midreset",
+   "signal": "ascon_core.ascon_duplex.sel_mux_key_word1",
+   "desc": "中途复位后 ascon_core.ascon_duplex.sel_mux_key_word1 残留非零值 ['0x10001']（SEC_WIPE on reset 应归零）",
+   "trigger": "mid_reset",
+   "residual": [
+    "0x10001"
+   ]
+  },
+  {
+   "oracle": "O-K2-midreset",
+   "signal": "ascon_core.ascon_duplex.sel_mux_key_word1",
+   "desc": "中途复位后 ascon_core.ascon_duplex.sel_mux_key_word1 残留非零值 ['0x10001']（SEC_WIPE on reset 应归零）",
+   "trigger": "mid_reset",
+   "residual": [
+    "0x10001"
+   ]
+  },
+  {
+   "oracle": "O-K2-midreset",
+   "signal": "ascon_core.ascon_duplex.sel_mux_key_word1",
+   "desc": "中途复位后 ascon_core.ascon_duplex.sel_mux_key_word1 残留非零值 ['0x10001']（SEC_WIPE on reset 应归零）",
+   "trigger": "mid_reset",
+   "residual": [
+    "0x10001"
+   ]
+  },
+  {
+   "oracle": "O-K2-midreset",
+   "signal": "ascon_core.ascon_duplex.sel_mux_key_word1",
+   "desc": "中途复位后 ascon_core.ascon_duplex.sel_mux_key_word1 残留非零值 ['0x10001']（SEC_WIPE on reset 应归零）",
+   "trigger": "mid_reset",
+   "residual": [
+    "0x10001"
+   ]
+  },
+  {
    "oracle": "O-J-errprop",
    "signal": "u_reg.ctrl_shadowed_masked_ad_input_storage_err,u_reg.ctrl_shadowed_masked_ad_input_update_err,u_reg.ctrl_shadowed_masked_msg_input_storage_err",
    "value": "fired=3 silent=1",

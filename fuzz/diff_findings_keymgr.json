@@ -1,0 +1,34 @@
+{
+ "module": "keymgr",
+ "verdict": "DIVERGENT",
+ "findings": [
+  {
+   "oracle": "O-DIFF-directed",
+   "signal": "key_state_word",
+   "desc": "定向刺激偏离: key_state_word ctf=865 fresh=711",
+   "first_idx": 0,
+   "channel": "sig"
+  },
+  {
+   "oracle": "O-DIFF-directed",
+   "signal": "state",
+   "desc": "定向刺激偏离: state ctf=865 fresh=711",
+   "first_idx": 0,
+   "channel": "sig"
+  },
+  {
+   "oracle": "O-DIFF-directed",
+   "signal": "key_state_word",
+   "desc": "定向刺激偏离: key_state_word ctf=865 fresh=711",
+   "first_idx": 2,
+   "channel": "sig"
+  },
+  {
+   "oracle": "O-DIFF-directed",
+   "signal": "state",
+   "desc": "定向刺激偏离: state ctf=865 fresh=711",
+   "first_idx": 2,
+   "channel": "sig"
+  }
+ ]
+}

@@ -134,6 +134,60 @@
    "desc": "FSM 信号 u_dut.done_state_q 在边界输入后 100 拍保持 0x2 不变，且该稳态在正常操作中未出现 → 疑似卡死/无超时恢复"
   },
   {
+   "oracle": "O-K2-midreset",
+   "signal": "u_dut.digest_size_started_q",
+   "desc": "中途复位后 u_dut.digest_size_started_q 残留非零值 ['0x8']（SEC_WIPE on reset 应归零）",
+   "trigger": "mid_reset",
+   "residual": [
+    "0x8"
+   ]
+  },
+  {
+   "oracle": "O-K2-midreset",
+   "signal": "u_dut.digest_size_started_q",
+   "desc": "中途复位后 u_dut.digest_size_started_q 残留非零值 ['0x8']（SEC_WIPE on reset 应归零）",
+   "trigger": "mid_reset",
+   "residual": [
+    "0x8"
+   ]
+  },
+  {
+   "oracle": "O-K2-midreset",
+   "signal": "u_dut.digest_size_started_q",
+   "desc": "中途复位后 u_dut.digest_size_started_q 残留非零值 ['0x8']（SEC_WIPE on reset 应归零）",
+   "trigger": "mid_reset",
+   "residual": [
+    "0x8"
+   ]
+  },
+  {
+   "oracle": "O-K2-midreset",
+   "signal": "u_dut.digest_size_started_q",
+   "desc": "中途复位后 u_dut.digest_size_started_q 残留非零值 ['0x8']（SEC_WIPE on reset 应归零）",
+   "trigger": "mid_reset",
+   "residual": [
+    "0x8"
+   ]
+  },
+  {
+   "oracle": "O-K2-midreset",
+   "signal": "u_dut.digest_size_started_q",
+   "desc": "中途复位后 u_dut.digest_size_started_q 残留非零值 ['0x8']（SEC_WIPE on reset 应归零）",
+   "trigger": "mid_reset",
+   "residual": [
+    "0x8"
+   ]
+  },
+  {
+   "oracle": "O-K2-midreset",
+   "signal": "u_dut.digest_size_started_q",
+   "desc": "中途复位后 u_dut.digest_size_started_q 残留非零值 ['0x8']（SEC_WIPE on reset 应归零）",
+   "trigger": "mid_reset",
+   "residual": [
+    "0x8"
+   ]
+  },
+  {
    "oracle": "O-J-errprop",
    "signal": "u_dut.u_reg.reg_error,u_dut.u_reg.intg_err,u_dut.u_reg.u_err_code.q",
    "value": "fired=1 silent=3",

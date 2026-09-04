@@ -198,6 +198,8 @@ python3 scripts/ok_invariant.py gen <module>
 | Phase A-② rom_ctrl 2→4 | 完成 | rom_ctrl O-G 脉冲电平化（#26 alert 抑制面） | be8c4d1 |
 | Phase A-② otp_ctrl 174 信号 | 完成 | 0 命中（需 SEC_CM 定向 oracle，见 Phase D） | — |
 | Phase A-③ 全量 sweep | 完成 | **开环 37 条 / 14 模块**（ascon 12 条收敛后） | 本提交 |
+| **Phase C ①② 差分定向检出** | 完成 | **155 条差分检出 / 8 模块 DIVERGENT**（aes 50 / hmac 50 / entropy_src 33 / kmac 10 / keymgr 4 / ascon 5 / pwrmgr 3） | 本提交 |
+| Phase C O-K2 中途复位 oracle | 完成 | aes 6 / ascon 6 / hmac 6 / sram_ctrl 2 条 | 已推送 |
 ### 诚实检出率评估
 | 口径 | 数量 | 说明 |
 |------|------|------|
@@ -210,7 +212,7 @@ python3 scripts/ok_invariant.py gen <module>
 |------|-------------|------|
 | Phase A 续: ascon/otp_ctrl/kmac 新信号面的定向 oracle | ~6 | 待做 |
 | Phase B: pwrmgr 新线索确认 + clkmgr alert 甄别 | ~1 | 甄别完成 |
-| Phase C: O-K2 中途复位 + 定向种子（aes #21/#22, ascon, otp） | ~6 | 待做 |
+| Phase C: O-K2 中途复位 + 定向种子（aes #21/#22, ascon, otp） | ~6 | **完成** |
 | Phase D: ibex CSR TB + keymgr sideload + lc_ctrl TB 扩展 | ~9 | 待做 |
 | Phase E: O-A 位级/读路径增强（#44 unmapped read 等） | ~4 | 待做 |
 | **合计可新增** | **~25** | → 24+25=49 ≈ 60% ✓ |

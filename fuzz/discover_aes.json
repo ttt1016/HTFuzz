@@ -312,6 +312,72 @@
    "desc": "语义等价序列产生不同控制状态 → 可能存在中间读副作用/相位错误"
   },
   {
+   "oracle": "O-K2-midreset",
+   "signal": "u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.prng_key",
+   "desc": "中途复位后 u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.prng_key 残留非零值 ['0x8721c112', '0x27263099', '0xd461d0b0']（SEC_WIPE on reset 应归零）",
+   "trigger": "mid_reset",
+   "residual": [
+    "0x8721c112",
+    "0x27263099",
+    "0xd461d0b0"
+   ]
+  },
+  {
+   "oracle": "O-K2-midreset",
+   "signal": "u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.prng_key",
+   "desc": "中途复位后 u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.prng_key 残留非零值 ['0x8721c112', '0x27263099', '0xd461d0b0']（SEC_WIPE on reset 应归零）",
+   "trigger": "mid_reset",
+   "residual": [
+    "0x8721c112",
+    "0x27263099",
+    "0xd461d0b0"
+   ]
+  },
+  {
+   "oracle": "O-K2-midreset",
+   "signal": "u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.prng_key",
+   "desc": "中途复位后 u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.prng_key 残留非零值 ['0x8721c112', '0x27263099', '0xd461d0b0']（SEC_WIPE on reset 应归零）",
+   "trigger": "mid_reset",
+   "residual": [
+    "0x8721c112",
+    "0x27263099",
+    "0xd461d0b0"
+   ]
+  },
+  {
+   "oracle": "O-K2-midreset",
+   "signal": "u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.prng_key",
+   "desc": "中途复位后 u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.prng_key 残留非零值 ['0x8721c112', '0x27263099', '0xd461d0b0']（SEC_WIPE on reset 应归零）",
+   "trigger": "mid_reset",
+   "residual": [
+    "0x8721c112",
+    "0x27263099",
+    "0xd461d0b0"
+   ]
+  },
+  {
+   "oracle": "O-K2-midreset",
+   "signal": "u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.prng_key",
+   "desc": "中途复位后 u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.prng_key 残留非零值 ['0x8721c112', '0x27263099', '0xd461d0b0']（SEC_WIPE on reset 应归零）",
+   "trigger": "mid_reset",
+   "residual": [
+    "0x8721c112",
+    "0x27263099",
+    "0xd461d0b0"
+   ]
+  },
+  {
+   "oracle": "O-K2-midreset",
+   "signal": "u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.prng_key",
+   "desc": "中途复位后 u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.prng_key 残留非零值 ['0x8721c112', '0x27263099', '0xd461d0b0']（SEC_WIPE on reset 应归零）",
+   "trigger": "mid_reset",
+   "residual": [
+    "0x8721c112",
+    "0x27263099",
+    "0xd461d0b0"
+   ]
+  },
+  {
    "oracle": "O-J-errprop",
    "signal": "u_dut.u_aes_core.u_aes_ctr.gen_fsm__BRA__1__KET__.gen_fsm_p.u_aes_ctr_fsm_i.u_aes_ctr_fsm.alert_counter_q,u_dut.u_aes_core.u_aes_ctr.gen_fsm__BRA__0__KET__.gen_fsm_p.u_aes_ctr_fsm_i.u_aes_ctr_fsm.alert_counter_q,u_dut.u_aes_core.u_aes_ctr.gen_fsm__BRA__2__KET__.gen_fsm_n.u_aes_ctr_fsm_i.u_aes_ctr_fsm.alert_counter_q",
    "value": "tried=4",

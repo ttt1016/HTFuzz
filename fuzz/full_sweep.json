@@ -2,7 +2,7 @@
  "aes": {
   "elapsed_s": 0.2,
   "rc": 0,
-  "raw": 31,
+  "raw": 37,
   "findings": [
    {
     "oracle": "O-A-residual",
@@ -40,6 +40,11 @@
     "desc": "语义等价序列产生不同控制状态 → 可能存在中间读副作用/相位错误"
    },
    {
+    "oracle": "O-K2-midreset",
+    "signal": "u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.prng_key",
+    "desc": "中途复位后 u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.prng_key 残留非零值 ['0x8721c112', '0x27263099', '0xd461d0b0']（SEC_WIPE on reset 应归零）"
+   },
+   {
     "oracle": "O-J-errprop",
     "signal": "u_dut.u_aes_core.u_aes_ctr.gen_fsm__BRA__1__KET__.gen_fsm_p.u_aes_ctr_fsm_i.u_aes_ctr_fsm.alert_counter_q,u_dut.u_aes_core.u_aes_ctr.gen_fsm__BRA__0__KET__.gen_fsm_p.u_aes_ctr_fsm_i.u_aes_ctr_fsm.alert_counter_q,u_dut.u_aes_core.u_aes_ctr.gen_fsm__BRA__2__KET__.gen_fsm_n.u_aes_ctr_fsm_i.u_aes_ctr_fsm.alert_counter_q",
     "desc": "全部 4 类错误触发均未引起任何 alert/err 信号置位 → 错误传播链断裂"
@@ -50,7 +55,7 @@
  "ascon": {
   "elapsed_s": 0.1,
   "rc": 0,
-  "raw": 58,
+  "raw": 64,
   "findings": [
    {
     "oracle": "O-A-residual",
@@ -108,6 +113,11 @@
     "desc": "计数器 ascon_core.ascon_duplex.u_round_counter.gen_cnts__BRA__1__KET__.cnt_unforced_q 在数据流使能后 300 拍三次采样完全不变（值 0xf）→ 疑似计数器冻结/数据流卡死"
    },
    {
+    "oracle": "O-K2-midreset",
+    "signal": "ascon_core.ascon_duplex.sel_mux_key_word1",
+    "desc": "中途复位后 ascon_core.ascon_duplex.sel_mux_key_word1 残留非零值 ['0x10001']（SEC_WIPE on reset 应归零）"
+   },
+   {
     "oracle": "O-J-errprop",
     "signal": "u_reg.ctrl_shadowed_masked_ad_input_storage_err,u_reg.ctrl_shadowed_masked_ad_input_update_err,u_reg.ctrl_shadowed_masked_msg_input_storage_err",
     "desc": "错误传播不完整: 静默触发 ['T1-invalid-cfg']（3 类已传播）→ 疑似部分错误路径被吞没"
@@ -118,7 +128,7 @@
  "hmac": {
   "elapsed_s": 0.1,
   "rc": 0,
-  "raw": 17,
+  "raw": 23,
   "findings": [
    {
     "oracle": "O-A-residual",
@@ -134,6 +144,11 @@
     "oracle": "O-D-fsm",
     "signal": "u_dut.done_state_q",
     "desc": "FSM 信号 u_dut.done_state_q 在边界输入后 100 拍保持 0x2 不变，且该稳态在正常操作中未出现 → 疑似卡死/无超时恢复"
+   },
+   {
+    "oracle": "O-K2-midreset",
+    "signal": "u_dut.digest_size_started_q",
+    "desc": "中途复位后 u_dut.digest_size_started_q 残留非零值 ['0x8']（SEC_WIPE on reset 应归零）"
    },
    {
     "oracle": "O-J-errprop",
@@ -255,9 +270,15 @@
  "sram_ctrl": {
   "elapsed_s": 0.1,
   "rc": 0,
-  "raw": 0,
-  "findings": [],
-  "err_head": "regmap: /workspace/HTFuzz/traces/sram_ctrl_regmap.json\n=== 发现引擎: sram_ctrl ===\n白盒信号 3 个, 寄存器 9 个\n敏感: 1  控制: 2  其他: 0\n\n[O-A] 残留 oracle...\n  → 0 条\n[O-B] 确定性 oracle...\n  → 0 条\n[O-C] 等价类 oracle...\n  → 0 条"
+  "raw": 1,
+  "findings": [
+   {
+    "oracle": "O-K2-midreset",
+    "signal": "CSR.scr_key_rotated",
+    "desc": "中途复位后 CSR scr_key_rotated 残留 0x5a5aa5a5（应归零）"
+   }
+  ],
+  "err_head": ""
  },
  "aon_timer": {
   "elapsed_s": 0.1,
