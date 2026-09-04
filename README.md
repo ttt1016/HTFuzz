@@ -198,6 +198,22 @@ python3 scripts/ok_invariant.py gen <module>
 | Phase A-② rom_ctrl 2→4 | 完成 | rom_ctrl O-G 脉冲电平化（#26 alert 抑制面） | be8c4d1 |
 | Phase A-② otp_ctrl 174 信号 | 完成 | 0 命中（需 SEC_CM 定向 oracle，见 Phase D） | — |
 | Phase A-③ 全量 sweep | 完成 | **开环 37 条 / 14 模块**（ascon 12 条收敛后） | 本提交 |
+### 诚实检出率评估
+| 口径 | 数量 | 说明 |
+|------|------|------|
+| 保守确认（检出记录映射 CSV ID） | **~24 / 80 = 30%** | 检出记录可明确映射的 |
+| 乐观估计（白盒可见性已开通） | ~30/80 = 38% | 新信号面已暴露但未产出新检出记录 |
+| **60% 目标（48 ID）** | 还差 ~24 个 | 需要 Phase C+D 全部落地 |
+
+### 到 60% 的路径分解
+| 路径 | 可解锁 ID 数 | 状态 |
+|------|-------------|------|
+| Phase A 续: ascon/otp_ctrl/kmac 新信号面的定向 oracle | ~6 | 待做 |
+| Phase B: pwrmgr 新线索确认 + clkmgr alert 甄别 | ~1 | 甄别完成 |
+| Phase C: O-K2 中途复位 + 定向种子（aes #21/#22, ascon, otp） | ~6 | 待做 |
+| Phase D: ibex CSR TB + keymgr sideload + lc_ctrl TB 扩展 | ~9 | 待做 |
+| Phase E: O-A 位级/读路径增强（#44 unmapped read 等） | ~4 | 待做 |
+| **合计可新增** | **~25** | → 24+25=49 ≈ 60% ✓ |
 | Phase A-② ascon 重建修正 | 完成 | ascon 重建后 58 条检出记录（key_share 4 词全绑定 + 78 信号面） | 601b1da 后续 |
 | Phase A-② rom_ctrl 白盒 2→4(alert/error_det/mem) | 完成 | rom_ctrl O-G 脉冲电平化 1 条（#26 alert 抑制面） | 本提交 |
 | 构建基建沉淀 | 完成 | gen_bindings 词切分数组兜底绑定(BRA/KET 形态)；模块 filelist 必须含 incdir；-Wno-ENUMVALUE/WIDTH 全局放宽 | 本提交 |
