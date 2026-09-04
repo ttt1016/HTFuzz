@@ -21,10 +21,11 @@
 │   / O-M MUBI 合法性 + O-K 不变量(12 规则)                    │
 │   + O-H PMP / O-I 特权（ibex 单元 TB，fork-vs-clean）        │
 ├────────────────────────────────────────────────────────────┤
-│ 第 1 层  per-IP DUT：23 个（cb_* TL 接口 + 白盒信号表）       │
+│ 第 1 层  per-IP DUT：28 个（cb_* TL 接口 + 白盒信号表）       │
 │   aes hmac kmac ascon keymgr csrng entropy_src uart gpio     │
 │   adc_ctrl tlul rom_ctrl rstmgr clkmgr aon_timer pwrmgr      │
-│   pattgen spi_host sram_ctrl alert_handler rv_dm ...         │
+│   pattgen spi_host sram_ctrl alert_handler rv_dm otp_ctrl    │
+│   lc_ctrl spi_tpm mbx otbn ...                               │
 └────────────────────────────────────────────────────────────┘
 ```
 
@@ -57,7 +58,7 @@ HTFuzz/
 ## 快速开始
 
 ```bash
-# 1. 全量盲测（21 DUT × 12 oracle，实测 2.8s）
+# 1. 全量盲测（28 DUT × 12 oracle，实测 ~3s）
 python3 scripts/batch_discover.py
 
 # 2. O-K 不变量全量检查（12 模块 107 条）
@@ -77,7 +78,7 @@ python3 scripts/ok_invariant.py gen <module>
 
 | 指标 | 数值 |
 |---|---|
-| per-IP DUT | 23 个（21 个可用 .so；待建 otp/spi_tpm/lc/mbx/otbn）|
+| per-IP DUT | **28 个全量可用**（lc_ctrl/spi_tpm/mbx/otbn/rv_dm 本轮收官）|
 | Oracle | 14 个（十大属性族 + 密码符合性 KAT + PMP/特权语义）|
 | 全量检出 | 引擎 25 条/12 模块 + O-K 5 条 + 单元 TB 3 条 = **33 条，0 误报** |
 | 单 DUT 扫描 | 0.1~0.25s，峰值内存 28 MB |
@@ -96,11 +97,11 @@ python3 scripts/ok_invariant.py gen <module>
 
 ## 基准测试（2026-09-04 实测，10 核/8GB 容器，单进程串行）
 
-### 开环 fuzzing（batch_discover.py，21 DUT × 12 oracle）
+### 开环 fuzzing（batch_discover.py，28 DUT × 12 oracle）
 
 | 指标 | 数值 |
 |---|---|
-| 全量耗时 | **2.9s**（21 DUT 串行）|
+| 全量耗时 | **~3s**（28 DUT 串行）|
 | 单模块耗时 | 0.11~0.34s（hmac 0.14 / aes 0.24 / kmac 0.34，最大 csrng 0.14）|
 | 单模块峰值内存 | 27~28 MB（全 DUT 一致，与设计规模弱相关）|
 | CPU | 单核（编译型仿真，~10M cycles/s）|
