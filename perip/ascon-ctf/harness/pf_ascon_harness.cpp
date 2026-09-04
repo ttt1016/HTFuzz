@@ -20,23 +20,166 @@ static SigEntry g_sigs[] = {
     {"ascon_core.key_share1_in_q", nullptr, 4, true},
     {"ascon_core.key_share0_in_new_q", nullptr, 1, false},
     {"ascon_core.key_share1_in_new_q", nullptr, 1, false},
+{"ascon_core.ascon_duplex.sel_mux_key_word1", nullptr, 1, true },
+{"ascon_core.ascon_duplex.sel_mux_key_word2", nullptr, 1, true },
+{"ascon_core.ascon_duplex.sel_mux_key_word3", nullptr, 1, true },
+{"u_reg.ctrl_shadowed_masked_ad_input_storage_err", nullptr, 1, true },
+{"u_reg.ctrl_shadowed_masked_ad_input_update_err", nullptr, 1, true },
+{"u_reg.ctrl_shadowed_masked_msg_input_storage_err", nullptr, 1, true },
+{"u_reg.ctrl_shadowed_masked_msg_input_update_err", nullptr, 1, true },
+{"u_reg.ctrl_shadowed_sideload_key_storage_err", nullptr, 1, true },
+{"u_reg.ctrl_shadowed_sideload_key_update_err", nullptr, 1, true },
+{"u_reg.key_share0_0_we", nullptr, 1, true },
+{"u_reg.key_share0_1_we", nullptr, 1, true },
+{"u_reg.key_share0_2_we", nullptr, 1, true },
+{"u_reg.key_share0_3_we", nullptr, 1, true },
+{"u_reg.key_share1_0_we", nullptr, 1, true },
+{"u_reg.key_share1_1_we", nullptr, 1, true },
+{"u_reg.key_share1_2_we", nullptr, 1, true },
+{"u_reg.key_share1_3_we", nullptr, 1, true },
+{"u_reg.u_ctrl_shadowed_masked_ad_input.committed_q", nullptr, 1, true },
+{"u_reg.u_ctrl_shadowed_masked_ad_input.shadow_q", nullptr, 1, true },
+{"u_reg.u_ctrl_shadowed_masked_ad_input.shadow_wd", nullptr, 1, true },
+{"u_reg.u_ctrl_shadowed_masked_ad_input.shadow_we", nullptr, 1, true },
+{"u_reg.u_ctrl_shadowed_masked_msg_input.committed_q", nullptr, 1, true },
+{"u_reg.u_ctrl_shadowed_masked_msg_input.shadow_q", nullptr, 1, true },
+{"u_reg.u_ctrl_shadowed_masked_msg_input.shadow_wd", nullptr, 1, true },
+{"u_reg.u_ctrl_shadowed_masked_msg_input.shadow_we", nullptr, 1, true },
+{"u_reg.u_ctrl_shadowed_sideload_key.committed_q", nullptr, 1, true },
+{"u_reg.u_ctrl_shadowed_sideload_key.shadow_q", nullptr, 1, true },
+{"u_reg.u_ctrl_shadowed_sideload_key.shadow_wd", nullptr, 1, true },
+{"u_reg.u_ctrl_shadowed_sideload_key.shadow_we", nullptr, 1, true },
+{"u_reg.u_error_no_key.q", nullptr, 1, true },
+{"ascon_core.ascon_duplex.ascon_state_q", nullptr, 1, true },
+{"ascon_core.ascon_duplex.fsm_state_d", nullptr, 1, true },
+{"ascon_core.ascon_duplex.sparse_fsm_error", nullptr, 1, true },
+{"ascon_core.ascon_duplex.u_round_counter.err_q", nullptr, 1, true },
+{"ascon_core.ascon_duplex.u_round_counter.gen_cnts__BRA__0__KET__.cnt_unforced_q", nullptr, 1, true },
+{"ascon_core.ascon_duplex.u_round_counter.gen_cnts__BRA__1__KET__.cnt_unforced_q", nullptr, 1, true },
+{"ascon_core.ascon_duplex.u_state_regs.state_raw", nullptr, 1, true },
+{"u_reg.fsm_state_regren_we", nullptr, 1, true },
+{"u_reg.u_fsm_state_regren.q", nullptr, 1, true },
+{"u_reg.u_reg_if.rdata_q", nullptr, 1, true },
+{"ascon_core.flag_error", nullptr, 1, true },
+{"ascon_core.nonce_error", nullptr, 1, true },
+{"ascon_core.order_error", nullptr, 1, true },
+{"u_reg.alert_test_we", nullptr, 1, true },
+{"u_reg.block_ctrl_shadowed_data_type_last_storage_err", nullptr, 1, true },
+{"u_reg.block_ctrl_shadowed_data_type_last_update_err", nullptr, 1, true },
+{"u_reg.block_ctrl_shadowed_data_type_start_storage_err", nullptr, 1, true },
+{"u_reg.block_ctrl_shadowed_data_type_start_update_err", nullptr, 1, true },
+{"u_reg.block_ctrl_shadowed_valid_bytes_storage_err", nullptr, 1, true },
+{"u_reg.block_ctrl_shadowed_valid_bytes_update_err", nullptr, 1, true },
+{"u_reg.ctrl_aux_shadowed_force_data_overwrite_storage_err", nullptr, 1, true },
+{"u_reg.ctrl_aux_shadowed_force_data_overwrite_update_err", nullptr, 1, true },
+{"u_reg.ctrl_aux_shadowed_manual_start_trigger_storage_err", nullptr, 1, true },
+{"u_reg.ctrl_aux_shadowed_manual_start_trigger_update_err", nullptr, 1, true },
+{"u_reg.ctrl_shadowed_ascon_variant_storage_err", nullptr, 1, true },
+{"u_reg.ctrl_shadowed_ascon_variant_update_err", nullptr, 1, true },
+{"u_reg.ctrl_shadowed_no_ad_storage_err", nullptr, 1, true },
+{"u_reg.ctrl_shadowed_no_ad_update_err", nullptr, 1, true },
+{"u_reg.ctrl_shadowed_no_msg_storage_err", nullptr, 1, true },
+{"u_reg.ctrl_shadowed_no_msg_update_err", nullptr, 1, true },
+{"u_reg.ctrl_shadowed_operation_storage_err", nullptr, 1, true },
+{"u_reg.ctrl_shadowed_operation_update_err", nullptr, 1, true },
+{"u_reg.err_q", nullptr, 1, true },
+{"u_reg.intg_err", nullptr, 1, true },
+{"u_reg.reg_error", nullptr, 1, true },
+{"u_reg.reg_we_err", nullptr, 1, true },
+{"u_reg.u_error_flag_input_missmatch.q", nullptr, 1, true },
+{"u_reg.u_error_no_nonce.q", nullptr, 1, true },
+{"u_reg.u_error_wrong_order.q", nullptr, 1, true },
+{"u_reg.u_reg_if.err_internal", nullptr, 1, true },
+{"u_reg.u_reg_if.error_q", nullptr, 1, true },
+{"u_reg.u_status_alert_fatal_fault.q", nullptr, 1, true },
+{"u_reg.u_status_alert_recov_ctrl_update_err.q", nullptr, 1, true },
+{"u_reg.u_status_ascon_error.q", nullptr, 1, true }
 };
 static const int g_nsig = sizeof(g_sigs) / sizeof(g_sigs[0]);
 
 static void bind_signals() {
-    #define CORE(name) rootp->ascon_perip_tb__DOT__u_dut__DOT__ascon_core__DOT__##name
     for (int i = 0; i < g_nsig; i++) {
         const char* n = g_sigs[i].name;
         void* p = nullptr;
-        if (0) {}
-        // key_share0_in_q 是 4 个独立 32bit 字（__BRA__31/63/95/127__KET__）
-        else if (strcmp(n, "ascon_core.key_share0_in_q") == 0) p = &CORE(key_share0_in_q__BRA__31__03a0__KET__);
-        else if (strcmp(n, "ascon_core.key_share1_in_q") == 0) p = &CORE(key_share1_in_q__BRA__31__03a0__KET__);
-        else if (strcmp(n, "ascon_core.key_share0_in_new_q") == 0) p = &CORE(key_share0_in_new_q);
-        else if (strcmp(n, "ascon_core.key_share1_in_new_q") == 0) p = &CORE(key_share1_in_new_q);
+        (void)p;
+        if (strcmp(n, "ascon_core.ascon_duplex.ascon_state_q") == 0) p = &rootp->ascon_perip_tb__DOT__u_dut__DOT__ascon_core__DOT__ascon_duplex__DOT__ascon_state_q;
+        else if (strcmp(n, "ascon_core.ascon_duplex.fsm_state_d") == 0) p = &rootp->ascon_perip_tb__DOT__u_dut__DOT__ascon_core__DOT__ascon_duplex__DOT__fsm_state_d;
+        else if (strcmp(n, "ascon_core.ascon_duplex.sel_mux_key_word1") == 0) p = &rootp->ascon_perip_tb__DOT__u_dut__DOT__ascon_core__DOT__ascon_duplex__DOT__sel_mux_key_word1;
+        else if (strcmp(n, "ascon_core.ascon_duplex.sel_mux_key_word2") == 0) p = &rootp->ascon_perip_tb__DOT__u_dut__DOT__ascon_core__DOT__ascon_duplex__DOT__sel_mux_key_word2;
+        else if (strcmp(n, "ascon_core.ascon_duplex.sel_mux_key_word3") == 0) p = &rootp->ascon_perip_tb__DOT__u_dut__DOT__ascon_core__DOT__ascon_duplex__DOT__sel_mux_key_word3;
+        else if (strcmp(n, "ascon_core.ascon_duplex.sparse_fsm_error") == 0) p = &rootp->ascon_perip_tb__DOT__u_dut__DOT__ascon_core__DOT__ascon_duplex__DOT__sparse_fsm_error;
+        else if (strcmp(n, "ascon_core.ascon_duplex.u_round_counter.err_q") == 0) p = &rootp->ascon_perip_tb__DOT__u_dut__DOT__ascon_core__DOT__ascon_duplex__DOT__u_round_counter__DOT__err_q;
+        else if (strcmp(n, "ascon_core.ascon_duplex.u_round_counter.gen_cnts__BRA__0__KET__.cnt_unforced_q") == 0) p = &rootp->ascon_perip_tb__DOT__u_dut__DOT__ascon_core__DOT__ascon_duplex__DOT__u_round_counter__DOT__gen_cnts__BRA__0__KET____DOT__cnt_unforced_q;
+        else if (strcmp(n, "ascon_core.ascon_duplex.u_round_counter.gen_cnts__BRA__1__KET__.cnt_unforced_q") == 0) p = &rootp->ascon_perip_tb__DOT__u_dut__DOT__ascon_core__DOT__ascon_duplex__DOT__u_round_counter__DOT__gen_cnts__BRA__1__KET____DOT__cnt_unforced_q;
+        else if (strcmp(n, "ascon_core.ascon_duplex.u_state_regs.state_raw") == 0) p = &rootp->ascon_perip_tb__DOT__u_dut__DOT__ascon_core__DOT__ascon_duplex__DOT__u_state_regs__DOT__state_raw;
+        else if (strcmp(n, "ascon_core.flag_error") == 0) p = &rootp->ascon_perip_tb__DOT__u_dut__DOT__ascon_core__DOT__flag_error;
+        else if (strcmp(n, "ascon_core.key_share0_in_new_q") == 0) p = &rootp->ascon_perip_tb__DOT__u_dut__DOT__ascon_core__DOT__key_share0_in_new_q;
+        else if (strcmp(n, "ascon_core.key_share1_in_new_q") == 0) p = &rootp->ascon_perip_tb__DOT__u_dut__DOT__ascon_core__DOT__key_share1_in_new_q;
+        else if (strcmp(n, "ascon_core.nonce_error") == 0) p = &rootp->ascon_perip_tb__DOT__u_dut__DOT__ascon_core__DOT__nonce_error;
+        else if (strcmp(n, "ascon_core.order_error") == 0) p = &rootp->ascon_perip_tb__DOT__u_dut__DOT__ascon_core__DOT__order_error;
+        else if (strcmp(n, "u_reg.alert_test_we") == 0) p = &rootp->ascon_perip_tb__DOT__u_dut__DOT__u_reg__DOT__alert_test_we;
+        else if (strcmp(n, "u_reg.block_ctrl_shadowed_data_type_last_storage_err") == 0) p = &rootp->ascon_perip_tb__DOT__u_dut__DOT__u_reg__DOT__block_ctrl_shadowed_data_type_last_storage_err;
+        else if (strcmp(n, "u_reg.block_ctrl_shadowed_data_type_last_update_err") == 0) p = &rootp->ascon_perip_tb__DOT__u_dut__DOT__u_reg__DOT__block_ctrl_shadowed_data_type_last_update_err;
+        else if (strcmp(n, "u_reg.block_ctrl_shadowed_data_type_start_storage_err") == 0) p = &rootp->ascon_perip_tb__DOT__u_dut__DOT__u_reg__DOT__block_ctrl_shadowed_data_type_start_storage_err;
+        else if (strcmp(n, "u_reg.block_ctrl_shadowed_data_type_start_update_err") == 0) p = &rootp->ascon_perip_tb__DOT__u_dut__DOT__u_reg__DOT__block_ctrl_shadowed_data_type_start_update_err;
+        else if (strcmp(n, "u_reg.block_ctrl_shadowed_valid_bytes_storage_err") == 0) p = &rootp->ascon_perip_tb__DOT__u_dut__DOT__u_reg__DOT__block_ctrl_shadowed_valid_bytes_storage_err;
+        else if (strcmp(n, "u_reg.block_ctrl_shadowed_valid_bytes_update_err") == 0) p = &rootp->ascon_perip_tb__DOT__u_dut__DOT__u_reg__DOT__block_ctrl_shadowed_valid_bytes_update_err;
+        else if (strcmp(n, "u_reg.ctrl_aux_shadowed_force_data_overwrite_storage_err") == 0) p = &rootp->ascon_perip_tb__DOT__u_dut__DOT__u_reg__DOT__ctrl_aux_shadowed_force_data_overwrite_storage_err;
+        else if (strcmp(n, "u_reg.ctrl_aux_shadowed_force_data_overwrite_update_err") == 0) p = &rootp->ascon_perip_tb__DOT__u_dut__DOT__u_reg__DOT__ctrl_aux_shadowed_force_data_overwrite_update_err;
+        else if (strcmp(n, "u_reg.ctrl_aux_shadowed_manual_start_trigger_storage_err") == 0) p = &rootp->ascon_perip_tb__DOT__u_dut__DOT__u_reg__DOT__ctrl_aux_shadowed_manual_start_trigger_storage_err;
+        else if (strcmp(n, "u_reg.ctrl_aux_shadowed_manual_start_trigger_update_err") == 0) p = &rootp->ascon_perip_tb__DOT__u_dut__DOT__u_reg__DOT__ctrl_aux_shadowed_manual_start_trigger_update_err;
+        else if (strcmp(n, "u_reg.ctrl_shadowed_ascon_variant_storage_err") == 0) p = &rootp->ascon_perip_tb__DOT__u_dut__DOT__u_reg__DOT__ctrl_shadowed_ascon_variant_storage_err;
+        else if (strcmp(n, "u_reg.ctrl_shadowed_ascon_variant_update_err") == 0) p = &rootp->ascon_perip_tb__DOT__u_dut__DOT__u_reg__DOT__ctrl_shadowed_ascon_variant_update_err;
+        else if (strcmp(n, "u_reg.ctrl_shadowed_masked_ad_input_storage_err") == 0) p = &rootp->ascon_perip_tb__DOT__u_dut__DOT__u_reg__DOT__ctrl_shadowed_masked_ad_input_storage_err;
+        else if (strcmp(n, "u_reg.ctrl_shadowed_masked_ad_input_update_err") == 0) p = &rootp->ascon_perip_tb__DOT__u_dut__DOT__u_reg__DOT__ctrl_shadowed_masked_ad_input_update_err;
+        else if (strcmp(n, "u_reg.ctrl_shadowed_masked_msg_input_storage_err") == 0) p = &rootp->ascon_perip_tb__DOT__u_dut__DOT__u_reg__DOT__ctrl_shadowed_masked_msg_input_storage_err;
+        else if (strcmp(n, "u_reg.ctrl_shadowed_masked_msg_input_update_err") == 0) p = &rootp->ascon_perip_tb__DOT__u_dut__DOT__u_reg__DOT__ctrl_shadowed_masked_msg_input_update_err;
+        else if (strcmp(n, "u_reg.ctrl_shadowed_no_ad_storage_err") == 0) p = &rootp->ascon_perip_tb__DOT__u_dut__DOT__u_reg__DOT__ctrl_shadowed_no_ad_storage_err;
+        else if (strcmp(n, "u_reg.ctrl_shadowed_no_ad_update_err") == 0) p = &rootp->ascon_perip_tb__DOT__u_dut__DOT__u_reg__DOT__ctrl_shadowed_no_ad_update_err;
+        else if (strcmp(n, "u_reg.ctrl_shadowed_no_msg_storage_err") == 0) p = &rootp->ascon_perip_tb__DOT__u_dut__DOT__u_reg__DOT__ctrl_shadowed_no_msg_storage_err;
+        else if (strcmp(n, "u_reg.ctrl_shadowed_no_msg_update_err") == 0) p = &rootp->ascon_perip_tb__DOT__u_dut__DOT__u_reg__DOT__ctrl_shadowed_no_msg_update_err;
+        else if (strcmp(n, "u_reg.ctrl_shadowed_operation_storage_err") == 0) p = &rootp->ascon_perip_tb__DOT__u_dut__DOT__u_reg__DOT__ctrl_shadowed_operation_storage_err;
+        else if (strcmp(n, "u_reg.ctrl_shadowed_operation_update_err") == 0) p = &rootp->ascon_perip_tb__DOT__u_dut__DOT__u_reg__DOT__ctrl_shadowed_operation_update_err;
+        else if (strcmp(n, "u_reg.ctrl_shadowed_sideload_key_storage_err") == 0) p = &rootp->ascon_perip_tb__DOT__u_dut__DOT__u_reg__DOT__ctrl_shadowed_sideload_key_storage_err;
+        else if (strcmp(n, "u_reg.ctrl_shadowed_sideload_key_update_err") == 0) p = &rootp->ascon_perip_tb__DOT__u_dut__DOT__u_reg__DOT__ctrl_shadowed_sideload_key_update_err;
+        else if (strcmp(n, "u_reg.err_q") == 0) p = &rootp->ascon_perip_tb__DOT__u_dut__DOT__u_reg__DOT__err_q;
+        else if (strcmp(n, "u_reg.fsm_state_regren_we") == 0) p = &rootp->ascon_perip_tb__DOT__u_dut__DOT__u_reg__DOT__fsm_state_regren_we;
+        else if (strcmp(n, "u_reg.intg_err") == 0) p = &rootp->ascon_perip_tb__DOT__u_dut__DOT__u_reg__DOT__intg_err;
+        else if (strcmp(n, "u_reg.key_share0_0_we") == 0) p = &rootp->ascon_perip_tb__DOT__u_dut__DOT__u_reg__DOT__key_share0_0_we;
+        else if (strcmp(n, "u_reg.key_share0_1_we") == 0) p = &rootp->ascon_perip_tb__DOT__u_dut__DOT__u_reg__DOT__key_share0_1_we;
+        else if (strcmp(n, "u_reg.key_share0_2_we") == 0) p = &rootp->ascon_perip_tb__DOT__u_dut__DOT__u_reg__DOT__key_share0_2_we;
+        else if (strcmp(n, "u_reg.key_share0_3_we") == 0) p = &rootp->ascon_perip_tb__DOT__u_dut__DOT__u_reg__DOT__key_share0_3_we;
+        else if (strcmp(n, "u_reg.key_share1_0_we") == 0) p = &rootp->ascon_perip_tb__DOT__u_dut__DOT__u_reg__DOT__key_share1_0_we;
+        else if (strcmp(n, "u_reg.key_share1_1_we") == 0) p = &rootp->ascon_perip_tb__DOT__u_dut__DOT__u_reg__DOT__key_share1_1_we;
+        else if (strcmp(n, "u_reg.key_share1_2_we") == 0) p = &rootp->ascon_perip_tb__DOT__u_dut__DOT__u_reg__DOT__key_share1_2_we;
+        else if (strcmp(n, "u_reg.key_share1_3_we") == 0) p = &rootp->ascon_perip_tb__DOT__u_dut__DOT__u_reg__DOT__key_share1_3_we;
+        else if (strcmp(n, "u_reg.reg_error") == 0) p = &rootp->ascon_perip_tb__DOT__u_dut__DOT__u_reg__DOT__reg_error;
+        else if (strcmp(n, "u_reg.reg_we_err") == 0) p = &rootp->ascon_perip_tb__DOT__u_dut__DOT__u_reg__DOT__reg_we_err;
+        else if (strcmp(n, "u_reg.u_ctrl_shadowed_masked_ad_input.committed_q") == 0) p = &rootp->ascon_perip_tb__DOT__u_dut__DOT__u_reg__DOT__u_ctrl_shadowed_masked_ad_input__DOT__committed_q;
+        else if (strcmp(n, "u_reg.u_ctrl_shadowed_masked_ad_input.shadow_q") == 0) p = &rootp->ascon_perip_tb__DOT__u_dut__DOT__u_reg__DOT__u_ctrl_shadowed_masked_ad_input__DOT__shadow_q;
+        else if (strcmp(n, "u_reg.u_ctrl_shadowed_masked_ad_input.shadow_wd") == 0) p = &rootp->ascon_perip_tb__DOT__u_dut__DOT__u_reg__DOT__u_ctrl_shadowed_masked_ad_input__DOT__shadow_wd;
+        else if (strcmp(n, "u_reg.u_ctrl_shadowed_masked_ad_input.shadow_we") == 0) p = &rootp->ascon_perip_tb__DOT__u_dut__DOT__u_reg__DOT__u_ctrl_shadowed_masked_ad_input__DOT__shadow_we;
+        else if (strcmp(n, "u_reg.u_ctrl_shadowed_masked_msg_input.committed_q") == 0) p = &rootp->ascon_perip_tb__DOT__u_dut__DOT__u_reg__DOT__u_ctrl_shadowed_masked_msg_input__DOT__committed_q;
+        else if (strcmp(n, "u_reg.u_ctrl_shadowed_masked_msg_input.shadow_q") == 0) p = &rootp->ascon_perip_tb__DOT__u_dut__DOT__u_reg__DOT__u_ctrl_shadowed_masked_msg_input__DOT__shadow_q;
+        else if (strcmp(n, "u_reg.u_ctrl_shadowed_masked_msg_input.shadow_wd") == 0) p = &rootp->ascon_perip_tb__DOT__u_dut__DOT__u_reg__DOT__u_ctrl_shadowed_masked_msg_input__DOT__shadow_wd;
+        else if (strcmp(n, "u_reg.u_ctrl_shadowed_masked_msg_input.shadow_we") == 0) p = &rootp->ascon_perip_tb__DOT__u_dut__DOT__u_reg__DOT__u_ctrl_shadowed_masked_msg_input__DOT__shadow_we;
+        else if (strcmp(n, "u_reg.u_ctrl_shadowed_sideload_key.committed_q") == 0) p = &rootp->ascon_perip_tb__DOT__u_dut__DOT__u_reg__DOT__u_ctrl_shadowed_sideload_key__DOT__committed_q;
+        else if (strcmp(n, "u_reg.u_ctrl_shadowed_sideload_key.shadow_q") == 0) p = &rootp->ascon_perip_tb__DOT__u_dut__DOT__u_reg__DOT__u_ctrl_shadowed_sideload_key__DOT__shadow_q;
+        else if (strcmp(n, "u_reg.u_ctrl_shadowed_sideload_key.shadow_wd") == 0) p = &rootp->ascon_perip_tb__DOT__u_dut__DOT__u_reg__DOT__u_ctrl_shadowed_sideload_key__DOT__shadow_wd;
+        else if (strcmp(n, "u_reg.u_ctrl_shadowed_sideload_key.shadow_we") == 0) p = &rootp->ascon_perip_tb__DOT__u_dut__DOT__u_reg__DOT__u_ctrl_shadowed_sideload_key__DOT__shadow_we;
+        else if (strcmp(n, "u_reg.u_error_flag_input_missmatch.q") == 0) p = &rootp->ascon_perip_tb__DOT__u_dut__DOT__u_reg__DOT__u_error_flag_input_missmatch__DOT__q;
+        else if (strcmp(n, "u_reg.u_error_no_key.q") == 0) p = &rootp->ascon_perip_tb__DOT__u_dut__DOT__u_reg__DOT__u_error_no_key__DOT__q;
+        else if (strcmp(n, "u_reg.u_error_no_nonce.q") == 0) p = &rootp->ascon_perip_tb__DOT__u_dut__DOT__u_reg__DOT__u_error_no_nonce__DOT__q;
+        else if (strcmp(n, "u_reg.u_error_wrong_order.q") == 0) p = &rootp->ascon_perip_tb__DOT__u_dut__DOT__u_reg__DOT__u_error_wrong_order__DOT__q;
+        else if (strcmp(n, "u_reg.u_fsm_state_regren.q") == 0) p = &rootp->ascon_perip_tb__DOT__u_dut__DOT__u_reg__DOT__u_fsm_state_regren__DOT__q;
+        else if (strcmp(n, "u_reg.u_reg_if.err_internal") == 0) p = &rootp->ascon_perip_tb__DOT__u_dut__DOT__u_reg__DOT__u_reg_if__DOT__err_internal;
+        else if (strcmp(n, "u_reg.u_reg_if.error_q") == 0) p = &rootp->ascon_perip_tb__DOT__u_dut__DOT__u_reg__DOT__u_reg_if__DOT__error_q;
+        else if (strcmp(n, "u_reg.u_reg_if.rdata_q") == 0) p = &rootp->ascon_perip_tb__DOT__u_dut__DOT__u_reg__DOT__u_reg_if__DOT__rdata_q;
+        else if (strcmp(n, "u_reg.u_status_alert_fatal_fault.q") == 0) p = &rootp->ascon_perip_tb__DOT__u_dut__DOT__u_reg__DOT__u_status_alert_fatal_fault__DOT__q;
+        else if (strcmp(n, "u_reg.u_status_alert_recov_ctrl_update_err.q") == 0) p = &rootp->ascon_perip_tb__DOT__u_dut__DOT__u_reg__DOT__u_status_alert_recov_ctrl_update_err__DOT__q;
+        else if (strcmp(n, "u_reg.u_status_ascon_error.q") == 0) p = &rootp->ascon_perip_tb__DOT__u_dut__DOT__u_reg__DOT__u_status_ascon_error__DOT__q;
         g_sigs[i].ptr = p;
     }
-    #undef CORE
 }
 
 static uint32_t sig_word(const SigEntry& s, int w) {
@@ -146,6 +289,7 @@ void pf_reset(void) {
 
 int pf_snapshot(void) { take_snapshot(); return (int)g_snaps.size() - 1; }
 int pf_snap_count(void) { return (int)g_snaps.size(); }
+int pf_sig_bound(int i) { return (i >= 0 && i < g_nsig && g_sigs[i].ptr != nullptr) ? 1 : 0; }
 int pf_sig_count(void) { return g_nsig; }
 const char* pf_sig_name(int i) { return (i >= 0 && i < g_nsig) ? g_sigs[i].name : ""; }
 int pf_sig_words(int i) { return (i >= 0 && i < g_nsig) ? g_sigs[i].words : 0; }

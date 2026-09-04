@@ -193,7 +193,8 @@ python3 scripts/ok_invariant.py gen <module>
 | 阶段 | 状态 | 新增检出 | 提交 |
 |------|------|---------|------|
 | 基线 | 27 条 / 14 模块（~20 独立 ID） | — | 05314bd |
-| Phase A | 进行中 | — | — |
+| Phase A-① ascon 白盒 4→78 | 完成 | **ascon 2→21 条检出**（key_share/duplex 面打开） | 本提交 |
+| Phase A-② kmac/rom_ctrl/otp_ctrl 同法推广 | 进行中 | — | — |
 
 ## 安全属性分类学：论文依据与有效性论证
 
