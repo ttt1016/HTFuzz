@@ -1,0 +1,783 @@
+{
+ "verdict": "DIVERGENT",
+ "first_divergence": {
+  "idx": 14,
+  "channel": "sig",
+  "signal": "u_dut.msg_valid",
+  "word": 0,
+  "kind": "write_read",
+  "addr": 176,
+  "ctf": 16777216,
+  "fresh": 0
+ },
+ "n_actions_compared": 106,
+ "n_divergences": 76,
+ "divergent_signals": {
+  "u_dut.msg_valid": 75
+ },
+ "evidence": [
+  {
+   "idx": 14,
+   "channel": "sig",
+   "signal": "u_dut.msg_valid",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 176,
+   "ctf": 16777216,
+   "fresh": 0
+  },
+  {
+   "idx": 15,
+   "channel": "sig",
+   "signal": "u_dut.msg_valid",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 180,
+   "ctf": 16777216,
+   "fresh": 0
+  },
+  {
+   "idx": 16,
+   "channel": "sig",
+   "signal": "u_dut.msg_valid",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 224,
+   "ctf": 16777216,
+   "fresh": 0
+  },
+  {
+   "idx": 17,
+   "channel": "sig",
+   "signal": "u_dut.msg_valid",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 1024,
+   "ctf": 16777216,
+   "fresh": 0
+  },
+  {
+   "idx": 18,
+   "channel": "sig",
+   "signal": "u_dut.msg_valid",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 2048,
+   "ctf": 16777216,
+   "fresh": 0
+  },
+  {
+   "idx": 19,
+   "channel": "sig",
+   "signal": "u_dut.msg_valid",
+   "word": 0,
+   "kind": "step",
+   "addr": null,
+   "ctf": 16777216,
+   "fresh": 0
+  },
+  {
+   "idx": 20,
+   "channel": "sig",
+   "signal": "u_dut.msg_valid",
+   "word": 0,
+   "kind": "read",
+   "addr": 36,
+   "ctf": 16777216,
+   "fresh": 0
+  },
+  {
+   "idx": 21,
+   "channel": "sig",
+   "signal": "u_dut.msg_valid",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 12,
+   "ctf": 16777216,
+   "fresh": 0
+  },
+  {
+   "idx": 22,
+   "channel": "sig",
+   "signal": "u_dut.msg_valid",
+   "word": 0,
+   "kind": "read",
+   "addr": 1024,
+   "ctf": 16777216,
+   "fresh": 0
+  },
+  {
+   "idx": 23,
+   "channel": "sig",
+   "signal": "u_dut.msg_valid",
+   "word": 0,
+   "kind": "step",
+   "addr": null,
+   "ctf": 16777216,
+   "fresh": 0
+  },
+  {
+   "idx": 24,
+   "channel": "sig",
+   "signal": "u_dut.msg_valid",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 8,
+   "ctf": 16777216,
+   "fresh": 0
+  },
+  {
+   "idx": 25,
+   "channel": "sig",
+   "signal": "u_dut.msg_valid",
+   "word": 0,
+   "kind": "step",
+   "addr": null,
+   "ctf": 16777216,
+   "fresh": 0
+  },
+  {
+   "idx": 26,
+   "channel": "sig",
+   "signal": "u_dut.msg_valid",
+   "word": 0,
+   "kind": "read",
+   "addr": 12,
+   "ctf": 16777216,
+   "fresh": 0
+  },
+  {
+   "idx": 27,
+   "channel": "sig",
+   "signal": "u_dut.msg_valid",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 40,
+   "ctf": 16777216,
+   "fresh": 0
+  },
+  {
+   "idx": 28,
+   "channel": "sig",
+   "signal": "u_dut.msg_valid",
+   "word": 0,
+   "kind": "read",
+   "addr": 24,
+   "ctf": 16777216,
+   "fresh": 0
+  },
+  {
+   "idx": 29,
+   "channel": "sig",
+   "signal": "u_dut.msg_valid",
+   "word": 0,
+   "kind": "step",
+   "addr": null,
+   "ctf": 16777216,
+   "fresh": 0
+  },
+  {
+   "idx": 30,
+   "channel": "readback",
+   "kind": "write_read",
+   "addr": 224,
+   "ctf": 33603092,
+   "fresh": 33596692
+  },
+  {
+   "idx": 30,
+   "channel": "sig",
+   "signal": "u_dut.msg_valid",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 224,
+   "ctf": 16777216,
+   "fresh": 0
+  },
+  {
+   "idx": 31,
+   "channel": "sig",
+   "signal": "u_dut.msg_valid",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 1024,
+   "ctf": 16777216,
+   "fresh": 0
+  },
+  {
+   "idx": 32,
+   "channel": "sig",
+   "signal": "u_dut.msg_valid",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 48,
+   "ctf": 16777216,
+   "fresh": 0
+  },
+  {
+   "idx": 33,
+   "channel": "sig",
+   "signal": "u_dut.msg_valid",
+   "word": 0,
+   "kind": "step",
+   "addr": null,
+   "ctf": 16777216,
+   "fresh": 0
+  },
+  {
+   "idx": 34,
+   "channel": "sig",
+   "signal": "u_dut.msg_valid",
+   "word": 0,
+   "kind": "read",
+   "addr": 40,
+   "ctf": 16777216,
+   "fresh": 0
+  },
+  {
+   "idx": 35,
+   "channel": "sig",
+   "signal": "u_dut.msg_valid",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 40,
+   "ctf": 16777216,
+   "fresh": 0
+  },
+  {
+   "idx": 36,
+   "channel": "sig",
+   "signal": "u_dut.msg_valid",
+   "word": 0,
+   "kind": "step",
+   "addr": null,
+   "ctf": 16777216,
+   "fresh": 0
+  },
+  {
+   "idx": 37,
+   "channel": "sig",
+   "signal": "u_dut.msg_valid",
+   "word": 0,
+   "kind": "step",
+   "addr": null,
+   "ctf": 16777216,
+   "fresh": 0
+  },
+  {
+   "idx": 38,
+   "channel": "sig",
+   "signal": "u_dut.msg_valid",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 16,
+   "ctf": 16777216,
+   "fresh": 0
+  },
+  {
+   "idx": 39,
+   "channel": "sig",
+   "signal": "u_dut.msg_valid",
+   "word": 0,
+   "kind": "read",
+   "addr": 8,
+   "ctf": 16777216,
+   "fresh": 0
+  },
+  {
+   "idx": 40,
+   "channel": "sig",
+   "signal": "u_dut.msg_valid",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 40,
+   "ctf": 16777216,
+   "fresh": 0
+  },
+  {
+   "idx": 41,
+   "channel": "sig",
+   "signal": "u_dut.msg_valid",
+   "word": 0,
+   "kind": "read",
+   "addr": 180,
+   "ctf": 16777216,
+   "fresh": 0
+  },
+  {
+   "idx": 42,
+   "channel": "sig",
+   "signal": "u_dut.msg_valid",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 1024,
+   "ctf": 16777216,
+   "fresh": 0
+  },
+  {
+   "idx": 43,
+   "channel": "sig",
+   "signal": "u_dut.msg_valid",
+   "word": 0,
+   "kind": "read",
+   "addr": 1024,
+   "ctf": 16777216,
+   "fresh": 0
+  },
+  {
+   "idx": 44,
+   "channel": "sig",
+   "signal": "u_dut.msg_valid",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 1024,
+   "ctf": 16777216,
+   "fresh": 0
+  },
+  {
+   "idx": 45,
+   "channel": "sig",
+   "signal": "u_dut.msg_valid",
+   "word": 0,
+   "kind": "step",
+   "addr": null,
+   "ctf": 16777216,
+   "fresh": 0
+  },
+  {
+   "idx": 46,
+   "channel": "sig",
+   "signal": "u_dut.msg_valid",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 48,
+   "ctf": 16777216,
+   "fresh": 0
+  },
+  {
+   "idx": 47,
+   "channel": "sig",
+   "signal": "u_dut.msg_valid",
+   "word": 0,
+   "kind": "read",
+   "addr": 36,
+   "ctf": 16777216,
+   "fresh": 0
+  },
+  {
+   "idx": 48,
+   "channel": "sig",
+   "signal": "u_dut.msg_valid",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 20,
+   "ctf": 16777216,
+   "fresh": 0
+  },
+  {
+   "idx": 49,
+   "channel": "sig",
+   "signal": "u_dut.msg_valid",
+   "word": 0,
+   "kind": "read",
+   "addr": 32,
+   "ctf": 16777216,
+   "fresh": 0
+  },
+  {
+   "idx": 50,
+   "channel": "sig",
+   "signal": "u_dut.msg_valid",
+   "word": 0,
+   "kind": "read",
+   "addr": 8,
+   "ctf": 16777216,
+   "fresh": 0
+  },
+  {
+   "idx": 51,
+   "channel": "sig",
+   "signal": "u_dut.msg_valid",
+   "word": 0,
+   "kind": "read",
+   "addr": 16,
+   "ctf": 16777216,
+   "fresh": 0
+  },
+  {
+   "idx": 52,
+   "channel": "sig",
+   "signal": "u_dut.msg_valid",
+   "word": 0,
+   "kind": "step",
+   "addr": null,
+   "ctf": 16777216,
+   "fresh": 0
+  },
+  {
+   "idx": 53,
+   "channel": "sig",
+   "signal": "u_dut.msg_valid",
+   "word": 0,
+   "kind": "step",
+   "addr": null,
+   "ctf": 16777216,
+   "fresh": 0
+  },
+  {
+   "idx": 54,
+   "channel": "sig",
+   "signal": "u_dut.msg_valid",
+   "word": 0,
+   "kind": "step",
+   "addr": null,
+   "ctf": 16777216,
+   "fresh": 0
+  },
+  {
+   "idx": 55,
+   "channel": "sig",
+   "signal": "u_dut.msg_valid",
+   "word": 0,
+   "kind": "read",
+   "addr": 28,
+   "ctf": 16777216,
+   "fresh": 0
+  },
+  {
+   "idx": 56,
+   "channel": "sig",
+   "signal": "u_dut.msg_valid",
+   "word": 0,
+   "kind": "step",
+   "addr": null,
+   "ctf": 16777216,
+   "fresh": 0
+  },
+  {
+   "idx": 57,
+   "channel": "sig",
+   "signal": "u_dut.msg_valid",
+   "word": 0,
+   "kind": "read",
+   "addr": 176,
+   "ctf": 16777216,
+   "fresh": 0
+  },
+  {
+   "idx": 58,
+   "channel": "sig",
+   "signal": "u_dut.msg_valid",
+   "word": 0,
+   "kind": "read",
+   "addr": 44,
+   "ctf": 16777216,
+   "fresh": 0
+  },
+  {
+   "idx": 59,
+   "channel": "sig",
+   "signal": "u_dut.msg_valid",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 12,
+   "ctf": 16777216,
+   "fresh": 0
+  },
+  {
+   "idx": 60,
+   "channel": "sig",
+   "signal": "u_dut.msg_valid",
+   "word": 0,
+   "kind": "read",
+   "addr": 40,
+   "ctf": 16777216,
+   "fresh": 0
+  },
+  {
+   "idx": 61,
+   "channel": "sig",
+   "signal": "u_dut.msg_valid",
+   "word": 0,
+   "kind": "step",
+   "addr": null,
+   "ctf": 16777216,
+   "fresh": 0
+  },
+  {
+   "idx": 62,
+   "channel": "sig",
+   "signal": "u_dut.msg_valid",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 16777216,
+   "fresh": 0
+  },
+  {
+   "idx": 63,
+   "channel": "sig",
+   "signal": "u_dut.msg_valid",
+   "word": 0,
+   "kind": "read",
+   "addr": 44,
+   "ctf": 16777216,
+   "fresh": 0
+  },
+  {
+   "idx": 64,
+   "channel": "sig",
+   "signal": "u_dut.msg_valid",
+   "word": 0,
+   "kind": "read",
+   "addr": 40,
+   "ctf": 16777216,
+   "fresh": 0
+  },
+  {
+   "idx": 65,
+   "channel": "sig",
+   "signal": "u_dut.msg_valid",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 4,
+   "ctf": 16777216,
+   "fresh": 0
+  },
+  {
+   "idx": 66,
+   "channel": "sig",
+   "signal": "u_dut.msg_valid",
+   "word": 0,
+   "kind": "read",
+   "addr": 28,
+   "ctf": 16777216,
+   "fresh": 0
+  },
+  {
+   "idx": 67,
+   "channel": "sig",
+   "signal": "u_dut.msg_valid",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 2048,
+   "ctf": 16777216,
+   "fresh": 0
+  },
+  {
+   "idx": 68,
+   "channel": "sig",
+   "signal": "u_dut.msg_valid",
+   "word": 0,
+   "kind": "step",
+   "addr": null,
+   "ctf": 16777216,
+   "fresh": 0
+  },
+  {
+   "idx": 69,
+   "channel": "sig",
+   "signal": "u_dut.msg_valid",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 24,
+   "ctf": 16777216,
+   "fresh": 0
+  },
+  {
+   "idx": 70,
+   "channel": "sig",
+   "signal": "u_dut.msg_valid",
+   "word": 0,
+   "kind": "step",
+   "addr": null,
+   "ctf": 16777216,
+   "fresh": 0
+  },
+  {
+   "idx": 71,
+   "channel": "sig",
+   "signal": "u_dut.msg_valid",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 44,
+   "ctf": 16777216,
+   "fresh": 0
+  },
+  {
+   "idx": 72,
+   "channel": "sig",
+   "signal": "u_dut.msg_valid",
+   "word": 0,
+   "kind": "step",
+   "addr": null,
+   "ctf": 16777216,
+   "fresh": 0
+  },
+  {
+   "idx": 73,
+   "channel": "sig",
+   "signal": "u_dut.msg_valid",
+   "word": 0,
+   "kind": "read",
+   "addr": 24,
+   "ctf": 16777216,
+   "fresh": 0
+  },
+  {
+   "idx": 74,
+   "channel": "sig",
+   "signal": "u_dut.msg_valid",
+   "word": 0,
+   "kind": "step",
+   "addr": null,
+   "ctf": 16777216,
+   "fresh": 0
+  },
+  {
+   "idx": 75,
+   "channel": "sig",
+   "signal": "u_dut.msg_valid",
+   "word": 0,
+   "kind": "read",
+   "addr": 180,
+   "ctf": 16777216,
+   "fresh": 0
+  },
+  {
+   "idx": 76,
+   "channel": "sig",
+   "signal": "u_dut.msg_valid",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 4,
+   "ctf": 16777216,
+   "fresh": 0
+  },
+  {
+   "idx": 77,
+   "channel": "sig",
+   "signal": "u_dut.msg_valid",
+   "word": 0,
+   "kind": "read",
+   "addr": 1024,
+   "ctf": 16777216,
+   "fresh": 0
+  },
+  {
+   "idx": 78,
+   "channel": "sig",
+   "signal": "u_dut.msg_valid",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 12,
+   "ctf": 16777216,
+   "fresh": 0
+  },
+  {
+   "idx": 79,
+   "channel": "sig",
+   "signal": "u_dut.msg_valid",
+   "word": 0,
+   "kind": "marker_probe",
+   "addr": 44,
+   "ctf": 16777216,
+   "fresh": 0
+  },
+  {
+   "idx": 80,
+   "channel": "sig",
+   "signal": "u_dut.msg_valid",
+   "word": 0,
+   "kind": "marker_after",
+   "addr": 44,
+   "ctf": 16777216,
+   "fresh": 0
+  },
+  {
+   "idx": 81,
+   "channel": "sig",
+   "signal": "u_dut.msg_valid",
+   "word": 0,
+   "kind": "marker_probe",
+   "addr": 48,
+   "ctf": 16777216,
+   "fresh": 0
+  },
+  {
+   "idx": 82,
+   "channel": "sig",
+   "signal": "u_dut.msg_valid",
+   "word": 0,
+   "kind": "marker_after",
+   "addr": 48,
+   "ctf": 33554432,
+   "fresh": 0
+  },
+  {
+   "idx": 83,
+   "channel": "sig",
+   "signal": "u_dut.msg_valid",
+   "word": 0,
+   "kind": "marker_probe",
+   "addr": 112,
+   "ctf": 33554432,
+   "fresh": 0
+  },
+  {
+   "idx": 84,
+   "channel": "sig",
+   "signal": "u_dut.msg_valid",
+   "word": 0,
+   "kind": "marker_after",
+   "addr": 112,
+   "ctf": 33554432,
+   "fresh": 0
+  },
+  {
+   "idx": 85,
+   "channel": "sig",
+   "signal": "u_dut.msg_valid",
+   "word": 0,
+   "kind": "marker_probe",
+   "addr": 176,
+   "ctf": 83886080,
+   "fresh": 0
+  },
+  {
+   "idx": 86,
+   "channel": "sig",
+   "signal": "u_dut.msg_valid",
+   "word": 0,
+   "kind": "marker_after",
+   "addr": 176,
+   "ctf": 83886080,
+   "fresh": 0
+  },
+  {
+   "idx": 87,
+   "channel": "sig",
+   "signal": "u_dut.msg_valid",
+   "word": 0,
+   "kind": "marker_probe",
+   "addr": 2048,
+   "ctf": 83886080,
+   "fresh": 0
+  },
+  {
+   "idx": 88,
+   "channel": "sig",
+   "signal": "u_dut.msg_valid",
+   "word": 0,
+   "kind": "marker_after",
+   "addr": 2048,
+   "ctf": 83886080,
+   "fresh": 0
+  }
+ ],
+ "n_stable_signals": 4,
+ "n_signals_total": 4,
+ "n_stable_readbacks": 106,
+ "module": "kmac",
+ "seed": 0
+}

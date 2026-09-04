@@ -1930,6 +1930,7 @@ wrapper/harness/filelist 与 CTF 版**共用同一份文件**——hmac 92 个�
 |------|-----------|---------|--------|-------------|
 | hmac | ✅ 全量覆盖 | DIVERGENT（secret_key 78 拍 → #20/60 命中） | idx=8 secret_key | O-A×2 DIFF-CONFIRMED + O-J CONFIRMED |
 | aes | ✅ 全量覆盖+gen_filelist+gen_bindings(26/29) | ✅ DIVERGENT 首偏离 idx=0 data_out_we（#32 面）key_full/dec_q 70 拍 | 引擎 8 条照常 |
+| kmac | ✅ 全量覆盖 | ✅ DIVERGENT 首偏离 idx=14 msg_valid（白盒 4 信号, 75 拍） | 引擎 2 条照常 |
 
 构建基建（本阶段沉淀）:
 - `gen_filelist.py`: 闭包自动 filelist（prim_assert 最前 + 包 import 拓扑排序 + wrapper 殿后）
