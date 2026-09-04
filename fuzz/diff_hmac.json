@@ -1,0 +1,2034 @@
+{
+ "verdict": "DIVERGENT",
+ "first_divergence": {
+  "idx": 8,
+  "channel": "sig",
+  "signal": "u_dut.secret_key",
+  "word": 0,
+  "kind": "write_read",
+  "addr": 32,
+  "ctf": 0,
+  "fresh": 2195908194
+ },
+ "n_actions_compared": 101,
+ "n_divergences": 406,
+ "divergent_signals": {
+  "u_dut.secret_key": 78,
+  "u_dut.secret_key_d": 78,
+  "sha2.hash_q": 78,
+  "sha2.hash_d": 78,
+  "sha2.digest_q": 77,
+  "sha2.digest_d": 77,
+  "u_dut.u_reg.u_err_code.q": 10,
+  "sha2.w_q": 9,
+  "u_dut.u_reg.reg_rdata_next": 8,
+  "u_dut.u_reg.u_reg_if.rdata_q": 8
+ },
+ "evidence": [
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.secret_key",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.secret_key",
+   "word": 1,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.secret_key",
+   "word": 2,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.secret_key",
+   "word": 3,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.secret_key",
+   "word": 4,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.secret_key",
+   "word": 5,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.secret_key",
+   "word": 6,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.secret_key",
+   "word": 7,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.secret_key",
+   "word": 8,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.secret_key",
+   "word": 9,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.secret_key",
+   "word": 10,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.secret_key",
+   "word": 11,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.secret_key",
+   "word": 12,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.secret_key",
+   "word": 13,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.secret_key",
+   "word": 14,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.secret_key",
+   "word": 15,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.secret_key",
+   "word": 16,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.secret_key",
+   "word": 17,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.secret_key",
+   "word": 18,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.secret_key",
+   "word": 19,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.secret_key",
+   "word": 20,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.secret_key",
+   "word": 21,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.secret_key",
+   "word": 22,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.secret_key",
+   "word": 23,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.secret_key",
+   "word": 24,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.secret_key",
+   "word": 25,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.secret_key",
+   "word": 26,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.secret_key",
+   "word": 27,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.secret_key",
+   "word": 28,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.secret_key",
+   "word": 29,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.secret_key",
+   "word": 30,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.secret_key",
+   "word": 31,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.secret_key_d",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.secret_key_d",
+   "word": 1,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.secret_key_d",
+   "word": 2,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.secret_key_d",
+   "word": 3,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.secret_key_d",
+   "word": 4,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.secret_key_d",
+   "word": 5,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.secret_key_d",
+   "word": 6,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.secret_key_d",
+   "word": 7,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.secret_key_d",
+   "word": 8,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.secret_key_d",
+   "word": 9,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.secret_key_d",
+   "word": 10,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.secret_key_d",
+   "word": 11,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.secret_key_d",
+   "word": 12,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.secret_key_d",
+   "word": 13,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.secret_key_d",
+   "word": 14,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.secret_key_d",
+   "word": 15,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.secret_key_d",
+   "word": 16,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.secret_key_d",
+   "word": 17,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.secret_key_d",
+   "word": 18,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.secret_key_d",
+   "word": 19,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.secret_key_d",
+   "word": 20,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.secret_key_d",
+   "word": 21,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.secret_key_d",
+   "word": 22,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.secret_key_d",
+   "word": 23,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.secret_key_d",
+   "word": 24,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.secret_key_d",
+   "word": 25,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.secret_key_d",
+   "word": 26,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.secret_key_d",
+   "word": 27,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.secret_key_d",
+   "word": 28,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.secret_key_d",
+   "word": 29,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.secret_key_d",
+   "word": 30,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "u_dut.secret_key_d",
+   "word": 31,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "sha2.hash_q",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "sha2.hash_q",
+   "word": 1,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "sha2.hash_q",
+   "word": 2,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "sha2.hash_q",
+   "word": 3,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "sha2.hash_q",
+   "word": 4,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "sha2.hash_q",
+   "word": 5,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "sha2.hash_q",
+   "word": 6,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "sha2.hash_q",
+   "word": 7,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "sha2.hash_q",
+   "word": 8,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "sha2.hash_q",
+   "word": 9,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "sha2.hash_q",
+   "word": 10,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "sha2.hash_q",
+   "word": 11,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "sha2.hash_q",
+   "word": 12,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "sha2.hash_q",
+   "word": 13,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "sha2.hash_q",
+   "word": 14,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "sha2.hash_q",
+   "word": 15,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "sha2.hash_d",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "sha2.hash_d",
+   "word": 1,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "sha2.hash_d",
+   "word": 2,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "sha2.hash_d",
+   "word": 3,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "sha2.hash_d",
+   "word": 4,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "sha2.hash_d",
+   "word": 5,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "sha2.hash_d",
+   "word": 6,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "sha2.hash_d",
+   "word": 7,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "sha2.hash_d",
+   "word": 8,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "sha2.hash_d",
+   "word": 9,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "sha2.hash_d",
+   "word": 10,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "sha2.hash_d",
+   "word": 11,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "sha2.hash_d",
+   "word": 12,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "sha2.hash_d",
+   "word": 13,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "sha2.hash_d",
+   "word": 14,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "sha2.hash_d",
+   "word": 15,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "sha2.digest_q",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "sha2.digest_q",
+   "word": 1,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "sha2.digest_q",
+   "word": 2,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "sha2.digest_q",
+   "word": 3,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "sha2.digest_q",
+   "word": 4,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "sha2.digest_q",
+   "word": 5,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "sha2.digest_q",
+   "word": 6,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "sha2.digest_q",
+   "word": 7,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "sha2.digest_q",
+   "word": 8,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "sha2.digest_q",
+   "word": 9,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "sha2.digest_q",
+   "word": 10,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "sha2.digest_q",
+   "word": 11,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "sha2.digest_q",
+   "word": 12,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "sha2.digest_q",
+   "word": 13,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "sha2.digest_q",
+   "word": 14,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "sha2.digest_q",
+   "word": 15,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "sha2.digest_d",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "sha2.digest_d",
+   "word": 1,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "sha2.digest_d",
+   "word": 2,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "sha2.digest_d",
+   "word": 3,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "sha2.digest_d",
+   "word": 4,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "sha2.digest_d",
+   "word": 5,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "sha2.digest_d",
+   "word": 6,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "sha2.digest_d",
+   "word": 7,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "sha2.digest_d",
+   "word": 8,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "sha2.digest_d",
+   "word": 9,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "sha2.digest_d",
+   "word": 10,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "sha2.digest_d",
+   "word": 11,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "sha2.digest_d",
+   "word": 12,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "sha2.digest_d",
+   "word": 13,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "sha2.digest_d",
+   "word": 14,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 8,
+   "channel": "sig",
+   "signal": "sha2.digest_d",
+   "word": 15,
+   "kind": "write_read",
+   "addr": 32,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.secret_key",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 36,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.secret_key",
+   "word": 1,
+   "kind": "write_read",
+   "addr": 36,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.secret_key",
+   "word": 2,
+   "kind": "write_read",
+   "addr": 36,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.secret_key",
+   "word": 3,
+   "kind": "write_read",
+   "addr": 36,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.secret_key",
+   "word": 4,
+   "kind": "write_read",
+   "addr": 36,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.secret_key",
+   "word": 5,
+   "kind": "write_read",
+   "addr": 36,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.secret_key",
+   "word": 6,
+   "kind": "write_read",
+   "addr": 36,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.secret_key",
+   "word": 7,
+   "kind": "write_read",
+   "addr": 36,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.secret_key",
+   "word": 8,
+   "kind": "write_read",
+   "addr": 36,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.secret_key",
+   "word": 9,
+   "kind": "write_read",
+   "addr": 36,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.secret_key",
+   "word": 10,
+   "kind": "write_read",
+   "addr": 36,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.secret_key",
+   "word": 11,
+   "kind": "write_read",
+   "addr": 36,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.secret_key",
+   "word": 12,
+   "kind": "write_read",
+   "addr": 36,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.secret_key",
+   "word": 13,
+   "kind": "write_read",
+   "addr": 36,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.secret_key",
+   "word": 14,
+   "kind": "write_read",
+   "addr": 36,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.secret_key",
+   "word": 15,
+   "kind": "write_read",
+   "addr": 36,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.secret_key",
+   "word": 16,
+   "kind": "write_read",
+   "addr": 36,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.secret_key",
+   "word": 17,
+   "kind": "write_read",
+   "addr": 36,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.secret_key",
+   "word": 18,
+   "kind": "write_read",
+   "addr": 36,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.secret_key",
+   "word": 19,
+   "kind": "write_read",
+   "addr": 36,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.secret_key",
+   "word": 20,
+   "kind": "write_read",
+   "addr": 36,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.secret_key",
+   "word": 21,
+   "kind": "write_read",
+   "addr": 36,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.secret_key",
+   "word": 22,
+   "kind": "write_read",
+   "addr": 36,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.secret_key",
+   "word": 23,
+   "kind": "write_read",
+   "addr": 36,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.secret_key",
+   "word": 24,
+   "kind": "write_read",
+   "addr": 36,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.secret_key",
+   "word": 25,
+   "kind": "write_read",
+   "addr": 36,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.secret_key",
+   "word": 26,
+   "kind": "write_read",
+   "addr": 36,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.secret_key",
+   "word": 27,
+   "kind": "write_read",
+   "addr": 36,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.secret_key",
+   "word": 28,
+   "kind": "write_read",
+   "addr": 36,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.secret_key",
+   "word": 29,
+   "kind": "write_read",
+   "addr": 36,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.secret_key",
+   "word": 30,
+   "kind": "write_read",
+   "addr": 36,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.secret_key_d",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 36,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.secret_key_d",
+   "word": 1,
+   "kind": "write_read",
+   "addr": 36,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.secret_key_d",
+   "word": 2,
+   "kind": "write_read",
+   "addr": 36,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.secret_key_d",
+   "word": 3,
+   "kind": "write_read",
+   "addr": 36,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.secret_key_d",
+   "word": 4,
+   "kind": "write_read",
+   "addr": 36,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.secret_key_d",
+   "word": 5,
+   "kind": "write_read",
+   "addr": 36,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.secret_key_d",
+   "word": 6,
+   "kind": "write_read",
+   "addr": 36,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.secret_key_d",
+   "word": 7,
+   "kind": "write_read",
+   "addr": 36,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.secret_key_d",
+   "word": 8,
+   "kind": "write_read",
+   "addr": 36,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.secret_key_d",
+   "word": 9,
+   "kind": "write_read",
+   "addr": 36,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.secret_key_d",
+   "word": 10,
+   "kind": "write_read",
+   "addr": 36,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.secret_key_d",
+   "word": 11,
+   "kind": "write_read",
+   "addr": 36,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.secret_key_d",
+   "word": 12,
+   "kind": "write_read",
+   "addr": 36,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.secret_key_d",
+   "word": 13,
+   "kind": "write_read",
+   "addr": 36,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.secret_key_d",
+   "word": 14,
+   "kind": "write_read",
+   "addr": 36,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.secret_key_d",
+   "word": 15,
+   "kind": "write_read",
+   "addr": 36,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.secret_key_d",
+   "word": 16,
+   "kind": "write_read",
+   "addr": 36,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.secret_key_d",
+   "word": 17,
+   "kind": "write_read",
+   "addr": 36,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.secret_key_d",
+   "word": 18,
+   "kind": "write_read",
+   "addr": 36,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.secret_key_d",
+   "word": 19,
+   "kind": "write_read",
+   "addr": 36,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.secret_key_d",
+   "word": 20,
+   "kind": "write_read",
+   "addr": 36,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.secret_key_d",
+   "word": 21,
+   "kind": "write_read",
+   "addr": 36,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.secret_key_d",
+   "word": 22,
+   "kind": "write_read",
+   "addr": 36,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.secret_key_d",
+   "word": 23,
+   "kind": "write_read",
+   "addr": 36,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.secret_key_d",
+   "word": 24,
+   "kind": "write_read",
+   "addr": 36,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.secret_key_d",
+   "word": 25,
+   "kind": "write_read",
+   "addr": 36,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.secret_key_d",
+   "word": 26,
+   "kind": "write_read",
+   "addr": 36,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.secret_key_d",
+   "word": 27,
+   "kind": "write_read",
+   "addr": 36,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.secret_key_d",
+   "word": 28,
+   "kind": "write_read",
+   "addr": 36,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.secret_key_d",
+   "word": 29,
+   "kind": "write_read",
+   "addr": 36,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "u_dut.secret_key_d",
+   "word": 30,
+   "kind": "write_read",
+   "addr": 36,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "sha2.hash_q",
+   "word": 0,
+   "kind": "write_read",
+   "addr": 36,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "sha2.hash_q",
+   "word": 1,
+   "kind": "write_read",
+   "addr": 36,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "sha2.hash_q",
+   "word": 2,
+   "kind": "write_read",
+   "addr": 36,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "sha2.hash_q",
+   "word": 3,
+   "kind": "write_read",
+   "addr": 36,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "sha2.hash_q",
+   "word": 4,
+   "kind": "write_read",
+   "addr": 36,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "sha2.hash_q",
+   "word": 5,
+   "kind": "write_read",
+   "addr": 36,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "sha2.hash_q",
+   "word": 6,
+   "kind": "write_read",
+   "addr": 36,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "sha2.hash_q",
+   "word": 7,
+   "kind": "write_read",
+   "addr": 36,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "sha2.hash_q",
+   "word": 8,
+   "kind": "write_read",
+   "addr": 36,
+   "ctf": 0,
+   "fresh": 2195908194
+  },
+  {
+   "idx": 9,
+   "channel": "sig",
+   "signal": "sha2.hash_q",
+   "word": 9,
+   "kind": "write_read",
+   "addr": 36,
+   "ctf": 0,
+   "fresh": 2195908194
+  }
+ ],
+ "n_stable_signals": 43,
+ "n_signals_total": 43,
+ "n_stable_readbacks": 101,
+ "module": "hmac",
+ "seed": 0
+}

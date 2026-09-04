@@ -9,7 +9,8 @@
    "sensitive": true,
    "cross_oracle": 0,
    "rtl_wipe_nearby": true,
-   "evidence": "敏感信号 u_dut.secret_key[28] 在清除/操作序列后残留写入标记值"
+   "evidence": "敏感信号 u_dut.secret_key[28] 在清除/操作序列后残留写入标记值",
+   "diff": "DIFF-CONFIRMED"
   },
   {
    "level": "HIGH",
@@ -19,7 +20,8 @@
    "sensitive": true,
    "cross_oracle": 0,
    "rtl_wipe_nearby": true,
-   "evidence": "敏感信号 u_dut.secret_key_d[28] 在清除/操作序列后残留写入标记值"
+   "evidence": "敏感信号 u_dut.secret_key_d[28] 在清除/操作序列后残留写入标记值",
+   "diff": "DIFF-CONFIRMED"
   },
   {
    "level": "HIGH",
@@ -29,7 +31,8 @@
    "sensitive": true,
    "cross_oracle": 0,
    "rtl_wipe_nearby": true,
-   "evidence": "敏感信号 u_dut.secret_key[28] 在清除/操作序列后残留写入标记值"
+   "evidence": "敏感信号 u_dut.secret_key[28] 在清除/操作序列后残留写入标记值",
+   "diff": "DIFF-CONFIRMED"
   },
   {
    "level": "HIGH",
@@ -39,7 +42,8 @@
    "sensitive": true,
    "cross_oracle": 0,
    "rtl_wipe_nearby": true,
-   "evidence": "敏感信号 u_dut.secret_key_d[28] 在清除/操作序列后残留写入标记值"
+   "evidence": "敏感信号 u_dut.secret_key_d[28] 在清除/操作序列后残留写入标记值",
+   "diff": "DIFF-CONFIRMED"
   },
   {
    "level": "HIGH",
@@ -49,7 +53,8 @@
    "sensitive": true,
    "cross_oracle": 0,
    "rtl_wipe_nearby": true,
-   "evidence": "敏感信号 u_dut.secret_key[28] 在清除/操作序列后残留写入标记值"
+   "evidence": "敏感信号 u_dut.secret_key[28] 在清除/操作序列后残留写入标记值",
+   "diff": "DIFF-CONFIRMED"
   },
   {
    "level": "HIGH",
@@ -59,7 +64,8 @@
    "sensitive": true,
    "cross_oracle": 0,
    "rtl_wipe_nearby": true,
-   "evidence": "敏感信号 u_dut.secret_key_d[28] 在清除/操作序列后残留写入标记值"
+   "evidence": "敏感信号 u_dut.secret_key_d[28] 在清除/操作序列后残留写入标记值",
+   "diff": "DIFF-CONFIRMED"
   },
   {
    "level": "HIGH",
@@ -69,7 +75,8 @@
    "sensitive": true,
    "cross_oracle": 0,
    "rtl_wipe_nearby": true,
-   "evidence": "敏感信号 u_dut.secret_key[28] 在清除/操作序列后残留写入标记值"
+   "evidence": "敏感信号 u_dut.secret_key[28] 在清除/操作序列后残留写入标记值",
+   "diff": "DIFF-CONFIRMED"
   },
   {
    "level": "HIGH",
@@ -79,7 +86,8 @@
    "sensitive": true,
    "cross_oracle": 0,
    "rtl_wipe_nearby": true,
-   "evidence": "敏感信号 u_dut.secret_key_d[28] 在清除/操作序列后残留写入标记值"
+   "evidence": "敏感信号 u_dut.secret_key_d[28] 在清除/操作序列后残留写入标记值",
+   "diff": "DIFF-CONFIRMED"
   },
   {
    "level": "HIGH",
@@ -89,7 +97,8 @@
    "sensitive": true,
    "cross_oracle": 0,
    "rtl_wipe_nearby": true,
-   "evidence": "敏感信号 u_dut.secret_key[28] 在清除/操作序列后残留写入标记值"
+   "evidence": "敏感信号 u_dut.secret_key[28] 在清除/操作序列后残留写入标记值",
+   "diff": "DIFF-CONFIRMED"
   },
   {
    "level": "HIGH",
@@ -99,7 +108,8 @@
    "sensitive": true,
    "cross_oracle": 0,
    "rtl_wipe_nearby": true,
-   "evidence": "敏感信号 u_dut.secret_key_d[28] 在清除/操作序列后残留写入标记值"
+   "evidence": "敏感信号 u_dut.secret_key_d[28] 在清除/操作序列后残留写入标记值",
+   "diff": "DIFF-CONFIRMED"
   },
   {
    "level": "HIGH",
@@ -109,7 +119,8 @@
    "sensitive": true,
    "cross_oracle": 0,
    "rtl_wipe_nearby": true,
-   "evidence": "敏感信号 u_dut.secret_key[28] 在清除/操作序列后残留写入标记值"
+   "evidence": "敏感信号 u_dut.secret_key[28] 在清除/操作序列后残留写入标记值",
+   "diff": "DIFF-CONFIRMED"
   },
   {
    "level": "HIGH",
@@ -119,7 +130,19 @@
    "sensitive": true,
    "cross_oracle": 0,
    "rtl_wipe_nearby": true,
-   "evidence": "敏感信号 u_dut.secret_key_d[28] 在清除/操作序列后残留写入标记值"
+   "evidence": "敏感信号 u_dut.secret_key_d[28] 在清除/操作序列后残留写入标记值",
+   "diff": "DIFF-CONFIRMED"
+  },
+  {
+   "level": "LOW",
+   "oracle": "O-J-errprop",
+   "signal": "u_dut.u_reg.reg_error,u_dut.u_reg.intg_err,u_dut.u_reg.u_err_code.q",
+   "sec_cm": [],
+   "sensitive": false,
+   "cross_oracle": 0,
+   "rtl_wipe_nearby": true,
+   "evidence": "错误传播不完整: 静默触发 ['T1-invalid-cfg', 'T3-locked-write', 'T4-shadow-conflict']（1 类已传播）→ 疑似部分错误路径被吞没",
+   "diff": "DIFF-CONFIRMED"
   },
   {
    "level": "LOW",
@@ -129,7 +152,8 @@
    "sensitive": false,
    "cross_oracle": 0,
    "rtl_wipe_nearby": true,
-   "evidence": "FSM 信号 u_dut.done_state_q 在边界输入后 100 拍保持 0x2 不变，且该稳态在正常操作中未出现 → 疑似卡死/无超时恢复"
+   "evidence": "FSM 信号 u_dut.done_state_q 在边界输入后 100 拍保持 0x2 不变，且该稳态在正常操作中未出现 → 疑似卡死/无超时恢复",
+   "diff": "DIFF-UNKNOWN"
   },
   {
    "level": "LOW",
@@ -139,7 +163,8 @@
    "sensitive": false,
    "cross_oracle": 0,
    "rtl_wipe_nearby": true,
-   "evidence": "FSM 信号 u_dut.done_state_q 在边界输入后 100 拍保持 0x2 不变，且该稳态在正常操作中未出现 → 疑似卡死/无超时恢复"
+   "evidence": "FSM 信号 u_dut.done_state_q 在边界输入后 100 拍保持 0x2 不变，且该稳态在正常操作中未出现 → 疑似卡死/无超时恢复",
+   "diff": "DIFF-UNKNOWN"
   },
   {
    "level": "LOW",
@@ -149,7 +174,30 @@
    "sensitive": false,
    "cross_oracle": 0,
    "rtl_wipe_nearby": true,
-   "evidence": "FSM 信号 u_dut.done_state_q 在边界输入后 100 拍保持 0x2 不变，且该稳态在正常操作中未出现 → 疑似卡死/无超时恢复"
+   "evidence": "FSM 信号 u_dut.done_state_q 在边界输入后 100 拍保持 0x2 不变，且该稳态在正常操作中未出现 → 疑似卡死/无超时恢复",
+   "diff": "DIFF-UNKNOWN"
+  },
+  {
+   "level": "LOW",
+   "oracle": "O-L-kat",
+   "signal": "hmac.SHA-512",
+   "sec_cm": [],
+   "sensitive": false,
+   "cross_oracle": 0,
+   "rtl_wipe_nearby": false,
+   "evidence": "SHA-512 标准向量运算未完成，且 hmac_err 置位但 ERR_CODE=0（错误无成因）",
+   "diff": "DIFF-UNKNOWN"
   }
- ]
+ ],
+ "diff_verdict": "DIVERGENT",
+ "diff_first_divergence": {
+  "idx": 8,
+  "channel": "sig",
+  "signal": "u_dut.secret_key",
+  "word": 0,
+  "kind": "write_read",
+  "addr": 32,
+  "ctf": 0,
+  "fresh": 2195908194
+ }
 }

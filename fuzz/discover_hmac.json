@@ -2,11 +2,143 @@
  "module": "hmac",
  "findings": [
   {
+   "oracle": "O-A-residual",
+   "signal": "u_dut.secret_key",
+   "word": 28,
+   "value": "0xdead00c1",
+   "marker": "0xdead00be",
+   "trial": 0,
+   "desc": "敏感信号 u_dut.secret_key[28] 在清除/操作序列后残留写入标记值"
+  },
+  {
+   "oracle": "O-A-residual",
+   "signal": "u_dut.secret_key_d",
+   "word": 28,
+   "value": "0xdead00c1",
+   "marker": "0xdead00be",
+   "trial": 0,
+   "desc": "敏感信号 u_dut.secret_key_d[28] 在清除/操作序列后残留写入标记值"
+  },
+  {
+   "oracle": "O-A-residual",
+   "signal": "u_dut.secret_key",
+   "word": 28,
+   "value": "0xdead01c1",
+   "marker": "0xdead01be",
+   "trial": 1,
+   "desc": "敏感信号 u_dut.secret_key[28] 在清除/操作序列后残留写入标记值"
+  },
+  {
+   "oracle": "O-A-residual",
+   "signal": "u_dut.secret_key_d",
+   "word": 28,
+   "value": "0xdead01c1",
+   "marker": "0xdead01be",
+   "trial": 1,
+   "desc": "敏感信号 u_dut.secret_key_d[28] 在清除/操作序列后残留写入标记值"
+  },
+  {
+   "oracle": "O-A-residual",
+   "signal": "u_dut.secret_key",
+   "word": 28,
+   "value": "0xdead02c1",
+   "marker": "0xdead02be",
+   "trial": 2,
+   "desc": "敏感信号 u_dut.secret_key[28] 在清除/操作序列后残留写入标记值"
+  },
+  {
+   "oracle": "O-A-residual",
+   "signal": "u_dut.secret_key_d",
+   "word": 28,
+   "value": "0xdead02c1",
+   "marker": "0xdead02be",
+   "trial": 2,
+   "desc": "敏感信号 u_dut.secret_key_d[28] 在清除/操作序列后残留写入标记值"
+  },
+  {
+   "oracle": "O-A-residual",
+   "signal": "u_dut.secret_key",
+   "word": 28,
+   "value": "0xdead03c1",
+   "marker": "0xdead03be",
+   "trial": 3,
+   "desc": "敏感信号 u_dut.secret_key[28] 在清除/操作序列后残留写入标记值"
+  },
+  {
+   "oracle": "O-A-residual",
+   "signal": "u_dut.secret_key_d",
+   "word": 28,
+   "value": "0xdead03c1",
+   "marker": "0xdead03be",
+   "trial": 3,
+   "desc": "敏感信号 u_dut.secret_key_d[28] 在清除/操作序列后残留写入标记值"
+  },
+  {
+   "oracle": "O-A-residual",
+   "signal": "u_dut.secret_key",
+   "word": 28,
+   "value": "0xdead04c1",
+   "marker": "0xdead04be",
+   "trial": 4,
+   "desc": "敏感信号 u_dut.secret_key[28] 在清除/操作序列后残留写入标记值"
+  },
+  {
+   "oracle": "O-A-residual",
+   "signal": "u_dut.secret_key_d",
+   "word": 28,
+   "value": "0xdead04c1",
+   "marker": "0xdead04be",
+   "trial": 4,
+   "desc": "敏感信号 u_dut.secret_key_d[28] 在清除/操作序列后残留写入标记值"
+  },
+  {
+   "oracle": "O-A-residual",
+   "signal": "u_dut.secret_key",
+   "word": 28,
+   "value": "0xdead05c1",
+   "marker": "0xdead05be",
+   "trial": 5,
+   "desc": "敏感信号 u_dut.secret_key[28] 在清除/操作序列后残留写入标记值"
+  },
+  {
+   "oracle": "O-A-residual",
+   "signal": "u_dut.secret_key_d",
+   "word": 28,
+   "value": "0xdead05c1",
+   "marker": "0xdead05be",
+   "trial": 5,
+   "desc": "敏感信号 u_dut.secret_key_d[28] 在清除/操作序列后残留写入标记值"
+  },
+  {
+   "oracle": "O-D-fsm",
+   "signal": "u_dut.done_state_q",
+   "value": "0x2",
+   "trial": 0,
+   "confidence": "MEDIUM",
+   "desc": "FSM 信号 u_dut.done_state_q 在边界输入后 100 拍保持 0x2 不变，且该稳态在正常操作中未出现 → 疑似卡死/无超时恢复"
+  },
+  {
+   "oracle": "O-D-fsm",
+   "signal": "u_dut.done_state_q",
+   "value": "0x2",
+   "trial": 2,
+   "confidence": "MEDIUM",
+   "desc": "FSM 信号 u_dut.done_state_q 在边界输入后 100 拍保持 0x2 不变，且该稳态在正常操作中未出现 → 疑似卡死/无超时恢复"
+  },
+  {
+   "oracle": "O-D-fsm",
+   "signal": "u_dut.done_state_q",
+   "value": "0x2",
+   "trial": 5,
+   "confidence": "MEDIUM",
+   "desc": "FSM 信号 u_dut.done_state_q 在边界输入后 100 拍保持 0x2 不变，且该稳态在正常操作中未出现 → 疑似卡死/无超时恢复"
+  },
+  {
    "oracle": "O-J-errprop",
    "signal": "u_dut.u_reg.reg_error,u_dut.u_reg.intg_err,u_dut.u_reg.u_err_code.q",
-   "value": "tried=4",
-   "confidence": "HIGH",
-   "desc": "全部 4 类错误触发均未引起任何 alert/err 信号置位 → 错误传播链断裂"
+   "value": "fired=1 silent=3",
+   "confidence": "MEDIUM",
+   "desc": "错误传播不完整: 静默触发 ['T1-invalid-cfg', 'T3-locked-write', 'T4-shadow-conflict']（1 类已传播）→ 疑似部分错误路径被吞没"
   },
   {
    "oracle": "O-L-kat",

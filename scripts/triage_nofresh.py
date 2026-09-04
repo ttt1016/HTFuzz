@@ -3,7 +3,13 @@
 候选分诊（无 fresh 对照版）—— 决赛环境用
 
 输入: discover_engine 的 findings JSON
-输出: 分级后的报告（HIGH/MEDIUM/LOW 置信度）
+输出: 分级后的报告（HIGH/MEDIUM/LOW 置信度 + 差分验证叠加）
+
+差分验证（2026-09-04 起支持，导师放开 fresh 对照后新增）:
+  若 perip/<module>-fresh/obj_so 存在 → 自动调用 diff_replay 做行为差分
+  finding.signal ∈ 偏离信号集  → 叠加 DIFF-CONFIRMED（真 bug 证据）
+  差分 verdict=IDENTICAL 且信号在稳定集 → 叠加 DIFF-REFUTED（误报嫌疑，出局）
+  其余 → DIFF-UNKNOWN（无差分覆盖，保留原级别）
 
 置信度规则（全部不依赖 fresh）:
   HIGH   : 多 oracle 交叉命中 + 违反明确 SEC_CM + 信号为敏感类
@@ -15,7 +21,7 @@
   - 条件缺失（对比同文件其他分支）
   - 与 SEC_CM 注释声明的保护语义矛盾
 """
-import json, re, os, sys
+import json, re, os, sys, subprocess
 
 OT = os.environ.get("PF_TARGET_RTL", "/workspace/opentitan")
 
@@ -118,13 +124,62 @@ def main():
     module = sys.argv[2]
     idx = build_sec_cm_index()
     result = triage(findings, module, idx)
+
+    # ---- 差分验证叠加（fresh DUT 存在时自动启用）----
+    pf_root = os.environ.get("PF_ROOT", "/workspace/HTFuzz")
+    fresh_dir = os.path.join(pf_root, "perip", f"{module}-fresh", "obj_so")
+    diff_info = None
+    if os.path.isdir(fresh_dir) and any(f.endswith(".so") for f in os.listdir(fresh_dir)):
+        diff_path = os.path.join(pf_root, "fuzz", f"diff_{module}.json")
+        # 优先复用已有差分结果（同会话缓存）；否则现跑
+        if not os.path.exists(diff_path):
+            try:
+                r = subprocess.run([sys.executable,
+                                    os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                                                 "diff_replay.py"), module],
+                                   capture_output=True, text=True, timeout=900,
+                                   cwd=pf_root)
+                if r.returncode != 0:
+                    print(f"  [diff] 差分重放失败 rc={r.returncode}: {r.stderr[-200:]}")
+            except Exception as e:
+                print(f"  [diff] 差分重放异常: {e}")
+        if os.path.exists(diff_path):
+            try:
+                diff_info = json.load(open(diff_path))
+            except Exception:
+                diff_info = None
+        if diff_info:
+            div_sigs = set(diff_info.get("divergent_signals", {}))
+            verdict = diff_info.get("verdict", "UNKNOWN")
+            for r in result:
+                sig = r["signal"]
+                # 组件级匹配（O-J 等多信号 finding 按逗号拆分，任一命中即确认）
+                comps = [c.strip() for c in sig.split(",")] if "," in sig else [sig]
+                if any(c in div_sigs for c in comps):
+                    r["diff"] = "DIFF-CONFIRMED"
+                elif verdict == "IDENTICAL":
+                    r["diff"] = "DIFF-REFUTED"
+                else:
+                    r["diff"] = "DIFF-UNKNOWN"
+            # 排序: DIFF-CONFIRMED 最前
+            result.sort(key=lambda x: (0 if x.get("diff") == "DIFF-CONFIRMED"
+                                       else 1 if x.get("diff") == "DIFF-UNKNOWN"
+                                       else 2, {"HIGH": 0, "MEDIUM": 1, "LOW": 2}[x["level"]]))
+    else:
+        print("  [diff] 无 fresh DUT，跳过差分验证")
+
     out = sys.argv[1].replace(".json", "_triaged.json")
-    json.dump({"module": module, "triaged": result}, open(out, "w"), indent=1, ensure_ascii=False)
+    payload = {"module": module, "triaged": result}
+    if diff_info:
+        payload["diff_verdict"] = diff_info.get("verdict")
+        payload["diff_first_divergence"] = diff_info.get("first_divergence")
+    json.dump(payload, open(out, "w"), indent=1, ensure_ascii=False)
     from collections import Counter
     c = Counter(r["level"] for r in result)
     print(f"=== 分诊结果: {dict(c)} → {out} ===")
     for r in result:
-        print("  [%s] %s %s" % (r["level"], r["oracle"], r["signal"]))
+        print("  [%s]%s %s %s" % (r["level"],
+              " "+r["diff"] if "diff" in r else "", r["oracle"], r["signal"]))
         if r["sec_cm"]:
             print("        SEC_CM: %s" % ",".join(r["sec_cm"]))
 

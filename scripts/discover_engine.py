@@ -28,6 +28,8 @@ class DUT:
         # 加载顺序: 先 DUT lib（liblibpf*），后 API lib（依赖 DUT 符号）
         # 用绝对路径 + RTLD_GLOBAL，API lib 的 DT_NEEDED 仍可能失败 →
         # 失败时用绝对路径重试
+        # 排除 *_cov* 陈旧实验库（曾导致 api 句柄选错 → 子进程段错误）
+        libs = [f for f in libs if "_cov" not in f]
         dut_libs = [f for f in libs if f.startswith("liblibpf")]
         api_libs = [f for f in libs if not f.startswith("liblibpf")]
         loaded = []
@@ -43,13 +45,24 @@ class DUT:
                     loaded.append(ctypes.CDLL(path, mode=ctypes.RTLD_GLOBAL))
                 except OSError as e:
                     print(f"  [warn] {f}: {e}")
-        # API 句柄: 优先 API lib，否则 DUT lib
-        if api_libs:
-            self.api = ctypes.CDLL(os.path.join(objdir, api_libs[0]), mode=ctypes.RTLD_GLOBAL)
-        elif loaded:
-            self.api = loaded[0]
-        else:
+        # API 句柄选择（有序）:
+        #   1) 精确名 libpf_<name>_ctf.so / liblibpf_<name>_ctf.so
+        #   2) 含 "<name>" 的 api lib（keymgr 的 *_api.so 配对模式）
+        #   3) 旧约定 api_libs[0]，否则 DUT lib 本体
+        def pick_api():
+            exact = [f for f in libs if f in (f"libpf_{name}_ctf.so",
+                                              f"liblibpf_{name}_ctf.so")]
+            if exact:
+                return ctypes.CDLL(os.path.join(objdir, exact[0]), mode=ctypes.RTLD_GLOBAL)
+            by_name = [f for f in api_libs if name in f]
+            if by_name:
+                return ctypes.CDLL(os.path.join(objdir, by_name[0]), mode=ctypes.RTLD_GLOBAL)
+            if api_libs:
+                return ctypes.CDLL(os.path.join(objdir, api_libs[0]), mode=ctypes.RTLD_GLOBAL)
+            if loaded:
+                return loaded[0]
             raise RuntimeError("no .so loaded")
+        self.api = pick_api()
         # 标准 API 签名
         a = self.api
         a.pf_init.argtypes = [ctypes.c_uint]
