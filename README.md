@@ -163,6 +163,38 @@ python3 scripts/ok_invariant.py gen <module>
 2. 引擎侧：`discover_engine.py` main 结束时调用 `dut.api.pf_final()`（普通模型静默跳过）
 3. `verilator_coverage` 统计；数据 `fuzz/hmac_openloop_coverage.dat` 可复现
 
+## 60% 检出率攻坚方案（2026-09-04 立项 · 持续更新）
+
+**目标**：CSV 清单 ~80 个独立 bug 的动态检出 ≥ 60%（即 ≥ 48 个 bug ID）。
+基线：~20 个独立特征（开环 27 条记录 / 14 模块 + O-K 8 真检 + 闭环 2 + 单元 TB 3）。
+
+### 缺口分解（对照 GAP-ANALYSIS 六大根因，42 章后更新）
+
+| 根因 | 2026-09-03 状态 | 当前状态 | 剩余动作 |
+|------|----------------|---------|---------|
+| ① 模块无 DUT（~18 条载体） | 18 条无载体 | **已解决**：24 模块全有 DUT | 检测面仍需白盒扩充 |
+| ③ O-K 规则桩（~10 条） | 9 桩 | **已全部实现**（12 规则） | 覆盖面验证 |
+| ⑤ oracle 盲区 alert 类 | ~6 条 | **O-J 已上线** | 继续覆盖 |
+| ④ 白盒缺口（~12 条） | aes 6→29 已扩，ascon/otp_ctrl/kmac/gpio 仍薄 | **进行中** | Phase A |
+| ② 激励到不了（~8 条） | 需 CPU 指令级 | 部分 | Phase C/D |
+| ⑥ O-A 位级局限 | ~10 条 | 部分（O-J 缓解） | Phase C |
+| ② lc/keymgr TB 场景（~6 条） | 未做 | | Phase D |
+
+### 执行路线（每大项一个 git 存档）
+- **Phase A（最高 ROI）白盒表自动扩充**：SEC_CM 注释 + reg_pkg 信号自动生成
+  g_sigs 候选表（aes +20 / kmac +10 / hmac_core / rom_ctrl / ascon / otp_ctrl），
+  目标根因④ ~12 条。验证：重建后引擎全量不回归 + 新信号面生效。
+- **Phase B（并行）**：pwrmgr 慢 FSM 卡死定性 TB、clkmgr fatal_err_code 对照 CSV。
+- **Phase C**：O-K2 中途复位 oracle + 定向 wipe/trigger 种子（闭合 ascon TRIGGER 面）。
+- **Phase D**：ibex CSR 单元 TB（mseccfg/icache 三条）+ keymgr sideload 消费者。
+- 验收口径：每阶段 batch_discover + batch_ok_check 全量，检出 ID 对照 CSV 记账。
+
+### 进度表
+| 阶段 | 状态 | 新增检出 | 提交 |
+|------|------|---------|------|
+| 基线 | 27 条 / 14 模块（~20 独立 ID） | — | 05314bd |
+| Phase A | 进行中 | — | — |
+
 ## 安全属性分类学：论文依据与有效性论证
 
 ### 权威来源背书
