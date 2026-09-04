@@ -1,0 +1,87 @@
+[
+ {
+  "kind": "reg",
+  "name": "intr_state",
+  "offset": 0
+ },
+ {
+  "kind": "reg",
+  "name": "intr_enable",
+  "offset": 4
+ },
+ {
+  "kind": "reg",
+  "name": "intr_test",
+  "offset": 8
+ },
+ {
+  "kind": "reg",
+  "name": "alert_test",
+  "offset": 12
+ },
+ {
+  "kind": "reg",
+  "name": "control",
+  "offset": 16
+ },
+ {
+  "kind": "reg",
+  "name": "status",
+  "offset": 20
+ },
+ {
+  "kind": "reg",
+  "name": "address_range_regwen",
+  "offset": 24
+ },
+ {
+  "kind": "reg",
+  "name": "address_range_valid",
+  "offset": 28
+ },
+ {
+  "kind": "reg",
+  "name": "inbound_base_address",
+  "offset": 32
+ },
+ {
+  "kind": "reg",
+  "name": "inbound_limit_address",
+  "offset": 36
+ },
+ {
+  "kind": "reg",
+  "name": "inbound_write_ptr",
+  "offset": 40
+ },
+ {
+  "kind": "reg",
+  "name": "outbound_base_address",
+  "offset": 44
+ },
+ {
+  "kind": "reg",
+  "name": "outbound_limit_address",
+  "offset": 48
+ },
+ {
+  "kind": "reg",
+  "name": "outbound_read_ptr",
+  "offset": 52
+ },
+ {
+  "kind": "reg",
+  "name": "outbound_object_size",
+  "offset": 56
+ },
+ {
+  "kind": "reg",
+  "name": "doe_intr_msg_addr",
+  "offset": 60
+ },
+ {
+  "kind": "reg",
+  "name": "doe_intr_msg_data",
+  "offset": 64
+ }
+]

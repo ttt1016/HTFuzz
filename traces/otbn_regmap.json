@@ -1,15 +1,62 @@
-{
- "intr_state": 0,
- "intr_enable": 4,
- "intr_test": 8,
- "alert_test": 12,
- "cmd": 16,
- "ctrl": 20,
- "status": 24,
- "err_bits": 28,
- "fatal_alert_cause": 32,
- "insn_cnt": 36,
- "load_checksum": 40,
- "imem": 16384,
- "dmem": 32768
-}
+[
+ {
+  "kind": "reg",
+  "name": "intr_state",
+  "offset": 0
+ },
+ {
+  "kind": "reg",
+  "name": "intr_enable",
+  "offset": 4
+ },
+ {
+  "kind": "reg",
+  "name": "intr_test",
+  "offset": 8
+ },
+ {
+  "kind": "reg",
+  "name": "alert_test",
+  "offset": 12
+ },
+ {
+  "kind": "reg",
+  "name": "cmd",
+  "offset": 16
+ },
+ {
+  "kind": "reg",
+  "name": "ctrl",
+  "offset": 20
+ },
+ {
+  "kind": "reg",
+  "name": "status",
+  "offset": 24
+ },
+ {
+  "kind": "reg",
+  "name": "err_bits",
+  "offset": 28
+ },
+ {
+  "kind": "reg",
+  "name": "fatal_alert_cause",
+  "offset": 32
+ },
+ {
+  "kind": "reg",
+  "name": "insn_cnt",
+  "offset": 36
+ },
+ {
+  "kind": "reg",
+  "name": "load_checksum",
+  "offset": 40
+ },
+ {
+  "kind": "reg",
+  "name": "dmem_window",
+  "offset": 32768
+ }
+]

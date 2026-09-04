@@ -1830,3 +1830,43 @@ standalone verilator 编译需要特殊处理。
 本会话 DUT 扩展: **+6 个**（从 18 → 24），每个建成后自动继承全部 14 个 oracle。
 lc_ctrl 已有单元 TB（lc_fsm_test 覆盖 #28），转 .so 即可获得引擎覆盖。
 spi_tpm/mbx 需要特殊激励（TPM 侧/核侧 req/ack）。otbn 最重（处理器+IMEM 装载）。
+
+## 40. DUT 扩展收官：lc_ctrl / rv_dm 修复 / spi_tpm / mbx / otbn（2026-09-04）
+
+### 40.1 收官总账
+| DUT | 状态 | 要点 | 引擎结果 |
+|-----|------|------|---------|
+| lc_ctrl | ✅ 第 25 个 | UseDmiInterface=1 绕开 dmi_jtag/dm 包; otp_lc_data 显式 Dev 态; kmac/otp_prog 自应答 | 自检 PASS + O-J 1 条 |
+| rv_dm | ✅ 修复 | 上会话 .so 未链 harness; 补 pf_write/pf_read DMI 桥（字节地址→DMI 字地址）+ dm CSR regmap | O-J 1 条 |
+| spi_tpm | ✅ 第 26 个 | wrapper 内置 TPM 主机模型（TPM_XFER 写触发 SPI 事务）; SRAM stub; csb 门控 sck 时钟 | 自检 PASS, 12 oracle 0 条（良性基线）|
+| mbx | ✅ 第 27 个 | cb_*→core TL; 私有 SRAM 口用最小 TL responder + tlul_rsp_intg_gen 补完整性 | 自检 PASS, 0 条 |
+| otbn | ✅ 第 28 个 | edn×2 自应答 + OTP key 自应答; prim_ram_1p/and2/flop_en primgen shim; 库模式 commandArgs | 自检 PASS（CSR+DMEM 窗+INTR）, 0 条 |
+
+### 40.2 全量验证（28 DUT × 12 oracle）
+- **28/28 DUT rc=0**，全量串行 ~3s，24 条唯一发现 / 14 模块，0 误报基线保持
+- 本会话 +5：lc_ctrl(O-J)、rv_dm(O-J) 进检出汇总；spi_tpm/mbx/otbn 为良性基线（0 条）
+
+### 40.3 spi_tpm 构建关键经验（协议级）
+- **TPM 协议结构**：cmd{rw[7],size[5:0]}(8b) + addr(24b) 后有一个 **start 字节**（DUT 回 0x01）；
+  写方向主机必须补发 1 个哑字节，否则 DUT 卡 StWrite 不上传（xfer_size_met 永不满足）
+- **csb 门控时钟是协议的一部分**：spi_tpm 的 FSM 在 StIdle 无条件移位，真系统靠 csb 门控 sck 停止；
+  且 spi_device.sv 用 `rst_ni & ~csb` 让 sck 域在 csb 高时整体复位——这是 StEnd/StInvalid 终态的唯一退出机制
+- **Verilator NBA 锁步语义**：posedge P(k) 采样的是同 step negedge N(k) **之后**的状态——
+  组合驱动 mosi 的位索引必须按此对齐（H_HEADER=71-bc，H_DATA 写=39-bc）
+- **1-bit 信号赋 8 位值静默截断**：mosi<=8'h84 变成 0——首轮 read 被译码成 write 的根因
+- 寄存器块**写响应也要置 d_valid**（只读置位会让驱动 FSM 卡死在 RESP，后续写全被丢弃）
+- return-by-HW：TPM_STS 仅在 sys_active_locality（ACCESS.bit5）置位时返回数据，否则 0xFF；
+  cfg/access 在 sys_tpm_rst_n 上升沿锁存——每次事务前必须脉冲
+
+### 40.4 otbn 已知伪影（待查）
+- 启动安全擦除（StatusBusySecWipeInt=0x04）期间读 scrambled 随机 DMEM → dmem_intg_violation
+  （FATAL_ALERT_CAUSE=0x40）→ 锁定（0xFF）。真芯片由 ECC 干净初始化规避；仿真中 DMEM 存储阵列
+  为随机值且 scramble key 在 boot 才生效。CSR/INTR/DMEM 窗口接口已验证（INTR rw1c、窗口写读通过），
+  引擎 12 oracle 可运行；解锁方案（预载 ECC-clean DMEM 或 seed 后再擦）列入 SEC_CM 扩充轮。
+
+### 40.5 流水线沉淀
+- batch_discover.py 修复：DUTS 名含 -ctf 后缀会拼成 lc-ctf-ctf 被跳过（裸名 + module 映射）
+- 库模式（ctypes 加载 .so）下 RTL 含 $test$plusargs 时 pf_init 必须 `Verilated::commandArgs`
+  （char* argv[1]={nullptr}; commandArgs(0, argv)，(0,nullptr) 有二义性编译错）
+- prim_flop_en / prim_ram_1p / prim_and2 等 primgen 生成件用 prim_generic_* 改名 shim
+- 公共闭包策略升级：新 DUT 的 prim/tlul 从 mbx-ctf（最全）整批拷贝，缺件走 MODMISSING 循环

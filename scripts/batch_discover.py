@@ -7,7 +7,7 @@ DUTS = ["aes", "ascon", "hmac", "kmac", "keymgr", "lc", "rom_ctrl",
         "ibex", "uart", "prim", "pattgen", "rv_timer", "spi_host",
         "sram_ctrl", "aon_timer", "clkmgr", "csrng", "entropy_src",
         "alert_handler", "pwrmgr", "rstmgr", "rv_dm",
-        "gpio", "adc_ctrl", "tlul", "otp_ctrl", "spi_tpm"]
+        "gpio", "adc_ctrl", "tlul", "otp_ctrl", "spi_tpm", "mbx", "otbn"]
 
 results = {}
 for d in DUTS:
