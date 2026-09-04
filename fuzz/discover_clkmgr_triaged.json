@@ -1,0 +1,25 @@
+{
+ "module": "clkmgr",
+ "triaged": [
+  {
+   "level": "LOW",
+   "oracle": "O-J-errprop",
+   "signal": "aes_trans.hold_err,aes_idle_cnt.err_q",
+   "sec_cm": [],
+   "sensitive": false,
+   "cross_oracle": 0,
+   "rtl_wipe_nearby": false,
+   "evidence": "全部 3 类错误触发均未引起任何 alert/err 信号置位 → 错误传播链断裂",
+   "diff": "DIFF-UNKNOWN"
+  }
+ ],
+ "diff_verdict": "DIVERGENT",
+ "diff_first_divergence": {
+  "idx": 21,
+  "channel": "readback",
+  "kind": "write_read",
+  "addr": 84,
+  "ctf": 0,
+  "fresh": 4
+ }
+}

@@ -1,0 +1,45 @@
+{
+ "verdict": "DIVERGENT",
+ "first_divergence": {
+  "idx": 21,
+  "channel": "readback",
+  "kind": "write_read",
+  "addr": 84,
+  "ctf": 0,
+  "fresh": 4
+ },
+ "n_actions_compared": 99,
+ "n_divergences": 3,
+ "divergent_signals": {},
+ "evidence": [
+  {
+   "idx": 21,
+   "channel": "readback",
+   "kind": "write_read",
+   "addr": 84,
+   "ctf": 0,
+   "fresh": 4
+  },
+  {
+   "idx": 53,
+   "channel": "readback",
+   "kind": "write_read",
+   "addr": 84,
+   "ctf": 0,
+   "fresh": 4
+  },
+  {
+   "idx": 59,
+   "channel": "readback",
+   "kind": "write_read",
+   "addr": 84,
+   "ctf": 0,
+   "fresh": 4
+  }
+ ],
+ "n_stable_signals": 8,
+ "n_signals_total": 8,
+ "n_stable_readbacks": 99,
+ "module": "clkmgr",
+ "seed": 0
+}
