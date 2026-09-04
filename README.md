@@ -216,7 +216,7 @@ lc_fsm_tb.sv 扩展场景已编写（T2:IdleSt非法转移/T3:volatile_raw_unloc
 原始构建不可复现 → 需先补齐闭包。其余 Phase D 项同理需逐个构建。
 
 | **Phase D lc_ctrl 扩展 TB** | **T2/T3/T4/T5 编译通过** | **#2 hash 截断 VIOLATION → +1 bug ID**；#3 SAFE（正确拒绝）；#14 INCONCLUSIVE；#22 无明确违反 | 2a3a7b5 后 |
-| Phase D 剩余 | ibex CSR TB（#5/#6/#32=3）+ keymgr sideload（#4/#5=2） | 可解锁 5 个 ID | |
+| Phase D 剩余 | ibex #5/#6/#32 已由 O-H/O-I 单元 TB 确认、keymgr #4/#5 已由 Bug#21 TB 确认 → **不再需要新 TB**；lc #3/#14/#22 需 FSM 调试 | 可解锁 ~3 个 ID | |
 
 ### Phase D 具体计划（解锁最后 13 个 ID）
 | 目标 | bug ID | 方法 | 检测机制 |

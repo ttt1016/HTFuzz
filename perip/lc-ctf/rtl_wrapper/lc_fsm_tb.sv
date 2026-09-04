@@ -215,10 +215,13 @@ module lc_ctrl_fsm_tb;
 
     // ---- T2 (#3): IdleSt 非法转移（未 claim 直接 CMD）----
     $display("[T2] #3 IdleSt 非法转移检测");
-    // 回到 IdleSt（需要重新复位）
-    rst_n = 0; repeat (3) @(posedge clk); rst_n = 1;
-    init_req = 1; @(posedge clk); init_req = 0;
+    // 回到 IdleSt（需要充分复位 + init）
+    rst_n = 0; esc_scrap_state0 = 0; esc_scrap_state1 = 0;
+    repeat (10) @(posedge clk); rst_n = 1;
     repeat (5) @(posedge clk);
+    init_req = 1; repeat (3) @(posedge clk); init_req = 0;
+    repeat (20) @(posedge clk);
+    $display("[T2-pre] FSM=%s (期望 IdleSt)", fsm_str());
     // 直接写 transition_cmd 而不 claim transition_if
     trans_cmd = 1;
     repeat (5) @(posedge clk);
@@ -235,9 +238,11 @@ module lc_ctrl_fsm_tb;
 
     // ---- T3 (#22): volatile_raw_unlock ----
     $display("[T3] #22 volatile_raw_unlock 检测");
-    rst_n = 0; repeat (3) @(posedge clk); rst_n = 1;
-    init_req = 1; @(posedge clk); init_req = 0;
+    rst_n = 0; repeat (10) @(posedge clk); rst_n = 1;
     repeat (5) @(posedge clk);
+    init_req = 1; repeat (3) @(posedge clk); init_req = 0;
+    repeat (20) @(posedge clk);
+    $display("[T3-pre] FSM=%s", fsm_str());
     volatile_raw_unlock = 1;
     repeat (20) @(posedge clk);
     $display("[T3] FSM=%s volatile_raw_unlock=%b", fsm_str(), volatile_raw_unlock);
@@ -249,6 +254,12 @@ module lc_ctrl_fsm_tb;
 
     // ---- T4 (#2): hash 校验截断（64bit token 匹配场景）----
     $display("[T4] #2 hash 校验截断检测");
+    // 确保在 IdleSt
+    rst_n = 0; repeat (10) @(posedge clk); rst_n = 1;
+    repeat (5) @(posedge clk);
+    init_req = 1; repeat (3) @(posedge clk); init_req = 0;
+    repeat (20) @(posedge clk);
+    $display("[T4-pre] FSM=%s", fsm_str());
     // 用 64bit 匹配的 token（低 64bit 相同，高 64bit 不同）
     hashed_token = 128'hCAFEBABE_CAFEBABE_00000000_00000000;
     // fresh 的 hashed_token_mux 对应位设为相同的前 64bit
@@ -270,7 +281,7 @@ module lc_ctrl_fsm_tb;
 
     // ---- T5 (#14): otp_program 接口缺失 ----
     $display("[T5] #14 otp_program 接口检测");
-    $display("[T5] otp_prog_req=%b FSM=%s", otp_prog_req, fsm_str());
+    $display("[T5] otp_prog_req=%b FSM=%s trans_success=%b", otp_prog_req, fsm_str(), trans_success);
     // 在 RMA 转移流程中 otp_prog_req 应该被拉高
     // 如果整个流程中 otp_prog_req 从未置位且转移成功 → otp program 面缺失
     if (!otp_prog_req && trans_success) begin
