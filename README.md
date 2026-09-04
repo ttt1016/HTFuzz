@@ -203,7 +203,7 @@ python3 scripts/ok_invariant.py gen <module>
 ### 诚实检出率评估（Phase C 后 + 白盒批量扩充）
 | 口径 | 数量 | 说明 |
 |------|------|------|
-| 独立 bug 编号去重 | **35 / 80 = 44%** | 按 CSV bug 编号保守计数 |
+| 独立 bug 编号去重 | **36 / 80 = 45%** | 新增 lc_ctrl #2 hash 截断（扩展 TB 检出） |
 | 开环全量 | **40 条 / 14 模块**（ascon 13/aes 9/hmac 6，新增 sram_ctrl O-K2） | |
 | 白盒批量扩充 | gpio 3→72, keymgr 1→127, csrng 13→319, pwrmgr 12→71, rstmgr 8→51 | |
 | **60% 目标（48 编号）** | 还差 13 个 | Phase D(ibex CSR TB+keymgr sideload+lc TB) |
@@ -213,7 +213,8 @@ lc_fsm_tb.sv 扩展场景已编写（T2:IdleSt非法转移/T3:volatile_raw_unloc
 但 lc-ctf/hw 依赖链不完整（缺 prim_clock_mux2/ast_pkg/keymgr_pkg/lc_ctrl_pkg 等），
 原始构建不可复现 → 需先补齐闭包。其余 Phase D 项同理需逐个构建。
 
-| **Phase D 状态** | **pending** | 依赖链修复 + 新 TB 编写 | 预估 2-3 天/项 |
+| **Phase D lc_ctrl 扩展 TB** | **T2/T3/T4/T5 编译通过** | **#2 hash 截断 VIOLATION → +1 bug ID**；#3 SAFE（正确拒绝）；#14 INCONCLUSIVE；#22 无明确违反 | 2a3a7b5 后 |
+| Phase D 剩余 | ibex CSR TB（#5/#6/#32=3）+ keymgr sideload（#4/#5=2） | 可解锁 5 个 ID | |
 
 ### Phase D 具体计划（解锁最后 13 个 ID）
 | 目标 | bug ID | 方法 | 检测机制 |

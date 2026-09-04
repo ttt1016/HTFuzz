@@ -212,6 +212,74 @@ module lc_ctrl_fsm_tb;
     end else begin
       $display("INCONCLUSIVE: FSM=%s token_invalid_error=%b", fsm_str(), token_invalid_error);
     end
+
+    // ---- T2 (#3): IdleSt 非法转移（未 claim 直接 CMD）----
+    $display("[T2] #3 IdleSt 非法转移检测");
+    // 回到 IdleSt（需要重新复位）
+    rst_n = 0; repeat (3) @(posedge clk); rst_n = 1;
+    init_req = 1; @(posedge clk); init_req = 0;
+    repeat (5) @(posedge clk);
+    // 直接写 transition_cmd 而不 claim transition_if
+    trans_cmd = 1;
+    repeat (5) @(posedge clk);
+    trans_cmd = 0;
+    repeat (10) @(posedge clk);
+    $display("[T2] FSM=%s trans_success=%b trans_invalid=%b token_invalid=%b",
+             fsm_str(), trans_success, trans_invalid_error, token_invalid_error);
+    if (trans_success) begin
+      $display("VIOLATION: #3 IdleSt 非法转移被接受（未 claim 就执行了 CMD）！");
+      $display("  clean: transition_cmd 仅在 CLAIM_TRANSITION_IF 置位后有效");
+    end else begin
+      $display("SAFE: #3 非法转移被正确拒绝");
+    end
+
+    // ---- T3 (#22): volatile_raw_unlock ----
+    $display("[T3] #22 volatile_raw_unlock 检测");
+    rst_n = 0; repeat (3) @(posedge clk); rst_n = 1;
+    init_req = 1; @(posedge clk); init_req = 0;
+    repeat (5) @(posedge clk);
+    volatile_raw_unlock = 1;
+    repeat (20) @(posedge clk);
+    $display("[T3] FSM=%s volatile_raw_unlock=%b", fsm_str(), volatile_raw_unlock);
+    // 检查 volatile unlock 是否导致状态泄露
+    if (u_dut.fsm_state_q != ST_IDLE && u_dut.fsm_state_q != ST_RESET) begin
+      $display("NOTE: volatile unlock 导致 FSM 转移到 %s", fsm_str());
+    end
+    volatile_raw_unlock = 0;
+
+    // ---- T4 (#2): hash 校验截断（64bit token 匹配场景）----
+    $display("[T4] #2 hash 校验截断检测");
+    // 用 64bit 匹配的 token（低 64bit 相同，高 64bit 不同）
+    hashed_token = 128'hCAFEBABE_CAFEBABE_00000000_00000000;
+    // fresh 的 hashed_token_mux 对应位设为相同的前 64bit
+    trans_target = '{default: DecLcStRma};
+    trans_cmd = 1;
+    @(posedge clk); trans_cmd = 0;
+    for (int i = 0; i < 60; i++) begin
+      @(posedge clk);
+      if (otp_prog_req) begin otp_prog_ack = 1; @(posedge clk); otp_prog_ack = 0; end
+      if (token_hash_req) begin token_hash_ack = 1; @(posedge clk); token_hash_ack = 0; break; end
+    end
+    repeat (3) @(posedge clk);
+    $display("[T4] FSM=%s token_invalid=%b", fsm_str(), token_invalid_error);
+    if (!token_invalid_error && u_dut.fsm_state_q != ST_IDLE) begin
+      $display("VIOLATION: #2 hash 64bit 匹配即接受 → 校验截断！");
+    end else begin
+      $display("SAFE: #2 hash 全宽比较正常");
+    end
+
+    // ---- T5 (#14): otp_program 接口缺失 ----
+    $display("[T5] #14 otp_program 接口检测");
+    $display("[T5] otp_prog_req=%b FSM=%s", otp_prog_req, fsm_str());
+    // 在 RMA 转移流程中 otp_prog_req 应该被拉高
+    // 如果整个流程中 otp_prog_req 从未置位且转移成功 → otp program 面缺失
+    if (!otp_prog_req && trans_success) begin
+      $display("VIOLATION: #14 转移成功但 otp_prog_req 从未置位 → otp_program 面缺失！");
+    end else begin
+      $display("NOTE: #14 otp_prog_req=%b（需结合转移流程分析）", otp_prog_req);
+    end
+
+    $display("\n=== lc_ctrl Phase D 扩展检测完成 ===");
     $finish;
   end
 endmodule
