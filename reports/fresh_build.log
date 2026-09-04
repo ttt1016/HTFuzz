@@ -588,3 +588,10 @@
 --- 进度 1/1 (成功 0) ---
 === 完成: 成功 0  失败 1 ===
   FAIL ibex: fail: %Error: Specified --top-module 'ibex_mini_tb' was not found in design.; %Error: Exiting due to 1 error(s)
+=== fresh 批建开始: 1 模块 ===
+[uart] fresh 缺件回退 3942 个: ['top_earlgrey/ip_autogen/rv_core_ibex/dv/sva/rv_core_ibex_bind.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_peri.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_addr_trans.sv (fresh 无此文件, 保留 CTF 版)']...
+=== fresh 批建开始: 1 模块 ===
+[uart] fresh 缺件回退 3942 个: ['top_earlgrey/ip_autogen/rv_core_ibex/dv/sva/rv_core_ibex_bind.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_peri.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_addr_trans.sv (fresh 无此文件, 保留 CTF 版)']...
+[uart] BUILD OK (full-overlay)
+--- 进度 1/1 (成功 1) ---
+=== 完成: 成功 1  失败 0 ===

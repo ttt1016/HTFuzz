@@ -158,7 +158,8 @@ def build_one(module):
             return module, "no_harness"
         harness_cpp = cpps[0]
     wd = f"{PF}/perip/{module}-fresh/rtl_wrapper"
-    cands = [f for f in os.listdir(wd) if f.endswith("_perip_tb.sv")] if os.path.isdir(wd) else []
+    topmod = f"{module}_perip_tb"      # 默认顶层 = <module>_perip_tb
+    cands = [f for f in os.listdir(wd) if f == f"{topmod}.sv"] if os.path.isdir(wd) else []
     if not cands:
         # 无 perip_tb wrapper 的模块（单元 TB 集合, 如 ibex）→ 沿用 CTF 构建的顶层
         mk = glob.glob(f"{PF}/perip/{module}-ctf/obj_so/V*.mk")
