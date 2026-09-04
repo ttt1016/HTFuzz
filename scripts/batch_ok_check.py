@@ -4,7 +4,8 @@ import json, os, subprocess, re, sys
 
 PF = "/workspace/HTFuzz"
 MODS = ["aes", "ascon", "hmac", "kmac", "rom_ctrl", "pattgen",
-        "rv_timer", "sram_ctrl", "aon_timer", "clkmgr", "rstmgr", "alert_handler"]
+        "rv_timer", "sram_ctrl", "aon_timer", "clkmgr", "rstmgr", "alert_handler",
+        "gpio"]
 
 summary = {}
 for m in MODS:

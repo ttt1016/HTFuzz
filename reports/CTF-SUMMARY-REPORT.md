@@ -1936,9 +1936,16 @@ wrapper/harness/filelist 与 CTF 版**共用同一份文件**——hmac 92 个�
 - ~~DIFF-REFUTED 演示~~ → **已兑现**：uart/csrng/rstmgr/rv_dm/ascon 的候选自动出局
 - MUTANTS 注册表扩族：极性反转 / 稀疏 FSM 编码 / MUBI 损坏 / shadow 双写破坏
 - O-K 后置校验（write-only 标签误报）可改用差分 ground truth 复核
-- **pwrmgr DIVERGENT 人工甄别**（42 章台账）：slow_fsm.state_raw 自复位偏离,
-  两侧 pkg 编码一致 → FSM 重编码候选或复位伪影, 待审查
-- clkmgr readback 偏离（addr=84, ctf=0/fresh=4）→ clk_en 语义候选, 待对照 CSV
+- **pwrmgr 线索已甄别（42 章）**：CTF slow_fsm 卡死 0x0、fresh 正常推进 0x56——
+  真实行为偏离且 CSV 26 个 P1 bug 无 pwrmgr 条目 → **CSV 外新线索**（"FSM 卡死"可用性
+  攻击候选）或 CTF 构建时钟伪影，需单元级复验
+- **clkmgr 线索已甄别（42 章）**：同激励下 fresh 置 fatal_err_code=0x4（shadow
+  update_err）而 CTF 吞掉 → **"错误被抑制"候选**，对应 CSV clkmgr alert 类注入面；
+  证据 idx=21 addr=0x54 readback ctf=0/fresh=4
+- gpio regmap 重建（reg_pkg localparam 真偏移，修复 data_in/masked_out_upper 等
+  5 处错位）→ gpio O-K 接入（8 不变量）
+- O-K 后置校验落地：read_only_leak 标签仅对真 CSR 生效 → **hmac 2 类标签误报清零**，
+  O-K 输出 8/8 全为真实 wipe 家族命中（aes/ascon/hmac），gpio 8 条不变量接入（0 违反=正确）
 
 ### 42.1 差分层收官统计（2026-09-04）
 - 24 模块差分完成：DIVERGENT 7（aes/hmac/kmac/keymgr/entropy_src/clkmgr/pwrmgr）

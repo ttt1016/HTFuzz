@@ -4,55 +4,31 @@
   {
    "signal": "sha2.hash_q",
    "rule": "wipe_clears",
-   "desc": "擦除触发后 sha2.hash_q 残留非零值 ['0x1', '0x55ac87c0', '0x5555']",
+   "desc": "擦除触发后 sha2.hash_q 残留非零值 ['0x2', '0x55acc320', '0x5555']",
    "confidence": 80
   },
   {
    "signal": "u_dut.secret_key",
    "rule": "wipe_clears",
-   "desc": "擦除触发后 u_dut.secret_key 残留非零值 ['0x55ac2400', '0x5555', '0x1']",
+   "desc": "擦除触发后 u_dut.secret_key 残留非零值 ['0x29', '0x6', '0x55acc320']",
    "confidence": 80
   },
   {
    "signal": "sha2.digest_q",
    "rule": "wipe_clears",
-   "desc": "擦除触发后 sha2.digest_q 残留非零值 ['0x1', '0x55ac87c0', '0x5555']",
+   "desc": "擦除触发后 sha2.digest_q 残留非零值 ['0x2', '0x55acc320', '0x5555']",
    "confidence": 80
   },
   {
    "signal": "sha2.hash_q",
    "rule": "wipe_clears",
-   "desc": "擦除触发后 sha2.hash_q 残留非零值 ['0x1', '0x55ac87c0', '0x5555']",
+   "desc": "擦除触发后 sha2.hash_q 残留非零值 ['0x2', '0x55acc320', '0x5555']",
    "confidence": 80
-  },
-  {
-   "signal": "sha2.hash_q",
-   "rule": "read_only_leak",
-   "desc": "write-only 寄存器 sha2.hash_q 读回非零值 ['0x1', '0x55ac87c0', '0x5555']（信息泄露）",
-   "confidence": 85
-  },
-  {
-   "signal": "sha2.hash_q",
-   "rule": "read_only_leak",
-   "desc": "write-only 寄存器 sha2.hash_q 读回非零值 ['0x1', '0x55ac87c0', '0x5555']（信息泄露）",
-   "confidence": 85
-  },
-  {
-   "signal": "u_dut.u_reg.reg_rdata_next",
-   "rule": "read_only_leak",
-   "desc": "write-only 寄存器 u_dut.u_reg.reg_rdata_next 读回非零值 ['0xe0']（信息泄露）",
-   "confidence": 85
-  },
-  {
-   "signal": "u_dut.u_reg.reg_rdata_next",
-   "rule": "read_only_leak",
-   "desc": "write-only 寄存器 u_dut.u_reg.reg_rdata_next 读回非零值 ['0xe0']（信息泄露）",
-   "confidence": 85
   },
   {
    "signal": "u_dut.secret_key",
    "rule": "wipe_clears",
-   "desc": "擦除触发后 u_dut.secret_key 残留非零值 ['0x55ac2400', '0x5555', '0x1']",
+   "desc": "擦除触发后 u_dut.secret_key 残留非零值 ['0x29', '0x6', '0x55acc320']",
    "confidence": 80
   }
  ]

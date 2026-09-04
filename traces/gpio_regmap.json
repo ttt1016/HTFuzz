@@ -16,72 +16,77 @@
  },
  {
   "kind": "reg",
+  "name": "alert_test",
+  "offset": 12
+ },
+ {
+  "kind": "reg",
   "name": "data_in",
-  "offset": 10
+  "offset": 16
  },
  {
   "kind": "reg",
   "name": "direct_out",
-  "offset": 14
- },
- {
-  "kind": "reg",
-  "name": "masked_out_lower",
-  "offset": 18
- },
- {
-  "kind": "reg",
-  "name": "masked_out_upper",
-  "offset": 1
- },
- {
-  "kind": "reg",
-  "name": "direct_oe",
   "offset": 20
  },
  {
   "kind": "reg",
-  "name": "masked_oe_lower",
+  "name": "masked_out_lower",
   "offset": 24
  },
  {
   "kind": "reg",
-  "name": "masked_oe_upper",
+  "name": "masked_out_upper",
   "offset": 28
  },
  {
   "kind": "reg",
-  "name": "intr_ctrl_en_rising",
-  "offset": 2
+  "name": "direct_oe",
+  "offset": 32
  },
  {
   "kind": "reg",
-  "name": "intr_ctrl_en_falling",
-  "offset": 30
+  "name": "masked_oe_lower",
+  "offset": 36
  },
  {
   "kind": "reg",
-  "name": "intr_ctrl_en_lvlhigh",
-  "offset": 34
- },
- {
-  "kind": "reg",
-  "name": "intr_ctrl_en_lvllow",
-  "offset": 38
- },
- {
-  "kind": "reg",
-  "name": "ctrl_en_input_filter",
-  "offset": 3
- },
- {
-  "kind": "reg",
-  "name": "hw_straps_data_in_valid",
+  "name": "masked_oe_upper",
   "offset": 40
  },
  {
   "kind": "reg",
-  "name": "hw_straps_data_in",
+  "name": "intr_ctrl_en_rising",
   "offset": 44
+ },
+ {
+  "kind": "reg",
+  "name": "intr_ctrl_en_falling",
+  "offset": 48
+ },
+ {
+  "kind": "reg",
+  "name": "intr_ctrl_en_lvlhigh",
+  "offset": 52
+ },
+ {
+  "kind": "reg",
+  "name": "intr_ctrl_en_lvllow",
+  "offset": 56
+ },
+ {
+  "kind": "reg",
+  "name": "ctrl_en_input_filter",
+  "offset": 60
+ },
+ {
+  "kind": "reg",
+  "name": "hw_straps_data_in_valid",
+  "offset": 64
+ },
+ {
+  "kind": "reg",
+  "name": "hw_straps_data_in",
+  "offset": 68
  }
 ]

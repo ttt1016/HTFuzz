@@ -32,52 +32,32 @@
  },
  "hmac": {
   "n_inv": 12,
-  "n_viol": 9,
+  "n_viol": 5,
   "violations": [
    [
     "sha2.hash_q",
     "wipe_clears",
-    "擦除触发后 sha2.hash_q 残留非零值 ['0x1', '0x55ac87c0', '0x5555']"
+    "擦除触发后 sha2.hash_q 残留非零值 ['0x2', '0x55acc320', '0x5555']"
    ],
    [
     "u_dut.secret_key",
     "wipe_clears",
-    "擦除触发后 u_dut.secret_key 残留非零值 ['0x55ac2400', '0x5555', '0x1']"
+    "擦除触发后 u_dut.secret_key 残留非零值 ['0x29', '0x6', '0x55acc320']"
    ],
    [
     "sha2.digest_q",
     "wipe_clears",
-    "擦除触发后 sha2.digest_q 残留非零值 ['0x1', '0x55ac87c0', '0x5555']"
+    "擦除触发后 sha2.digest_q 残留非零值 ['0x2', '0x55acc320', '0x5555']"
    ],
    [
     "sha2.hash_q",
     "wipe_clears",
-    "擦除触发后 sha2.hash_q 残留非零值 ['0x1', '0x55ac87c0', '0x5555']"
-   ],
-   [
-    "sha2.hash_q",
-    "read_only_leak",
-    "write-only 寄存器 sha2.hash_q 读回非零值 ['0x1', '0x55ac87c0', '0x5555']（信息泄露）"
-   ],
-   [
-    "sha2.hash_q",
-    "read_only_leak",
-    "write-only 寄存器 sha2.hash_q 读回非零值 ['0x1', '0x55ac87c0', '0x5555']（信息泄露）"
-   ],
-   [
-    "u_dut.u_reg.reg_rdata_next",
-    "read_only_leak",
-    "write-only 寄存器 u_dut.u_reg.reg_rdata_next 读回非零值 ['0xe0']（信息泄露）"
-   ],
-   [
-    "u_dut.u_reg.reg_rdata_next",
-    "read_only_leak",
-    "write-only 寄存器 u_dut.u_reg.reg_rdata_next 读回非零值 ['0xe0']（信息泄露）"
+    "擦除触发后 sha2.hash_q 残留非零值 ['0x2', '0x55acc320', '0x5555']"
    ],
    [
     "u_dut.secret_key",
     "wipe_clears",
-    "擦除触发后 u_dut.secret_key 残留非零值 ['0x55ac2400', '0x5555', '0x1']"
+    "擦除触发后 u_dut.secret_key 残留非零值 ['0x29', '0x6', '0x55acc320']"
    ]
   ],
   "rc": 0,
@@ -145,5 +125,12 @@
   "violations": [],
   "rc": 0,
   "tail": "sistent)\n  [ok] esc_trig_reg_core_consistent (reg_core_consistent)\n  [ok] class_ctrl_reg_core_consistent (reg_core_consistent)\n\n=== 汇总: 0 条违反 → /workspace/HTFuzz/fuzz/invariant_alert_handler.json ===\n"
+ },
+ "gpio": {
+  "n_inv": 8,
+  "n_viol": 0,
+  "violations": [],
+  "rc": 0,
+  "tail": "data_in_write_rejected (access_control)\n  [ok] masked_out_zero_mask_blocks (cfg_block_gating)\n  [ok] intr_state_rw1c_wipe (wipe_clears)\n\n=== 汇总: 0 条违反 → /workspace/HTFuzz/fuzz/invariant_gpio.json ===\n"
  }
 }

@@ -362,6 +362,17 @@ class InvariantChecker:
         if real_sig is None:
             return None  # 信号不可观测，跳过
 
+        # ---- 后置校验（2026-09-04）: LLM gen 标签错误防线 ----
+        # read_only_leak 只对"真 CSR"有意义；核心内部状态（如 sha2.hash_q）与
+        # 内部读数据寄存器（reg_rdata_next）不是 write-only CSR，属标签误报。
+        # 判据: 信号末段（去 _q/_d）须与 regmap 中某个 CSR 名匹配。
+        if rule == "read_only_leak":
+            tail = sig.split(".")[-1].lower()
+            tail = re.sub(r"_(q|d)$", "", tail)
+            csr_names = {n.lower() for n in self.regmap}
+            if not any(tail in c or c in tail for c in csr_names):
+                return None  # 非 CSR 信号, 标签无效 → 跳过（不产生违反）
+
         fn = getattr(self, "_chk_" + rule, None)
         if fn is None:
             return None
