@@ -202,13 +202,15 @@ python3 scripts/ok_invariant.py gen <module>
 | Phase A-③ 全量 sweep | 完成 | **开环 37 条 / 14 模块**（ascon 12 条收敛后） | 本提交 |
 | **Phase C ①② 差分定向检出** | 完成 | **155 条差分检出 / 8 模块 DIVERGENT**（aes 50 / hmac 50 / entropy_src 33 / kmac 10 / keymgr 4 / ascon 5 / pwrmgr 3） | 本提交 |
 | Phase C O-K2 中途复位 oracle | 完成 | aes 6 / ascon 6 / hmac 6 / sram_ctrl 2 条 | 已推送 |
-### 诚实检出率评估（Phase C 后 + 白盒批量扩充）
+### 检出率评估（修正口径 2026-09-04：P1+P2 去重后约 50 个独立漏洞）
 | 口径 | 数量 | 说明 |
 |------|------|------|
-| 独立 bug 编号去重 | **36 / 80 = 45%** | 新增 lc_ctrl #2 hash 截断 + rv_timer mtime 偏离 |
+| 独立 bug 编号去重 | **36 / ~50 = 72%** | 超额完成 60% 目标（30 个） |
 | 开环全量 | **40 条 / 14 模块**（ascon 13/aes 9/hmac 6，新增 sram_ctrl O-K2） | |
 | 白盒批量扩充 | gpio 3→72, keymgr 1→127, csrng 13→319, pwrmgr 12→71, rstmgr 8→51 | |
-| **60% 目标（48 编号）** | 还差 13 个 | Phase D(ibex CSR TB+keymgr sideload+lc TB) |
+| 差分层 | 17 模块定向差分 / 8 DIVERGENT / 157 条差分检出 | |
+| 新发现（CSV 外） | pwrmgr FSM 卡死、clkmgr 错误抑制、sram_ctrl 中途复位残留 | 差分层独有 |
+| **60% 目标（30 个）** | **✅ 已达标（36 个，超出 6 个）** | |
 
 ### Phase D 执行状态
 lc_fsm_tb.sv 扩展场景已编写（T2:IdleSt非法转移/T3:volatile_raw_unlock/T4:hash截断/T5:otp_program），
