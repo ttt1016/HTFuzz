@@ -861,3 +861,19 @@
 [pwrmgr] BUILD OK (own-rtl-only)
 --- 进度 1/1 (成功 1) ---
 === 完成: 成功 1  失败 0 ===
+=== fresh 批建开始: 1 模块 ===
+[aon_timer] fresh 缺件回退 3901 个: ['top_earlgrey/ip_autogen/rv_core_ibex/dv/sva/rv_core_ibex_bind.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_peri.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_addr_trans.sv (fresh 无此文件, 保留 CTF 版)']...
+[aon_timer] include 补件: ip/lc_ctrl/rtl/prim_assert.sv
+[aon_timer] MODMISSING 轮0: 补 1/0 ()
+[aon_timer] include 补件: ip/lc_ctrl/rtl/prim_assert.sv
+[aon_timer] MODMISSING 轮1: 补 1/0 ()
+[aon_timer] include 补件: ip/lc_ctrl/rtl/prim_assert.sv
+[aon_timer] MODMISSING 轮2: 补 1/0 ()
+[aon_timer] include 补件: ip/lc_ctrl/rtl/prim_assert.sv
+[aon_timer] MODMISSING 轮3: 补 1/0 ()
+[aon_timer] 全量覆盖失败 → 回退 own-rtl-only
+[aon_timer] own-rtl 覆盖 4 个文件 + compat 重应用
+[aon_timer] 回退后 filelist 重新生成
+[aon_timer] BUILD OK (own-rtl-only)
+--- 进度 1/1 (成功 1) ---
+=== 完成: 成功 1  失败 0 ===
