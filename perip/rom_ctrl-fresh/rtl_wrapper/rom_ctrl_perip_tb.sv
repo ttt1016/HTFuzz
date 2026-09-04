@@ -68,8 +68,12 @@ module rom_ctrl_perip_tb (
   kmac_pkg::app_rsp_t kmac_data_i;
   assign kmac_data_i = 0;
 
-  prim_rom_pkg::rom_cfg_t rom_cfg;
-  assign rom_cfg = 0;
+  import prim_rom_pkg::rom_cfg_req_t;
+  import prim_rom_pkg::rom_cfg_rsp_t;
+  // fresh prim_rom_pkg 的 req/rsp 双向 cfg 接口
+  rom_cfg_req_t rom_cfg_req;
+  rom_cfg_rsp_t rom_cfg_rsp;
+  assign rom_cfg_req = prim_rom_pkg::ROM_CFG_REQ_DEFAULT;
 
   logic [rom_ctrl_reg_pkg::NumAlerts-1:0] alert_tx, alert_rx_int;
   prim_alert_pkg::alert_rx_t [rom_ctrl_reg_pkg::NumAlerts-1:0] alert_rx;
@@ -83,7 +87,8 @@ module rom_ctrl_perip_tb (
     .BootRomInitFile("/workspace/pickerfuzz/perip/rom_ctrl-ctf/obj_so/rom.mem")
   ) u_dut (
     .clk_i, .rst_ni,
-    .rom_cfg_i     (rom_cfg),
+    .rom_cfg_i     (rom_cfg_req),
+    .rom_cfg_o     (rom_cfg_rsp),
     .rom_tl_i      (rom_tl_h2d),
     .rom_tl_o      (rom_tl_d2h),
     .regs_tl_i     (regs_tl_h2d),

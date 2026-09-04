@@ -423,3 +423,78 @@
 [lc] BUILD OK (own-rtl-only)
 --- 进度 1/1 (成功 1) ---
 === 完成: 成功 1  失败 0 ===
+=== fresh 批建开始: 1 模块 ===
+[rom_ctrl] fresh 缺件回退 3899 个: ['top_earlgrey/ip_autogen/rv_core_ibex/dv/sva/rv_core_ibex_bind.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_peri.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_addr_trans.sv (fresh 无此文件, 保留 CTF 版)']...
+[rom_ctrl] 全量覆盖失败 → 回退 own-rtl-only
+[rom_ctrl] own-rtl 覆盖 10 个文件 + compat 重应用
+[rom_ctrl] 回退后 filelist 重新生成
+[rom_ctrl] BUILD FAIL: %Error: hw/ip/rom_ctrl/rtl/rom_ctrl.sv:9:10: Import object not found: 'prim_rom_pkg' | %Error: hw/ip/rom_ctrl/rtl/rom_ctrl.sv:10:10: Import object not found: 'prim_rom_pkg' | %Error: hw/ip/rom_ctrl/rtl/rom_ctrl_scrambled_rom.sv:25:10: Import object not found: 'prim_rom_pkg'
+--- 进度 1/1 (成功 0) ---
+=== 完成: 成功 0  失败 1 ===
+  FAIL rom_ctrl: fail: %Error: hw/ip/rom_ctrl/rtl/rom_ctrl.sv:9:10: Import object not found: 'prim_rom_pkg'; %Error: hw/ip/rom_ctrl/rtl/rom_ctrl.sv:10:10: Import objec
+=== fresh 批建开始: 1 模块 ===
+[rom_ctrl] fresh 缺件回退 3899 个: ['top_earlgrey/ip_autogen/rv_core_ibex/dv/sva/rv_core_ibex_bind.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_peri.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_addr_trans.sv (fresh 无此文件, 保留 CTF 版)']...
+[rom_ctrl] 全量覆盖失败 → 回退 own-rtl-only
+[rom_ctrl] own-rtl 覆盖 10 个文件 + compat 重应用
+[rom_ctrl] 回退后 filelist 重新生成
+[rom_ctrl] BUILD FAIL: %Error: hw/ip/rom_ctrl/rtl/rom_ctrl.sv:9:10: Import object not found: 'prim_rom_pkg' | %Error: hw/ip/rom_ctrl/rtl/rom_ctrl.sv:10:10: Import object not found: 'prim_rom_pkg' | %Error: hw/ip/rom_ctrl/rtl/rom_ctrl_scrambled_rom.sv:25:10: Import object not found: 'prim_rom_pkg'
+--- 进度 1/1 (成功 0) ---
+=== 完成: 成功 0  失败 1 ===
+  FAIL rom_ctrl: fail: %Error: hw/ip/rom_ctrl/rtl/rom_ctrl.sv:9:10: Import object not found: 'prim_rom_pkg'; %Error: hw/ip/rom_ctrl/rtl/rom_ctrl.sv:10:10: Import objec
+=== fresh 批建开始: 1 模块 ===
+[rom_ctrl] fresh 缺件回退 3899 个: ['top_earlgrey/ip_autogen/rv_core_ibex/dv/sva/rv_core_ibex_bind.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_peri.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_addr_trans.sv (fresh 无此文件, 保留 CTF 版)']...
+[rom_ctrl] 全量覆盖失败 → 回退 own-rtl-only
+[rom_ctrl] own-rtl 覆盖 10 个文件 + compat 重应用
+[rom_ctrl] 回退后 filelist 重新生成
+[rom_ctrl] 缺包补件: hw/ip/prim_generic/rtl/prim_rom_pkg.sv (prim_rom_pkg)
+[rom_ctrl] 缺包补件: hw/ip/prim_generic/rtl/prim_rom_pkg.sv (prim_rom_pkg)
+[rom_ctrl] MODMISSING 轮0: 补 2/0 ()
+[rom_ctrl] 缺包补件: hw/ip/prim_generic/rtl/prim_rom_pkg.sv (prim_rom_pkg)
+[rom_ctrl] 缺包补件: hw/ip/prim_generic/rtl/prim_rom_pkg.sv (prim_rom_pkg)
+[rom_ctrl] MODMISSING 轮1: 补 2/0 ()
+[rom_ctrl] 缺包补件: hw/ip/prim_generic/rtl/prim_rom_pkg.sv (prim_rom_pkg)
+[rom_ctrl] 缺包补件: hw/ip/prim_generic/rtl/prim_rom_pkg.sv (prim_rom_pkg)
+[rom_ctrl] MODMISSING 轮2: 补 2/0 ()
+[rom_ctrl] 缺包补件: hw/ip/prim_generic/rtl/prim_rom_pkg.sv (prim_rom_pkg)
+[rom_ctrl] 缺包补件: hw/ip/prim_generic/rtl/prim_rom_pkg.sv (prim_rom_pkg)
+[rom_ctrl] MODMISSING 轮3: 补 2/0 ()
+[rom_ctrl] BUILD FAIL: %Error: hw/ip/rom_ctrl/rtl/rom_ctrl.sv:9:10: Import object not found: 'prim_rom_pkg' | %Error: hw/ip/rom_ctrl/rtl/rom_ctrl.sv:10:10: Import object not found: 'prim_rom_pkg' | %Error: hw/ip/rom_ctrl/rtl/rom_ctrl_scrambled_rom.sv:25:10: Import object not found: 'prim_rom_pkg'
+--- 进度 1/1 (成功 0) ---
+=== 完成: 成功 0  失败 1 ===
+  FAIL rom_ctrl: fail: %Error: hw/ip/rom_ctrl/rtl/rom_ctrl.sv:9:10: Import object not found: 'prim_rom_pkg'; %Error: hw/ip/rom_ctrl/rtl/rom_ctrl.sv:10:10: Import objec
+=== fresh 批建开始: 1 模块 ===
+[rom_ctrl] fresh 缺件回退 3899 个: ['top_earlgrey/ip_autogen/rv_core_ibex/dv/sva/rv_core_ibex_bind.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_peri.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_addr_trans.sv (fresh 无此文件, 保留 CTF 版)']...
+[rom_ctrl] 全量覆盖失败 → 回退 own-rtl-only
+[rom_ctrl] own-rtl 覆盖 10 个文件 + compat 重应用
+[rom_ctrl] 回退后 filelist 重新生成
+[rom_ctrl] 缺包补件: hw/ip/prim_generic/rtl/prim_rom_pkg.sv (prim_rom_pkg)
+[rom_ctrl] 缺包补件: hw/ip/prim_generic/rtl/prim_rom_pkg.sv (prim_rom_pkg)
+[rom_ctrl] MODMISSING 轮0: 补 2/0 ()
+[rom_ctrl] 缺包补件: hw/ip/prim_generic/rtl/prim_rom_pkg.sv (prim_rom_pkg)
+[rom_ctrl] 缺包补件: hw/ip/prim_generic/rtl/prim_rom_pkg.sv (prim_rom_pkg)
+[rom_ctrl] MODMISSING 轮1: 补 2/0 ()
+[rom_ctrl] 缺包补件: hw/ip/prim_generic/rtl/prim_rom_pkg.sv (prim_rom_pkg)
+=== fresh 批建开始: 1 模块 ===
+[rom_ctrl] fresh 缺件回退 3899 个: ['top_earlgrey/ip_autogen/rv_core_ibex/dv/sva/rv_core_ibex_bind.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_peri.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_addr_trans.sv (fresh 无此文件, 保留 CTF 版)']...
+[rom_ctrl] 全量覆盖失败 → 回退 own-rtl-only
+[rom_ctrl] own-rtl 覆盖 10 个文件 + compat 重应用
+[rom_ctrl] 回退后 filelist 重新生成
+[rom_ctrl] 缺包原地升级: hw/ip/prim/rtl/prim_rom_pkg.sv ← fresh (prim_rom_pkg)
+[rom_ctrl] 缺包原地升级: hw/ip/prim/rtl/prim_rom_pkg.sv ← fresh (prim_rom_pkg)
+[rom_ctrl] MODMISSING 轮0: 补 2/0 ()
+[rom_ctrl] BUILD FAIL: %Error: hw/ip/prim/rtl/prim_rom.sv:19:9: Can't find typedef/interface: 'rom_cfg_t' | %Error: hw/ip/prim/rtl/prim_rom_adv.sv:24:9: Can't find typedef/interface: 'rom_cfg_t' | %Error-PINNOTFOUND: hw/ip/rom_ctrl/rtl/rom_ctrl_scrambled_rom.sv:212:6: Pin not found: 'cfg_o'
+--- 进度 1/1 (成功 0) ---
+=== 完成: 成功 0  失败 1 ===
+  FAIL rom_ctrl: fail: %Error: hw/ip/prim/rtl/prim_rom.sv:19:9: Can't find typedef/interface: 'rom_cfg_t'; %Error: hw/ip/prim/rtl/prim_rom_adv.sv:24:9: Can't find type
+=== fresh 批建开始: 1 模块 ===
+[rom_ctrl] fresh 缺件回退 3899 个: ['top_earlgrey/ip_autogen/rv_core_ibex/dv/sva/rv_core_ibex_bind.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_peri.sv (fresh 无此文件, 保留 CTF 版)', 'top_earlgrey/ip_autogen/rv_core_ibex/rtl/rv_core_ibex_addr_trans.sv (fresh 无此文件, 保留 CTF 版)']...
+[rom_ctrl] 全量覆盖失败 → 回退 own-rtl-only
+[rom_ctrl] own-rtl 覆盖 10 个文件 + compat 重应用
+[rom_ctrl] 回退后 filelist 重新生成
+[rom_ctrl] 缺包原地升级: hw/ip/prim/rtl/prim_rom_pkg.sv ← fresh (prim_rom_pkg)
+[rom_ctrl] 缺包原地升级: hw/ip/prim/rtl/prim_rom_pkg.sv ← fresh (prim_rom_pkg)
+[rom_ctrl] MODMISSING 轮0: 补 2/0 ()
+[rom_ctrl] BUILD FAIL: %Error: hw/ip/prim/rtl/prim_rom.sv:19:9: Can't find typedef/interface: 'rom_cfg_t' | %Error: hw/ip/prim/rtl/prim_rom_adv.sv:24:9: Can't find typedef/interface: 'rom_cfg_t' | %Error-PINNOTFOUND: hw/ip/rom_ctrl/rtl/rom_ctrl_scrambled_rom.sv:212:6: Pin not found: 'cfg_o'
+--- 进度 1/1 (成功 0) ---
+=== 完成: 成功 0  失败 1 ===
+  FAIL rom_ctrl: fail: %Error: hw/ip/prim/rtl/prim_rom.sv:19:9: Can't find typedef/interface: 'rom_cfg_t'; %Error: hw/ip/prim/rtl/prim_rom_adv.sv:24:9: Can't find type

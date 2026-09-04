@@ -33,8 +33,12 @@ def run(dut_dir, module, regmap_path, out_path, seed=0):
     rng = random.Random(seed)
     regs = []
     if regmap_path and os.path.exists(regmap_path):
-        for e in json.load(open(regmap_path)):
-            regs.append((e["name"], e["offset"]))
+        d = json.load(open(regmap_path))
+        if isinstance(d, dict):            # dict: name -> offset
+            regs = [(k, v) for k, v in d.items()]
+        else:                              # list of {name, offset}
+            for e in d:
+                regs.append((e["name"], e["offset"]))
     regs.sort(key=lambda x: x[1])
 
     os.chdir(PF)

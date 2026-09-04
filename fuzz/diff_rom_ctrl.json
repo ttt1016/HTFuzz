@@ -1,0 +1,13 @@
+{
+ "verdict": "IDENTICAL",
+ "first_divergence": null,
+ "n_actions_compared": 111,
+ "n_divergences": 0,
+ "divergent_signals": {},
+ "evidence": [],
+ "n_stable_signals": 1,
+ "n_signals_total": 1,
+ "n_stable_readbacks": 111,
+ "module": "rom_ctrl",
+ "seed": 0
+}

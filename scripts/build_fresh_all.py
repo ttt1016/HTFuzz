@@ -58,6 +58,17 @@ def copy_closure(module):
                     shutil.copy(os.path.join(root, fn), dstp)
                 else:
                     fallbacks.append(rel + " (fresh 无此文件, 保留 CTF 版)")
+    # 3) 同名异路径归并: 闭包里 basename 在 fresh 树存在(异路径) → 原地升级为 fresh 内容
+    #    (消除 CTF 旧版包/组件与 fresh 模块文件的版本混搭)
+    fresh_by_base = {}
+    for root, dirs, files in os.walk(src_hw):
+        for fn in files:
+            if fn.endswith((".sv", ".svh")):
+                fresh_by_base.setdefault(fn, os.path.join(root, fn))
+    for root, dirs, files in os.walk(dst_hw):
+        for fn in files:
+            if fn in fresh_by_base:
+                shutil.copy(fresh_by_base[fn], os.path.join(root, fn))
     return fallbacks
 
 
@@ -178,9 +189,9 @@ ls libpf_{module}_fresh.so >/dev/null 2>&1 && echo FRESH_BUILD_OK
             missing = sorted(set(re.findall(
                 r"Cannot find file containing module: '([^']+)'", out)))
             added = 0
-            # 缺包 → 从 fresh 树找定义者, 拷贝并插到引用者之前的包区段
+            # 缺包/缺对象 → 从 fresh 树找定义者, 拷贝并插到引用者之前
             for ref_file, pkg_name in sorted(set(re.findall(
-                    r"(hw/[^: ]+\.sv):\d+:\d+: Import package not found: '(\w+)'", out))):
+                    r"(hw/[^: ]+\.sv):\d+:\d+: Import (?:package|object) not found: '(\w+)'", out))):
                 hit = None
                 for root2, dirs2, files2 in os.walk(FRESH_TREE):
                     if pkg_name + ".sv" in files2:
@@ -189,11 +200,29 @@ ls libpf_{module}_fresh.so >/dev/null 2>&1 && echo FRESH_BUILD_OK
                 if not hit:
                     continue
                 rel = os.path.relpath(hit, FRESH_TREE)
+                fl = f"{PF}/perip/{module}-fresh/filelist.f"
+                lines = open(fl).read().rstrip("\n").split("\n")
+                # 同名包已在 filelist → 原地升级为 fresh 内容（避免 MODDUP）
+                exist = [i for i, l in enumerate(lines)
+                         if os.path.basename(l) == pkg_name + ".sv"]
+                if exist:
+                    shutil.copy(hit, os.path.join(f"{PF}/perip/{module}-fresh",
+                                                  lines[exist[0]].strip()))
+                    # 去重（历史插入造成的重复行）
+                    seen, dedup = set(), []
+                    for l in lines:
+                        k = os.path.basename(l)
+                        if k.endswith(".sv") and k in seen and os.path.basename(l) == pkg_name + ".sv":
+                            continue
+                        seen.add(k)
+                        dedup.append(l)
+                    open(fl, "w").write("\n".join(dedup) + "\n")
+                    log(f"[{module}] 缺包原地升级: {lines[exist[0]].strip()} ← fresh ({pkg_name})")
+                    added += 1
+                    continue
                 dstp = os.path.join(f"{PF}/perip/{module}-fresh", rel)
                 os.makedirs(os.path.dirname(dstp), exist_ok=True)
                 shutil.copy(hit, dstp)
-                fl = f"{PF}/perip/{module}-fresh/filelist.f"
-                lines = open(fl).read().rstrip("\n").split("\n")
                 ref_idx = next((i for i, l in enumerate(lines)
                                 if l.strip() == ref_file), None)
                 if ref_idx is not None:

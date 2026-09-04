@@ -1,0 +1,15 @@
+{
+ "module": "rom_ctrl",
+ "triaged": [
+  {
+   "level": "LOW",
+   "oracle": "O-G-pulse",
+   "signal": "rvalid_residual",
+   "sec_cm": [],
+   "sensitive": false,
+   "cross_oracle": 0,
+   "rtl_wipe_nearby": false,
+   "evidence": "事务完成后响应信号残留 10 拍（出现 24 次）→ 脉冲电平化，同一响应可能被重复采样"
+  }
+ ]
+}

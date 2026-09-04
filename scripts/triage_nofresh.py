@@ -127,7 +127,9 @@ def main():
 
     # ---- 差分验证叠加（fresh DUT 存在时自动启用）----
     pf_root = os.environ.get("PF_ROOT", "/workspace/HTFuzz")
-    fresh_dir = os.path.join(pf_root, "perip", f"{module}-fresh", "obj_so")
+    # fresh 目录名 = ctf 目录名（lc-ctf→lc-fresh, 其余与 module 同名）
+    fresh_name = {"lc_ctrl": "lc", "spi_tpm": "spi_tpm"}.get(module, module)
+    fresh_dir = os.path.join(pf_root, "perip", f"{fresh_name}-fresh", "obj_so")
     diff_info = None
     if os.path.isdir(fresh_dir) and any(f.endswith(".so") for f in os.listdir(fresh_dir)):
         diff_path = os.path.join(pf_root, "fuzz", f"diff_{module}.json")
@@ -136,7 +138,7 @@ def main():
             try:
                 r = subprocess.run([sys.executable,
                                     os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                                                 "diff_replay.py"), module],
+                                                 "diff_replay.py"), fresh_name],
                                    capture_output=True, text=True, timeout=900,
                                    cwd=pf_root)
                 if r.returncode != 0:
