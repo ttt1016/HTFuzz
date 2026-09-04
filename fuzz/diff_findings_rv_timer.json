@@ -1,0 +1,20 @@
+{
+ "module": "rv_timer",
+ "verdict": "DIVERGENT",
+ "findings": [
+  {
+   "oracle": "O-DIFF-directed",
+   "signal": "u_dut.mtime_lo",
+   "desc": "定向刺激偏离: u_dut.mtime_lo ctf=4 fresh=0",
+   "first_idx": 0,
+   "channel": "sig"
+  },
+  {
+   "oracle": "O-DIFF-directed",
+   "signal": "u_dut.mtime_lo",
+   "desc": "定向刺激偏离: u_dut.mtime_lo ctf=4 fresh=0",
+   "first_idx": 1,
+   "channel": "sig"
+  }
+ ]
+}

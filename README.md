@@ -196,6 +196,8 @@ python3 scripts/ok_invariant.py gen <module>
 | Phase A-① ascon 白盒 4→78 | 完成 | **ascon 2→21 条检出**（key_share/duplex 面打开） | 本提交 |
 | Phase A-② kmac 白盒 3→248 | 完成 | kmac 2→3 条（#26 静态掩码 O-B 命中确认） | 已推送 |
 | Phase A-② rom_ctrl 2→4 | 完成 | rom_ctrl O-G 脉冲电平化（#26 alert 抑制面） | be8c4d1 |
+| Phase D 差分狩猎扩展 | 完成 | **17 模块定向差分 / 8 DIVERGENT / 157 条差分检出**（新增 rv_timer mtime） | 本提交 |
+| Phase D 白盒批量扩充 | 完成 | gpio 3→72, keymgr 1→127, csrng 13→319, pwrmgr 12→71, rstmgr 8→51 | 本提交 |
 | Phase A-② otp_ctrl 174 信号 | 完成 | 0 命中（需 SEC_CM 定向 oracle，见 Phase D） | — |
 | Phase A-③ 全量 sweep | 完成 | **开环 37 条 / 14 模块**（ascon 12 条收敛后） | 本提交 |
 | **Phase C ①② 差分定向检出** | 完成 | **155 条差分检出 / 8 模块 DIVERGENT**（aes 50 / hmac 50 / entropy_src 33 / kmac 10 / keymgr 4 / ascon 5 / pwrmgr 3） | 本提交 |
@@ -203,7 +205,7 @@ python3 scripts/ok_invariant.py gen <module>
 ### 诚实检出率评估（Phase C 后 + 白盒批量扩充）
 | 口径 | 数量 | 说明 |
 |------|------|------|
-| 独立 bug 编号去重 | **36 / 80 = 45%** | 新增 lc_ctrl #2 hash 截断（扩展 TB 检出） |
+| 独立 bug 编号去重 | **36 / 80 = 45%** | 新增 lc_ctrl #2 hash 截断 + rv_timer mtime 偏离 |
 | 开环全量 | **40 条 / 14 模块**（ascon 13/aes 9/hmac 6，新增 sram_ctrl O-K2） | |
 | 白盒批量扩充 | gpio 3→72, keymgr 1→127, csrng 13→319, pwrmgr 12→71, rstmgr 8→51 | |
 | **60% 目标（48 编号）** | 还差 13 个 | Phase D(ibex CSR TB+keymgr sideload+lc TB) |
