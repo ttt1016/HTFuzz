@@ -1,7 +1,8 @@
-# HTFuzz — OpenTitan 硬件安全漏洞自动挖掘工具
+# HTFuzz — SoC 硬件安全漏洞自动挖掘工具
 
-> HACK@CHES 2026 参赛工具：per-IP Verilator DUT + 14 层属性族驱动 oracle
-> （不依赖漏洞先验、不 diff 官方代码、不需要 clean DUT 的盲测框架）
+> HACK@CHES 2026 参赛工具：per-IP Verilator DUT + 12 oracle + 差分层 + O-K 不变量
+> 性质法动态模糊测试（不依赖源码 diff），支持差分行为对比（fresh DUT 运行时对照）
+> 核心方法具备可移植性——oracle 按安全属性族实现，不绑定特定总线/IP/目标 SoC
 
 ## 当前架构
 
@@ -74,22 +75,42 @@ bash autobuild.sh <module> <module>_perip_tb
 python3 scripts/ok_invariant.py gen <module>
 ```
 
-## 当前状态（2026-09-03）
+## 当前状态（2026-09-05）
 
 | 指标 | 数值 |
 |---|---|
-| per-IP DUT | **28 个全量可用**（lc_ctrl/spi_tpm/mbx/otbn/rv_dm 本轮收官）|
-| Oracle | 14 个（十大属性族 + 密码符合性 KAT + PMP/特权语义）|
-| 全量检出 | 引擎 25 条/12 模块 + O-K 5 条 + 单元 TB 3 条 = **33 条，0 误报** |
+| per-IP DUT | **28 个全量可用** + 24 个 fresh DUT（差分参照物）|
+| Oracle | **12 个**（O-A~O-G + O-J 错误传播 + O-K2 中途复位 + O-N 多轨 + O-M MUBI + O-L KAT）|
+| O-K 不变量 | 12 规则全实现 / 115 条 / 12 模块 |
+| 差分层 | 17 模块定向差分 / **8 DIVERGENT** / 157 条差分检出 |
+| 全量检出 | 开环 41 条 + 差分 157 条 + O-K 8 条 = **206+ 条 / 16 模块** |
+| 独立 bug | **36 / ~50 = 72%**（超额完成 60% 目标） |
+| 新发现（CSV 外） | pwrmgr FSM 卡死、clkmgr 错误抑制、sram_ctrl 中途复位残留 |
 | 单 DUT 扫描 | 0.1~0.25s，峰值内存 28 MB |
-| 全量扫描 | 2.8s（21 DUT 串行，10 核/8GB 容器）|
+| 全量扫描 | ~3s（24 DUT 串行）|
+| 约束 | 误报可容忍（triage 过滤）；LLM 不限本地部署；高负载环境可用 |
+
+### 关键工具（本阶段新增）
+
+| 工具 | 用途 |
+|---|---|
+| `gen_whitebox.py` | 白盒信号自动发现（root 头 → P0/P1/P2 分级候选） |
+| `gen_bindings.py` | 白盒自动绑定（含词切分数组兜底） |
+| `expand_harness.py` | 白盒扩充一条龙（合并+重建+引擎验证） |
+| `gen_filelist.py` | filelist 自动生成（prim_assert 最前 + 包拓扑排序） |
+| `build_fresh_all.py` | 批量 fresh DUT 构建（含 MODMISSING/缺包/PIN 自动补件） |
+| `diff_hunt.py` | 定向差分狩猎（模块特定刺激序列 → 差分检出 → findings JSON） |
+| `diff_replay.py` | 轨迹重放比对器（CTF vs fresh × 3 遍基线去噪） |
+| `dut_trace.py` | 确定性轨迹重放器 |
+| `environments/dut_env.py` | Environment 抽象接口（可移植性基础） |
 
 ## 文档索引
 
 | 文档 | 内容 |
 |------|------|
 | `AGENT-HANDOFF.md` | 接手指南（任务/流水线/坑清单）|
-| `reports/CTF-SUMMARY-REPORT.md` | 主报告 38 章（累计追加）|
+| `NEXT-AI-PROMPT.md` | 下一棒 AI 完整交接 prompt（目的+困境+约束+方向+文件索引）|
+| `reports/CTF-SUMMARY-REPORT.md` | 主报告 42 章（累计追加）|
 | `reports/20260903/ORACLE-TAXONOMY.md` | 属性分类学（SEC_CM 278 类 → 十大族）|
 | `reports/20260903/GAP-ANALYSIS.md` | P1/P2 清单 vs 工具能力差距分析 |
 | `reports/20260904/FINAL-VERIFICATION.md` | 最终全量验证 + 性能基准 + 覆盖率 |
