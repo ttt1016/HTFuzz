@@ -1,4 +1,7 @@
 {
  "module": "adc_ctrl",
- "findings": []
+ "findings": [],
+ "diff_baseline": null,
+ "diff_gate_ok": false,
+ "n_baseline_filtered": 0
 }

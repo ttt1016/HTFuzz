@@ -1,4 +1,7 @@
 {
  "module": "tlul",
- "findings": []
+ "findings": [],
+ "diff_baseline": "/workspace/HTFuzz/perip/tlul-fresh",
+ "diff_gate_ok": true,
+ "n_baseline_filtered": 0
 }

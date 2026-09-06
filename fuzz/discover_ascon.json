@@ -8,7 +8,8 @@
    "value": "0xdead00be",
    "marker": "0xdead00be",
    "trial": 0,
-   "desc": "敏感信号 ascon_core.key_share0_in_q[0] 在清除/操作序列后残留写入标记值"
+   "desc": "敏感信号 ascon_core.key_share0_in_q[0] 在显式清除扫描后仍保留写入标记值",
+   "diff_verified": true
   },
   {
    "oracle": "O-A-residual",
@@ -17,7 +18,8 @@
    "value": "0xdead00c1",
    "marker": "0xdead00be",
    "trial": 0,
-   "desc": "敏感信号 ascon_core.key_share1_in_q[1] 在清除/操作序列后残留写入标记值"
+   "desc": "敏感信号 ascon_core.key_share1_in_q[1] 在显式清除扫描后仍保留写入标记值",
+   "diff_verified": true
   },
   {
    "oracle": "O-A-residual",
@@ -26,7 +28,8 @@
    "value": "0xdead01be",
    "marker": "0xdead01be",
    "trial": 1,
-   "desc": "敏感信号 ascon_core.key_share0_in_q[0] 在清除/操作序列后残留写入标记值"
+   "desc": "敏感信号 ascon_core.key_share0_in_q[0] 在显式清除扫描后仍保留写入标记值",
+   "diff_verified": true
   },
   {
    "oracle": "O-A-residual",
@@ -35,7 +38,8 @@
    "value": "0xdead01c1",
    "marker": "0xdead01be",
    "trial": 1,
-   "desc": "敏感信号 ascon_core.key_share1_in_q[1] 在清除/操作序列后残留写入标记值"
+   "desc": "敏感信号 ascon_core.key_share1_in_q[1] 在显式清除扫描后仍保留写入标记值",
+   "diff_verified": true
   },
   {
    "oracle": "O-A-residual",
@@ -44,7 +48,8 @@
    "value": "0xdead02be",
    "marker": "0xdead02be",
    "trial": 2,
-   "desc": "敏感信号 ascon_core.key_share0_in_q[0] 在清除/操作序列后残留写入标记值"
+   "desc": "敏感信号 ascon_core.key_share0_in_q[0] 在显式清除扫描后仍保留写入标记值",
+   "diff_verified": true
   },
   {
    "oracle": "O-A-residual",
@@ -53,7 +58,8 @@
    "value": "0xdead02c1",
    "marker": "0xdead02be",
    "trial": 2,
-   "desc": "敏感信号 ascon_core.key_share1_in_q[1] 在清除/操作序列后残留写入标记值"
+   "desc": "敏感信号 ascon_core.key_share1_in_q[1] 在显式清除扫描后仍保留写入标记值",
+   "diff_verified": true
   },
   {
    "oracle": "O-A-residual",
@@ -62,7 +68,8 @@
    "value": "0xdead03be",
    "marker": "0xdead03be",
    "trial": 3,
-   "desc": "敏感信号 ascon_core.key_share0_in_q[0] 在清除/操作序列后残留写入标记值"
+   "desc": "敏感信号 ascon_core.key_share0_in_q[0] 在显式清除扫描后仍保留写入标记值",
+   "diff_verified": true
   },
   {
    "oracle": "O-A-residual",
@@ -71,7 +78,8 @@
    "value": "0xdead03c1",
    "marker": "0xdead03be",
    "trial": 3,
-   "desc": "敏感信号 ascon_core.key_share1_in_q[1] 在清除/操作序列后残留写入标记值"
+   "desc": "敏感信号 ascon_core.key_share1_in_q[1] 在显式清除扫描后仍保留写入标记值",
+   "diff_verified": true
   },
   {
    "oracle": "O-A-residual",
@@ -80,7 +88,8 @@
    "value": "0xdead04be",
    "marker": "0xdead04be",
    "trial": 4,
-   "desc": "敏感信号 ascon_core.key_share0_in_q[0] 在清除/操作序列后残留写入标记值"
+   "desc": "敏感信号 ascon_core.key_share0_in_q[0] 在显式清除扫描后仍保留写入标记值",
+   "diff_verified": true
   },
   {
    "oracle": "O-A-residual",
@@ -89,7 +98,8 @@
    "value": "0xdead04c1",
    "marker": "0xdead04be",
    "trial": 4,
-   "desc": "敏感信号 ascon_core.key_share1_in_q[1] 在清除/操作序列后残留写入标记值"
+   "desc": "敏感信号 ascon_core.key_share1_in_q[1] 在显式清除扫描后仍保留写入标记值",
+   "diff_verified": true
   },
   {
    "oracle": "O-A-residual",
@@ -98,7 +108,8 @@
    "value": "0xdead05be",
    "marker": "0xdead05be",
    "trial": 5,
-   "desc": "敏感信号 ascon_core.key_share0_in_q[0] 在清除/操作序列后残留写入标记值"
+   "desc": "敏感信号 ascon_core.key_share0_in_q[0] 在显式清除扫描后仍保留写入标记值",
+   "diff_verified": true
   },
   {
    "oracle": "O-A-residual",
@@ -107,259 +118,296 @@
    "value": "0xdead05c1",
    "marker": "0xdead05be",
    "trial": 5,
-   "desc": "敏感信号 ascon_core.key_share1_in_q[1] 在清除/操作序列后残留写入标记值"
+   "desc": "敏感信号 ascon_core.key_share1_in_q[1] 在显式清除扫描后仍保留写入标记值",
+   "diff_verified": true
   },
   {
    "oracle": "O-B-determinism",
    "signal": "u_reg.u_ctrl_shadowed_masked_ad_input.shadow_q",
    "value": "0x1",
    "trial": 0,
-   "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_ad_input.shadow_q 两次独立执行逐位相同 → 无随机性（静态掩码/PRNG 不动）"
+   "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_ad_input.shadow_q 跨 3 条不同输入序列逐位不变 → 无随机性（静态掩码/PRNG 不动）",
+   "diff_verified": true
   },
   {
    "oracle": "O-B-determinism",
    "signal": "u_reg.u_ctrl_shadowed_masked_ad_input.shadow_wd",
    "value": "0x101",
    "trial": 0,
-   "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_ad_input.shadow_wd 两次独立执行逐位相同 → 无随机性（静态掩码/PRNG 不动）"
+   "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_ad_input.shadow_wd 跨 3 条不同输入序列逐位不变 → 无随机性（静态掩码/PRNG 不动）",
+   "diff_verified": true
   },
   {
    "oracle": "O-B-determinism",
    "signal": "u_reg.u_ctrl_shadowed_masked_ad_input.shadow_we",
    "value": "0x10100",
    "trial": 0,
-   "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_ad_input.shadow_we 两次独立执行逐位相同 → 无随机性（静态掩码/PRNG 不动）"
+   "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_ad_input.shadow_we 跨 3 条不同输入序列逐位不变 → 无随机性（静态掩码/PRNG 不动）",
+   "diff_verified": true
   },
   {
    "oracle": "O-B-determinism",
    "signal": "u_reg.u_ctrl_shadowed_masked_msg_input.shadow_q",
    "value": "0x1",
    "trial": 0,
-   "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_msg_input.shadow_q 两次独立执行逐位相同 → 无随机性（静态掩码/PRNG 不动）"
+   "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_msg_input.shadow_q 跨 3 条不同输入序列逐位不变 → 无随机性（静态掩码/PRNG 不动）",
+   "diff_verified": true
   },
   {
    "oracle": "O-B-determinism",
    "signal": "u_reg.u_ctrl_shadowed_masked_msg_input.shadow_wd",
    "value": "0x101",
    "trial": 0,
-   "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_msg_input.shadow_wd 两次独立执行逐位相同 → 无随机性（静态掩码/PRNG 不动）"
+   "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_msg_input.shadow_wd 跨 3 条不同输入序列逐位不变 → 无随机性（静态掩码/PRNG 不动）",
+   "diff_verified": true
   },
   {
    "oracle": "O-B-determinism",
    "signal": "u_reg.u_ctrl_shadowed_masked_msg_input.shadow_we",
    "value": "0x10100",
    "trial": 0,
-   "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_msg_input.shadow_we 两次独立执行逐位相同 → 无随机性（静态掩码/PRNG 不动）"
+   "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_msg_input.shadow_we 跨 3 条不同输入序列逐位不变 → 无随机性（静态掩码/PRNG 不动）",
+   "diff_verified": true
   },
   {
    "oracle": "O-B-determinism",
    "signal": "u_reg.u_ctrl_shadowed_masked_ad_input.shadow_q",
    "value": "0x1",
    "trial": 1,
-   "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_ad_input.shadow_q 两次独立执行逐位相同 → 无随机性（静态掩码/PRNG 不动）"
+   "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_ad_input.shadow_q 跨 3 条不同输入序列逐位不变 → 无随机性（静态掩码/PRNG 不动）",
+   "diff_verified": true
   },
   {
    "oracle": "O-B-determinism",
    "signal": "u_reg.u_ctrl_shadowed_masked_ad_input.shadow_wd",
    "value": "0x101",
    "trial": 1,
-   "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_ad_input.shadow_wd 两次独立执行逐位相同 → 无随机性（静态掩码/PRNG 不动）"
+   "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_ad_input.shadow_wd 跨 3 条不同输入序列逐位不变 → 无随机性（静态掩码/PRNG 不动）",
+   "diff_verified": true
   },
   {
    "oracle": "O-B-determinism",
    "signal": "u_reg.u_ctrl_shadowed_masked_ad_input.shadow_we",
    "value": "0x10100",
    "trial": 1,
-   "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_ad_input.shadow_we 两次独立执行逐位相同 → 无随机性（静态掩码/PRNG 不动）"
+   "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_ad_input.shadow_we 跨 3 条不同输入序列逐位不变 → 无随机性（静态掩码/PRNG 不动）",
+   "diff_verified": true
   },
   {
    "oracle": "O-B-determinism",
    "signal": "u_reg.u_ctrl_shadowed_masked_msg_input.shadow_q",
    "value": "0x1",
    "trial": 1,
-   "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_msg_input.shadow_q 两次独立执行逐位相同 → 无随机性（静态掩码/PRNG 不动）"
+   "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_msg_input.shadow_q 跨 3 条不同输入序列逐位不变 → 无随机性（静态掩码/PRNG 不动）",
+   "diff_verified": true
   },
   {
    "oracle": "O-B-determinism",
    "signal": "u_reg.u_ctrl_shadowed_masked_msg_input.shadow_wd",
    "value": "0x101",
    "trial": 1,
-   "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_msg_input.shadow_wd 两次独立执行逐位相同 → 无随机性（静态掩码/PRNG 不动）"
+   "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_msg_input.shadow_wd 跨 3 条不同输入序列逐位不变 → 无随机性（静态掩码/PRNG 不动）",
+   "diff_verified": true
   },
   {
    "oracle": "O-B-determinism",
    "signal": "u_reg.u_ctrl_shadowed_masked_msg_input.shadow_we",
    "value": "0x10100",
    "trial": 1,
-   "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_msg_input.shadow_we 两次独立执行逐位相同 → 无随机性（静态掩码/PRNG 不动）"
+   "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_msg_input.shadow_we 跨 3 条不同输入序列逐位不变 → 无随机性（静态掩码/PRNG 不动）",
+   "diff_verified": true
   },
   {
    "oracle": "O-B-determinism",
    "signal": "u_reg.u_ctrl_shadowed_masked_ad_input.shadow_q",
    "value": "0x1",
    "trial": 2,
-   "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_ad_input.shadow_q 两次独立执行逐位相同 → 无随机性（静态掩码/PRNG 不动）"
+   "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_ad_input.shadow_q 跨 3 条不同输入序列逐位不变 → 无随机性（静态掩码/PRNG 不动）",
+   "diff_verified": true
   },
   {
    "oracle": "O-B-determinism",
    "signal": "u_reg.u_ctrl_shadowed_masked_ad_input.shadow_wd",
    "value": "0x101",
    "trial": 2,
-   "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_ad_input.shadow_wd 两次独立执行逐位相同 → 无随机性（静态掩码/PRNG 不动）"
+   "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_ad_input.shadow_wd 跨 3 条不同输入序列逐位不变 → 无随机性（静态掩码/PRNG 不动）",
+   "diff_verified": true
   },
   {
    "oracle": "O-B-determinism",
    "signal": "u_reg.u_ctrl_shadowed_masked_ad_input.shadow_we",
    "value": "0x10100",
    "trial": 2,
-   "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_ad_input.shadow_we 两次独立执行逐位相同 → 无随机性（静态掩码/PRNG 不动）"
+   "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_ad_input.shadow_we 跨 3 条不同输入序列逐位不变 → 无随机性（静态掩码/PRNG 不动）",
+   "diff_verified": true
   },
   {
    "oracle": "O-B-determinism",
    "signal": "u_reg.u_ctrl_shadowed_masked_msg_input.shadow_q",
    "value": "0x1",
    "trial": 2,
-   "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_msg_input.shadow_q 两次独立执行逐位相同 → 无随机性（静态掩码/PRNG 不动）"
+   "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_msg_input.shadow_q 跨 3 条不同输入序列逐位不变 → 无随机性（静态掩码/PRNG 不动）",
+   "diff_verified": true
   },
   {
    "oracle": "O-B-determinism",
    "signal": "u_reg.u_ctrl_shadowed_masked_msg_input.shadow_wd",
    "value": "0x101",
    "trial": 2,
-   "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_msg_input.shadow_wd 两次独立执行逐位相同 → 无随机性（静态掩码/PRNG 不动）"
+   "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_msg_input.shadow_wd 跨 3 条不同输入序列逐位不变 → 无随机性（静态掩码/PRNG 不动）",
+   "diff_verified": true
   },
   {
    "oracle": "O-B-determinism",
    "signal": "u_reg.u_ctrl_shadowed_masked_msg_input.shadow_we",
    "value": "0x10100",
    "trial": 2,
-   "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_msg_input.shadow_we 两次独立执行逐位相同 → 无随机性（静态掩码/PRNG 不动）"
+   "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_msg_input.shadow_we 跨 3 条不同输入序列逐位不变 → 无随机性（静态掩码/PRNG 不动）",
+   "diff_verified": true
   },
   {
    "oracle": "O-B-determinism",
    "signal": "u_reg.u_ctrl_shadowed_masked_ad_input.shadow_q",
    "value": "0x1",
    "trial": 3,
-   "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_ad_input.shadow_q 两次独立执行逐位相同 → 无随机性（静态掩码/PRNG 不动）"
+   "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_ad_input.shadow_q 跨 3 条不同输入序列逐位不变 → 无随机性（静态掩码/PRNG 不动）",
+   "diff_verified": true
   },
   {
    "oracle": "O-B-determinism",
    "signal": "u_reg.u_ctrl_shadowed_masked_ad_input.shadow_wd",
    "value": "0x101",
    "trial": 3,
-   "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_ad_input.shadow_wd 两次独立执行逐位相同 → 无随机性（静态掩码/PRNG 不动）"
+   "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_ad_input.shadow_wd 跨 3 条不同输入序列逐位不变 → 无随机性（静态掩码/PRNG 不动）",
+   "diff_verified": true
   },
   {
    "oracle": "O-B-determinism",
    "signal": "u_reg.u_ctrl_shadowed_masked_ad_input.shadow_we",
    "value": "0x10100",
    "trial": 3,
-   "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_ad_input.shadow_we 两次独立执行逐位相同 → 无随机性（静态掩码/PRNG 不动）"
+   "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_ad_input.shadow_we 跨 3 条不同输入序列逐位不变 → 无随机性（静态掩码/PRNG 不动）",
+   "diff_verified": true
   },
   {
    "oracle": "O-B-determinism",
    "signal": "u_reg.u_ctrl_shadowed_masked_msg_input.shadow_q",
    "value": "0x1",
    "trial": 3,
-   "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_msg_input.shadow_q 两次独立执行逐位相同 → 无随机性（静态掩码/PRNG 不动）"
+   "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_msg_input.shadow_q 跨 3 条不同输入序列逐位不变 → 无随机性（静态掩码/PRNG 不动）",
+   "diff_verified": true
   },
   {
    "oracle": "O-B-determinism",
    "signal": "u_reg.u_ctrl_shadowed_masked_msg_input.shadow_wd",
    "value": "0x101",
    "trial": 3,
-   "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_msg_input.shadow_wd 两次独立执行逐位相同 → 无随机性（静态掩码/PRNG 不动）"
+   "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_msg_input.shadow_wd 跨 3 条不同输入序列逐位不变 → 无随机性（静态掩码/PRNG 不动）",
+   "diff_verified": true
   },
   {
    "oracle": "O-B-determinism",
    "signal": "u_reg.u_ctrl_shadowed_masked_msg_input.shadow_we",
    "value": "0x10100",
    "trial": 3,
-   "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_msg_input.shadow_we 两次独立执行逐位相同 → 无随机性（静态掩码/PRNG 不动）"
+   "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_msg_input.shadow_we 跨 3 条不同输入序列逐位不变 → 无随机性（静态掩码/PRNG 不动）",
+   "diff_verified": true
   },
   {
    "oracle": "O-B-determinism",
    "signal": "u_reg.u_ctrl_shadowed_masked_ad_input.shadow_q",
    "value": "0x1",
    "trial": 4,
-   "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_ad_input.shadow_q 两次独立执行逐位相同 → 无随机性（静态掩码/PRNG 不动）"
+   "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_ad_input.shadow_q 跨 3 条不同输入序列逐位不变 → 无随机性（静态掩码/PRNG 不动）",
+   "diff_verified": true
   },
   {
    "oracle": "O-B-determinism",
    "signal": "u_reg.u_ctrl_shadowed_masked_ad_input.shadow_wd",
    "value": "0x101",
    "trial": 4,
-   "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_ad_input.shadow_wd 两次独立执行逐位相同 → 无随机性（静态掩码/PRNG 不动）"
+   "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_ad_input.shadow_wd 跨 3 条不同输入序列逐位不变 → 无随机性（静态掩码/PRNG 不动）",
+   "diff_verified": true
   },
   {
    "oracle": "O-B-determinism",
    "signal": "u_reg.u_ctrl_shadowed_masked_ad_input.shadow_we",
    "value": "0x10100",
    "trial": 4,
-   "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_ad_input.shadow_we 两次独立执行逐位相同 → 无随机性（静态掩码/PRNG 不动）"
+   "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_ad_input.shadow_we 跨 3 条不同输入序列逐位不变 → 无随机性（静态掩码/PRNG 不动）",
+   "diff_verified": true
   },
   {
    "oracle": "O-B-determinism",
    "signal": "u_reg.u_ctrl_shadowed_masked_msg_input.shadow_q",
    "value": "0x1",
    "trial": 4,
-   "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_msg_input.shadow_q 两次独立执行逐位相同 → 无随机性（静态掩码/PRNG 不动）"
+   "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_msg_input.shadow_q 跨 3 条不同输入序列逐位不变 → 无随机性（静态掩码/PRNG 不动）",
+   "diff_verified": true
   },
   {
    "oracle": "O-B-determinism",
    "signal": "u_reg.u_ctrl_shadowed_masked_msg_input.shadow_wd",
    "value": "0x101",
    "trial": 4,
-   "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_msg_input.shadow_wd 两次独立执行逐位相同 → 无随机性（静态掩码/PRNG 不动）"
+   "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_msg_input.shadow_wd 跨 3 条不同输入序列逐位不变 → 无随机性（静态掩码/PRNG 不动）",
+   "diff_verified": true
   },
   {
    "oracle": "O-B-determinism",
    "signal": "u_reg.u_ctrl_shadowed_masked_msg_input.shadow_we",
    "value": "0x10100",
    "trial": 4,
-   "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_msg_input.shadow_we 两次独立执行逐位相同 → 无随机性（静态掩码/PRNG 不动）"
+   "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_msg_input.shadow_we 跨 3 条不同输入序列逐位不变 → 无随机性（静态掩码/PRNG 不动）",
+   "diff_verified": true
   },
   {
    "oracle": "O-B-determinism",
    "signal": "u_reg.u_ctrl_shadowed_masked_ad_input.shadow_q",
    "value": "0x1",
    "trial": 5,
-   "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_ad_input.shadow_q 两次独立执行逐位相同 → 无随机性（静态掩码/PRNG 不动）"
+   "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_ad_input.shadow_q 跨 3 条不同输入序列逐位不变 → 无随机性（静态掩码/PRNG 不动）",
+   "diff_verified": true
   },
   {
    "oracle": "O-B-determinism",
    "signal": "u_reg.u_ctrl_shadowed_masked_ad_input.shadow_wd",
    "value": "0x101",
    "trial": 5,
-   "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_ad_input.shadow_wd 两次独立执行逐位相同 → 无随机性（静态掩码/PRNG 不动）"
+   "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_ad_input.shadow_wd 跨 3 条不同输入序列逐位不变 → 无随机性（静态掩码/PRNG 不动）",
+   "diff_verified": true
   },
   {
    "oracle": "O-B-determinism",
    "signal": "u_reg.u_ctrl_shadowed_masked_ad_input.shadow_we",
    "value": "0x10100",
    "trial": 5,
-   "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_ad_input.shadow_we 两次独立执行逐位相同 → 无随机性（静态掩码/PRNG 不动）"
+   "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_ad_input.shadow_we 跨 3 条不同输入序列逐位不变 → 无随机性（静态掩码/PRNG 不动）",
+   "diff_verified": true
   },
   {
    "oracle": "O-B-determinism",
    "signal": "u_reg.u_ctrl_shadowed_masked_msg_input.shadow_q",
    "value": "0x1",
    "trial": 5,
-   "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_msg_input.shadow_q 两次独立执行逐位相同 → 无随机性（静态掩码/PRNG 不动）"
+   "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_msg_input.shadow_q 跨 3 条不同输入序列逐位不变 → 无随机性（静态掩码/PRNG 不动）",
+   "diff_verified": true
   },
   {
    "oracle": "O-B-determinism",
    "signal": "u_reg.u_ctrl_shadowed_masked_msg_input.shadow_wd",
    "value": "0x101",
    "trial": 5,
-   "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_msg_input.shadow_wd 两次独立执行逐位相同 → 无随机性（静态掩码/PRNG 不动）"
+   "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_msg_input.shadow_wd 跨 3 条不同输入序列逐位不变 → 无随机性（静态掩码/PRNG 不动）",
+   "diff_verified": true
   },
   {
    "oracle": "O-B-determinism",
    "signal": "u_reg.u_ctrl_shadowed_masked_msg_input.shadow_we",
    "value": "0x10100",
    "trial": 5,
-   "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_msg_input.shadow_we 两次独立执行逐位相同 → 无随机性（静态掩码/PRNG 不动）"
+   "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_msg_input.shadow_we 跨 3 条不同输入序列逐位不变 → 无随机性（静态掩码/PRNG 不动）",
+   "diff_verified": true
   },
   {
    "oracle": "O-F-stream",
@@ -367,7 +415,8 @@
    "value": "0xf000000",
    "trial": 0,
    "confidence": "MEDIUM",
-   "desc": "计数器 ascon_core.ascon_duplex.u_round_counter.err_q 在数据流使能后 300 拍三次采样完全不变（值 0xf000000）→ 疑似计数器冻结/数据流卡死"
+   "desc": "计数器 ascon_core.ascon_duplex.u_round_counter.err_q 在数据流使能后 300 拍三次采样完全不变（值 0xf000000）→ 疑似计数器冻结/数据流卡死",
+   "diff_verified": true
   },
   {
    "oracle": "O-F-stream",
@@ -375,7 +424,8 @@
    "value": "0xf0f00",
    "trial": 0,
    "confidence": "MEDIUM",
-   "desc": "计数器 ascon_core.ascon_duplex.u_round_counter.gen_cnts__BRA__0__KET__.cnt_unforced_q 在数据流使能后 300 拍三次采样完全不变（值 0xf0f00）→ 疑似计数器冻结/数据流卡死"
+   "desc": "计数器 ascon_core.ascon_duplex.u_round_counter.gen_cnts__BRA__0__KET__.cnt_unforced_q 在数据流使能后 300 拍三次采样完全不变（值 0xf0f00）→ 疑似计数器冻结/数据流卡死",
+   "diff_verified": true
   },
   {
    "oracle": "O-F-stream",
@@ -383,7 +433,8 @@
    "value": "0xf",
    "trial": 0,
    "confidence": "MEDIUM",
-   "desc": "计数器 ascon_core.ascon_duplex.u_round_counter.gen_cnts__BRA__1__KET__.cnt_unforced_q 在数据流使能后 300 拍三次采样完全不变（值 0xf）→ 疑似计数器冻结/数据流卡死"
+   "desc": "计数器 ascon_core.ascon_duplex.u_round_counter.gen_cnts__BRA__1__KET__.cnt_unforced_q 在数据流使能后 300 拍三次采样完全不变（值 0xf）→ 疑似计数器冻结/数据流卡死",
+   "diff_verified": true
   },
   {
    "oracle": "O-F-stream",
@@ -391,7 +442,8 @@
    "value": "0xf000000",
    "trial": 1,
    "confidence": "MEDIUM",
-   "desc": "计数器 ascon_core.ascon_duplex.u_round_counter.err_q 在数据流使能后 300 拍三次采样完全不变（值 0xf000000）→ 疑似计数器冻结/数据流卡死"
+   "desc": "计数器 ascon_core.ascon_duplex.u_round_counter.err_q 在数据流使能后 300 拍三次采样完全不变（值 0xf000000）→ 疑似计数器冻结/数据流卡死",
+   "diff_verified": true
   },
   {
    "oracle": "O-F-stream",
@@ -399,7 +451,8 @@
    "value": "0xf0f00",
    "trial": 1,
    "confidence": "MEDIUM",
-   "desc": "计数器 ascon_core.ascon_duplex.u_round_counter.gen_cnts__BRA__0__KET__.cnt_unforced_q 在数据流使能后 300 拍三次采样完全不变（值 0xf0f00）→ 疑似计数器冻结/数据流卡死"
+   "desc": "计数器 ascon_core.ascon_duplex.u_round_counter.gen_cnts__BRA__0__KET__.cnt_unforced_q 在数据流使能后 300 拍三次采样完全不变（值 0xf0f00）→ 疑似计数器冻结/数据流卡死",
+   "diff_verified": true
   },
   {
    "oracle": "O-F-stream",
@@ -407,7 +460,8 @@
    "value": "0xf",
    "trial": 1,
    "confidence": "MEDIUM",
-   "desc": "计数器 ascon_core.ascon_duplex.u_round_counter.gen_cnts__BRA__1__KET__.cnt_unforced_q 在数据流使能后 300 拍三次采样完全不变（值 0xf）→ 疑似计数器冻结/数据流卡死"
+   "desc": "计数器 ascon_core.ascon_duplex.u_round_counter.gen_cnts__BRA__1__KET__.cnt_unforced_q 在数据流使能后 300 拍三次采样完全不变（值 0xf）→ 疑似计数器冻结/数据流卡死",
+   "diff_verified": true
   },
   {
    "oracle": "O-F-stream",
@@ -415,7 +469,8 @@
    "value": "0xf000000",
    "trial": 2,
    "confidence": "MEDIUM",
-   "desc": "计数器 ascon_core.ascon_duplex.u_round_counter.err_q 在数据流使能后 300 拍三次采样完全不变（值 0xf000000）→ 疑似计数器冻结/数据流卡死"
+   "desc": "计数器 ascon_core.ascon_duplex.u_round_counter.err_q 在数据流使能后 300 拍三次采样完全不变（值 0xf000000）→ 疑似计数器冻结/数据流卡死",
+   "diff_verified": true
   },
   {
    "oracle": "O-F-stream",
@@ -423,7 +478,8 @@
    "value": "0xf0f00",
    "trial": 2,
    "confidence": "MEDIUM",
-   "desc": "计数器 ascon_core.ascon_duplex.u_round_counter.gen_cnts__BRA__0__KET__.cnt_unforced_q 在数据流使能后 300 拍三次采样完全不变（值 0xf0f00）→ 疑似计数器冻结/数据流卡死"
+   "desc": "计数器 ascon_core.ascon_duplex.u_round_counter.gen_cnts__BRA__0__KET__.cnt_unforced_q 在数据流使能后 300 拍三次采样完全不变（值 0xf0f00）→ 疑似计数器冻结/数据流卡死",
+   "diff_verified": true
   },
   {
    "oracle": "O-F-stream",
@@ -431,68 +487,19 @@
    "value": "0xf",
    "trial": 2,
    "confidence": "MEDIUM",
-   "desc": "计数器 ascon_core.ascon_duplex.u_round_counter.gen_cnts__BRA__1__KET__.cnt_unforced_q 在数据流使能后 300 拍三次采样完全不变（值 0xf）→ 疑似计数器冻结/数据流卡死"
-  },
-  {
-   "oracle": "O-K2-midreset",
-   "signal": "ascon_core.ascon_duplex.sel_mux_key_word1",
-   "desc": "中途复位后 ascon_core.ascon_duplex.sel_mux_key_word1 残留非零值 ['0x10001']（SEC_WIPE on reset 应归零）",
-   "trigger": "mid_reset",
-   "residual": [
-    "0x10001"
-   ]
-  },
-  {
-   "oracle": "O-K2-midreset",
-   "signal": "ascon_core.ascon_duplex.sel_mux_key_word1",
-   "desc": "中途复位后 ascon_core.ascon_duplex.sel_mux_key_word1 残留非零值 ['0x10001']（SEC_WIPE on reset 应归零）",
-   "trigger": "mid_reset",
-   "residual": [
-    "0x10001"
-   ]
-  },
-  {
-   "oracle": "O-K2-midreset",
-   "signal": "ascon_core.ascon_duplex.sel_mux_key_word1",
-   "desc": "中途复位后 ascon_core.ascon_duplex.sel_mux_key_word1 残留非零值 ['0x10001']（SEC_WIPE on reset 应归零）",
-   "trigger": "mid_reset",
-   "residual": [
-    "0x10001"
-   ]
-  },
-  {
-   "oracle": "O-K2-midreset",
-   "signal": "ascon_core.ascon_duplex.sel_mux_key_word1",
-   "desc": "中途复位后 ascon_core.ascon_duplex.sel_mux_key_word1 残留非零值 ['0x10001']（SEC_WIPE on reset 应归零）",
-   "trigger": "mid_reset",
-   "residual": [
-    "0x10001"
-   ]
-  },
-  {
-   "oracle": "O-K2-midreset",
-   "signal": "ascon_core.ascon_duplex.sel_mux_key_word1",
-   "desc": "中途复位后 ascon_core.ascon_duplex.sel_mux_key_word1 残留非零值 ['0x10001']（SEC_WIPE on reset 应归零）",
-   "trigger": "mid_reset",
-   "residual": [
-    "0x10001"
-   ]
-  },
-  {
-   "oracle": "O-K2-midreset",
-   "signal": "ascon_core.ascon_duplex.sel_mux_key_word1",
-   "desc": "中途复位后 ascon_core.ascon_duplex.sel_mux_key_word1 残留非零值 ['0x10001']（SEC_WIPE on reset 应归零）",
-   "trigger": "mid_reset",
-   "residual": [
-    "0x10001"
-   ]
+   "desc": "计数器 ascon_core.ascon_duplex.u_round_counter.gen_cnts__BRA__1__KET__.cnt_unforced_q 在数据流使能后 300 拍三次采样完全不变（值 0xf）→ 疑似计数器冻结/数据流卡死",
+   "diff_verified": true
   },
   {
    "oracle": "O-J-errprop",
    "signal": "u_reg.ctrl_shadowed_masked_ad_input_storage_err,u_reg.ctrl_shadowed_masked_ad_input_update_err,u_reg.ctrl_shadowed_masked_msg_input_storage_err",
    "value": "fired=3 silent=1",
    "confidence": "MEDIUM",
-   "desc": "错误传播不完整: 静默触发 ['T1-invalid-cfg']（3 类已传播）→ 疑似部分错误路径被吞没"
+   "desc": "错误传播不完整: 静默触发 ['T1-invalid-cfg']（3 类已传播）→ 疑似部分错误路径被吞没",
+   "diff_verified": true
   }
- ]
+ ],
+ "diff_baseline": "/workspace/HTFuzz/perip/ascon-fresh",
+ "diff_gate_ok": true,
+ "n_baseline_filtered": 0
 }

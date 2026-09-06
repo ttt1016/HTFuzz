@@ -1,16 +1,10 @@
 {
  "aes": {
   "n_inv": 23,
-  "n_viol": 1,
-  "violations": [
-   [
-    "u_dut.data_out_q",
-    "wipe_clears",
-    "擦除触发后 u_dut.data_out_q 残留非零值 ['0x26122612', '0xb15bb15b', '0x924b924b']"
-   ]
-  ],
+  "n_viol": 0,
+  "violations": [],
   "rc": 0,
-  "tail": ""
+  "tail": "onotonic_counter (monotonic_counter)\n  [ok] u_dut.u_aes_core.u_aes_ctrl_reg_shadowed.key_len_q_fsm_sparse_encoding (fsm_sparse_encoding)\n\n=== 汇总: 0 条违反 → /workspace/HTFuzz/fuzz/invariant_aes.json ===\n"
  },
  "ascon": {
   "n_inv": 18,
@@ -19,12 +13,12 @@
    [
     "ascon_core.key_share0_in_q",
     "wipe_clears",
-    "擦除触发后 ascon_core.key_share0_in_q 残留非零值 ['0xdeadbeef', '0xdeadbeef', '0xdeadbeef']"
+    "擦除触发后 ascon_core.key_share0_in_q 仍可提取写入标记（wipe 未生效）"
    ],
    [
     "ascon_core.key_share0_in_q",
     "wipe_clears",
-    "擦除触发后 ascon_core.key_share0_in_q 残留非零值 ['0xdeadbeef', '0xdeadbeef', '0xdeadbeef']"
+    "擦除触发后 ascon_core.key_share0_in_q 仍可提取写入标记（wipe 未生效）"
    ]
   ],
   "rc": 0,
@@ -32,36 +26,10 @@
  },
  "hmac": {
   "n_inv": 12,
-  "n_viol": 5,
-  "violations": [
-   [
-    "sha2.hash_q",
-    "wipe_clears",
-    "擦除触发后 sha2.hash_q 残留非零值 ['0x2', '0x55acc320', '0x5555']"
-   ],
-   [
-    "u_dut.secret_key",
-    "wipe_clears",
-    "擦除触发后 u_dut.secret_key 残留非零值 ['0x29', '0x6', '0x55acc320']"
-   ],
-   [
-    "sha2.digest_q",
-    "wipe_clears",
-    "擦除触发后 sha2.digest_q 残留非零值 ['0x2', '0x55acc320', '0x5555']"
-   ],
-   [
-    "sha2.hash_q",
-    "wipe_clears",
-    "擦除触发后 sha2.hash_q 残留非零值 ['0x2', '0x55acc320', '0x5555']"
-   ],
-   [
-    "u_dut.secret_key",
-    "wipe_clears",
-    "擦除触发后 u_dut.secret_key 残留非零值 ['0x29', '0x6', '0x55acc320']"
-   ]
-  ],
+  "n_viol": 0,
+  "violations": [],
   "rc": 0,
-  "tail": ""
+  "tail": " (read_only_leak)\n  [ok] u_dut.u_reg.reg_rdata_read_only_leak (read_only_leak)\n  [ok] u_dut.u_core.secret_key_wipe_clears (wipe_clears)\n\n=== 汇总: 0 条违反 → /workspace/HTFuzz/fuzz/invariant_hmac.json ===\n"
  },
  "kmac": {
   "n_inv": 3,

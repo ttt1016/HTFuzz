@@ -1,12 +1,7 @@
 {
  "module": "rv_dm",
- "findings": [
-  {
-   "oracle": "O-J-errprop",
-   "signal": "u_dm.cmderr_q,u_dm.sberror,u_jtag.error_q",
-   "value": "tried=3",
-   "confidence": "HIGH",
-   "desc": "全部 3 类错误触发均未引起任何 alert/err 信号置位 → 错误传播链断裂"
-  }
- ]
+ "findings": [],
+ "diff_baseline": "/workspace/HTFuzz/perip/rv_dm-fresh",
+ "diff_gate_ok": true,
+ "n_baseline_filtered": 1
 }

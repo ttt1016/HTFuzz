@@ -1,101 +1,59 @@
 {
  "aes": {
-  "elapsed_s": 0.2,
+  "elapsed_s": 0.6,
   "rc": 0,
-  "raw": 37,
-  "findings": [
-   {
-    "oracle": "O-A-residual",
-    "signal": "u_dut.key_init",
-    "desc": "敏感信号 u_dut.key_init[0] 在清除/操作序列后残留写入标记值"
-   },
-   {
-    "oracle": "O-B-determinism",
-    "signal": "u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.prng_key",
-    "desc": "掩码/熵信号 u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.prng_key 两次独立执行逐位相同 → 无随机性（静态掩码/PRNG 不动）"
-   },
-   {
-    "oracle": "O-B-determinism",
-    "signal": "u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.u_prim_bivium.state_q",
-    "desc": "掩码/熵信号 u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.u_prim_bivium.state_q 两次独立执行逐位相同 → 无随机性（静态掩码/PRNG 不动）"
-   },
-   {
-    "oracle": "O-C-equivclass",
-    "signal": "u_dut.data_out_q",
-    "desc": "语义等价序列产生不同控制状态 → 可能存在中间读副作用/相位错误"
-   },
-   {
-    "oracle": "O-C-equivclass",
-    "signal": "u_dut.u_aes_core.u_aes_control.gen_fsm__BRA__1__KET__.gen_fsm_p.u_aes_control_fsm_i.u_aes_control_fsm.u_state_regs.state_raw",
-    "desc": "语义等价序列产生不同控制状态 → 可能存在中间读副作用/相位错误"
-   },
-   {
-    "oracle": "O-C-equivclass",
-    "signal": "u_dut.u_aes_core.u_aes_control.gen_fsm__BRA__0__KET__.gen_fsm_p.u_aes_control_fsm_i.u_aes_control_fsm.u_state_regs.state_raw",
-    "desc": "语义等价序列产生不同控制状态 → 可能存在中间读副作用/相位错误"
-   },
-   {
-    "oracle": "O-C-equivclass",
-    "signal": "u_dut.u_aes_core.u_aes_control.gen_fsm__BRA__2__KET__.gen_fsm_n.u_aes_control_fsm_i.u_aes_control_fsm.u_state_regs.state_raw",
-    "desc": "语义等价序列产生不同控制状态 → 可能存在中间读副作用/相位错误"
-   },
-   {
-    "oracle": "O-K2-midreset",
-    "signal": "u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.prng_key",
-    "desc": "中途复位后 u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.prng_key 残留非零值 ['0x8721c112', '0x27263099', '0xd461d0b0']（SEC_WIPE on reset 应归零）"
-   },
-   {
-    "oracle": "O-J-errprop",
-    "signal": "u_dut.u_aes_core.u_aes_ctr.gen_fsm__BRA__1__KET__.gen_fsm_p.u_aes_ctr_fsm_i.u_aes_ctr_fsm.alert_counter_q,u_dut.u_aes_core.u_aes_ctr.gen_fsm__BRA__0__KET__.gen_fsm_p.u_aes_ctr_fsm_i.u_aes_ctr_fsm.alert_counter_q,u_dut.u_aes_core.u_aes_ctr.gen_fsm__BRA__2__KET__.gen_fsm_n.u_aes_ctr_fsm_i.u_aes_ctr_fsm.alert_counter_q",
-    "desc": "全部 4 类错误触发均未引起任何 alert/err 信号置位 → 错误传播链断裂"
-   }
-  ],
-  "err_head": ""
+  "raw": 0,
+  "diff_gate": "on",
+  "n_baseline_filtered": 29,
+  "findings": [],
+  "err_head": "regmap: /workspace/HTFuzz/traces/aes_regmap.json\n=== 发现引擎: aes ===\n白盒信号 29 个, 寄存器 11 个\n敏感: 7  控制: 19  其他: 3\n\n[O-A] 残留 oracle...\n  → 0 条\n[O-B] 确定性 oracle...\n  → 12 条\n[O-C] 等价类 oracle...\n  → 16 条\n[O-D] "
  },
  "ascon": {
-  "elapsed_s": 0.1,
+  "elapsed_s": 0.3,
   "rc": 0,
-  "raw": 64,
+  "raw": 58,
+  "diff_gate": "on",
+  "n_baseline_filtered": 0,
   "findings": [
    {
     "oracle": "O-A-residual",
     "signal": "ascon_core.key_share0_in_q",
-    "desc": "敏感信号 ascon_core.key_share0_in_q[0] 在清除/操作序列后残留写入标记值"
+    "desc": "敏感信号 ascon_core.key_share0_in_q[0] 在显式清除扫描后仍保留写入标记值"
    },
    {
     "oracle": "O-A-residual",
     "signal": "ascon_core.key_share1_in_q",
-    "desc": "敏感信号 ascon_core.key_share1_in_q[1] 在清除/操作序列后残留写入标记值"
+    "desc": "敏感信号 ascon_core.key_share1_in_q[1] 在显式清除扫描后仍保留写入标记值"
    },
    {
     "oracle": "O-B-determinism",
     "signal": "u_reg.u_ctrl_shadowed_masked_ad_input.shadow_q",
-    "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_ad_input.shadow_q 两次独立执行逐位相同 → 无随机性（静态掩码/PRNG 不动）"
+    "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_ad_input.shadow_q 跨 3 条不同输入序列逐位不变 → 无随机性（静态掩码/PRNG 不动）"
    },
    {
     "oracle": "O-B-determinism",
     "signal": "u_reg.u_ctrl_shadowed_masked_ad_input.shadow_wd",
-    "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_ad_input.shadow_wd 两次独立执行逐位相同 → 无随机性（静态掩码/PRNG 不动）"
+    "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_ad_input.shadow_wd 跨 3 条不同输入序列逐位不变 → 无随机性（静态掩码/PRNG 不动）"
    },
    {
     "oracle": "O-B-determinism",
     "signal": "u_reg.u_ctrl_shadowed_masked_ad_input.shadow_we",
-    "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_ad_input.shadow_we 两次独立执行逐位相同 → 无随机性（静态掩码/PRNG 不动）"
+    "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_ad_input.shadow_we 跨 3 条不同输入序列逐位不变 → 无随机性（静态掩码/PRNG 不动）"
    },
    {
     "oracle": "O-B-determinism",
     "signal": "u_reg.u_ctrl_shadowed_masked_msg_input.shadow_q",
-    "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_msg_input.shadow_q 两次独立执行逐位相同 → 无随机性（静态掩码/PRNG 不动）"
+    "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_msg_input.shadow_q 跨 3 条不同输入序列逐位不变 → 无随机性（静态掩码/PRNG 不动）"
    },
    {
     "oracle": "O-B-determinism",
     "signal": "u_reg.u_ctrl_shadowed_masked_msg_input.shadow_wd",
-    "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_msg_input.shadow_wd 两次独立执行逐位相同 → 无随机性（静态掩码/PRNG 不动）"
+    "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_msg_input.shadow_wd 跨 3 条不同输入序列逐位不变 → 无随机性（静态掩码/PRNG 不动）"
    },
    {
     "oracle": "O-B-determinism",
     "signal": "u_reg.u_ctrl_shadowed_masked_msg_input.shadow_we",
-    "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_msg_input.shadow_we 两次独立执行逐位相同 → 无随机性（静态掩码/PRNG 不动）"
+    "desc": "掩码/熵信号 u_reg.u_ctrl_shadowed_masked_msg_input.shadow_we 跨 3 条不同输入序列逐位不变 → 无随机性（静态掩码/PRNG 不动）"
    },
    {
     "oracle": "O-F-stream",
@@ -113,11 +71,6 @@
     "desc": "计数器 ascon_core.ascon_duplex.u_round_counter.gen_cnts__BRA__1__KET__.cnt_unforced_q 在数据流使能后 300 拍三次采样完全不变（值 0xf）→ 疑似计数器冻结/数据流卡死"
    },
    {
-    "oracle": "O-K2-midreset",
-    "signal": "ascon_core.ascon_duplex.sel_mux_key_word1",
-    "desc": "中途复位后 ascon_core.ascon_duplex.sel_mux_key_word1 残留非零值 ['0x10001']（SEC_WIPE on reset 应归零）"
-   },
-   {
     "oracle": "O-J-errprop",
     "signal": "u_reg.ctrl_shadowed_masked_ad_input_storage_err,u_reg.ctrl_shadowed_masked_ad_input_update_err,u_reg.ctrl_shadowed_masked_msg_input_storage_err",
     "desc": "错误传播不完整: 静默触发 ['T1-invalid-cfg']（3 类已传播）→ 疑似部分错误路径被吞没"
@@ -126,237 +79,199 @@
   "err_head": ""
  },
  "hmac": {
-  "elapsed_s": 0.1,
+  "elapsed_s": 0.3,
   "rc": 0,
-  "raw": 23,
+  "raw": 12,
+  "diff_gate": "on",
+  "n_baseline_filtered": 5,
   "findings": [
    {
     "oracle": "O-A-residual",
     "signal": "u_dut.secret_key",
-    "desc": "敏感信号 u_dut.secret_key[28] 在清除/操作序列后残留写入标记值"
+    "desc": "敏感信号 u_dut.secret_key[28] 在显式清除扫描后仍保留写入标记值"
    },
    {
     "oracle": "O-A-residual",
     "signal": "u_dut.secret_key_d",
-    "desc": "敏感信号 u_dut.secret_key_d[28] 在清除/操作序列后残留写入标记值"
-   },
-   {
-    "oracle": "O-D-fsm",
-    "signal": "u_dut.done_state_q",
-    "desc": "FSM 信号 u_dut.done_state_q 在边界输入后 100 拍保持 0x2 不变，且该稳态在正常操作中未出现 → 疑似卡死/无超时恢复"
-   },
-   {
-    "oracle": "O-K2-midreset",
-    "signal": "u_dut.digest_size_started_q",
-    "desc": "中途复位后 u_dut.digest_size_started_q 残留非零值 ['0x8']（SEC_WIPE on reset 应归零）"
-   },
-   {
-    "oracle": "O-J-errprop",
-    "signal": "u_dut.u_reg.reg_error,u_dut.u_reg.intg_err,u_dut.u_reg.u_err_code.q",
-    "desc": "错误传播不完整: 静默触发 ['T1-invalid-cfg', 'T3-locked-write', 'T4-shadow-conflict']（1 类已传播）→ 疑似部分错误路径被吞没"
-   },
-   {
-    "oracle": "O-L-kat",
-    "signal": "hmac.SHA-512",
-    "desc": "SHA-512 标准向量运算未完成，且 hmac_err 置位但 ERR_CODE=0（错误无成因）"
+    "desc": "敏感信号 u_dut.secret_key_d[28] 在显式清除扫描后仍保留写入标记值"
    }
   ],
   "err_head": ""
  },
  "kmac": {
-  "elapsed_s": 0.4,
+  "elapsed_s": 0.7,
   "rc": 0,
-  "raw": 3,
+  "raw": 0,
+  "diff_gate": "on",
+  "n_baseline_filtered": 3,
+  "findings": [],
+  "err_head": "regmap: /workspace/HTFuzz/traces/kmac_regmap.json\n=== 发现引擎: kmac ===\n白盒信号 6 个, 寄存器 19 个\n敏感: 3  控制: 2  其他: 1\n\n[O-A] 残留 oracle...\n  → 0 条\n[O-B] 确定性 oracle...\n  → 2 条\n[O-C] 等价类 oracle...\n  → 0 条\n[O-D] FS"
+ },
+ "keymgr": {
+  "elapsed_s": 0.1,
+  "rc": 1,
+  "raw": 1,
+  "diff_gate": "on",
+  "n_baseline_filtered": 0,
   "findings": [
    {
-    "oracle": "O-B-determinism",
-    "signal": "u_dut.msg_data_masked",
-    "desc": "掩码/熵信号 u_dut.msg_data_masked 两次独立执行逐位相同 → 无随机性（静态掩码/PRNG 不动）"
-   },
-   {
     "oracle": "O-J-errprop",
-    "signal": "u_dut.err_processed",
-    "desc": "全部 4 类错误触发均未引起任何 alert/err 信号置位 → 错误传播链断裂"
+    "signal": "d_error",
+    "desc": "全部 1 类错误触发均未引起任何 alert/err 信号置位 → 错误传播链断裂"
    }
   ],
   "err_head": ""
  },
  "lc_ctrl": {
-  "elapsed_s": 0.1,
-  "rc": 0,
-  "raw": 1,
-  "findings": [
-   {
-    "oracle": "O-J-errprop",
-    "signal": "u_dut.u_lc_ctrl_fsm.state_invalid_error,u_dut.token_invalid_error_q,u_dut.fatal_state_error_q",
-    "desc": "全部 3 类错误触发均未引起任何 alert/err 信号置位 → 错误传播链断裂"
-   }
-  ],
-  "err_head": ""
- },
- "rom_ctrl": {
-  "elapsed_s": 0.1,
-  "rc": 0,
-  "raw": 1,
-  "findings": [
-   {
-    "oracle": "O-G-pulse",
-    "signal": "rvalid_residual",
-    "desc": "事务完成后响应信号残留 10 拍（出现 24 次）→ 脉冲电平化，同一响应可能被重复采样"
-   }
-  ],
-  "err_head": ""
- },
- "ibex": {
-  "elapsed_s": 0.1,
-  "rc": 0,
-  "raw": 1,
-  "findings": [
-   {
-    "oracle": "O-J-errprop",
-    "signal": "u_dut.load_err_q,u_dut.store_err_q,u_dut.lsu_err_q",
-    "desc": "全部 1 类错误触发均未引起任何 alert/err 信号置位 → 错误传播链断裂"
-   }
-  ],
-  "err_head": ""
- },
- "uart": {
-  "elapsed_s": 0.1,
-  "rc": 0,
-  "raw": 1,
-  "findings": [
-   {
-    "oracle": "O-J-errprop",
-    "signal": "u_dut.u_reg.__Vcellout__u_intr_state_rx_frame_err__q,u_dut.u_reg.__Vcellout__u_intr_state_rx_break_err__q,u_dut.u_reg.__Vcellout__u_intr_state_rx_parity_err__q",
-    "desc": "全部 1 类错误触发均未引起任何 alert/err 信号置位 → 错误传播链断裂"
-   }
-  ],
-  "err_head": ""
- },
- "pattgen": {
-  "elapsed_s": 0.1,
+  "elapsed_s": 0.2,
   "rc": 0,
   "raw": 0,
+  "diff_gate": "on",
+  "n_baseline_filtered": 1,
+  "findings": [],
+  "err_head": "regmap: /workspace/HTFuzz/traces/lc_ctrl_regmap.json\n=== 发现引擎: lc_ctrl ===\n白盒信号 13 个, 寄存器 35 个\n敏感: 4  控制: 9  其他: 0\n\n[O-A] 残留 oracle...\n  → 0 条\n[O-B] 确定性 oracle...\n  → 0 条\n[O-C] 等价类 oracle...\n  → 0 条\n["
+ },
+ "rom_ctrl": {
+  "elapsed_s": 0.2,
+  "rc": 0,
+  "raw": 0,
+  "diff_gate": "on",
+  "n_baseline_filtered": 1,
+  "findings": [],
+  "err_head": "Initializing memory TOP.rom_ctrl_perip_tb.u_dut.gen_rom_scramble_disabled.u_rom.u_prim_rom.unnamedblk1.gen_meminit from file '/workspace/pickerfuzz/perip/rom_ctrl-ctf/obj_so/rom.mem'.\n%Warning: /works"
+ },
+ "ibex": {
+  "elapsed_s": 0.2,
+  "rc": 0,
+  "raw": 0,
+  "diff_gate": "on",
+  "n_baseline_filtered": 1,
+  "findings": [],
+  "err_head": "regmap: /workspace/HTFuzz/traces/ibex_regmap.json\n=== 发现引擎: ibex ===\n白盒信号 44 个, 寄存器 0 个\n敏感: 2  控制: 21  其他: 21\n\n[O-A] 残留 oracle...\n  → 0 条\n[O-B] 确定性 oracle...\n  → 0 条\n[O-C] 等价类 oracle...\n  → 0 条\n[O-D] "
+ },
+ "uart": {
+  "elapsed_s": 0.2,
+  "rc": 0,
+  "raw": 0,
+  "diff_gate": "on",
+  "n_baseline_filtered": 1,
+  "findings": [],
+  "err_head": "=== 发现引擎: uart ===\n白盒信号 26 个, 寄存器 0 个\n敏感: 0  控制: 23  其他: 3\n\n[O-A] 残留 oracle...\n  → 0 条\n[O-B] 确定性 oracle...\n  → 0 条\n[O-C] 等价类 oracle...\n  → 0 条\n[O-D] FSM 探索 oracle...\n  → 0 条\n[O-E] FIFO 压力 oracle...\n  "
+ },
+ "pattgen": {
+  "elapsed_s": 0.2,
+  "rc": 0,
+  "raw": 0,
+  "diff_gate": "on",
+  "n_baseline_filtered": 0,
   "findings": [],
   "err_head": "regmap: /workspace/HTFuzz/traces/pattgen_regmap.json\n=== 发现引擎: pattgen ===\n白盒信号 8 个, 寄存器 12 个\n敏感: 0  控制: 8  其他: 0\n\n[O-A] 残留 oracle...\n  → 0 条\n[O-B] 确定性 oracle...\n  → 0 条\n[O-C] 等价类 oracle...\n  → 0 条\n[O"
  },
  "rv_timer": {
-  "elapsed_s": 0.1,
+  "elapsed_s": 0.2,
   "rc": 0,
   "raw": 0,
+  "diff_gate": "on",
+  "n_baseline_filtered": 0,
   "findings": [],
   "err_head": "regmap: /workspace/HTFuzz/traces/rv_timer_regmap.json\n=== 发现引擎: rv_timer ===\n白盒信号 3 个, 寄存器 10 个\n敏感: 0  控制: 0  其他: 3\n\n[O-A] 残留 oracle...\n  → 0 条\n[O-B] 确定性 oracle...\n  → 0 条\n[O-C] 等价类 oracle...\n  → 0 条\n"
  },
  "spi_host": {
-  "elapsed_s": 0.1,
+  "elapsed_s": 0.2,
   "rc": 0,
   "raw": 0,
+  "diff_gate": "on",
+  "n_baseline_filtered": 0,
   "findings": [],
   "err_head": "regmap: /workspace/HTFuzz/traces/spi_host_regmap.json\n=== 发现引擎: spi_host ===\n白盒信号 18 个, 寄存器 14 个\n敏感: 0  控制: 15  其他: 3\n\n[O-A] 残留 oracle...\n  → 0 条\n[O-B] 确定性 oracle...\n  → 0 条\n[O-C] 等价类 oracle...\n  → 0 "
  },
  "sram_ctrl": {
   "elapsed_s": 0.1,
   "rc": 0,
-  "raw": 1,
-  "findings": [
-   {
-    "oracle": "O-K2-midreset",
-    "signal": "CSR.scr_key_rotated",
-    "desc": "中途复位后 CSR scr_key_rotated 残留 0x5a5aa5a5（应归零）"
-   }
-  ],
-  "err_head": ""
+  "raw": 0,
+  "diff_gate": "off(无fresh参照,候选未验证)",
+  "n_baseline_filtered": 0,
+  "findings": [],
+  "err_head": "regmap: /workspace/HTFuzz/traces/sram_ctrl_regmap.json\n=== 发现引擎: sram_ctrl ===\n白盒信号 3 个, 寄存器 9 个\n敏感: 1  控制: 2  其他: 0\n\n[O-A] 残留 oracle...\n  → 0 条\n[O-B] 确定性 oracle...\n  → 0 条\n[O-C] 等价类 oracle...\n  → 0 条"
  },
  "aon_timer": {
-  "elapsed_s": 0.1,
+  "elapsed_s": 0.2,
   "rc": 0,
   "raw": 0,
+  "diff_gate": "on",
+  "n_baseline_filtered": 0,
   "findings": [],
   "err_head": "regmap: /workspace/HTFuzz/traces/aon_timer_regmap.json\n=== 发现引擎: aon_timer ===\n白盒信号 6 个, 寄存器 14 个\n敏感: 0  控制: 1  其他: 5\n\n[O-A] 残留 oracle...\n  → 0 条\n[O-B] 确定性 oracle...\n  → 0 条\n[O-C] 等价类 oracle...\n  → 0 "
  },
  "clkmgr": {
-  "elapsed_s": 0.1,
-  "rc": 0,
-  "raw": 1,
-  "findings": [
-   {
-    "oracle": "O-J-errprop",
-    "signal": "aes_trans.hold_err,aes_idle_cnt.err_q",
-    "desc": "全部 3 类错误触发均未引起任何 alert/err 信号置位 → 错误传播链断裂"
-   }
-  ],
-  "err_head": ""
- },
- "csrng": {
-  "elapsed_s": 0.1,
-  "rc": 0,
-  "raw": 1,
-  "findings": [
-   {
-    "oracle": "O-J-errprop",
-    "signal": "u_dut.u_csrng_core.cs_bus_cmp_alert,u_dut.u_csrng_core.cmd_stage_sm_err_sum,u_dut.u_csrng_core.aes_cipher_sm_err_sum",
-    "desc": "全部 3 类错误触发均未引起任何 alert/err 信号置位 → 错误传播链断裂"
-   }
-  ],
-  "err_head": ""
- },
- "entropy_src": {
-  "elapsed_s": 0.2,
-  "rc": 0,
-  "raw": 1,
-  "findings": [
-   {
-    "oracle": "O-J-errprop",
-    "signal": "u_core.es_main_sm_alert,u_core.es_ack_sm_err,u_core.es_cntr_err",
-    "desc": "全部 3 类错误触发均未引起任何 alert/err 信号置位 → 错误传播链断裂"
-   }
-  ],
-  "err_head": ""
- },
- "alert_handler": {
-  "elapsed_s": 0.2,
+  "elapsed_s": 0.3,
   "rc": 0,
   "raw": 0,
+  "diff_gate": "on",
+  "n_baseline_filtered": 1,
+  "findings": [],
+  "err_head": "regmap: /workspace/HTFuzz/traces/clkmgr_regmap.json\n=== 发现引擎: clkmgr ===\n白盒信号 8 个, 寄存器 22 个\n敏感: 0  控制: 7  其他: 1\n\n[O-A] 残留 oracle...\n  → 0 条\n[O-B] 确定性 oracle...\n  → 0 条\n[O-C] 等价类 oracle...\n  → 0 条\n[O-D"
+ },
+ "csrng": {
+  "elapsed_s": 0.3,
+  "rc": 0,
+  "raw": 0,
+  "diff_gate": "on",
+  "n_baseline_filtered": 1,
+  "findings": [],
+  "err_head": "regmap: /workspace/HTFuzz/traces/csrng_regmap.json\n=== 发现引擎: csrng ===\n白盒信号 9 个, 寄存器 18 个\n敏感: 2  控制: 6  其他: 1\n\n[O-A] 残留 oracle...\n  → 0 条\n[O-B] 确定性 oracle...\n  → 0 条\n[O-C] 等价类 oracle...\n  → 0 条\n[O-D] "
+ },
+ "entropy_src": {
+  "elapsed_s": 0.3,
+  "rc": 0,
+  "raw": 0,
+  "diff_gate": "on",
+  "n_baseline_filtered": 1,
+  "findings": [],
+  "err_head": "regmap: /workspace/HTFuzz/traces/entropy_src_regmap.json\n=== 发现引擎: entropy_src ===\n白盒信号 36 个, 寄存器 57 个\n敏感: 8  控制: 16  其他: 12\n\n[O-A] 残留 oracle...\n  → 0 条\n[O-B] 确定性 oracle...\n  → 0 条\n[O-C] 等价类 oracle..."
+ },
+ "alert_handler": {
+  "elapsed_s": 0.3,
+  "rc": 0,
+  "raw": 0,
+  "diff_gate": "on",
+  "n_baseline_filtered": 0,
   "findings": [],
   "err_head": "regmap: /workspace/HTFuzz/traces/alert_handler_regmap.json\n=== 发现引擎: alert_handler ===\n白盒信号 10 个, 寄存器 350 个\n敏感: 0  控制: 8  其他: 2\n\n[O-A] 残留 oracle...\n  → 0 条\n[O-B] 确定性 oracle...\n  → 0 条\n[O-C] 等价类 oracle"
  },
  "pwrmgr": {
-  "elapsed_s": 0.1,
+  "elapsed_s": 0.2,
   "rc": 0,
   "raw": 0,
+  "diff_gate": "on",
+  "n_baseline_filtered": 0,
   "findings": [],
   "err_head": "regmap: /workspace/HTFuzz/traces/pwrmgr_regmap.json\n=== 发现引擎: pwrmgr ===\n白盒信号 8 个, 寄存器 17 个\n敏感: 0  控制: 8  其他: 0\n\n[O-A] 残留 oracle...\n  → 0 条\n[O-B] 确定性 oracle...\n  → 0 条\n[O-C] 等价类 oracle...\n  → 0 条\n[O-D"
  },
  "rstmgr": {
-  "elapsed_s": 0.1,
-  "rc": 0,
-  "raw": 1,
-  "findings": [
-   {
-    "oracle": "O-J-errprop",
-    "signal": "alert_info.slots_q",
-    "desc": "全部 3 类错误触发均未引起任何 alert/err 信号置位 → 错误传播链断裂"
-   }
-  ],
-  "err_head": ""
- },
- "rv_dm": {
-  "elapsed_s": 0.1,
-  "rc": 0,
-  "raw": 1,
-  "findings": [
-   {
-    "oracle": "O-J-errprop",
-    "signal": "u_dm.cmderr_q,u_dm.sberror,u_jtag.error_q",
-    "desc": "全部 3 类错误触发均未引起任何 alert/err 信号置位 → 错误传播链断裂"
-   }
-  ],
-  "err_head": ""
- },
- "gpio": {
-  "elapsed_s": 0.1,
+  "elapsed_s": 0.2,
   "rc": 0,
   "raw": 0,
+  "diff_gate": "on",
+  "n_baseline_filtered": 1,
+  "findings": [],
+  "err_head": "regmap: /workspace/HTFuzz/traces/rstmgr_regmap.json\n=== 发现引擎: rstmgr ===\n白盒信号 5 个, 寄存器 28 个\n敏感: 0  控制: 3  其他: 2\n\n[O-A] 残留 oracle...\n  → 0 条\n[O-B] 确定性 oracle...\n  → 0 条\n[O-C] 等价类 oracle...\n  → 0 条\n[O-D"
+ },
+ "rv_dm": {
+  "elapsed_s": 0.3,
+  "rc": 0,
+  "raw": 0,
+  "diff_gate": "on",
+  "n_baseline_filtered": 1,
+  "findings": [],
+  "err_head": "regmap: /workspace/HTFuzz/traces/rv_dm_regmap.json\n=== 发现引擎: rv_dm ===\n白盒信号 33 个, 寄存器 31 个\n敏感: 0  控制: 29  其他: 4\n\n[O-A] 残留 oracle...\n  → 0 条\n[O-B] 确定性 oracle...\n  → 0 条\n[O-C] 等价类 oracle...\n  → 0 条\n[O-D"
+ },
+ "gpio": {
+  "elapsed_s": 0.2,
+  "rc": 0,
+  "raw": 0,
+  "diff_gate": "on",
+  "n_baseline_filtered": 0,
   "findings": [],
   "err_head": "regmap: /workspace/HTFuzz/traces/gpio_regmap.json\n=== 发现引擎: gpio ===\n白盒信号 0 个, 寄存器 18 个\n敏感: 0  控制: 0  其他: 0\n\n[O-A] 残留 oracle...\n  → 0 条\n[O-B] 确定性 oracle...\n  → 0 条\n[O-C] 等价类 oracle...\n  → 0 条\n[O-D] FS"
  },
@@ -364,41 +279,53 @@
   "elapsed_s": 0.1,
   "rc": 0,
   "raw": 0,
+  "diff_gate": "off(无fresh参照,候选未验证)",
+  "n_baseline_filtered": 0,
   "findings": [],
   "err_head": "=== 发现引擎: adc_ctrl ===\n白盒信号 0 个, 寄存器 0 个\n敏感: 0  控制: 0  其他: 0\n\n[O-A] 残留 oracle...\n  → 0 条\n[O-B] 确定性 oracle...\n  → 0 条\n[O-C] 等价类 oracle...\n  → 0 条\n[O-D] FSM 探索 oracle...\n  → 0 条\n[O-E] FIFO 压力 oracle...\n"
  },
  "tlul": {
-  "elapsed_s": 0.1,
+  "elapsed_s": 0.2,
   "rc": 0,
   "raw": 0,
+  "diff_gate": "on",
+  "n_baseline_filtered": 0,
   "findings": [],
-  "err_head": "=== 发现引擎: tlul ===\n白盒信号 0 个, 寄存器 0 个\n敏感: 0  控制: 0  其他: 0\n\n[O-A] 残留 oracle...\n  → 0 条\n[O-B] 确定性 oracle...\n  → 0 条\n[O-C] 等价类 oracle...\n  → 0 条\n[O-D] FSM 探索 oracle...\n  → 0 条\n[O-E] FIFO 压力 oracle...\n  → "
+  "err_head": "regmap: /workspace/HTFuzz/traces/tlul_regmap.json\n=== 发现引擎: tlul ===\n白盒信号 0 个, 寄存器 8 个\n敏感: 0  控制: 0  其他: 0\n\n[O-A] 残留 oracle...\n  → 0 条\n[O-B] 确定性 oracle...\n  → 0 条\n[O-C] 等价类 oracle...\n  → 0 条\n[O-D] FSM"
  },
  "otp_ctrl": {
-  "elapsed_s": 0.1,
+  "elapsed_s": 0.3,
   "rc": 0,
   "raw": 0,
+  "diff_gate": "on",
+  "n_baseline_filtered": 0,
   "findings": [],
   "err_head": "regmap: /workspace/HTFuzz/traces/otp_ctrl_regmap.json\n=== 发现引擎: otp_ctrl ===\n白盒信号 0 个, 寄存器 57 个\n敏感: 0  控制: 0  其他: 0\n\n[O-A] 残留 oracle...\n  → 0 条\n[O-B] 确定性 oracle...\n  → 0 条\n[O-C] 等价类 oracle...\n  → 0 条\n"
  },
  "spi_tpm": {
-  "elapsed_s": 0.1,
+  "elapsed_s": 0.2,
   "rc": 0,
   "raw": 0,
+  "diff_gate": "on",
+  "n_baseline_filtered": 0,
   "findings": [],
   "err_head": "regmap: /workspace/HTFuzz/traces/spi_tpm_regmap.json\n=== 发现引擎: spi_tpm ===\n白盒信号 0 个, 寄存器 16 个\n敏感: 0  控制: 0  其他: 0\n\n[O-A] 残留 oracle...\n  → 0 条\n[O-B] 确定性 oracle...\n  → 0 条\n[O-C] 等价类 oracle...\n  → 0 条\n[O"
  },
  "mbx": {
-  "elapsed_s": 0.1,
+  "elapsed_s": 0.3,
   "rc": 0,
   "raw": 0,
+  "diff_gate": "on",
+  "n_baseline_filtered": 0,
   "findings": [],
   "err_head": "regmap: /workspace/HTFuzz/traces/mbx_regmap.json\n=== 发现引擎: mbx ===\n白盒信号 0 个, 寄存器 17 个\n敏感: 0  控制: 0  其他: 0\n\n[O-A] 残留 oracle...\n  → 0 条\n[O-B] 确定性 oracle...\n  → 0 条\n[O-C] 等价类 oracle...\n  → 0 条\n[O-D] FSM "
  },
  "otbn": {
-  "elapsed_s": 0.1,
+  "elapsed_s": 0.2,
   "rc": 0,
   "raw": 0,
+  "diff_gate": "off(无fresh参照,候选未验证)",
+  "n_baseline_filtered": 0,
   "findings": [],
   "err_head": "regmap: /workspace/HTFuzz/traces/otbn_regmap.json\n=== 发现引擎: otbn ===\n白盒信号 0 个, 寄存器 12 个\n敏感: 0  控制: 0  其他: 0\n\n[O-A] 残留 oracle...\n  → 0 条\n[O-B] 确定性 oracle...\n  → 0 条\n[O-C] 等价类 oracle...\n  → 0 条\n[O-D] FS"
  }

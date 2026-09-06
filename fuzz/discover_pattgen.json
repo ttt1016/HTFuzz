@@ -1,4 +1,7 @@
 {
  "module": "pattgen",
- "findings": []
+ "findings": [],
+ "diff_baseline": "/workspace/HTFuzz/perip/pattgen-fresh",
+ "diff_gate_ok": true,
+ "n_baseline_filtered": 0
 }

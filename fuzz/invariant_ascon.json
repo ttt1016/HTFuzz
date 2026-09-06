@@ -4,13 +4,13 @@
   {
    "signal": "ascon_core.key_share0_in_q",
    "rule": "wipe_clears",
-   "desc": "擦除触发后 ascon_core.key_share0_in_q 残留非零值 ['0xdeadbeef', '0xdeadbeef', '0xdeadbeef']",
+   "desc": "擦除触发后 ascon_core.key_share0_in_q 仍可提取写入标记（wipe 未生效）",
    "confidence": 80
   },
   {
    "signal": "ascon_core.key_share0_in_q",
    "rule": "wipe_clears",
-   "desc": "擦除触发后 ascon_core.key_share0_in_q 残留非零值 ['0xdeadbeef', '0xdeadbeef', '0xdeadbeef']",
+   "desc": "擦除触发后 ascon_core.key_share0_in_q 仍可提取写入标记（wipe 未生效）",
    "confidence": 80
   }
  ]

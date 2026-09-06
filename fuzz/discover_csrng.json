@@ -1,12 +1,7 @@
 {
  "module": "csrng",
- "findings": [
-  {
-   "oracle": "O-J-errprop",
-   "signal": "u_dut.u_csrng_core.cs_bus_cmp_alert,u_dut.u_csrng_core.cmd_stage_sm_err_sum,u_dut.u_csrng_core.aes_cipher_sm_err_sum",
-   "value": "tried=3",
-   "confidence": "HIGH",
-   "desc": "全部 3 类错误触发均未引起任何 alert/err 信号置位 → 错误传播链断裂"
-  }
- ]
+ "findings": [],
+ "diff_baseline": "/workspace/HTFuzz/perip/csrng-fresh",
+ "diff_gate_ok": true,
+ "n_baseline_filtered": 1
 }

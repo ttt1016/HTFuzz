@@ -1,4 +1,7 @@
 {
  "module": "otp_ctrl",
- "findings": []
+ "findings": [],
+ "diff_baseline": "/workspace/HTFuzz/perip/otp_ctrl-fresh",
+ "diff_gate_ok": true,
+ "n_baseline_filtered": 0
 }

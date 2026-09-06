@@ -1,12 +1,7 @@
 {
  "module": "rom_ctrl",
- "findings": [
-  {
-   "oracle": "O-G-pulse",
-   "signal": "rvalid_residual",
-   "value": "residual=10 count=24",
-   "confidence": "HIGH",
-   "desc": "事务完成后响应信号残留 10 拍（出现 24 次）→ 脉冲电平化，同一响应可能被重复采样"
-  }
- ]
+ "findings": [],
+ "diff_baseline": "/workspace/HTFuzz/perip/rom_ctrl-fresh",
+ "diff_gate_ok": true,
+ "n_baseline_filtered": 1
 }

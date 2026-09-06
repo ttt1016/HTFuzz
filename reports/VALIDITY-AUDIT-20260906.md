@@ -108,16 +108,36 @@ CTF 开环记为"检出"的 (oracle, signal) 组合与干净 RTL 上的误报**�
 
 ## 六、行动项（按优先级）
 
-- [ ] **P0 修属性规范**：O-A/O-K2/O-K wipe_clears 改为"marker 消失"判据（非"归零"）；
-  O-B 加两遍非确定性基线；O-J/O-C 加干净基线校准。修完重跑阴性对照，目标误报 →0
-- [ ] **P0 重记账**：36 条历史检出按证据链三档重标（差分确认 / 单元 TB / 仅开环），
-  对外只引用前两档
-- [ ] **P0 差分确认设为检出必要条件**：triage 的 DIFF-CONFIRMED 机制已有，
-  升级为管线强制门（无 fresh 参照的模块显式标注"未验证"）
-- [ ] P1 补齐对照盲区：keymgr/lc/uart regmap、otbn/sram_ctrl fresh .so
-- [ ] P1 diff_hunt 补两遍稳定集过滤
-- [ ] P2 变异扩族（第四节矩阵，在 P0 修复后执行）
+- [x] **P0 修属性规范**（2026-09-06，commit 37c6ea3）：O-A 落标前置+显式清除扫描；
+  O-K2 复位基线判据+P0 分类器排除控制字段；O-K wipe_clears 改 marker 判据+未落标跳过；
+  O-B 重写为变输入判据。修复后干净侧误报：O-A 12→0、O-K2 12→0、O-K hmac 5→0 / aes 2→0
+- [x] **P0 差分确认设为检出必要条件**（2026-09-06，commit 6ac9b10）：discover_engine
+  --baseline 差分强制门，候选须通过 fresh 基线校准方计为检出（diff_verified 标）；
+  基线在独立子进程运行——同进程加载会因 harness .so 的 RTLD_GLOBAL 符号互串导致
+  校准失效（实测复现并规避）；无 fresh 参照的模块 batch_discover 显式标注 gate=OFF
+- [x] **P1 diff_hunt 补两遍稳定集过滤**（2026-09-06，commit 5ec6883）：复用
+  diff_replay.compare；hmac 定向差分 50→40（10 条假偏离清除）
+- [x] **口径重述**（2026-09-06）：README 当前状态表改为三档证据口径，历史数字标注为
+  "已知集重新发现口径"
+- [ ] P0 重记账收尾：逐 bug ID 三档重标注（需对照主报告映射表，人工执行）
+- [ ] P1 补齐对照盲区：keymgr-ctf 的 .so 缺失（开环不可用，需重建）；
+  otbn/sram_ctrl/adc_ctrl 无 fresh 参照；keymgr/lc/uart regmap 缺
+- [ ] P2 变异扩族（第四节矩阵，属性修复后执行——当前 oracle 判据已具备被杀伤的语义基础）
 - [ ] P2 盲测演练：清单外 IP 全管线冷启动
+
+## 八、修复后全量验证（2026-09-06）
+
+batch_discover 28 模块全量过差分门 + batch_ok_check 全量重跑：
+
+| 层 | 整改前 | 整改后 |
+|---|--------|--------|
+| 开环检出 | 40+ 条（含大量与干净 RTL 重合的记录） | **14 条 / 2 模块，全部 diff_verified**（ascon 12 / hmac 2）；45 条候选被基线过滤 |
+| O-K 违反 | 8 条（hmac/aes/sha2 的 wipe 类全为属性规范误报） | **2 条**（ascon key_share0_in_q wipe 未生效，与 #43 一致，干净侧 0 误报）|
+| 差分层 | 157 条（diff_hunt 无稳定集过滤） | diff_hunt 补稳定集后 hmac 50→40；diff_replay 口径不变（本身即判别性）|
+| 未过门模块 | 无标注 | sram_ctrl/adc_ctrl/otbn 显式 gate=OFF（无 fresh 参照）|
+
+ascon 的 12 条开环检出在干净基线上零重合——与 O-K 的 ascon wipe 违反互相印证
+（#43 TRIGGER.wipe 无效），是当前最强的工具自动证据链。
 
 ## 七、实验产物与复现
 

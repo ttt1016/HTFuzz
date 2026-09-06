@@ -1,4 +1,7 @@
 {
  "module": "alert_handler",
- "findings": []
+ "findings": [],
+ "diff_baseline": "/workspace/HTFuzz/perip/alert_handler-fresh",
+ "diff_gate_ok": true,
+ "n_baseline_filtered": 0
 }

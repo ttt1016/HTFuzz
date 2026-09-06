@@ -1,12 +1,7 @@
 {
  "module": "uart",
- "findings": [
-  {
-   "oracle": "O-J-errprop",
-   "signal": "u_dut.u_reg.__Vcellout__u_intr_state_rx_frame_err__q,u_dut.u_reg.__Vcellout__u_intr_state_rx_break_err__q,u_dut.u_reg.__Vcellout__u_intr_state_rx_parity_err__q",
-   "value": "tried=1",
-   "confidence": "HIGH",
-   "desc": "全部 1 类错误触发均未引起任何 alert/err 信号置位 → 错误传播链断裂"
-  }
- ]
+ "findings": [],
+ "diff_baseline": "/workspace/HTFuzz/perip/uart-fresh",
+ "diff_gate_ok": true,
+ "n_baseline_filtered": 1
 }
