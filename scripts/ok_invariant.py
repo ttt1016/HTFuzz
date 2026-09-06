@@ -426,18 +426,31 @@ class InvariantChecker:
         d = self.dut
         d.reset()
         d.step(5)
-        self._marker_probe()
+        marker = self._marker_probe()
+        pre = self._sig_words(real_sig)
         self._exec_triggers(inv.get("trigger_regs"))
         d.step(50)
         words = self._sig_words(real_sig)
         if words is None:
             return None
-        nz = [w for w in words if w != 0]
-        if nz:
+
+        def marker_hit(v):
+            # 与 O-A 同规则: 宽信号比高16位, 窄信号(<=8bit)比低8位
+            return v != 0 and (
+                (v & 0xFFFF0000) == (marker & 0xFFFF0000)
+                or (v <= 0xFF and (v & 0xFF) == (marker & 0xFF))
+            )
+
+        # 判据是"marker 仍可提取", 不是"归零"——干净实现的 wipe 是随机化覆写,
+        # 擦除后合法地非零。marker 从未落入该信号时本规则不适用（否则摘要类
+        # 信号如 sha2.hash_q 会因操作输出非零而误报）。
+        if not any(marker_hit(w) for w in pre):
+            return None
+        if any(marker_hit(w) for w in words):
             return self._violation(
                 real_sig,
                 "wipe_clears",
-                f"擦除触发后 {real_sig} 残留非零值 {[hex(w) for w in nz[:3]]}",
+                f"擦除触发后 {real_sig} 仍可提取写入标记（wipe 未生效）",
             )
         return None
 

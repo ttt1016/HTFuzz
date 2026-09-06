@@ -1,35 +1,4 @@
 {
  "module": "hmac",
- "findings": [
-  {
-   "signal": "sha2.hash_q",
-   "rule": "wipe_clears",
-   "desc": "擦除触发后 sha2.hash_q 残留非零值 ['0x1', '0x1', '0x1']",
-   "confidence": 80
-  },
-  {
-   "signal": "u_dut.secret_key",
-   "rule": "wipe_clears",
-   "desc": "擦除触发后 u_dut.secret_key 残留非零值 ['0x1', '0x1', '0x1']",
-   "confidence": 80
-  },
-  {
-   "signal": "sha2.digest_q",
-   "rule": "wipe_clears",
-   "desc": "擦除触发后 sha2.digest_q 残留非零值 ['0x1', '0x1', '0x1']",
-   "confidence": 80
-  },
-  {
-   "signal": "sha2.hash_q",
-   "rule": "wipe_clears",
-   "desc": "擦除触发后 sha2.hash_q 残留非零值 ['0x1', '0x1', '0x1']",
-   "confidence": 80
-  },
-  {
-   "signal": "u_dut.secret_key",
-   "rule": "wipe_clears",
-   "desc": "擦除触发后 u_dut.secret_key 残留非零值 ['0x1', '0x1', '0x1']",
-   "confidence": 80
-  }
- ]
+ "findings": []
 }

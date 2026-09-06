@@ -1,6 +1,6 @@
 module,findings
 adc_ctrl,NO_REGMAP
-aes,37
+aes,29
 alert_handler,0
 aon_timer,0
 ascon,0
@@ -8,7 +8,7 @@ clkmgr,1
 csrng,1
 entropy_src,1
 gpio,0
-hmac,23
+hmac,5
 ibex,1
 keymgr,NO_REGMAP
 kmac,3

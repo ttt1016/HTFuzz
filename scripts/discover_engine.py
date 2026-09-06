@@ -272,6 +272,9 @@ def oracle_midreset(dut, regmap, findings, cfg):
             return False
         if re.search(r"alert|err|fatal|_d$|_we$|_re$|wdata_q|cmd", low):
             return False
+        # 控制类字段不是密钥材料（如 digest_size_started_q / hash_process_ctrl）
+        if re.search(r"size|start|stop|done|cnt|count|ptr|idx|valid|ready|process|_en$", low):
+            return False
         return any(
             k in low
             for k in ["key", "secret", "seed", "digest", "hash", "mask", "state_raw", "share"]
@@ -280,6 +283,11 @@ def oracle_midreset(dut, regmap, findings, cfg):
     p0_sigs = [s for s in sens if is_p0(s)]
     if not p0_sigs:
         return
+    # 复位基线: 完整复位后各 P0 信号的期望值（SEC_WIPE 类信号在干净实现里
+    # 复位后是随机化/约定值而非字面零——判据必须是"回到基线"而非"等于零"）
+    dut.reset()
+    dut.step(10)
+    baseline = {nm: dut.sig_all(nm) for nm in p0_sigs}
     for trial in range(cfg.get("trials", 6)):
         dut.reset()
         dut.step(5)
@@ -297,23 +305,33 @@ def oracle_midreset(dut, regmap, findings, cfg):
         # **中途复位**
         dut.reset()
         dut.step(10)  # 复位释放后等 FSM 回稳
-        # 扫描敏感信号残留
+        # 扫描: 与复位基线比较, 偏离即残留操作数据
         for nm in p0_sigs:
             words = dut.sig_all(nm)
-            nz = [w for w in words if w != 0]
-            if nz:
+            if words != baseline[nm]:
                 findings.append(
                     {
                         "oracle": "O-K2-midreset",
                         "signal": nm,
-                        "desc": f"中途复位后 {nm} 残留非零值 {[hex(w) for w in nz[:3]]}"
-                        f"（SEC_WIPE on reset 应归零）",
+                        "desc": f"中途复位后 {nm} 未回到复位基线（残留操作数据）"
+                        f"基线={[hex(w) for w in baseline[nm][:3]]}"
+                        f" 实际={[hex(w) for w in words[:3]]}",
                         "trigger": "mid_reset",
-                        "residual": [hex(w) for w in nz[:3]],
+                        "residual": [hex(w) for w in words[:3]],
                     }
                 )
                 break  # 每 trial 一个发现即可
-    # 第二场景: 操作中写不同 pattern → 复位 → 读回 CSR 残留
+    # 第二场景: 操作中写不同 pattern → 复位 → 读回 CSR 残留（与复位基线比较）
+    dut.reset()
+    dut.step(10)
+    key_csrs = [
+        (nm, off)
+        for nm, off in regmap.items()
+        if off is not None
+        and off < 0x100
+        and any(k in nm.lower() for k in ["key", "secret", "seed", "digest", "wdata"])
+    ]
+    csr_baseline = {nm: dut.read(off) for nm, off in key_csrs}
     for trial in range(3):
         dut.reset()
         dut.step(5)
@@ -325,29 +343,23 @@ def oracle_midreset(dut, regmap, findings, cfg):
             if off is not None:
                 dut.write(off, 0x1)
                 dut.step(3)
-        # 复位前快照 CSR
-        pre_reset_csr = {}
-        for nm, off in list(regmap.items())[:10]:
-            if off is not None and off < 0x100:
-                pre_reset_csr[nm] = dut.read(off)
         dut.reset()
         dut.step(10)
-        # 复位后敏感 CSR 必须归零（除非 RO/常值）
-        for nm, off in regmap.items():
-            low = nm.lower()
-            if any(k in low for k in ["key", "secret", "seed", "digest", "wdata"]):
-                if off is not None and off < 0x100:
-                    v = dut.read(off)
-                    if v != 0:
-                        findings.append(
-                            {
-                                "oracle": "O-K2-midreset",
-                                "signal": f"CSR.{nm}",
-                                "desc": f"中途复位后 CSR {nm} 残留 {hex(v)}（应归零）",
-                                "trigger": "mid_reset_csr",
-                            }
-                        )
-                        break
+        # 复位后敏感 CSR 必须回到复位基线（干净实现里 RW 密钥 CSR 复位值为 0,
+        # 但判据用基线相对, 避免把"复位值非零"的合法设计误判）
+        for nm, off in key_csrs:
+            v = dut.read(off)
+            if v != csr_baseline[nm]:
+                findings.append(
+                    {
+                        "oracle": "O-K2-midreset",
+                        "signal": f"CSR.{nm}",
+                        "desc": f"中途复位后 CSR {nm} 未回到复位基线："
+                        f"基线={hex(csr_baseline[nm])} 实际={hex(v)}",
+                        "trigger": "mid_reset_csr",
+                    }
+                )
+                break
         break  # CSR 扫描只做一次
 
 
@@ -406,6 +418,14 @@ def oracle_residual(dut, regmap, findings, cfg):
                 dut.write(off, 0x66)
                 dut.step(2)
 
+    def marker_hit(v, marker):
+        """与写入标记的匹配规则: 宽信号(>8bit)比高16位, 窄信号(<=8bit)比低8位"""
+        if v == 0:
+            return False
+        return ((v & 0xFFFF0000) == (marker & 0xFFFF0000)) or (
+            v <= 0xFF and (v & 0xFF) == (marker & 0xFF)
+        )
+
     for trial in range(cfg.get("trials", 8)):
         dut.reset()
         dut.step(5)
@@ -413,28 +433,33 @@ def oracle_residual(dut, regmap, findings, cfg):
         dut.step(10)
         # 写敏感数据（特征值便于识别）
         marker = 0xDEAD0000 | (trial << 8) | 0xBE
-        written = []
         for nm, off in wr_targets[:4]:
             for w in range(min(4, 8)):
                 dut.write(off + 4 * w, marker + w)
-                written.append((nm, off + 4 * w, marker + w))
         dut.step(10)
+        # 前置条件: marker 必须已落入敏感信号——未落标的 trial 无法判定残留
+        landed = []
+        for snm in sens:
+            if any(marker_hit(v, marker) for v in dut.sig_all(snm)):
+                landed.append(snm)
+        if not landed:
+            continue
         # 随机操作序列（含清除）
         for _ in range(cfg.get("ops", 6)):
             nm, off = rnd.choice(clear_targets)
             dut.write(off, rnd.choice([0x1, 0x2, 0x4, 0x8, 0xF, marker]))
             dut.step(rnd.randint(5, 50))
-        # 扫描残留
+        # 显式清除扫描: 枚举 clear 类寄存器的 canonical 激活值
+        # （wipe/flush 的激活位宽不确定, 逐一覆盖小值域保证清除动作真的发生）
+        for nm, off in clear_targets[:4]:
+            for v in (0x1, 0x2, 0x4, 0x8, 0x10, 0x1F, 0xFF):
+                dut.write(off, v)
+                dut.step(10)
+        # 扫描残留: 仅对已落标信号判定
         dut.step(20)
-        for snm in sens:
-            words = dut.sig_all(snm)
-            for w, v in enumerate(words):
-                # 宽信号(>8bit)用高16位匹配；窄信号(<=8bit)用低8位匹配
-                if v != 0 and any(
-                    ((v & 0xFFFF0000) == (m & 0xFFFF0000))
-                    or ((v <= 0xFF) and ((v & 0xFF) == (m & 0xFF)))
-                    for _, _, m in written
-                ):
+        for snm in landed:
+            for w, v in enumerate(dut.sig_all(snm)):
+                if marker_hit(v, marker):
                     findings.append(
                         {
                             "oracle": "O-A-residual",
@@ -443,7 +468,7 @@ def oracle_residual(dut, regmap, findings, cfg):
                             "value": hex(v),
                             "marker": hex(marker),
                             "trial": trial,
-                            "desc": f"敏感信号 {snm}[{w}] 在清除/操作序列后残留写入标记值",
+                            "desc": f"敏感信号 {snm}[{w}] 在显式清除扫描后仍保留写入标记值",
                         }
                     )
                     break
@@ -451,9 +476,9 @@ def oracle_residual(dut, regmap, findings, cfg):
 
 # ---------- O-B: 确定性 oracle（掩码/熵静态性）----------
 def oracle_determinism(dut, regmap, findings, cfg):
-    """相同输入两次执行 → 掩码/熵类信号若逐位相同则可疑"""
+    """不同输入序列执行 → 掩码/熵类信号若逐位不变则可疑（静态掩码/PRNG 不动）"""
     sens, ctrl, other = classify(dut.sigs)
-    # 掩码/熵类信号: 两次执行应该不同（随机性），相同即可疑
+    # 掩码/熵类信号: 跨不同输入应变化（随机性推进），逐位不变即可疑
     mask_sigs = [
         nm
         for nm in dut.sigs
@@ -478,42 +503,43 @@ def oracle_determinism(dut, regmap, findings, cfg):
     # CFG 候选值: 覆盖常见使能位组合（bit0/1/3/20/24 等高位使能）
     cfg_vals = [0x1, 0x3, 0x9, 0x1100002, 0x0110000A, 0x01000002]
 
-    def do_ops(dut, cv):
+    def do_ops(dut, cv, seq):
         # 使能配置（含 shadow 两阶段）
         for nm, off in cfg_regs[:2]:
             dut.write(off, cv)
             dut.step(3)
             dut.write(off, cv)
             dut.step(3)
-        # 写消息
+        # 写消息 —— 每个序列不同数据（变输入是判据成立的前提）
         for nm, off in msg_regs[:4]:
             for w in range(2):
-                dut.write(off + 4 * w, 0xA5A5A5A5 + w)
+                dut.write(off + 4 * w, 0xA5A5A5A5 + w + seq * 0x11111111)
                 dut.step(2)
         # 启动
         for nm, off in cmd_regs[:1]:
             dut.write(off, 0x1)
         dut.step(200)
 
+    # 属性: 掩码/熵信号应随输入变化（PRNG 逐块推进）。确定性仿真里"同输入两次
+    # 执行结果相同"是必然的, 不构成可疑；跨不同输入序列仍逐位不变才是静态掩码。
     for trial, cv in enumerate(cfg_vals):
-        runs = []
-        for run in range(2):
-            dut.reset()
-            dut.step(5)
-            do_ops(dut, cv)
-            runs.append({nm: dut.sig_all(nm) for nm in mask_sigs})
-        # 比较
+        dut.reset()
+        dut.step(5)
+        samples = []
+        for seq in range(3):
+            do_ops(dut, cv, seq)
+            samples.append({nm: dut.sig_all(nm) for nm in mask_sigs})
         for nm in mask_sigs:
-            r0, r1 = runs[0][nm], runs[1][nm]
-            if r0 and r0 == r1 and any(v != 0 for v in r0):
-                # 排除常量信号（两次都全 F 或全 0 已排除）
+            vals = [s[nm] for s in samples]
+            if vals[0] and all(v == vals[0] for v in vals) and any(x != 0 for x in vals[0]):
                 findings.append(
                     {
                         "oracle": "O-B-determinism",
                         "signal": nm,
-                        "value": " ".join(hex(v) for v in r0[:4]),
+                        "value": " ".join(hex(x) for x in vals[0][:4]),
                         "trial": trial,
-                        "desc": f"掩码/熵信号 {nm} 两次独立执行逐位相同 → 无随机性（静态掩码/PRNG 不动）",
+                        "desc": f"掩码/熵信号 {nm} 跨 {len(vals)} 条不同输入序列逐位不变"
+                        f" → 无随机性（静态掩码/PRNG 不动）",
                     }
                 )
 
