@@ -51,9 +51,16 @@ for d in DUTS:
     args = [sys.executable, f"{PF}/scripts/discover_engine.py", dut_dir, module]
     if os.path.exists(regmap):
         args.append(regmap)
+    # 差分强制门: 有干净参照 DUT 的模块自动过基线校准(检出=干净实现上不发生的行为违反)
+    fresh_dir = f"{PF}/perip/{d}-fresh"
+    has_fresh = os.path.isdir(f"{fresh_dir}/obj_so") and any(
+        f.endswith(".so") for f in os.listdir(f"{fresh_dir}/obj_so")
+    )
+    if has_fresh:
+        args += ["--baseline", fresh_dir]
     t0 = time.time()
     try:
-        p = subprocess.run(args, capture_output=True, text=True, timeout=150, cwd=PF)
+        p = subprocess.run(args, capture_output=True, text=True, timeout=300, cwd=PF)
         out = p.stdout + p.stderr
         rc = p.returncode
     except subprocess.TimeoutExpired as e:
@@ -65,10 +72,13 @@ for d in DUTS:
     # 直接读引擎落盘 JSON（stdout 只打印前 10 条，会丢后面的 oracle）
     jf = f"{PF}/fuzz/discover_{module}.json"
     findings = []
+    n_filtered = 0
     if os.path.exists(jf):
         try:
-            for f in json.load(open(jf)).get("findings", []):
+            j = json.load(open(jf))
+            for f in j.get("findings", []):
                 findings.append((f.get("oracle", "?"), f.get("signal", "?"), f.get("desc", "")))
+            n_filtered = j.get("n_baseline_filtered", 0)
         except Exception:
             pass
     uniq, seen = [], set()
@@ -81,11 +91,14 @@ for d in DUTS:
         "elapsed_s": round(dt, 1),
         "rc": rc,
         "raw": len(findings),
+        "diff_gate": "on" if has_fresh else "off(无fresh参照,候选未验证)",
+        "n_baseline_filtered": n_filtered,
         "findings": uniq,
         "err_head": out[:200] if not findings else "",
     }
     print(
-        f"[{module}] {dt:.0f}s rc={rc} raw={len(findings)} uniq={len(uniq)}"
+        f"[{module}] {dt:.0f}s rc={rc} raw={len(findings)} uniq={len(uniq)} "
+        f"gate={'on' if has_fresh else 'OFF'} filtered={n_filtered}"
         + ("" if findings else f"  ERR: {out[:120]!r}"),
         flush=True,
     )

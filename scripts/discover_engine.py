@@ -21,6 +21,7 @@ import json
 import os
 import random
 import re
+import subprocess
 import sys
 
 
@@ -1277,17 +1278,106 @@ def oracle_kat(dut, regmap, findings, cfg):
 
 
 # ---------- 主流程 ----------
+def run_all_oracles(dut, norm, cfg, module, quiet=False):
+    """运行全部 oracle, 返回 findings 列表。quiet=True 时不打印逐 oracle 进度。"""
+    findings = []
+
+    def say(msg):
+        if not quiet:
+            print(msg)
+
+    def count(tag):
+        return sum(1 for f in findings if f["oracle"] == tag)
+
+    say("\n[O-A] 残留 oracle...")
+    oracle_residual(dut, norm, findings, cfg)
+    say("  → %d 条" % count("O-A-residual"))
+    say("[O-B] 确定性 oracle...")
+    oracle_determinism(dut, norm, findings, cfg)
+    say("  → %d 条" % count("O-B-determinism"))
+    say("[O-C] 等价类 oracle...")
+    oracle_equivclass(dut, norm, findings, cfg)
+    say("  → %d 条" % count("O-C-equivclass"))
+    say("[O-D] FSM 探索 oracle...")
+    oracle_fsm(dut, norm, findings, cfg)
+    say("  → %d 条" % count("O-D-fsm"))
+    say("[O-E] FIFO 压力 oracle...")
+    oracle_fifo(dut, norm, findings, cfg)
+    say("  → %d 条" % count("O-E-fifo"))
+    say("[O-F] 流式数据 oracle...")
+    oracle_stream(dut, norm, findings, cfg)
+    say("  → %d 条" % count("O-F-stream"))
+    say("[O-G] 脉冲宽度 oracle...")
+    oracle_pulse(dut, norm, findings, cfg)
+    say("  → %d 条" % count("O-G-pulse"))
+    say("[O-K2] 中途复位 oracle...")
+    try:
+        oracle_midreset(dut, norm, findings, cfg)
+        say("  → %d 条" % count("O-K2-midreset"))
+    except Exception as e:
+        print(f"  [warn] O-K2 执行异常: {e}")
+    say("[O-J] 错误传播 oracle...")
+    try:
+        oracle_errprop(dut, norm, findings, cfg)
+        say("  → %d 条" % count("O-J-errprop"))
+    except Exception as e:
+        print(f"  [warn] O-J 执行异常: {e}")
+    say("[O-N] 多轨一致性 oracle...")
+    try:
+        oracle_multirail(dut, norm, findings, cfg)
+        say("  → %d 条" % count("O-N-multirail"))
+    except Exception as e:
+        print(f"  [warn] O-N 执行异常: {e}")
+    cfg["module"] = module
+    say("[O-L] 密码符合性 KAT oracle...")
+    try:
+        oracle_kat(dut, norm, findings, cfg)
+        say("  → %d 条" % count("O-L-kat"))
+    except Exception as e:
+        print(f"  [warn] O-L 执行异常: {e}")
+    say("[O-M] MUBI 合法性 oracle...")
+    try:
+        oracle_mubi(dut, norm, findings, cfg)
+        say("  → %d 条" % count("O-M-mubi"))
+    except Exception as e:
+        print(f"  [warn] O-M 执行异常: {e}")
+    return findings
+
+
 def main():
     if len(sys.argv) < 3:
-        print("用法: discover_engine.py <dut_dir> <module_name> [regmap_json]")
+        print(
+            "用法: discover_engine.py <dut_dir> <module_name> [regmap_json] [--baseline <fresh_dut_dir>]"
+        )
         sys.exit(1)
-    dut_dir, module = sys.argv[1], sys.argv[2]
-    regmap_path = sys.argv[3] if len(sys.argv) > 3 else None
+    args = [a for a in sys.argv[1:] if a not in ("--baseline", "--emit-baseline")]
+    baseline_dir = None
+    emit_baseline = None
+    if "--baseline" in sys.argv:
+        i = sys.argv.index("--baseline")
+        if i + 1 < len(sys.argv):
+            baseline_dir = sys.argv[i + 1]
+            args = [a for a in args if a != baseline_dir]
+    if "--emit-baseline" in sys.argv:
+        i = sys.argv.index("--emit-baseline")
+        if i + 1 < len(sys.argv):
+            emit_baseline = sys.argv[i + 1]
+            args = [a for a in args if a != emit_baseline]
+    dut_dir, module = args[0], args[1]
+    # DUT.__init__ 会 os.chdir(dut_dir): 两个 DUT 先后构造时, 后者的相对路径
+    # 会相对前者的 dut_dir 解析而失效——这里统一转绝对路径
+    dut_dir = os.path.abspath(dut_dir)
+    if baseline_dir:
+        baseline_dir = os.path.abspath(baseline_dir)
+    if emit_baseline:
+        emit_baseline = os.path.abspath(emit_baseline)
+    regmap_path = args[2] if len(args) > 2 else None
     regmap = {}
+    regmap_used = None
     # 注意: DUT.__init__ 会 chdir，所以这里必须先读 regmap（绝对路径）
     cands = []
     if regmap_path:
-        cands.append(regmap_path)
+        cands.append(regmap_path if os.path.isabs(regmap_path) else os.path.abspath(regmap_path))
     cands += [
         f"/workspace/HTFuzz/traces/{module}_regmap.json",
         f"/workspace/HTFuzz/traces/regmap_{module}.json",
@@ -1295,6 +1385,7 @@ def main():
     for cand in cands:
         if cand and os.path.exists(cand):
             regmap = json.load(open(cand))
+            regmap_used = cand
             print(f"regmap: {cand}")
             break
     # regmap 格式: list of {name, offset} 或 dict
@@ -1336,62 +1427,67 @@ def main():
     print(f"白盒信号 {len(dut.sigs)} 个, 寄存器 {len(norm)} 个")
     sens, ctrl, other = classify(dut.sigs)
     print(f"敏感: {len(sens)}  控制: {len(ctrl)}  其他: {len(other)}")
-    findings = []
-    print("\n[O-A] 残留 oracle...")
-    oracle_residual(dut, norm, findings, cfg)
-    print("  → %d 条" % sum(1 for f in findings if f["oracle"] == "O-A-residual"))
-    print("[O-B] 确定性 oracle...")
-    oracle_determinism(dut, norm, findings, cfg)
-    print("  → %d 条" % sum(1 for f in findings if f["oracle"] == "O-B-determinism"))
-    print("[O-C] 等价类 oracle...")
-    oracle_equivclass(dut, norm, findings, cfg)
-    print("  → %d 条" % sum(1 for f in findings if f["oracle"] == "O-C-equivclass"))
-    print("[O-D] FSM 探索 oracle...")
-    oracle_fsm(dut, norm, findings, cfg)
-    print("  → %d 条" % sum(1 for f in findings if f["oracle"] == "O-D-fsm"))
-    print("[O-E] FIFO 压力 oracle...")
-    oracle_fifo(dut, norm, findings, cfg)
-    print("  → %d 条" % sum(1 for f in findings if f["oracle"] == "O-E-fifo"))
-    print("[O-F] 流式数据 oracle...")
-    oracle_stream(dut, norm, findings, cfg)
-    print("  → %d 条" % sum(1 for f in findings if f["oracle"] == "O-F-stream"))
-    print("[O-G] 脉冲宽度 oracle...")
-    oracle_pulse(dut, norm, findings, cfg)
-    print("  → %d 条" % sum(1 for f in findings if f["oracle"] == "O-G-pulse"))
-    print("[O-K2] 中途复位 oracle...")
-    try:
-        oracle_midreset(dut, norm, findings, cfg)
-        print("  → %d 条" % sum(1 for f in findings if f["oracle"] == "O-K2-midreset"))
-    except Exception as e:
-        print(f"  [warn] O-K2 执行异常: {e}")
-    print("[O-J] 错误传播 oracle...")
-    try:
-        oracle_errprop(dut, norm, findings, cfg)
-        print("  → %d 条" % sum(1 for f in findings if f["oracle"] == "O-J-errprop"))
-    except Exception as e:
-        print(f"  [warn] O-J 执行异常: {e}")
-    print("[O-N] 多轨一致性 oracle...")
-    try:
-        oracle_multirail(dut, norm, findings, cfg)
-        print("  → %d 条" % sum(1 for f in findings if f["oracle"] == "O-N-multirail"))
-    except Exception as e:
-        print(f"  [warn] O-N 执行异常: {e}")
-    cfg["module"] = module
-    print("[O-L] 密码符合性 KAT oracle...")
-    try:
-        oracle_kat(dut, norm, findings, cfg)
-        print("  → %d 条" % sum(1 for f in findings if f["oracle"] == "O-L-kat"))
-    except Exception as e:
-        print(f"  [warn] O-L 执行异常: {e}")
-    print("[O-M] MUBI 合法性 oracle...")
-    try:
-        oracle_mubi(dut, norm, findings, cfg)
-        print("  → %d 条" % sum(1 for f in findings if f["oracle"] == "O-M-mubi"))
-    except Exception as e:
-        print(f"  [warn] O-M 执行异常: {e}")
+    findings = run_all_oracles(dut, norm, cfg, module, quiet=False)
+
+    # --emit-baseline: 基线子进程模式——只产出 findings JSON, 不做门控不写标准输出
+    if emit_baseline:
+        json.dump(findings, open(emit_baseline, "w"), indent=1, ensure_ascii=False)
+        try:
+            dut.api.pf_final()
+        except Exception:
+            pass
+        print(f"[emit-baseline] {len(findings)} 条基线特征 → {emit_baseline}")
+        return
+
+    # 差分强制门: 在干净参照 DUT 上重跑同一 oracle 集, (oracle, signal) 特征
+    # 在基线上同样出现的候选不是注入证据, 过滤之。幸存候选打 diff_verified 标。
+    # 比赛合规: 这是运行时行为对比(允许), 非源码 diff(禁止)。
+    # 基线必须在独立子进程运行: harness .so 以 RTLD_GLOBAL 加载, 同进程二次
+    # 加载时后载句柄的 pf_* 符号会解析到先载库 → 基线"DUT"实际驱动的是目标
+    # 仿真器, 校准失效。单进程单 DUT 是已验证的隔离边界(diff_replay 同款)。
+    filtered_n = 0
+    gate_ok = False
+    if baseline_dir:
+        print(f"\n[diff-gate] 干净基线校准(子进程): {baseline_dir}")
+        base_out = f"/tmp/pf_baseline_{module}.json"
+        cmd = [sys.executable, os.path.abspath(__file__), baseline_dir, module]
+        if regmap_used:
+            cmd.append(regmap_used)
+        cmd += ["--emit-baseline", base_out]
+        try:
+            p = subprocess.run(cmd, capture_output=True, text=True, timeout=600)
+        except subprocess.TimeoutExpired:
+            p = None
+        if p is None or p.returncode != 0 or not os.path.exists(base_out):
+            err = (p.stderr[-300:] if p is not None else "TIMEOUT") or ""
+            print(f"[diff-gate] 基线运行失败, 候选保留但标记未验证: {err}")
+        else:
+            base_findings = json.load(open(base_out))
+            base_keys = {(f["oracle"], f["signal"]) for f in base_findings}
+            kept = [f for f in findings if (f["oracle"], f["signal"]) not in base_keys]
+            filtered_n = len(findings) - len(kept)
+            for f in kept:
+                f["diff_verified"] = True
+            findings = kept
+            gate_ok = True
+            print(
+                f"[diff-gate] 基线特征 {len(base_keys)} 个, 过滤 {filtered_n} 条, "
+                f"幸存 {len(findings)} 条 (diff_verified)"
+            )
+    for f in findings:
+        f.setdefault("diff_verified", False)
     out = f"/workspace/HTFuzz/fuzz/discover_{module}.json"
     json.dump(
-        {"module": module, "findings": findings}, open(out, "w"), indent=1, ensure_ascii=False
+        {
+            "module": module,
+            "findings": findings,
+            "diff_baseline": baseline_dir,
+            "diff_gate_ok": gate_ok,
+            "n_baseline_filtered": filtered_n,
+        },
+        open(out, "w"),
+        indent=1,
+        ensure_ascii=False,
     )
     # 覆盖率插桩模型：结束时写 coverage.dat（普通模型无此 API，静默跳过）
     try:
