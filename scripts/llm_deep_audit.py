@@ -18,11 +18,18 @@ LLM 深度审计器 —— 把 fuzzing 候选连同完整 RTL 上下文喂给大
   python3 llm_deep_audit.py --all          # 全部模块
   PF_LLM_BASE=... PF_LLM_KEY=... python3 llm_deep_audit.py ...
 """
-import json, os, re, sys, hashlib, glob
+
+import glob
+import hashlib
+import json
+import os
+import re
+import sys
 
 OT = os.environ.get("PF_TARGET_RTL", "/workspace/opentitan")
 PF = os.environ.get("PF_ROOT", "/workspace/HTFuzz")
 CACHE_FILE = os.path.join(PF, "fuzz", "llm_deep_cache.json")
+
 
 # ---------------------------------------------------------------------------
 # RTL 深度上下文提取
@@ -32,15 +39,13 @@ def extract_block_context(signal_name, module, pad=30):
     parts = signal_name.replace("u_dut.", "").replace("u_core.", "").split(".")
     sig = parts[-1]
     candidates = {sig, sig.replace("_raw", ""), sig.replace("_d", ""), sig.replace("_q", "")}
-    ip_dirs = [os.path.join(OT, "hw/ip", module),
-               os.path.join(OT, "hw/top_earlgrey/ip_autogen", module),
-               os.path.join(OT, "hw/vendor/pulp_riscv_dbg/src"),
-               os.path.join(OT, "hw/vendor/lowrisc_ibex/rtl")]
     hits = []
-    for base in [os.path.join(OT, "hw/ip", module),
-                 os.path.join(OT, "hw/top_earlgrey/ip_autogen", module),
-                 os.path.join(OT, "hw/vendor/pulp_riscv_dbg/src"),
-                 os.path.join(OT, "hw/vendor/lowrisc_ibex/rtl")]:
+    for base in [
+        os.path.join(OT, "hw/ip", module),
+        os.path.join(OT, "hw/top_earlgrey/ip_autogen", module),
+        os.path.join(OT, "hw/vendor/pulp_riscv_dbg/src"),
+        os.path.join(OT, "hw/vendor/lowrisc_ibex/rtl"),
+    ]:
         if not os.path.isdir(base):
             continue
         for root, dirs, files in os.walk(base):
@@ -64,13 +69,16 @@ def extract_block_context(signal_name, module, pad=30):
                         for c in candidates:
                             if not re.search(r"\b%s\b" % re.escape(c), ln):
                                 continue
-                            if require_assign and not re.search(r"\b%s\b[^=]*<=|\b%s\b\s*=" % (re.escape(c), re.escape(c)), ln):
+                            if require_assign and not re.search(
+                                r"\b%s\b[^=]*<=|\b%s\b\s*=" % (re.escape(c), re.escape(c)), ln
+                            ):
                                 continue
                             lo = max(0, i - pad)
                             hi = min(len(lines), i + pad + 1)
-                            ctx = "\n".join(f"{n+1:5d}: {lines[n]}" for n in range(lo, hi))
-                            hits.append({"file": path.replace(OT + "/", ""),
-                                         "line": i + 1, "context": ctx})
+                            ctx = "\n".join(f"{n + 1:5d}: {lines[n]}" for n in range(lo, hi))
+                            hits.append(
+                                {"file": path.replace(OT + "/", ""), "line": i + 1, "context": ctx}
+                            )
                             break
                         if len(hits) >= 3:
                             break
@@ -86,8 +94,10 @@ def extract_block_context(signal_name, module, pad=30):
 def extract_sec_cm_all(module):
     """提取模块全部 SEC_CM 注释（安全机制清单）"""
     tags = []
-    for base in [os.path.join(OT, "hw/ip", module),
-                 os.path.join(OT, "hw/top_earlgrey/ip_autogen", module)]:
+    for base in [
+        os.path.join(OT, "hw/ip", module),
+        os.path.join(OT, "hw/top_earlgrey/ip_autogen", module),
+    ]:
         if not os.path.isdir(base):
             continue
         for root, dirs, files in os.walk(base):
@@ -111,8 +121,10 @@ def extract_reg_defs(module, signal_name):
     """提取相关寄存器的 hjson 定义（访问策略/复位值）"""
     out = []
     sig = signal_name.split(".")[-1].replace("_raw", "").replace("_d", "").replace("_q", "")
-    for base in [os.path.join(OT, "hw/ip", module),
-                 os.path.join(OT, "hw/top_earlgrey/ip_autogen", module)]:
+    for base in [
+        os.path.join(OT, "hw/ip", module),
+        os.path.join(OT, "hw/top_earlgrey/ip_autogen", module),
+    ]:
         if not os.path.isdir(base):
             continue
         for root, dirs, files in os.walk(base):
@@ -126,7 +138,7 @@ def extract_reg_defs(module, signal_name):
                 if sig.lower() in content.lower():
                     # 提取该寄存器块（±20 行）
                     idx = content.lower().find(sig.lower())
-                    block = content[max(0, idx-200):idx+800]
+                    block = content[max(0, idx - 200) : idx + 800]
                     out.append(f"### {fn}\n```\n{block}\n```")
                     if len(out) >= 2:
                         break
@@ -143,9 +155,13 @@ def extract_reg_defs(module, signal_name):
 def build_deep_prompt(finding, module, rtl, sec_cms, reg_defs):
     # rtl 兼容单命中(dict)和多命中(list)
     rtl_list = rtl if isinstance(rtl, list) else ([rtl] if rtl else [])
-    rtl_block = "\n\n".join(
-        f"```systemverilog\n// {h['file']}:{h['line']}\n{h['context']}\n```"
-        for h in rtl_list) if rtl_list else "（未找到 RTL 定义——可能被优化或命名变体，请基于现象推断）"
+    rtl_block = (
+        "\n\n".join(
+            f"```systemverilog\n// {h['file']}:{h['line']}\n{h['context']}\n```" for h in rtl_list
+        )
+        if rtl_list
+        else "（未找到 RTL 定义——可能被优化或命名变体，请基于现象推断）"
+    )
     oracle_hint = {
         "O-A-residual": "敏感数据（密钥/种子）在清除/擦除操作后仍残留——检查擦除路径是否被篡改（写使能极性/条件/映射目标）",
         "O-B-determinism": "本应随机的信号（掩码/熵）两次执行完全相同——检查随机源是否被替换为常量",
@@ -166,16 +182,16 @@ def build_deep_prompt(finding, module, rtl, sec_cms, reg_defs):
 
 ## 候选信息
 - 模块: {module}
-- Oracle: {finding.get('oracle')} {('—— ' + oracle_hint) if oracle_hint else ''}
-- 信号: {finding.get('signal')}
-- 现象: {finding.get('desc')}
-- 置信度: {finding.get('confidence')}
+- Oracle: {finding.get("oracle")} {("—— " + oracle_hint) if oracle_hint else ""}
+- 信号: {finding.get("signal")}
+- 现象: {finding.get("desc")}
+- 置信度: {finding.get("confidence")}
 
 ## 该模块的安全机制清单（SEC_CM）
-{chr(10).join(sec_cms) if sec_cms else '（未找到）'}
+{chr(10).join(sec_cms) if sec_cms else "（未找到）"}
 
 ## 相关寄存器定义
-{chr(10).join(reg_defs) if reg_defs else '（未找到）'}
+{chr(10).join(reg_defs) if reg_defs else "（未找到）"}
 
 ## RTL 上下文（信号驱动逻辑，可能有多处赋值点——reg_top 门控 + core 数据通路）
 {rtl_block}
@@ -223,7 +239,7 @@ def mock_deep_verdict(finding, module, rtl, sec_cms, reg_defs):
         evidence = f"{rtl['file']}:{rtl['line']}"
         best = (0, "", "")
         for pat, desc, pts, itype in DEEP_PATTERNS:
-            m = re.search(pat, ctx, re.I)
+            m = re.search(pat, ctx, re.IGNORECASE)
             if m and pts > best[0]:
                 best = (pts, desc, itype)
         if best[0] > 0:
@@ -232,7 +248,9 @@ def mock_deep_verdict(finding, module, rtl, sec_cms, reg_defs):
             injection = best[2]
             # 提取命中行作为证据
             for ln in ctx.split("\n"):
-                if re.search(best[0] and r"=" , ln) and ("1'b" in ln or "wipe" in ln.lower() or "lock" in ln.lower()):
+                if re.search(best[0] and r"=", ln) and (
+                    "1'b" in ln or "wipe" in ln.lower() or "lock" in ln.lower()
+                ):
                     evidence += f" → `{ln.strip()[:80]}`"
                     break
     if sec_cms:
@@ -240,11 +258,14 @@ def mock_deep_verdict(finding, module, rtl, sec_cms, reg_defs):
         reasons.append(f"SEC_CM 上下文 {len(sec_cms)} 项")
     verdict = "likely-bug" if score >= 70 else ("needs-review" if score >= 50 else "likely-safe")
     return {
-        "verdict": verdict, "confidence": min(score, 100),
-        "injection_type": injection, "evidence": evidence or "(无 RTL 命中)",
+        "verdict": verdict,
+        "confidence": min(score, 100),
+        "injection_type": injection,
+        "evidence": evidence or "(无 RTL 命中)",
         "impact": f"{finding.get('signal')} 行为偏离 SEC_CM 意图",
         "suggested_poc": f"写触发寄存器后白盒观测 {finding.get('signal')}",
-        "reason": "; ".join(reasons), "mode": "mock-deep",
+        "reason": "; ".join(reasons),
+        "mode": "mock-deep",
     }
 
 
@@ -260,19 +281,23 @@ def _llm_chat(prompt, timeout=180):
     """调用 OpenAI 兼容 chat/completions，兼容 reasoning 模型（content 可能为
     null、思考在 reasoning 字段）。返回 content 文本。"""
     import urllib.request
+
     base = os.environ.get("PF_LLM_BASE", "http://127.0.0.1:18000/v1")
     key = os.environ.get("PF_LLM_KEY", "")
     model = os.environ.get("PF_LLM_MODEL", "zai-org/GLM-5.3-Flash")
     maxtok = int(os.environ.get("PF_LLM_MAXTOK", "16384"))
-    body = json.dumps({"model": model,
-                       "messages": [{"role": "user", "content": prompt}],
-                       "temperature": 0,
-                       "max_tokens": maxtok}).encode()
+    body = json.dumps(
+        {
+            "model": model,
+            "messages": [{"role": "user", "content": prompt}],
+            "temperature": 0,
+            "max_tokens": maxtok,
+        }
+    ).encode()
     headers = {"Content-Type": "application/json"}
     if key:
         headers["Authorization"] = f"Bearer {key}"
-    req = urllib.request.Request(base.rstrip("/") + "/chat/completions",
-                                 data=body, headers=headers)
+    req = urllib.request.Request(base.rstrip("/") + "/chat/completions", data=body, headers=headers)
     resp = json.load(urllib.request.urlopen(req, timeout=timeout))
     msg = resp["choices"][0]["message"]
     content = msg.get("content") or ""
@@ -285,21 +310,21 @@ def _llm_chat(prompt, timeout=180):
 def _parse_verdict_json(content):
     """从模型输出提取 verdict JSON（容忍 markdown 代码块/前后缀文本）"""
     # 1) ```json 块
-    m = re.search(r"```(?:json)?\s*(\{.*?\})\s*```", content, re.S)
+    m = re.search(r"```(?:json)?\s*(\{.*?\})\s*```", content, re.DOTALL)
     if m:
         try:
             return json.loads(m.group(1))
         except Exception:
             pass
     # 2) 含 verdict 的裸 JSON
-    m = re.search(r"\{[^{}]*\"verdict\"[^{}]*\}", content, re.S)
+    m = re.search(r"\{[^{}]*\"verdict\"[^{}]*\}", content, re.DOTALL)
     if m:
         try:
             return json.loads(m.group(0))
         except Exception:
             pass
     # 3) 兜底任意 {...}
-    m = re.search(r"\{.*\}", content, re.S)
+    m = re.search(r"\{.*\}", content, re.DOTALL)
     if m:
         try:
             return json.loads(m.group(0))
@@ -310,7 +335,7 @@ def _parse_verdict_json(content):
 
 def api_deep_verdict(finding, module, rtl, sec_cms, reg_defs):
     try:
-        import urllib.request
+        import urllib.request  # noqa: F401  可用性探测：不可用则回退 mock，名字本身不使用
     except ImportError:
         return mock_deep_verdict(finding, module, rtl, sec_cms, reg_defs)
     prompt = build_deep_prompt(finding, module, rtl, sec_cms, reg_defs)
@@ -318,8 +343,7 @@ def api_deep_verdict(finding, module, rtl, sec_cms, reg_defs):
         content = _llm_chat(prompt)
         v = _parse_verdict_json(content)
         if v is None:
-            v = {"verdict": "needs-review", "confidence": 50,
-                 "evidence": (content or "")[:2000]}
+            v = {"verdict": "needs-review", "confidence": 50, "evidence": (content or "")[:2000]}
         v["mode"] = "api-deep"
         v["model"] = os.environ.get("PF_LLM_MODEL", "zai-org/GLM-5.3-Flash")
         return v
@@ -333,15 +357,21 @@ def api_deep_verdict(finding, module, rtl, sec_cms, reg_defs):
 # 主流程
 # ---------------------------------------------------------------------------
 def cache_key(finding, module):
-    raw = json.dumps({"m": module, "o": finding.get("oracle"), "s": finding.get("signal"),
-                      "d": finding.get("desc", "")[:80]}, sort_keys=True)
+    raw = json.dumps(
+        {
+            "m": module,
+            "o": finding.get("oracle"),
+            "s": finding.get("signal"),
+            "d": finding.get("desc", "")[:80],
+        },
+        sort_keys=True,
+    )
     return hashlib.md5(raw.encode()).hexdigest()
 
 
 def audit_file(path, module, cache, use_api):
     data = json.load(open(path))
     findings = data.get("findings", [])
-    changed = False
     for f in findings:
         k = "deep_" + cache_key(f, module)
         if k in cache:
@@ -356,7 +386,6 @@ def audit_file(path, module, cache, use_api):
             v = mock_deep_verdict(f, module, rtl, sec_cms, reg_defs)
         f["llm_deep"] = v
         cache[k] = v
-        changed = True
     out = path.replace(".json", "_deep.json")
     json.dump(data, open(out, "w"), indent=1, ensure_ascii=False)
     return out, findings
@@ -387,6 +416,7 @@ def main():
 
     print(f"=== LLM 深度审计 ({len(targets)} 模块, {'API' if use_api else 'mock-deep'} 模式) ===")
     from collections import Counter
+
     total = Counter()
     for path, module in targets:
         out, findings = audit_file(path, module, cache, use_api)
@@ -395,9 +425,13 @@ def main():
         print(f"\n[{module}] {len(findings)} 条 → {out}")
         for f in findings:
             v = f.get("llm_deep", {})
-            mark = {"likely-bug": "[BUG?]", "needs-review": "[REVIEW?]"}.get(v.get("verdict"), "[safe]")
-            print(f"  {mark} {f.get('signal')} conf={v.get('confidence')} "
-                  f"inject={v.get('injection_type','-')}")
+            mark = {"likely-bug": "[BUG?]", "needs-review": "[REVIEW?]"}.get(
+                v.get("verdict"), "[safe]"
+            )
+            print(
+                f"  {mark} {f.get('signal')} conf={v.get('confidence')} "
+                f"inject={v.get('injection_type', '-')}"
+            )
             if v.get("evidence"):
                 print(f"        证据: {str(v.get('evidence'))[:90]}")
     json.dump(cache, open(CACHE_FILE, "w"), indent=1, ensure_ascii=False)
@@ -406,4 +440,5 @@ def main():
 
 if __name__ == "__main__":
     import sys
+
     main()

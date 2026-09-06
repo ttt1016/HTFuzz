@@ -11,24 +11,30 @@ keymgr 完整 key derivation 流程 fuzzing —— 走完 6 个操作状态后�
 用法:
   python3 keymgr_full_flow.py perip/keymgr-ctf keymgr traces/keymgr_regmap.json
 """
-import json, os, re, sys, ctypes
+
+import os
+import sys
 
 PF = os.environ.get("PF_ROOT", "/workspace/HTFuzz")
 OT = os.environ.get("PF_TARGET_RTL", "/workspace/opentitan")
 
 # 寄存器偏移（从 reg_pkg.sv 提取）
 R = {
-    "intr_state": 0x0, "cfg_regwen": 0x10, "start": 0x14,
-    "control_shadowed": 0x18, "sideload_clear": 0x1c,
+    "intr_state": 0x0,
     "cfg_regwen": 0x10,
+    "start": 0x14,
+    "control_shadowed": 0x18,
+    "sideload_clear": 0x1C,
     "sw_binding_regwen": 0x28,
-    "sealing_sw_binding_0": 0x2c, "sealing_sw_binding_7": 0x48,
-    "attest_sw_binding_0": 0x4c,
-    "salt_0": 0x6c, "salt_7": 0x88,
-    "key_version": 0x8c,
-    "sw_share0_output_0": 0xa8,
-    "sw_share1_output_0": 0xc8,
-    "op_status": 0xec,
+    "sealing_sw_binding_0": 0x2C,
+    "sealing_sw_binding_7": 0x48,
+    "attest_sw_binding_0": 0x4C,
+    "salt_0": 0x6C,
+    "salt_7": 0x88,
+    "key_version": 0x8C,
+    "sw_share0_output_0": 0xA8,
+    "sw_share1_output_0": 0xC8,
+    "op_status": 0xEC,
 }
 
 # 操作编码
@@ -39,11 +45,16 @@ OP_GEN_HW_OUT = 3
 
 # 状态编码（sparse FSM）
 ST = {
-    "Reset": 0b1101100001, "EntropyReseed": 0b1110010010,
-    "Random": 0b0011110100, "RootKey": 0b0110101111,
-    "Init": 0b0100000100, "CreatorRootKey": 0b1000011101,
-    "OwnerIntKey": 0b0001001010, "OwnerKey": 0b1101111110,
-    "Disabled": 0b1010101000, "Invalid": 0b1011000111,
+    "Reset": 0b1101100001,
+    "EntropyReseed": 0b1110010010,
+    "Random": 0b0011110100,
+    "RootKey": 0b0110101111,
+    "Init": 0b0100000100,
+    "CreatorRootKey": 0b1000011101,
+    "OwnerIntKey": 0b0001001010,
+    "OwnerKey": 0b1101111110,
+    "Disabled": 0b1010101000,
+    "Invalid": 0b1011000111,
 }
 
 
@@ -52,15 +63,8 @@ def load_dut(dut_dir, module):
     if script_dir not in sys.path:
         sys.path.insert(0, script_dir)
     from llm_agent import DutHandle
+
     return DutHandle(dut_dir, module)
-
-
-def shadow_write(dut, addr, value):
-    """shadow 寄存器写：写两次相同值"""
-    dut.write(addr, value)
-    dut.step(2)
-    dut.write(addr, value)
-    dut.step(2)
 
 
 def wait_op_done(dut, max_wait=500):
@@ -78,7 +82,7 @@ def read_sw_output(dut):
     """读 SW_SHARE0_OUTPUT 8 words"""
     out = []
     for i in range(8):
-        r = dut.read(0xa8 + i * 4)
+        r = dut.read(0xA8 + i * 4)
         val = r.get("value", 0) if isinstance(r, dict) else r
         out.append(val)
     return out
@@ -119,12 +123,12 @@ def keymgr_full_flow(dut, verbose=True):
     dut.step(2)
     # 写 SEALING_SW_BINDING (8 words)
     for i in range(8):
-        dut.write(0x2c + i * 4, 0xDEADBEEF + i)
+        dut.write(0x2C + i * 4, 0xDEADBEEF + i)
     # 写 SALT (8 words)
     for i in range(8):
-        dut.write(0x6c + i * 4, 0xCAFEBABE + i)
+        dut.write(0x6C + i * 4, 0xCAFEBABE + i)
     # 写 KEY_VERSION
-    dut.write(0x8c, 0x1)
+    dut.write(0x8C, 0x1)
     dut.step(5)
     # Advance: CONTROL_SHADOWED = op=0, cdi=0, dest=0 → 0x0（shadow 写两次）
     shadow_write(dut, R["control_shadowed"], 0x0)
@@ -137,8 +141,8 @@ def keymgr_full_flow(dut, verbose=True):
     # === 阶段 2: CreatorRootKey → Advance → OwnerIntKey ===
     # 更新 binding/salt（可选，用不同值）
     for i in range(8):
-        dut.write(0x2c + i * 4, 0x12345678 + i)
-    dut.write(0x8c, 0x2)
+        dut.write(0x2C + i * 4, 0x12345678 + i)
+    dut.write(0x8C, 0x2)
     shadow_write(dut, R["control_shadowed"], 0x0)  # Advance again
     dut.write(R["start"], 1)
     st = wait_op_done(dut)
@@ -146,7 +150,7 @@ def keymgr_full_flow(dut, verbose=True):
     log("after_creator_advance", int(st_state["words"][0], 0) if st_state.get("words") else 0)
 
     # === 阶段 3: OwnerIntKey → Advance → OwnerKey ===
-    dut.write(0x8c, 0x3)
+    dut.write(0x8C, 0x3)
     shadow_write(dut, R["control_shadowed"], 0x0)
     dut.write(R["start"], 1)
     st = wait_op_done(dut)
@@ -163,11 +167,11 @@ def keymgr_full_flow(dut, verbose=True):
         print(f"  [SW_OUTPUT] {[hex(x) for x in sw_out[:4]]}")
 
     # === 异常路径 1: sideload_clear（清 sideload 密钥）===
-    dut.write(R.get("sideload_clear", 0x1c), 0x1)
+    dut.write(R.get("sideload_clear", 0x1C), 0x1)
     dut.step(20)
 
     # === 异常路径 2: 在 OwnerKey 状态触发 Advance with invalid key_version ===
-    dut.write(0x8c, 0xFFFFFFFF)  # invalid version
+    dut.write(0x8C, 0xFFFFFFFF)  # invalid version
     shadow_write(dut, R["control_shadowed"], 0x0)
     dut.write(R["start"], 1)
     st = wait_op_done(dut)
@@ -175,7 +179,7 @@ def keymgr_full_flow(dut, verbose=True):
     log("after_invalid_advance", int(st_state["words"][0], 0) if st_state.get("words") else 0)
 
     # === 异常路径 3: sideload_clear + wipe ===
-    dut.write(R.get("sideload_clear", 0x1c), 0xF)
+    dut.write(R.get("sideload_clear", 0x1C), 0xF)
     dut.step(50)
     st_state = read_state()
     log("after_sideload_clear", int(st_state["words"][0], 0) if st_state.get("words") else 0)
@@ -196,20 +200,21 @@ verbose = True
 
 def main():
     import argparse
+
     ap = argparse.ArgumentParser()
     ap.add_argument("dut_dir")
     ap.add_argument("module")
     ap.add_argument("regmap_path")
     args = ap.parse_args()
 
-    print(f"=== keymgr 完整 key derivation 流程 fuzzing ===")
+    print("=== keymgr 完整 key derivation 流程 fuzzing ===")
     dut = load_dut(args.dut_dir, args.module)
 
     # 白盒信号
     print(f"白盒信号: {list(dut.sigs.keys())[:10]}")
 
     # 执行完整流程
-    stages = keymgr_full_flow(dut)
+    keymgr_full_flow(dut)
 
     # 关键观测：各阶段状态 + 密钥残留
     print("\n=== 关键白盒信号观测 ===")

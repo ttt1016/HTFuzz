@@ -17,7 +17,12 @@ LLM 作为策略层，工具 API 作为 action space：
   python3 llm_agent.py perip/hmac-ctf hmac traces/hmac_regmap.json \
       fuzz/discover_hmac_deep.json [--max-steps 30]
 """
-import json, os, re, sys, ctypes, glob
+
+import ctypes
+import json
+import os
+import re
+import sys
 
 PF = os.environ.get("PF_ROOT", "/workspace/HTFuzz")
 OT = os.environ.get("PF_TARGET_RTL", "/workspace/opentitan")
@@ -59,10 +64,12 @@ class DutHandle:
 
     def _bind(self):
         a = self.api
-        a.pf_init.argtypes = [ctypes.c_uint]; a.pf_init.restype = ctypes.c_int
+        a.pf_init.argtypes = [ctypes.c_uint]
+        a.pf_init.restype = ctypes.c_int
         a.pf_write.argtypes = [ctypes.c_uint32, ctypes.c_uint32, ctypes.c_uint32]
         a.pf_write.restype = ctypes.c_int
-        a.pf_read.argtypes = [ctypes.c_uint32]; a.pf_read.restype = ctypes.c_uint32
+        a.pf_read.argtypes = [ctypes.c_uint32]
+        a.pf_read.restype = ctypes.c_uint32
         a.pf_step.argtypes = [ctypes.c_int]
         a.pf_sig_read.argtypes = [ctypes.c_char_p, ctypes.c_int]
         a.pf_sig_read.restype = ctypes.c_uint32
@@ -136,6 +143,7 @@ SYSTEM_PROMPT = """你是硬件安全验证 agent，任务是**动态验证**一
 
 def llm_chat(prompt):
     import urllib.request
+
     # 清理代理环境变量（容器内 http_proxy 会劫持本地/内网端点）
     for k in ("http_proxy", "https_proxy", "HTTP_PROXY", "HTTPS_PROXY"):
         os.environ.pop(k, None)
@@ -144,15 +152,21 @@ def llm_chat(prompt):
     key = os.environ.get("PF_LLM_KEY", "")
     model = os.environ.get("PF_LLM_MODEL", "zai-org/GLM-5.3-Flash")
     maxtok = int(os.environ.get("PF_LLM_MAXTOK", "16384"))
-    body = json.dumps({"model": model,
-                       "messages": [{"role": "user", "content": prompt}],
-                       "temperature": 0, "max_tokens": maxtok}).encode()
+    body = json.dumps(
+        {
+            "model": model,
+            "messages": [{"role": "user", "content": prompt}],
+            "temperature": 0,
+            "max_tokens": maxtok,
+        }
+    ).encode()
     headers = {"Content-Type": "application/json"}
     if key:
         headers["Authorization"] = f"Bearer {key}"
     # 域名→IP 预解析（容器内 host.docker.internal 的 IPv6/IPv4 双栈会导致
     # python 先试 ::1 被拒；curl 正常是因为 happy-eyeballs）
     import socket as _socket
+
     m = re.match(r"(http://)([^/:]+)(:\d+)?(/.*)?$", base.rstrip("/"))
     if m:
         scheme, host, port, path = m.groups()
@@ -162,8 +176,7 @@ def llm_chat(prompt):
                 base = f"{scheme}{ip}{port or ''}{path or ''}"
         except Exception:
             pass
-    req = urllib.request.Request(base.rstrip("/") + "/chat/completions",
-                                 data=body, headers=headers)
+    req = urllib.request.Request(base.rstrip("/") + "/chat/completions", data=body, headers=headers)
     # 显式禁代理的 opener（容器内 http_proxy 会劫持 host.docker.internal）
     opener = urllib.request.build_opener(urllib.request.ProxyHandler({}))
     resp = json.load(opener.open(req, timeout=180))
@@ -176,7 +189,7 @@ def llm_chat(prompt):
 
 def parse_action(content):
     # 1) ```json 块（取最后一个——reasoning 模型可能先举例后给答案）
-    blocks = re.findall(r"```(?:json)?\s*(\{.*?\})\s*```", content, re.S)
+    blocks = re.findall(r"```(?:json)?\s*(\{.*?\})\s*```", content, re.DOTALL)
     for b in reversed(blocks):
         try:
             v = json.loads(b)
@@ -185,7 +198,7 @@ def parse_action(content):
         except Exception:
             pass
     # 2) 含 action 的裸 JSON（取最后一个）
-    cands = re.findall(r"\{[^{}]*\"action\"[^{}]*\}", content, re.S)
+    cands = re.findall(r"\{[^{}]*\"action\"[^{}]*\}", content, re.DOTALL)
     for b in reversed(cands):
         try:
             v = json.loads(b)
@@ -209,14 +222,17 @@ def parse_action(content):
 
 def run_agent(dut, regmap, finding, max_steps=25):
     signals = "\n".join(f"  {n} ({w} word)" for n, w in list(dut.sigs.items())[:15])
-    regmap_s = "\n".join(f"  {k}: 0x{v:x}" for k, v in sorted(regmap.items(), key=lambda kv: kv[1])[:20])
-    sys_prompt = SYSTEM_PROMPT.format(
-        signals=signals, regmap=regmap_s, max_steps=max_steps)
+    regmap_s = "\n".join(
+        f"  {k}: 0x{v:x}" for k, v in sorted(regmap.items(), key=lambda kv: kv[1])[:20]
+    )
+    sys_prompt = SYSTEM_PROMPT.format(signals=signals, regmap=regmap_s, max_steps=max_steps)
 
-    history = [f"## 待验证候选\n- 信号: {finding.get('signal')}\n"
-               f"- oracle: {finding.get('oracle')}\n"
-               f"- 现象: {finding.get('desc')}\n"
-               f"- LLM 静态分析建议: {str(finding.get('llm_deep', {}).get('suggested_poc', ''))[:400]}"]
+    history = [
+        f"## 待验证候选\n- 信号: {finding.get('signal')}\n"
+        f"- oracle: {finding.get('oracle')}\n"
+        f"- 现象: {finding.get('desc')}\n"
+        f"- LLM 静态分析建议: {str(finding.get('llm_deep', {}).get('suggested_poc', ''))[:400]}"
+    ]
 
     trace = []
     format_errors = 0
@@ -236,10 +252,14 @@ def run_agent(dut, regmap, finding, max_steps=25):
                 print(f"  [agent] step{step_i}: 连续 {format_errors} 次解析失败，终止")
                 break
             # P1.2: 格式错误回传给 LLM 修正
-            print(f"  [agent] step{step_i}: 解析失败（{format_errors}/{MAX_FORMAT_ERRORS}），回传修正")
-            history.append(f"### 系统错误\n你的输出无法解析为 JSON 动作。"
-                           f"请严格输出一个 JSON 动作（不要其他文本），"
-                           f"格式如: {{\"action\": \"write\", \"addr\": \"0x28\", \"data\": \"0x10\"}}")
+            print(
+                f"  [agent] step{step_i}: 解析失败（{format_errors}/{MAX_FORMAT_ERRORS}），回传修正"
+            )
+            history.append(
+                "### 系统错误\n你的输出无法解析为 JSON 动作。"
+                "请严格输出一个 JSON 动作（不要其他文本），"
+                '格式如: {"action": "write", "addr": "0x28", "data": "0x10"}'
+            )
             continue
         format_errors = 0  # 成功解析后重置
         action = act.get("action", "")
@@ -265,7 +285,9 @@ def run_agent(dut, regmap, finding, max_steps=25):
                 obs = {"desc": f"step {n}"}
             elif action == "sig_read":
                 obs = dut.sig_read(str(act.get("name", "")))
-                obs["desc"] = f"sig_read {obs.get('name', act.get('name'))} -> {obs.get('words', obs.get('error'))}"
+                obs["desc"] = (
+                    f"sig_read {obs.get('name', act.get('name'))} -> {obs.get('words', obs.get('error'))}"
+                )
             elif action == "reset":
                 dut.reset()
                 obs = {"desc": "reset"}
@@ -280,7 +302,9 @@ def run_agent(dut, regmap, finding, max_steps=25):
             nz = [w for w in obs["words"] if w != "0x0"]
             if nz:
                 hint = f"\n\n（系统提示：观测到非零值 {nz[:3]}。若这符合注入特征且已充分验证，请立即输出 conclude 动作。）"
-        history.append(f"### 动作\n```json\n{json.dumps(act)}\n```\n### 观测\n{json.dumps(obs, ensure_ascii=False)}{hint}")
+        history.append(
+            f"### 动作\n```json\n{json.dumps(act)}\n```\n### 观测\n{json.dumps(obs, ensure_ascii=False)}{hint}"
+        )
         trace.append({"step": step_i, "action": act, "obs": obs})
     return {"verdict": "inconclusive", "evidence": "步数耗尽"}, trace
 
@@ -290,7 +314,9 @@ def main():
         print(__doc__)
         sys.exit(1)
     dut_dir, module, regmap_path, findings_path = sys.argv[1:5]
-    max_steps = int(sys.argv[sys.argv.index("--max-steps") + 1]) if "--max-steps" in sys.argv else 25
+    max_steps = (
+        int(sys.argv[sys.argv.index("--max-steps") + 1]) if "--max-steps" in sys.argv else 25
+    )
     regmap_raw = json.load(open(regmap_path))
     norm = {}
     if isinstance(regmap_raw, dict):
@@ -304,14 +330,19 @@ def main():
         for r in regmap_raw:
             if isinstance(r, dict) and r.get("kind") == "reg" and "name" in r and "offset" in r:
                 try:
-                    norm[r["name"].lower()] = int(r["offset"], 0) if isinstance(r["offset"], str) else r["offset"]
+                    norm[r["name"].lower()] = (
+                        int(r["offset"], 0) if isinstance(r["offset"], str) else r["offset"]
+                    )
                 except Exception:
                     pass
     data = json.load(open(findings_path))
     findings = data.get("findings", [])
     # 只验证 likely-bug / needs-review 候选
-    targets = [f for f in findings
-               if f.get("llm_deep", {}).get("verdict") in ("likely-bug", "needs-review")]
+    targets = [
+        f
+        for f in findings
+        if f.get("llm_deep", {}).get("verdict") in ("likely-bug", "needs-review")
+    ]
     # 去重（按信号）
     seen = set()
     uniq = []
@@ -325,13 +356,13 @@ def main():
     for f in uniq:
         print(f"\n--- 验证: {f.get('signal')} ---")
         verdict, trace = run_agent(dut, norm, f, max_steps)
-        results.append({"signal": f.get("signal"), "agent_verdict": verdict,
-                        "trace": trace})
+        results.append({"signal": f.get("signal"), "agent_verdict": verdict, "trace": trace})
     out = findings_path.replace(".json", "_agent.json")
     data["agent_results"] = results
     json.dump(data, open(out, "w"), indent=1, ensure_ascii=False)
-    print(f"\n=== 汇总 ===")
+    print("\n=== 汇总 ===")
     from collections import Counter
+
     cnt = Counter(r["agent_verdict"].get("verdict") for r in results)
     print(dict(cnt))
     print(f"输出: {out}")

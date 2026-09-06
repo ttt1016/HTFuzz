@@ -11,12 +11,16 @@
 
 用法: gen_bindings.py <dut_dir>   （就地改写 harness/*.cpp 的 bind_signals）
 """
-import glob, os, re, sys
+
+import glob
+import os
+import re
+import sys
 
 
 def sig_names(harness_cpp):
     s = open(harness_cpp).read()
-    m = re.search(r"static SigEntry g_sigs\[\] = \{(.*?)\};", s, re.S)
+    m = re.search(r"static SigEntry g_sigs\[\] = \{(.*?)\};", s, re.DOTALL)
     if not m:
         return [], s
     names = re.findall(r'\{"([^"]+)"', m.group(1))
@@ -26,8 +30,7 @@ def sig_names(harness_cpp):
 def main():
     dut_dir = sys.argv[1]
     os.chdir(dut_dir)
-    headers = glob.glob("obj_so/V*_perip_tb___024root.h") or \
-              glob.glob("obj_so/V*___024root.h")
+    headers = glob.glob("obj_so/V*_perip_tb___024root.h") or glob.glob("obj_so/V*___024root.h")
     if not headers:
         print("[gen_bindings] 无 root 头, 跳过")
         return
@@ -66,26 +69,28 @@ def main():
         unbound.append(nm)
 
     # 重写 bind_signals()
-    body = ['static void bind_signals() {',
-            '    for (int i = 0; i < g_nsig; i++) {',
-            '        const char* n = g_sigs[i].name;',
-            '        void* p = nullptr;',
-            '        (void)p;']
+    body = [
+        "static void bind_signals() {",
+        "    for (int i = 0; i < g_nsig; i++) {",
+        "        const char* n = g_sigs[i].name;",
+        "        void* p = nullptr;",
+        "        (void)p;",
+    ]
     for k, nm in enumerate(sorted(found)):
         kw = "if" if k == 0 else "else if"
         body.append(f'        {kw} (strcmp(n, "{nm}") == 0) p = &rootp->{found[nm]};')
-    body.append('        g_sigs[i].ptr = p;')
-    body.append('    }')
-    body.append('}')
-    new = re.sub(r"static void bind_signals\(\) \{.*?\n\}",
-                 "\n".join(body), src, flags=re.S)
+    body.append("        g_sigs[i].ptr = p;")
+    body.append("    }")
+    body.append("}")
+    new = re.sub(r"static void bind_signals\(\) \{.*?\n\}", "\n".join(body), src, flags=re.DOTALL)
 
     # 注入 pf_sig_bound（差分采样跳过未绑定信号）
     if "pf_sig_bound" not in new:
         new = new.replace(
             "int pf_sig_count(void) { return g_nsig; }",
             "int pf_sig_bound(int i) { return (i >= 0 && i < g_nsig && g_sigs[i].ptr != nullptr) ? 1 : 0; }\n"
-            "int pf_sig_count(void) { return g_nsig; }")
+            "int pf_sig_count(void) { return g_nsig; }",
+        )
     open(hpath, "w").write(new)
 
     print(f"[gen_bindings] {len(found)}/{len(names)} 绑定, 未绑定: {unbound[:5]}")

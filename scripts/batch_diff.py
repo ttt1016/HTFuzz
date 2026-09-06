@@ -6,7 +6,12 @@
 用法（容器内）: batch_diff.py [module ...]
 缺省: 全部有 fresh DUT 且有 ctf 的模块
 """
-import json, os, subprocess, sys, time
+
+import json
+import os
+import subprocess
+import sys
+import time
 
 PF = "/workspace/HTFuzz"
 
@@ -14,16 +19,24 @@ PF = "/workspace/HTFuzz"
 def main():
     mods = sys.argv[1:]
     if not mods:
-        mods = sorted(d[:-6] for d in os.listdir(f"{PF}/perip")
-                      if d.endswith("-fresh")
-                      and os.path.isdir(f"{PF}/perip/{d}/obj_so")
-                      and any(f.endswith(".so") for f in os.listdir(f"{PF}/perip/{d}/obj_so")))
+        mods = sorted(
+            d[:-6]
+            for d in os.listdir(f"{PF}/perip")
+            if d.endswith("-fresh")
+            and os.path.isdir(f"{PF}/perip/{d}/obj_so")
+            and any(f.endswith(".so") for f in os.listdir(f"{PF}/perip/{d}/obj_so"))
+        )
         mods = [m for m in mods if os.path.isdir(f"{PF}/perip/{m}-ctf")]
     results = {}
     for m in mods:
         t0 = time.time()
-        p = subprocess.run([sys.executable, f"{PF}/scripts/diff_replay.py", m, "0"],
-                           capture_output=True, text=True, timeout=900, cwd=PF)
+        p = subprocess.run(
+            [sys.executable, f"{PF}/scripts/diff_replay.py", m, "0"],
+            capture_output=True,
+            text=True,
+            timeout=900,
+            cwd=PF,
+        )
         dt = time.time() - t0
         verdict, n_div, first = "?", 0, None
         jf = f"{PF}/fuzz/diff_{m}.json"
@@ -35,8 +48,12 @@ def main():
                 first = j.get("first_divergence")
             except Exception:
                 pass
-        results[m] = {"verdict": verdict, "n_divergences": n_div,
-                      "elapsed_s": round(dt, 1), "rc": p.returncode}
+        results[m] = {
+            "verdict": verdict,
+            "n_divergences": n_div,
+            "elapsed_s": round(dt, 1),
+            "rc": p.returncode,
+        }
         fd = ""
         if first:
             tgt = first.get("signal") or f"addr={first.get('addr')}"

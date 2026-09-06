@@ -1,13 +1,44 @@
 #!/usr/bin/env python3
 """全量检出扫描: per-IP DUT × O-A~G oracle 盲测引擎"""
-import json, os, re, subprocess, sys, time
+
+import json
+import os
+import subprocess
+import sys
+import time
 
 PF = "/workspace/HTFuzz"
-DUTS = ["aes", "ascon", "hmac", "kmac", "keymgr", "lc", "rom_ctrl",
-        "ibex", "uart", "prim", "pattgen", "rv_timer", "spi_host",
-        "sram_ctrl", "aon_timer", "clkmgr", "csrng", "entropy_src",
-        "alert_handler", "pwrmgr", "rstmgr", "rv_dm",
-        "gpio", "adc_ctrl", "tlul", "otp_ctrl", "spi_tpm", "mbx", "otbn"]
+DUTS = [
+    "aes",
+    "ascon",
+    "hmac",
+    "kmac",
+    "keymgr",
+    "lc",
+    "rom_ctrl",
+    "ibex",
+    "uart",
+    "prim",
+    "pattgen",
+    "rv_timer",
+    "spi_host",
+    "sram_ctrl",
+    "aon_timer",
+    "clkmgr",
+    "csrng",
+    "entropy_src",
+    "alert_handler",
+    "pwrmgr",
+    "rstmgr",
+    "rv_dm",
+    "gpio",
+    "adc_ctrl",
+    "tlul",
+    "otp_ctrl",
+    "spi_tpm",
+    "mbx",
+    "otbn",
+]
 
 results = {}
 for d in DUTS:
@@ -37,8 +68,7 @@ for d in DUTS:
     if os.path.exists(jf):
         try:
             for f in json.load(open(jf)).get("findings", []):
-                findings.append((f.get("oracle", "?"), f.get("signal", "?"),
-                                 f.get("desc", "")))
+                findings.append((f.get("oracle", "?"), f.get("signal", "?"), f.get("desc", "")))
         except Exception:
             pass
     uniq, seen = [], set()
@@ -47,11 +77,18 @@ for d in DUTS:
         if key not in seen:
             seen.add(key)
             uniq.append({"oracle": o, "signal": sig, "desc": desc})
-    results[module] = {"elapsed_s": round(dt, 1), "rc": rc,
-                       "raw": len(findings), "findings": uniq,
-                       "err_head": out[:200] if not findings else ""}
-    print(f"[{module}] {dt:.0f}s rc={rc} raw={len(findings)} uniq={len(uniq)}"
-          + ("" if findings else f"  ERR: {out[:120]!r}"), flush=True)
+    results[module] = {
+        "elapsed_s": round(dt, 1),
+        "rc": rc,
+        "raw": len(findings),
+        "findings": uniq,
+        "err_head": out[:200] if not findings else "",
+    }
+    print(
+        f"[{module}] {dt:.0f}s rc={rc} raw={len(findings)} uniq={len(uniq)}"
+        + ("" if findings else f"  ERR: {out[:120]!r}"),
+        flush=True,
+    )
 
 with open(f"{PF}/fuzz/full_sweep.json", "w") as f:
     json.dump(results, f, indent=1, ensure_ascii=False)

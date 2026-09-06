@@ -15,7 +15,14 @@ HTFuzz 发现引擎 v2 —— 不依赖漏洞表的通用漏洞发现管线
 用法: discover_engine.py <dut_dir> <module_name>
 输出: findings JSON（每条含 oracle 类型/触发序列/证据信号）
 """
-import ctypes, os, sys, json, random, itertools, re
+
+import ctypes
+import json
+import os
+import random
+import re
+import sys
+
 
 # ---------- DUT 加载 ----------
 class DUT:
@@ -45,6 +52,7 @@ class DUT:
                     loaded.append(ctypes.CDLL(path, mode=ctypes.RTLD_GLOBAL))
                 except OSError as e:
                     print(f"  [warn] {f}: {e}")
+
         # API 句柄选择（有序）:
         #   1) 精确名 libpf_<name>_ctf.so（新式单库）
         #   2) 含 "<name>" 的 api lib（keymgr 的 *_api.so 配对模式）
@@ -62,6 +70,7 @@ class DUT:
             if loaded:
                 return loaded[0]
             raise RuntimeError("no .so loaded")
+
         self.api = pick_api()
         # 标准 API 签名
         a = self.api
@@ -146,26 +155,48 @@ class DUT:
     def snapshot(self, names=None):
         """抓取全部（或指定）白盒信号"""
         out = {}
-        for nm in (names or self.sigs):
+        for nm in names or self.sigs:
             out[nm] = self.sig_all(nm)
         return out
+
 
 # ---------- 敏感信号自动分类 ----------
 # 信号分类模式（从 profile 加载，有默认值）
 SENSITIVE_PATTERNS = [
-    "key", "secret", "seed", "digest", "hash", "mask", "entropy",
-    "priv", "credential", "otp", "token",
+    "key",
+    "secret",
+    "seed",
+    "digest",
+    "hash",
+    "mask",
+    "entropy",
+    "priv",
+    "credential",
+    "otp",
+    "token",
 ]
 CONTROL_PATTERNS = [
-    "state_q", "_q", "fsm", "ctrl", "cfg", "state", "sm_",
+    "state_q",
+    "_q",
+    "fsm",
+    "ctrl",
+    "cfg",
+    "state",
+    "sm_",
 ]
 
 # 排除模式：wrapper 辅助信号 / 自由运行计数器（非 DUT 语义状态，必然周期性回绕，
 # 会造成 O-F 倒退误报和 O-D 漂移误报）
 EXCLUDE_PATTERNS = [
-    "tb.div_cnt", "tb.drv_q", "tb.req_", "tb.tl_",   # wrapper 驱动/分频
-    "count_cdc", "count_dst", "count_src",            # CDC 自由计数器
-    "handshake", "fsm_cs",                            # CDC 协议握手 FSM（瞬态采样噪声，非安全状态机）
+    "tb.div_cnt",
+    "tb.drv_q",
+    "tb.req_",
+    "tb.tl_",  # wrapper 驱动/分频
+    "count_cdc",
+    "count_dst",
+    "count_src",  # CDC 自由计数器
+    "handshake",
+    "fsm_cs",  # CDC 协议握手 FSM（瞬态采样噪声，非安全状态机）
 ]
 
 # alert/error 类信号（O-J 错误传播 oracle 的观察目标；
@@ -194,6 +225,7 @@ def load_signal_patterns(profile=None):
         CONTROL_PATTERNS = profile["signal_patterns"].get("control", CONTROL_PATTERNS)
         EXCLUDE_PATTERNS = profile["signal_patterns"].get("exclude", EXCLUDE_PATTERNS)
 
+
 def classify(sigs):
     """把白盒信号分为敏感/控制/其他（先过排除表）"""
     sens, ctrl, other = [], [], []
@@ -209,7 +241,9 @@ def classify(sigs):
             other.append(nm)
     return sens, ctrl, other
 
+
 # ---------- O-A: 残留 oracle ----------
+
 
 # ---------- O-K2: 中途复位 oracle ----------
 def oracle_midreset(dut, regmap, findings, cfg):
@@ -218,12 +252,19 @@ def oracle_midreset(dut, regmap, findings, cfg):
     sens, ctrl, other = classify(dut.sigs)
     if not sens:
         return
-    wr_targets = [(nm, off) for nm, off in regmap.items()
-                  if any(k in nm.lower() for k in ["key", "wdata", "wr_data", "data_in", "secret", "msg"])]
-    start_targets = [(nm, off) for nm, off in regmap.items()
-                     if any(k in nm.lower() for k in ["start", "trigger", "cmd", "control"])]
+    wr_targets = [
+        (nm, off)
+        for nm, off in regmap.items()
+        if any(k in nm.lower() for k in ["key", "wdata", "wr_data", "data_in", "secret", "msg"])
+    ]
+    start_targets = [
+        (nm, off)
+        for nm, off in regmap.items()
+        if any(k in nm.lower() for k in ["start", "trigger", "cmd", "control"])
+    ]
     if not wr_targets:
         return
+
     # 白盒敏感信号只取 P0 级（key/secret/seed/digest 类），排除 wr_en/we 等触发线
     def is_p0(nm):
         low = nm.lower()
@@ -231,11 +272,14 @@ def oracle_midreset(dut, regmap, findings, cfg):
             return False
         if re.search(r"alert|err|fatal|_d$|_we$|_re$|wdata_q|cmd", low):
             return False
-        return any(k in low for k in ["key", "secret", "seed", "digest", "hash", "mask", "state_raw", "share"])
+        return any(
+            k in low
+            for k in ["key", "secret", "seed", "digest", "hash", "mask", "state_raw", "share"]
+        )
+
     p0_sigs = [s for s in sens if is_p0(s)]
     if not p0_sigs:
         return
-    rnd = random.Random(cfg.get("seed", 0xC0FFEE) + 42)
     for trial in range(cfg.get("trials", 6)):
         dut.reset()
         dut.step(5)
@@ -258,12 +302,16 @@ def oracle_midreset(dut, regmap, findings, cfg):
             words = dut.sig_all(nm)
             nz = [w for w in words if w != 0]
             if nz:
-                findings.append({
-                    "oracle": "O-K2-midreset", "signal": nm,
-                    "desc": f"中途复位后 {nm} 残留非零值 {[hex(w) for w in nz[:3]]}"
-                            f"（SEC_WIPE on reset 应归零）",
-                    "trigger": "mid_reset", "residual": [hex(w) for w in nz[:3]],
-                })
+                findings.append(
+                    {
+                        "oracle": "O-K2-midreset",
+                        "signal": nm,
+                        "desc": f"中途复位后 {nm} 残留非零值 {[hex(w) for w in nz[:3]]}"
+                        f"（SEC_WIPE on reset 应归零）",
+                        "trigger": "mid_reset",
+                        "residual": [hex(w) for w in nz[:3]],
+                    }
+                )
                 break  # 每 trial 一个发现即可
     # 第二场景: 操作中写不同 pattern → 复位 → 读回 CSR 残留
     for trial in range(3):
@@ -291,13 +339,17 @@ def oracle_midreset(dut, regmap, findings, cfg):
                 if off is not None and off < 0x100:
                     v = dut.read(off)
                     if v != 0:
-                        findings.append({
-                            "oracle": "O-K2-midreset", "signal": f"CSR.{nm}",
-                            "desc": f"中途复位后 CSR {nm} 残留 {hex(v)}（应归零）",
-                            "trigger": "mid_reset_csr",
-                        })
+                        findings.append(
+                            {
+                                "oracle": "O-K2-midreset",
+                                "signal": f"CSR.{nm}",
+                                "desc": f"中途复位后 CSR {nm} 残留 {hex(v)}（应归零）",
+                                "trigger": "mid_reset_csr",
+                            }
+                        )
                         break
         break  # CSR 扫描只做一次
+
 
 def oracle_residual(dut, regmap, findings, cfg):
     """敏感数据写入 → 多种清除/操作序列 → 扫描残留"""
@@ -306,17 +358,35 @@ def oracle_residual(dut, regmap, findings, cfg):
         return
     rnd = random.Random(cfg.get("seed", 0xC0FFEE))
     # 找寄存器写目标（regmap: name -> offset）
-    wr_targets = [(nm, off) for nm, off in regmap.items()
-                  if any(k in nm.lower() for k in ["key", "wdata", "wr_data", "data_in", "secret", "msg", "entropy_data"])]
-    clear_targets = [(nm, off) for nm, off in regmap.items()
-                     if any(k in nm.lower() for k in ["clear", "wipe", "flush", "trigger", "cmd", "sha3_start", "control"])]
+    wr_targets = [
+        (nm, off)
+        for nm, off in regmap.items()
+        if any(
+            k in nm.lower()
+            for k in ["key", "wdata", "wr_data", "data_in", "secret", "msg", "entropy_data"]
+        )
+    ]
+    clear_targets = [
+        (nm, off)
+        for nm, off in regmap.items()
+        if any(
+            k in nm.lower()
+            for k in ["clear", "wipe", "flush", "trigger", "cmd", "sha3_start", "control"]
+        )
+    ]
     if not wr_targets or not clear_targets:
         return
     # 前置使能: 写所有 enable/conf 类寄存器为 mubi True（通用激活）
-    en_regs = [(nm, off) for nm, off in regmap.items()
-               if any(k in nm.lower() for k in ["enable", "conf", "control", "ctrl"])
-               and "regwen" not in nm.lower() and "threshold" not in nm.lower()
-               and "intr_enable" not in nm.lower() and "alert_test" not in nm.lower()]
+    en_regs = [
+        (nm, off)
+        for nm, off in regmap.items()
+        if any(k in nm.lower() for k in ["enable", "conf", "control", "ctrl"])
+        and "regwen" not in nm.lower()
+        and "threshold" not in nm.lower()
+        and "intr_enable" not in nm.lower()
+        and "alert_test" not in nm.lower()
+    ]
+
     def do_enable(dut):
         # 顺序: CONF(全字段 mubi True) → REGWEN → 其余 enable/control
         # （entropy_src 实测: CONF 先写 0x66666666，REGWEN/FW_OV_CTRL 写 0x66）
@@ -335,6 +405,7 @@ def oracle_residual(dut, regmap, findings, cfg):
             if "regwen" in nm.lower():
                 dut.write(off, 0x66)
                 dut.step(2)
+
     for trial in range(cfg.get("trials", 8)):
         dut.reset()
         dut.step(5)
@@ -360,35 +431,53 @@ def oracle_residual(dut, regmap, findings, cfg):
             for w, v in enumerate(words):
                 # 宽信号(>8bit)用高16位匹配；窄信号(<=8bit)用低8位匹配
                 if v != 0 and any(
-                    ((v & 0xFFFF0000) == (m & 0xFFFF0000)) or
-                    ((v <= 0xFF) and ((v & 0xFF) == (m & 0xFF)))
-                    for _, _, m in written):
-                    findings.append({
-                        "oracle": "O-A-residual",
-                        "signal": snm, "word": w, "value": hex(v),
-                        "marker": hex(marker), "trial": trial,
-                        "desc": f"敏感信号 {snm}[{w}] 在清除/操作序列后残留写入标记值",
-                    })
+                    ((v & 0xFFFF0000) == (m & 0xFFFF0000))
+                    or ((v <= 0xFF) and ((v & 0xFF) == (m & 0xFF)))
+                    for _, _, m in written
+                ):
+                    findings.append(
+                        {
+                            "oracle": "O-A-residual",
+                            "signal": snm,
+                            "word": w,
+                            "value": hex(v),
+                            "marker": hex(marker),
+                            "trial": trial,
+                            "desc": f"敏感信号 {snm}[{w}] 在清除/操作序列后残留写入标记值",
+                        }
+                    )
                     break
+
 
 # ---------- O-B: 确定性 oracle（掩码/熵静态性）----------
 def oracle_determinism(dut, regmap, findings, cfg):
     """相同输入两次执行 → 掩码/熵类信号若逐位相同则可疑"""
     sens, ctrl, other = classify(dut.sigs)
     # 掩码/熵类信号: 两次执行应该不同（随机性），相同即可疑
-    mask_sigs = [nm for nm in dut.sigs
-                 if any(k in nm.lower() for k in ["mask", "entropy", "rnd", "lfsr", "prng", "rand"])]
+    mask_sigs = [
+        nm
+        for nm in dut.sigs
+        if any(k in nm.lower() for k in ["mask", "entropy", "rnd", "lfsr", "prng", "rand"])
+    ]
     if not mask_sigs:
         return
     # 找操作序列寄存器: CFG/CFG_SHADOWED（使能）→ MSG/WDATA（数据）→ CMD（启动）
-    cfg_regs = [(nm, off) for nm, off in regmap.items()
-                if any(k in nm.upper() for k in ["CFG", "CTRL"]) and "REGWEN" not in nm.upper()]
-    msg_regs = [(nm, off) for nm, off in regmap.items()
-                if any(k in nm.upper() for k in ["MSG", "WDATA", "WR_DATA", "DATA_IN"])]
-    cmd_regs = [(nm, off) for nm, off in regmap.items()
-                if "CMD" in nm.upper() or "SHA3_START" in nm.upper()]
+    cfg_regs = [
+        (nm, off)
+        for nm, off in regmap.items()
+        if any(k in nm.upper() for k in ["CFG", "CTRL"]) and "REGWEN" not in nm.upper()
+    ]
+    msg_regs = [
+        (nm, off)
+        for nm, off in regmap.items()
+        if any(k in nm.upper() for k in ["MSG", "WDATA", "WR_DATA", "DATA_IN"])
+    ]
+    cmd_regs = [
+        (nm, off) for nm, off in regmap.items() if "CMD" in nm.upper() or "SHA3_START" in nm.upper()
+    ]
     # CFG 候选值: 覆盖常见使能位组合（bit0/1/3/20/24 等高位使能）
     cfg_vals = [0x1, 0x3, 0x9, 0x1100002, 0x0110000A, 0x01000002]
+
     def do_ops(dut, cv):
         # 使能配置（含 shadow 两阶段）
         for nm, off in cfg_regs[:2]:
@@ -405,6 +494,7 @@ def oracle_determinism(dut, regmap, findings, cfg):
         for nm, off in cmd_regs[:1]:
             dut.write(off, 0x1)
         dut.step(200)
+
     for trial, cv in enumerate(cfg_vals):
         runs = []
         for run in range(2):
@@ -417,13 +507,16 @@ def oracle_determinism(dut, regmap, findings, cfg):
             r0, r1 = runs[0][nm], runs[1][nm]
             if r0 and r0 == r1 and any(v != 0 for v in r0):
                 # 排除常量信号（两次都全 F 或全 0 已排除）
-                findings.append({
-                    "oracle": "O-B-determinism",
-                    "signal": nm,
-                    "value": " ".join(hex(v) for v in r0[:4]),
-                    "trial": trial,
-                    "desc": f"掩码/熵信号 {nm} 两次独立执行逐位相同 → 无随机性（静态掩码/PRNG 不动）",
-                })
+                findings.append(
+                    {
+                        "oracle": "O-B-determinism",
+                        "signal": nm,
+                        "value": " ".join(hex(v) for v in r0[:4]),
+                        "trial": trial,
+                        "desc": f"掩码/熵信号 {nm} 两次独立执行逐位相同 → 无随机性（静态掩码/PRNG 不动）",
+                    }
+                )
+
 
 # ---------- O-C: 等价类 oracle ----------
 def oracle_equivclass(dut, regmap, findings, cfg):
@@ -431,9 +524,11 @@ def oracle_equivclass(dut, regmap, findings, cfg):
     # 等价对: (序列A, 序列B) —— 例如 shadow 寄存器两阶段写顺序交换、
     # 中断先使能后触发 vs 触发后使能（对 W1C 寄存器）
     # 通用构造: 对每个 RW 寄存器，写 v 再写 v（两阶段）vs 写 v 写 v 中间插读
-    rnd = random.Random(cfg.get("seed", 0xBEEF) + 1)
-    rw_regs = [(nm, off) for nm, off in regmap.items()
-               if any(k in nm.lower() for k in ["cfg", "ctrl", "cmd"])]
+    rw_regs = [
+        (nm, off)
+        for nm, off in regmap.items()
+        if any(k in nm.lower() for k in ["cfg", "ctrl", "cmd"])
+    ]
     if len(rw_regs) < 1:
         return
     for nm, off in rw_regs[:6]:
@@ -442,24 +537,32 @@ def oracle_equivclass(dut, regmap, findings, cfg):
             dut.reset()
             dut.step(5)
             if variant == 0:
-                dut.write(off, 0x5); dut.step(5); dut.write(off, 0x5); dut.step(20)
+                dut.write(off, 0x5)
+                dut.step(5)
+                dut.write(off, 0x5)
+                dut.step(20)
             else:
-                dut.write(off, 0x5); dut.step(5)
+                dut.write(off, 0x5)
+                dut.step(5)
                 _ = dut.read(off)  # 中间插读
-                dut.write(off, 0x5); dut.step(20)
+                dut.write(off, 0x5)
+                dut.step(20)
             results.append(dut.snapshot())
         # 比较控制信号终态
         _, ctrl, _ = classify(dut.sigs)
         for cnm in ctrl[:6]:
             if results[0][cnm] != results[1][cnm]:
-                findings.append({
-                    "oracle": "O-C-equivclass",
-                    "signal": cnm,
-                    "detail": f"寄存器 {nm} 两阶段写 vs 中间插读，控制信号 {cnm} 终态不同",
-                    "seq0": [hex(v) for v in results[0][cnm][:3]],
-                    "seq1": [hex(v) for v in results[1][cnm][:3]],
-                    "desc": f"语义等价序列产生不同控制状态 → 可能存在中间读副作用/相位错误",
-                })
+                findings.append(
+                    {
+                        "oracle": "O-C-equivclass",
+                        "signal": cnm,
+                        "detail": f"寄存器 {nm} 两阶段写 vs 中间插读，控制信号 {cnm} 终态不同",
+                        "seq0": [hex(v) for v in results[0][cnm][:3]],
+                        "seq1": [hex(v) for v in results[1][cnm][:3]],
+                        "desc": "语义等价序列产生不同控制状态 → 可能存在中间读副作用/相位错误",
+                    }
+                )
+
 
 # ---------- O-D: FSM 探索 oracle ----------
 def oracle_fsm(dut, regmap, findings, cfg):
@@ -473,24 +576,46 @@ def oracle_fsm(dut, regmap, findings, cfg):
     if not ctrl:
         return
     # FSM 类信号: 名字含 state/fsm/st_q
-    fsm_sigs = [nm for nm in ctrl if any(k in nm.lower() for k in
-                ["state", "fsm", "st_q", "ctrl_state", "main_sm", "ack_sm"])
-                and not nm.lower().endswith("_en") and not nm.lower().endswith("enable")]
+    fsm_sigs = [
+        nm
+        for nm in ctrl
+        if any(k in nm.lower() for k in ["state", "fsm", "st_q", "ctrl_state", "main_sm", "ack_sm"])
+        and not nm.lower().endswith("_en")
+        and not nm.lower().endswith("enable")
+    ]
     if not fsm_sigs:
         return
     # 控制寄存器（可写的）
-    ctrl_regs = [(nm, off) for nm, off in regmap.items()
-                 if any(k in nm.upper() for k in ["CMD", "CTRL", "CONTROL", "CFG", "TRIGGER", "ENABLE"])
-                 and "REGWEN" not in nm.upper() and "STATUS" not in nm.upper()
-                 and "THRESHOLD" not in nm.upper() and "WATERMARK" not in nm.upper()]
+    ctrl_regs = [
+        (nm, off)
+        for nm, off in regmap.items()
+        if any(k in nm.upper() for k in ["CMD", "CTRL", "CONTROL", "CFG", "TRIGGER", "ENABLE"])
+        and "REGWEN" not in nm.upper()
+        and "STATUS" not in nm.upper()
+        and "THRESHOLD" not in nm.upper()
+        and "WATERMARK" not in nm.upper()
+    ]
     if not ctrl_regs:
         # 无寄存器总线的 DUT（如 CPU 核）: pf_write 退化为推进时钟，
         # 仍可观测 FSM 在随机时序下的行为
         ctrl_regs = [("virtual_step", 0)]
     rnd = random.Random(cfg.get("seed", 0xC0FFEE) + 7)
     # 边界/非法值池: 全0 全1 单bit 交替位 mubi非法值
-    edge_vals = [0x0, 0xFFFFFFFF, 0x1, 0x2, 0x4, 0x8, 0xAAAAAAAA, 0x55555555,
-                 0x3, 0x7, 0xF, 0x10, 0x80000000]
+    edge_vals = [
+        0x0,
+        0xFFFFFFFF,
+        0x1,
+        0x2,
+        0x4,
+        0x8,
+        0xAAAAAAAA,
+        0x55555555,
+        0x3,
+        0x7,
+        0xF,
+        0x10,
+        0x80000000,
+    ]
     # ---- 基线: 正常操作下的 FSM 稳态集合（合法 busy 状态不算卡死）----
     # 方法: 复位后只写合法值（0x1/0x2 等常见使能），记录 FSM 稳态
     baseline_states = {nm: set() for nm in fsm_sigs}
@@ -528,26 +653,31 @@ def oracle_fsm(dut, regmap, findings, cfg):
                 if tuple(s1) in baseline_states[nm]:
                     continue
                 # 状态非 0、100 拍不变、且不在基线稳态集合 → 真卡死候选
-                findings.append({
-                    "oracle": "O-D-fsm",
-                    "signal": nm,
-                    "value": " ".join(hex(v) for v in s1[:3]),
-                    "trial": trial,
-                    "confidence": "MEDIUM",
-                    "desc": f"FSM 信号 {nm} 在边界输入后 100 拍保持 {s1[0]:#x} 不变，且该稳态在正常操作中未出现 → 疑似卡死/无超时恢复",
-                })
+                findings.append(
+                    {
+                        "oracle": "O-D-fsm",
+                        "signal": nm,
+                        "value": " ".join(hex(v) for v in s1[:3]),
+                        "trial": trial,
+                        "confidence": "MEDIUM",
+                        "desc": f"FSM 信号 {nm} 在边界输入后 100 拍保持 {s1[0]:#x} 不变，且该稳态在正常操作中未出现 → 疑似卡死/无超时恢复",
+                    }
+                )
             elif s1 and s1 != s2 and any(v not in (0, 0xFFFFFFFF) for v in s2):
                 # 状态漂移到非常规值（不判违规，仅记录低置信度）
                 if tuple(s2) in baseline_states[nm]:
                     continue
-                findings.append({
-                    "oracle": "O-D-fsm",
-                    "signal": nm,
-                    "value": " ".join(hex(v) for v in s2[:3]),
-                    "trial": trial,
-                    "confidence": "LOW",
-                    "desc": f"FSM 信号 {nm} 在边界输入后漂移到非常规终态（低置信度）",
-                })
+                findings.append(
+                    {
+                        "oracle": "O-D-fsm",
+                        "signal": nm,
+                        "value": " ".join(hex(v) for v in s2[:3]),
+                        "trial": trial,
+                        "confidence": "LOW",
+                        "desc": f"FSM 信号 {nm} 在边界输入后漂移到非常规终态（低置信度）",
+                    }
+                )
+
 
 # ---------- O-E: FIFO 压力 oracle ----------
 def oracle_fifo(dut, regmap, findings, cfg):
@@ -557,9 +687,11 @@ def oracle_fifo(dut, regmap, findings, cfg):
       3) 压力后做正常操作，检查输出一致性（同输入两次结果应相同）
     """
     # FIFO 类寄存器: WDATA/MSG/DATA_IN（写口）+ STATUS（full/empty 位）
-    wr_regs = [(nm, off) for nm, off in regmap.items()
-               if any(k in nm.upper() for k in ["WDATA", "WR_DATA", "MSG", "DATA_IN", "FIFO"])]
-    st_regs = [(nm, off) for nm, off in regmap.items() if "STATUS" in nm.upper()]
+    wr_regs = [
+        (nm, off)
+        for nm, off in regmap.items()
+        if any(k in nm.upper() for k in ["WDATA", "WR_DATA", "MSG", "DATA_IN", "FIFO"])
+    ]
     if not wr_regs:
         return
     # 敏感/数据信号用于一致性检查
@@ -577,8 +709,6 @@ def oracle_fifo(dut, regmap, findings, cfg):
             if i % 8 == 0:
                 dut.step(2)
         dut.step(50)
-        # 溢出后状态快照
-        ovf_snap = {nm: dut.sig_all(nm) for nm in check_sigs}
         # --- 阶段2: 空读（读所有可读寄存器）---
         for nm, off in list(regmap.items())[:12]:
             _ = dut.read(off)
@@ -601,15 +731,20 @@ def oracle_fifo(dut, regmap, findings, cfg):
         # 压力历史不应影响后续正常操作（两次结果应一致）
         for nm in check_sigs:
             r0, r1 = results[0][nm], results[1][nm]
-            if r0 != r1 and any(v != 0 for v in r0) :
-                findings.append({
-                    "oracle": "O-E-fifo",
-                    "signal": nm,
-                    "value": " ".join(hex(v) for v in r0[:3]) + " vs " + " ".join(hex(v) for v in r1[:3]),
-                    "trial": trial,
-                    "desc": f"FIFO 压力后正常操作结果不一致: {nm} → 疑似溢出破坏内部状态",
-                })
+            if r0 != r1 and any(v != 0 for v in r0):
+                findings.append(
+                    {
+                        "oracle": "O-E-fifo",
+                        "signal": nm,
+                        "value": " ".join(hex(v) for v in r0[:3])
+                        + " vs "
+                        + " ".join(hex(v) for v in r1[:3]),
+                        "trial": trial,
+                        "desc": f"FIFO 压力后正常操作结果不一致: {nm} → 疑似溢出破坏内部状态",
+                    }
+                )
                 break
+
 
 # ---------- O-F: 流式数据 oracle ----------
 def oracle_stream(dut, regmap, findings, cfg):
@@ -622,18 +757,29 @@ def oracle_stream(dut, regmap, findings, cfg):
     _, ctrl, _ = classify(dut.sigs)
     # 计数器类信号: cnt/counter/event_cntr/window（排除 wrapper/自由计数器）
     # mtime/time_count 类计时器也算流式计数器
-    cnt_sigs = [nm for nm in dut.sigs
-                if any(k in nm.lower() for k in ["cnt", "counter", "event_cntr", "window_cntr", "depth", "mtime", "time_count"])
-                and not any(p in nm.lower() for p in EXCLUDE_PATTERNS)]
+    cnt_sigs = [
+        nm
+        for nm in dut.sigs
+        if any(
+            k in nm.lower()
+            for k in ["cnt", "counter", "event_cntr", "window_cntr", "depth", "mtime", "time_count"]
+        )
+        and not any(p in nm.lower() for p in EXCLUDE_PATTERNS)
+    ]
     if not cnt_sigs:
         return
     # 使能类寄存器（激活数据流）
     # 顺序敏感: conf/fw_ov 先写，module_enable 最后（过早写会清流式状态）
-    en_regs = [(nm, off) for nm, off in regmap.items()
-               if any(k in nm.lower() for k in ["enable", "conf", "control", "ctrl"])
-               and "regwen" not in nm.lower() and "threshold" not in nm.lower()
-               and "entropy_control" not in nm.lower()
-               and "intr_enable" not in nm.lower() and "alert_test" not in nm.lower()]
+    en_regs = [
+        (nm, off)
+        for nm, off in regmap.items()
+        if any(k in nm.lower() for k in ["enable", "conf", "control", "ctrl"])
+        and "regwen" not in nm.lower()
+        and "threshold" not in nm.lower()
+        and "entropy_control" not in nm.lower()
+        and "intr_enable" not in nm.lower()
+        and "alert_test" not in nm.lower()
+    ]
     en_regs.sort(key=lambda x: 0 if "module_enable" in x[0].lower() else 1)
     for trial in range(cfg.get("stream_trials", 3)):
         dut.reset()
@@ -669,24 +815,29 @@ def oracle_stream(dut, regmap, findings, cfg):
             # 冻结: 三次采样完全相同且非零（计数器应随数据流变化）
             if v0 == v1 == v2 and any(x != 0 for x in v0):
                 # 排除: 该信号在复位后就是恒值（无数据流依赖）
-                findings.append({
-                    "oracle": "O-F-stream",
-                    "signal": nm,
-                    "value": " ".join(hex(x) for x in v0[:3]),
-                    "trial": trial,
-                    "confidence": "MEDIUM",
-                    "desc": f"计数器 {nm} 在数据流使能后 300 拍三次采样完全不变（值 {v0[0]:#x}）→ 疑似计数器冻结/数据流卡死",
-                })
+                findings.append(
+                    {
+                        "oracle": "O-F-stream",
+                        "signal": nm,
+                        "value": " ".join(hex(x) for x in v0[:3]),
+                        "trial": trial,
+                        "confidence": "MEDIUM",
+                        "desc": f"计数器 {nm} 在数据流使能后 300 拍三次采样完全不变（值 {v0[0]:#x}）→ 疑似计数器冻结/数据流卡死",
+                    }
+                )
             # 倒退: 无清除时值变小
             elif v1 != v0 and any(b < a for a, b in zip(v0, v1)) and all(x != 0 for x in v1):
-                findings.append({
-                    "oracle": "O-F-stream",
-                    "signal": nm,
-                    "value": " ".join(hex(x) for x in v1[:3]),
-                    "trial": trial,
-                    "confidence": "LOW",
-                    "desc": f"计数器 {nm} 无清除指令时值倒退（{v0[0]:#x} → {v1[0]:#x}）→ 疑似指针/计数错误",
-                })
+                findings.append(
+                    {
+                        "oracle": "O-F-stream",
+                        "signal": nm,
+                        "value": " ".join(hex(x) for x in v1[:3]),
+                        "trial": trial,
+                        "confidence": "LOW",
+                        "desc": f"计数器 {nm} 无清除指令时值倒退（{v0[0]:#x} → {v1[0]:#x}）→ 疑似指针/计数错误",
+                    }
+                )
+
 
 # ---------- O-G: 脉冲宽度 oracle ----------
 def oracle_pulse(dut, regmap, findings, cfg):
@@ -708,13 +859,14 @@ def oracle_pulse(dut, regmap, findings, cfg):
     if not rd_targets:
         return
     from collections import Counter
+
     width_dist = Counter()
     residual_dist = Counter()
     for nm, off in rd_targets:
         for trial in range(3):
             dut.reset()
             dut.step(20)
-            v = dut.read(off)
+            _ = dut.read(off)  # 总线事务本身驱动 rvalid/done 采样
             try:
                 rc = dut.api.pf_rvalid_cycles()
                 width_dist[rc] += 1
@@ -727,28 +879,32 @@ def oracle_pulse(dut, regmap, findings, cfg):
                 pass
     # 判定: 正常脉冲宽度应为单一值（通常 1）；出现多分布或 0 = 异常
     if width_dist:
-        modes = [w for w, c in width_dist.items() if c == max(width_dist.values())]
         normal_w = min(w for w in width_dist if w > 0) if any(w > 0 for w in width_dist) else 1
         for w, c in sorted(width_dist.items()):
             if w == 0 or (w != normal_w and c < max(width_dist.values())):
-                findings.append({
-                    "oracle": "O-G-pulse",
-                    "signal": "rvalid_pulse",
-                    "value": "width=%d count=%d" % (w, c),
-                    "confidence": "MEDIUM",
-                    "desc": f"读响应脉冲宽度异常: 宽度 {w} 出现 {c} 次（正常 {normal_w}）→ 疑似脉冲电平化/时序违例",
-                })
+                findings.append(
+                    {
+                        "oracle": "O-G-pulse",
+                        "signal": "rvalid_pulse",
+                        "value": "width=%d count=%d" % (w, c),
+                        "confidence": "MEDIUM",
+                        "desc": f"读响应脉冲宽度异常: 宽度 {w} 出现 {c} 次（正常 {normal_w}）→ 疑似脉冲电平化/时序违例",
+                    }
+                )
     # 残留检测: done 后 rvalid 仍高 = 电平化
     if residual_dist:
         for dr, c in sorted(residual_dist.items()):
             if dr > 0:
-                findings.append({
-                    "oracle": "O-G-pulse",
-                    "signal": "rvalid_residual",
-                    "value": "residual=%d count=%d" % (dr, c),
-                    "confidence": "HIGH",
-                    "desc": f"事务完成后响应信号残留 {dr} 拍（出现 {c} 次）→ 脉冲电平化，同一响应可能被重复采样",
-                })
+                findings.append(
+                    {
+                        "oracle": "O-G-pulse",
+                        "signal": "rvalid_residual",
+                        "value": "residual=%d count=%d" % (dr, c),
+                        "confidence": "HIGH",
+                        "desc": f"事务完成后响应信号残留 {dr} 拍（出现 {c} 次）→ 脉冲电平化，同一响应可能被重复采样",
+                    }
+                )
+
 
 # ---------- O-J: 错误传播 oracle ----------
 def oracle_errprop(dut, regmap, findings, cfg):
@@ -759,14 +915,24 @@ def oracle_errprop(dut, regmap, findings, cfg):
     alerts = alert_sigs(dut.sigs)
     if not alerts:
         return
-    en_regs = [(nm, off) for nm, off in regmap.items()
-               if any(k in nm.lower() for k in ("enable", "conf", "ctrl"))
-               and "regwen" not in nm.lower() and "intr_enable" not in nm.lower()
-               and "alert_test" not in nm.lower()]
-    ctrl_regs = [(nm, off) for nm, off in regmap.items()
-                 if any(k in nm.lower() for k in ("ctrl", "cfg", "cmd", "control"))]
-    sens_regs = [(nm, off) for nm, off in regmap.items()
-                 if any(k in nm.lower() for k in ("key", "secret", "wdata", "data_in", "msg"))]
+    en_regs = [
+        (nm, off)
+        for nm, off in regmap.items()
+        if any(k in nm.lower() for k in ("enable", "conf", "ctrl"))
+        and "regwen" not in nm.lower()
+        and "intr_enable" not in nm.lower()
+        and "alert_test" not in nm.lower()
+    ]
+    ctrl_regs = [
+        (nm, off)
+        for nm, off in regmap.items()
+        if any(k in nm.lower() for k in ("ctrl", "cfg", "cmd", "control"))
+    ]
+    sens_regs = [
+        (nm, off)
+        for nm, off in regmap.items()
+        if any(k in nm.lower() for k in ("key", "secret", "wdata", "data_in", "msg"))
+    ]
     max_off = max([off for off in regmap.values()] or [0x100])
 
     def baseline():
@@ -778,8 +944,9 @@ def oracle_errprop(dut, regmap, findings, cfg):
             dut.step(2)
             for nm in alerts:
                 cur = dut.sig_all(nm)
-                if cur != before[nm] and (any(v != 0 for v in cur)
-                                          or any(v != 0 for v in before[nm])):
+                if cur != before[nm] and (
+                    any(v != 0 for v in cur) or any(v != 0 for v in before[nm])
+                ):
                     return nm
         return None
 
@@ -787,7 +954,8 @@ def oracle_errprop(dut, regmap, findings, cfg):
 
     # T1 非法配置
     if ctrl_regs:
-        dut.reset(); dut.step(5)
+        dut.reset()
+        dut.step(5)
         for nm, off in en_regs[:4]:
             dut.write(off, 0x66666666 if "conf" in nm.lower() else 0x1)
             dut.step(2)
@@ -798,7 +966,8 @@ def oracle_errprop(dut, regmap, findings, cfg):
         res["T1-invalid-cfg"] = raised(b)
 
     # T2 越界访问
-    dut.reset(); dut.step(5)
+    dut.reset()
+    dut.step(5)
     b = baseline()
     dut.write(max_off + 0x100, 0xDEADBEEF)
     dut.step(2)
@@ -809,7 +978,8 @@ def oracle_errprop(dut, regmap, findings, cfg):
 
     # T3 锁后写入
     if sens_regs:
-        dut.reset(); dut.step(5)
+        dut.reset()
+        dut.step(5)
         b = baseline()
         wen = [(nm, off) for nm, off in regmap.items() if "regwen" in nm.lower()]
         for nm, off in wen[:2]:
@@ -822,7 +992,8 @@ def oracle_errprop(dut, regmap, findings, cfg):
 
     # T4 shadow 两阶段写冲突
     if ctrl_regs:
-        dut.reset(); dut.step(5)
+        dut.reset()
+        dut.step(5)
         b = baseline()
         for nm, off in ctrl_regs[:2]:
             dut.write(off, 0x5)
@@ -834,21 +1005,25 @@ def oracle_errprop(dut, regmap, findings, cfg):
     silent = [t for t, r in res.items() if r is None]
     fired = {t: r for t, r in res.items() if r}
     if silent and len(silent) == len(res):
-        findings.append({
-            "oracle": "O-J-errprop",
-            "signal": ",".join(alerts[:3]),
-            "value": f"tried={len(res)}",
-            "confidence": "HIGH",
-            "desc": f"全部 {len(res)} 类错误触发均未引起任何 alert/err 信号置位 → 错误传播链断裂",
-        })
+        findings.append(
+            {
+                "oracle": "O-J-errprop",
+                "signal": ",".join(alerts[:3]),
+                "value": f"tried={len(res)}",
+                "confidence": "HIGH",
+                "desc": f"全部 {len(res)} 类错误触发均未引起任何 alert/err 信号置位 → 错误传播链断裂",
+            }
+        )
     elif silent:
-        findings.append({
-            "oracle": "O-J-errprop",
-            "signal": ",".join(alerts[:3]),
-            "value": f"fired={len(fired)} silent={len(silent)}",
-            "confidence": "MEDIUM",
-            "desc": f"错误传播不完整: 静默触发 {silent}（{len(fired)} 类已传播）→ 疑似部分错误路径被吞没",
-        })
+        findings.append(
+            {
+                "oracle": "O-J-errprop",
+                "signal": ",".join(alerts[:3]),
+                "value": f"fired={len(fired)} silent={len(silent)}",
+                "confidence": "MEDIUM",
+                "desc": f"错误传播不完整: 静默触发 {silent}（{len(fired)} 类已传播）→ 疑似部分错误路径被吞没",
+            }
+        )
 
 
 # ---------- O-N: 多轨一致性 oracle ----------
@@ -873,15 +1048,23 @@ def oracle_multirail(dut, regmap, findings, cfg):
     if not rails:
         return
     alerts = alert_sigs(dut.sigs)
-    en_regs = [(nm, off) for nm, off in regmap.items()
-               if any(k in nm.lower() for k in ("enable", "conf", "ctrl"))
-               and "regwen" not in nm.lower() and "intr_enable" not in nm.lower()
-               and "alert_test" not in nm.lower()]
-    ctrl_regs = [(nm, off) for nm, off in regmap.items()
-                 if any(k in nm.lower() for k in ("ctrl", "cfg", "cmd", "trigger"))]
+    en_regs = [
+        (nm, off)
+        for nm, off in regmap.items()
+        if any(k in nm.lower() for k in ("enable", "conf", "ctrl"))
+        and "regwen" not in nm.lower()
+        and "intr_enable" not in nm.lower()
+        and "alert_test" not in nm.lower()
+    ]
+    ctrl_regs = [
+        (nm, off)
+        for nm, off in regmap.items()
+        if any(k in nm.lower() for k in ("ctrl", "cfg", "cmd", "trigger"))
+    ]
     diff_seen, alert_on_diff = False, False
     for trial in range(cfg.get("rail_trials", 3)):
-        dut.reset(); dut.step(10)
+        dut.reset()
+        dut.step(10)
         for nm, off in en_regs[:4]:
             dut.write(off, 0x66666666 if "conf" in nm.lower() else 0x1)
             dut.step(2)
@@ -912,15 +1095,18 @@ def oracle_multirail(dut, regmap, findings, cfg):
         if diff_seen and alert_on_diff:
             break
     if diff_seen and not alert_on_diff:
-        grp_desc = "; ".join(f"{names[0].split('.')[-1]}×{len(names)}" for names in
-                             list(rails.values())[:2])
-        findings.append({
-            "oracle": "O-N-multirail",
-            "signal": grp_desc,
-            "value": f"rails={len(rails)}",
-            "confidence": "HIGH",
-            "desc": f"多轨副本出现不一致但 alert/err 未置位（{len(rails)} 组轨）→ 冗余比较器失效",
-        })
+        grp_desc = "; ".join(
+            f"{names[0].split('.')[-1]}×{len(names)}" for names in list(rails.values())[:2]
+        )
+        findings.append(
+            {
+                "oracle": "O-N-multirail",
+                "signal": grp_desc,
+                "value": f"rails={len(rails)}",
+                "confidence": "HIGH",
+                "desc": f"多轨副本出现不一致但 alert/err 未置位（{len(rails)} 组轨）→ 冗余比较器失效",
+            }
+        )
     elif not diff_seen:
         pass  # 无差异发生（激励未迫使分叉），不报
 
@@ -937,14 +1123,22 @@ def oracle_mubi(dut, regmap, findings, cfg):
     mubi_sigs = [nm for nm in dut.sigs if "mubi" in nm.lower()]
     if not mubi_sigs:
         return
-    VALID = {1: {0x1, 0x0}, 4: {0x6, 0x9}, 8: {0x66, 0x99}, 12: {0x666, 0x999},
-             16: {0x6666, 0x9999}}
+    VALID = {
+        1: {0x1, 0x0},
+        4: {0x6, 0x9},
+        8: {0x66, 0x99},
+        12: {0x666, 0x999},
+        16: {0x6666, 0x9999},
+    }
     bad = []
-    en_regs = [(nm, off) for nm, off in regmap.items()
-               if any(k in nm.lower() for k in ("enable", "conf"))
-               and "regwen" not in nm.lower()]
+    en_regs = [
+        (nm, off)
+        for nm, off in regmap.items()
+        if any(k in nm.lower() for k in ("enable", "conf")) and "regwen" not in nm.lower()
+    ]
     for trial in range(cfg.get("mubi_trials", 2)):
-        dut.reset(); dut.step(10)
+        dut.reset()
+        dut.step(10)
         for nm, off in en_regs[:4]:
             dut.write(off, 0x66666666 if "conf" in nm.lower() else 0x1)
             dut.step(2)
@@ -956,13 +1150,15 @@ def oracle_mubi(dut, regmap, findings, cfg):
                     bad.append((nm, hex(v)))
     if bad:
         sigs = sorted({b[0] for b in bad})[:3]
-        findings.append({
-            "oracle": "O-M-mubi",
-            "signal": ",".join(sigs),
-            "value": "; ".join(f"{n}={v}" for n, v in bad[:3]),
-            "confidence": "MEDIUM",
-            "desc": f"MUBI 信号出现非法编码 {bad[0][1]}（合法集 {{True,False}}）→ 编码完整性失效",
-        })
+        findings.append(
+            {
+                "oracle": "O-M-mubi",
+                "signal": ",".join(sigs),
+                "value": "; ".join(f"{n}={v}" for n, v in bad[:3]),
+                "confidence": "MEDIUM",
+                "desc": f"MUBI 信号出现非法编码 {bad[0][1]}（合法集 {{True,False}}）→ 编码完整性失效",
+            }
+        )
 
 
 # ---------- O-L: 密码符合性（KAT）oracle ----------
@@ -970,14 +1166,15 @@ def _hmac_run(dut, regmap, cfg_val, key_words, msg_words, max_iter=120):
     """驱动 hmac 完成 one-block 运算，返回 (done, digest_words, err_code)"""
     d = dut
     regmap = {k.lower(): v for k, v in regmap.items()}
-    d.reset(); d.step(10)
+    d.reset()
+    d.step(10)
     if key_words:
         for i, w in enumerate(key_words):
             d.write(regmap["key"] + 4 * i, w)
             d.step(2)
     d.write(regmap["cfg"], cfg_val)
     d.step(5)
-    d.write(regmap["cmd"], 0x1)      # start
+    d.write(regmap["cmd"], 0x1)  # start
     d.step(5)
     fifo = regmap.get("msg_fifo", 0x1000)
     for w in msg_words:
@@ -985,7 +1182,8 @@ def _hmac_run(dut, regmap, cfg_val, key_words, msg_words, max_iter=120):
         d.step(2)
     d.write(regmap["msg_length_lower"], len(msg_words) * 32)
     d.write(regmap["msg_length_upper"], 0)
-    d.write(regmap["cmd"], 0x2)      # process
+    d.write(regmap["cmd"], 0x2)  # process
+
     def _rd(addr):
         v = d.read(addr)
         return v.get("value") if isinstance(v, dict) else v
@@ -998,7 +1196,7 @@ def _hmac_run(dut, regmap, cfg_val, key_words, msg_words, max_iter=120):
         if intr & 0x1:
             done = True
             break
-    d.write(0, 0x1)                  # clear intr
+    d.write(0, 0x1)  # clear intr
     d.step(10)
     digest = [_rd(regmap["digest"] + 4 * i) for i in range(16)]
     err = _rd(regmap["err_code"]) if "err_code" in regmap else 0
@@ -1015,32 +1213,39 @@ def oracle_kat(dut, regmap, findings, cfg):
         msg = [0xA5A5A5A5] * 8
         # (名称, CFG, key, 期望摘要前 4 字（大端字序）)
         exp = {
-            "SHA-256":  (0x422, [0xFC8B6400, 0x1C5FDD0F, 0x2F40FB67, 0xDAE4A865]),
+            "SHA-256": (0x422, [0xFC8B6400, 0x1C5FDD0F, 0x2F40FB67, 0xDAE4A865]),
             "HMAC-SHA-256": (0x423, [0xC5CEBD02, 0x246EE426, 0x0A559B72, 0x715F97D7]),
-            "SHA-512":  (0x502, [0x774B67B3, 0xA64977E9, 0xA42E4621, 0x7F17A6E8]),
+            "SHA-512": (0x502, [0x774B67B3, 0xA64977E9, 0xA42E4621, 0x7F17A6E8]),
         }
         for name, (cfg_val, expect) in exp.items():
             kw = key if "HMAC" in name else None
             done, digest, err, intr = _hmac_run(dut, regmap, cfg_val, kw, msg)
-            got = digest[:len(expect)]
+            got = digest[: len(expect)]
             if not done:
-                findings.append({
-                    "oracle": "O-L-kat",
-                    "signal": f"hmac.{name}",
-                    "value": f"err_intr={bool(intr & 0x4)} err_code={hex(err)}",
-                    "confidence": "HIGH",
-                    "desc": f"{name} 标准向量运算未完成"
-                            + ("，且 hmac_err 置位但 ERR_CODE=0（错误无成因）"
-                               if (intr & 0x4) and err == 0 else ""),
-                })
+                findings.append(
+                    {
+                        "oracle": "O-L-kat",
+                        "signal": f"hmac.{name}",
+                        "value": f"err_intr={bool(intr & 0x4)} err_code={hex(err)}",
+                        "confidence": "HIGH",
+                        "desc": f"{name} 标准向量运算未完成"
+                        + (
+                            "，且 hmac_err 置位但 ERR_CODE=0（错误无成因）"
+                            if (intr & 0x4) and err == 0
+                            else ""
+                        ),
+                    }
+                )
             elif got != expect:
-                findings.append({
-                    "oracle": "O-L-kat",
-                    "signal": f"hmac.{name}",
-                    "value": "got=" + " ".join(hex(w) for w in got[:2]),
-                    "confidence": "HIGH",
-                    "desc": f"{name} 标准向量摘要不匹配（期望 {hex(expect[0])}...，密码实现算错）",
-                })
+                findings.append(
+                    {
+                        "oracle": "O-L-kat",
+                        "signal": f"hmac.{name}",
+                        "value": "got=" + " ".join(hex(w) for w in got[:2]),
+                        "confidence": "HIGH",
+                        "desc": f"{name} 标准向量摘要不匹配（期望 {hex(expect[0])}...，密码实现算错）",
+                    }
+                )
     # 其他模块（aes/ascon/kmac）的 KAT 向量随 DUT 扩充逐步添加
     return
 
@@ -1057,8 +1262,10 @@ def main():
     cands = []
     if regmap_path:
         cands.append(regmap_path)
-    cands += [f"/workspace/HTFuzz/traces/{module}_regmap.json",
-              f"/workspace/HTFuzz/traces/regmap_{module}.json"]
+    cands += [
+        f"/workspace/HTFuzz/traces/{module}_regmap.json",
+        f"/workspace/HTFuzz/traces/regmap_{module}.json",
+    ]
     for cand in cands:
         if cand and os.path.exists(cand):
             regmap = json.load(open(cand))
@@ -1090,6 +1297,7 @@ def main():
     # profile 加载（信号模式/FSM/FIFO 参数）
     try:
         from pf_profile import load_profile
+
         prof = load_profile()
         load_signal_patterns(prof)
         if isinstance(prof.get("signal_patterns"), dict):
@@ -1105,58 +1313,60 @@ def main():
     findings = []
     print("\n[O-A] 残留 oracle...")
     oracle_residual(dut, norm, findings, cfg)
-    print("  → %d 条" % sum(1 for f in findings if f["oracle"]=="O-A-residual"))
+    print("  → %d 条" % sum(1 for f in findings if f["oracle"] == "O-A-residual"))
     print("[O-B] 确定性 oracle...")
     oracle_determinism(dut, norm, findings, cfg)
-    print("  → %d 条" % sum(1 for f in findings if f["oracle"]=="O-B-determinism"))
+    print("  → %d 条" % sum(1 for f in findings if f["oracle"] == "O-B-determinism"))
     print("[O-C] 等价类 oracle...")
     oracle_equivclass(dut, norm, findings, cfg)
-    print("  → %d 条" % sum(1 for f in findings if f["oracle"]=="O-C-equivclass"))
+    print("  → %d 条" % sum(1 for f in findings if f["oracle"] == "O-C-equivclass"))
     print("[O-D] FSM 探索 oracle...")
     oracle_fsm(dut, norm, findings, cfg)
-    print("  → %d 条" % sum(1 for f in findings if f["oracle"]=="O-D-fsm"))
+    print("  → %d 条" % sum(1 for f in findings if f["oracle"] == "O-D-fsm"))
     print("[O-E] FIFO 压力 oracle...")
     oracle_fifo(dut, norm, findings, cfg)
-    print("  → %d 条" % sum(1 for f in findings if f["oracle"]=="O-E-fifo"))
+    print("  → %d 条" % sum(1 for f in findings if f["oracle"] == "O-E-fifo"))
     print("[O-F] 流式数据 oracle...")
     oracle_stream(dut, norm, findings, cfg)
-    print("  → %d 条" % sum(1 for f in findings if f["oracle"]=="O-F-stream"))
+    print("  → %d 条" % sum(1 for f in findings if f["oracle"] == "O-F-stream"))
     print("[O-G] 脉冲宽度 oracle...")
     oracle_pulse(dut, norm, findings, cfg)
-    print("  → %d 条" % sum(1 for f in findings if f["oracle"]=="O-G-pulse"))
+    print("  → %d 条" % sum(1 for f in findings if f["oracle"] == "O-G-pulse"))
     print("[O-K2] 中途复位 oracle...")
     try:
         oracle_midreset(dut, norm, findings, cfg)
-        print("  → %d 条" % sum(1 for f in findings if f["oracle"]=="O-K2-midreset"))
+        print("  → %d 条" % sum(1 for f in findings if f["oracle"] == "O-K2-midreset"))
     except Exception as e:
         print(f"  [warn] O-K2 执行异常: {e}")
     print("[O-J] 错误传播 oracle...")
     try:
         oracle_errprop(dut, norm, findings, cfg)
-        print("  → %d 条" % sum(1 for f in findings if f["oracle"]=="O-J-errprop"))
+        print("  → %d 条" % sum(1 for f in findings if f["oracle"] == "O-J-errprop"))
     except Exception as e:
         print(f"  [warn] O-J 执行异常: {e}")
     print("[O-N] 多轨一致性 oracle...")
     try:
         oracle_multirail(dut, norm, findings, cfg)
-        print("  → %d 条" % sum(1 for f in findings if f["oracle"]=="O-N-multirail"))
+        print("  → %d 条" % sum(1 for f in findings if f["oracle"] == "O-N-multirail"))
     except Exception as e:
         print(f"  [warn] O-N 执行异常: {e}")
     cfg["module"] = module
     print("[O-L] 密码符合性 KAT oracle...")
     try:
         oracle_kat(dut, norm, findings, cfg)
-        print("  → %d 条" % sum(1 for f in findings if f["oracle"]=="O-L-kat"))
+        print("  → %d 条" % sum(1 for f in findings if f["oracle"] == "O-L-kat"))
     except Exception as e:
         print(f"  [warn] O-L 执行异常: {e}")
     print("[O-M] MUBI 合法性 oracle...")
     try:
         oracle_mubi(dut, norm, findings, cfg)
-        print("  → %d 条" % sum(1 for f in findings if f["oracle"]=="O-M-mubi"))
+        print("  → %d 条" % sum(1 for f in findings if f["oracle"] == "O-M-mubi"))
     except Exception as e:
         print(f"  [warn] O-M 执行异常: {e}")
     out = f"/workspace/HTFuzz/fuzz/discover_{module}.json"
-    json.dump({"module": module, "findings": findings}, open(out, "w"), indent=1, ensure_ascii=False)
+    json.dump(
+        {"module": module, "findings": findings}, open(out, "w"), indent=1, ensure_ascii=False
+    )
     # 覆盖率插桩模型：结束时写 coverage.dat（普通模型无此 API，静默跳过）
     try:
         dut.api.pf_final()
@@ -1167,6 +1377,7 @@ def main():
         sig = f.get("signal", "")
         desc = f.get("desc", "")[:70]
         print("  [%s] %s %s" % (f["oracle"], sig, desc))
+
 
 if __name__ == "__main__":
     main()

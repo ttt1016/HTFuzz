@@ -11,7 +11,9 @@ DutEnvironment 实现 Verilator per-IP DUT 的 write/read/step/sig_read/reset。
   env = DutEnvironment("perip/hmac-ctf", "hmac")
   env.execute({"action": "write", "addr": 0x20, "data": 0xDEADBEEF})
 """
-import json, os, re, sys, ctypes
+
+import ctypes
+import os
 
 
 class BaseEnvironment:
@@ -41,16 +43,14 @@ class DutEnvironment(BaseEnvironment):
         self.dut_lib = None
         for f in dut_libs:
             try:
-                self.dut_lib = ctypes.CDLL(os.path.join(objdir, f),
-                                           mode=ctypes.RTLD_GLOBAL)
+                self.dut_lib = ctypes.CDLL(os.path.join(objdir, f), mode=ctypes.RTLD_GLOBAL)
                 break
             except OSError:
                 continue
         self.api = None
         for f in api_libs:
             try:
-                self.api = ctypes.CDLL(os.path.join(objdir, f),
-                                       mode=ctypes.RTLD_GLOBAL)
+                self.api = ctypes.CDLL(os.path.join(objdir, f), mode=ctypes.RTLD_GLOBAL)
                 break
             except OSError:
                 continue
@@ -120,8 +120,7 @@ class DutEnvironment(BaseEnvironment):
         if words is None:
             cands = [s for s in self.sigs if name.lower() in s.lower()]
             if not cands:
-                return {"error": f"signal '{name}' not found",
-                        "available": list(self.sigs)[:10]}
+                return {"error": f"signal '{name}' not found", "available": list(self.sigs)[:10]}
             name = cands[0]
             words = self.sigs[name]
         vals = [self.api.pf_sig_read(name.encode(), w) for w in range(words)]
@@ -135,5 +134,8 @@ class DutEnvironment(BaseEnvironment):
         return dict(self.sigs)
 
     def serialize(self):
-        return {"environment_type": "DutEnvironment",
-                "dut_dir": self.dut_dir, "module": self.module}
+        return {
+            "environment_type": "DutEnvironment",
+            "dut_dir": self.dut_dir,
+            "module": self.module,
+        }

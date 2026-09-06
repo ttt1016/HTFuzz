@@ -16,26 +16,28 @@
 用法: diff_replay.py <module> [seed]
 输出: fuzz/diff_<module>.json
 """
-import json, os, subprocess, sys
+
+import json
+import os
+import subprocess
+import sys
 
 PF = os.environ.get("PF_ROOT", "/workspace/HTFuzz")
 sys.path.insert(0, os.path.join(PF, "scripts"))
 
 
-def run_trace(dut_dir, module, seed, tag):
+def run_trace(dut_dir, module, seed, tag, regmap):
     out = f"/tmp/trace_{module}_{tag}.json"
-    regmap = f"{PF}/traces/{module}_regmap.json"
     args = [sys.executable, f"{PF}/scripts/dut_trace.py", dut_dir, module, regmap, out, str(seed)]
-    p = subprocess.run(args, capture_output=True, text=True, timeout=300, cwd=PF)
+    p = subprocess.run(args, capture_output=True, text=True, timeout=600, cwd=PF)
     if p.returncode != 0:
-        raise RuntimeError(f"[{tag}] dut_trace 失败 rc={p.returncode}: {p.stderr[-400:]}")
+        raise RuntimeError(f"[{tag}] dut_trace rc={p.returncode}: {(p.stderr or '')[-400:]}")
     return json.load(open(out))
 
 
 def cmp_rows(a, b):
     """比对两条动作记录的稳定字段（readback/特殊），供回读通道用"""
-    return (a.get("readback") == b.get("readback")
-            and a.get("error") == b.get("error"))
+    return a.get("readback") == b.get("readback") and a.get("error") == b.get("error")
 
 
 def compare(trace_ctf, trace_f1, trace_f2):
@@ -44,7 +46,7 @@ def compare(trace_ctf, trace_f1, trace_f2):
     f2 = {r["idx"]: r for r in trace_f2["trace"]}
     n_act = min(trace_f1["n_actions"], trace_f2["n_actions"])
 
-    stable_sigs = {}   # sig -> {word: True}（逐字级稳定性）
+    stable_sigs = {}  # sig -> {word: True}（逐字级稳定性）
     for i in range(n_act):
         r1, r2 = f1.get(i), f2.get(i)
         if not r1 or not r2:
@@ -61,7 +63,7 @@ def compare(trace_ctf, trace_f1, trace_f2):
                 else:
                     st[w] = False
 
-    stable_rb = {}     # idx -> True（该动作的回读在 fresh 两遍一致）
+    stable_rb = {}  # idx -> True（该动作的回读在 fresh 两遍一致）
     for i in range(n_act):
         r1, r2 = f1.get(i), f2.get(i)
         if r1 and r2 and cmp_rows(r1, r2):
@@ -80,9 +82,14 @@ def compare(trace_ctf, trace_f1, trace_f2):
         # 回读通道
         if stable_rb.get(i):
             if rc.get("readback") != rf.get("readback") or rc.get("error") != rf.get("error"):
-                d = {"idx": i, "channel": "readback", "kind": rc["kind"],
-                     "addr": rc.get("addr"), "ctf": rc.get("readback"),
-                     "fresh": rf.get("readback")}
+                d = {
+                    "idx": i,
+                    "channel": "readback",
+                    "kind": rc["kind"],
+                    "addr": rc.get("addr"),
+                    "ctf": rc.get("readback"),
+                    "fresh": rf.get("readback"),
+                }
                 divergences.append(d)
                 if first is None:
                     first = d
@@ -96,15 +103,23 @@ def compare(trace_ctf, trace_f1, trace_f2):
                 if wc[w] != wf[w]:
                     divergent_sigs.setdefault(sig, set()).add(i)
                     if len(divergences) < 400:  # 证据截断保护
-                        d = {"idx": i, "channel": "sig", "signal": sig, "word": w,
-                             "kind": rc["kind"], "addr": rc.get("addr"),
-                             "ctf": wc[w], "fresh": wf[w]}
+                        d = {
+                            "idx": i,
+                            "channel": "sig",
+                            "signal": sig,
+                            "word": w,
+                            "kind": rc["kind"],
+                            "addr": rc.get("addr"),
+                            "ctf": wc[w],
+                            "fresh": wf[w],
+                        }
                         divergences.append(d)
                     if first is None:
                         first = d
 
-    div_sig_summary = {s: len(v) for s, v in sorted(divergent_sigs.items(),
-                                                    key=lambda kv: -len(kv[1]))}
+    div_sig_summary = {
+        s: len(v) for s, v in sorted(divergent_sigs.items(), key=lambda kv: -len(kv[1]))
+    }
     return {
         "verdict": "DIVERGENT" if divergences else "IDENTICAL",
         "first_divergence": first,
@@ -143,24 +158,20 @@ def main():
     fd = result.get("first_divergence")
     if fd:
         if fd["channel"] == "readback":
-            print(f"  首偏离: idx={fd['idx']} {fd['kind']} addr={fd['addr']:#x} "
-                  f"ctf={fd['ctf']:#x} fresh={fd['fresh']:#x}")
+            print(
+                f"  首偏离: idx={fd['idx']} {fd['kind']} addr={fd['addr']:#x} "
+                f"ctf={fd['ctf']:#x} fresh={fd['fresh']:#x}"
+            )
         else:
-            print(f"  首偏离: idx={fd['idx']} {fd['signal']}[{fd['word']}] "
-                  f"ctf={fd['ctf']:#x} fresh={fd['fresh']:#x}")
+            print(
+                f"  首偏离: idx={fd['idx']} {fd['signal']}[{fd['word']}] "
+                f"ctf={fd['ctf']:#x} fresh={fd['fresh']:#x}"
+            )
     print(f"  偏离信号: {result['divergent_signals'] or '无'}")
-    print(f"  稳定信号: {result['n_stable_signals']}/{result['n_signals_total']}"
-          f"  比对动作: {result['n_actions_compared']}  → {out}")
-
-
-def run_trace(dut_dir, module, seed, tag, regmap):
-    out = f"/tmp/trace_{module}_{tag}.json"
-    args = [sys.executable, f"{PF}/scripts/dut_trace.py", dut_dir, module,
-            regmap, out, str(seed)]
-    p = subprocess.run(args, capture_output=True, text=True, timeout=600, cwd=PF)
-    if p.returncode != 0:
-        raise RuntimeError(f"[{tag}] dut_trace rc={p.returncode}: {(p.stderr or '')[-400:]}")
-    return json.load(open(out))
+    print(
+        f"  稳定信号: {result['n_stable_signals']}/{result['n_signals_total']}"
+        f"  比对动作: {result['n_actions_compared']}  → {out}"
+    )
 
 
 if __name__ == "__main__":

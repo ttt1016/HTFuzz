@@ -12,7 +12,13 @@ O-L 闭环 fuzzing v2 —— 覆盖率引导 + O-K 不变量判定 + pairwise �
   python3 ol_full_loop.py perip/hmac-ctf hmac traces/hmac_regmap.json \
       [--iterations 80] [--plateau 15]
 """
-import json, os, re, sys, random, glob, itertools
+
+import glob
+import itertools
+import json
+import os
+import random
+import sys
 
 PF = os.environ.get("PF_ROOT", "/workspace/HTFuzz")
 OT = os.environ.get("PF_TARGET_RTL", "/workspace/opentitan")
@@ -23,6 +29,7 @@ def load_dut(dut_dir, module):
     if script_dir not in sys.path:
         sys.path.insert(0, script_dir)
     from llm_agent import DutHandle
+
     return DutHandle(dut_dir, module)
 
 
@@ -35,8 +42,9 @@ def load_regmap(path):
                 continue
             if r.get("kind") == "reg" and "name" in r and "offset" in r:
                 try:
-                    regmap[r["name"].lower()] = int(r["offset"], 0) if isinstance(
-                        r["offset"], str) else r["offset"]
+                    regmap[r["name"].lower()] = (
+                        int(r["offset"], 0) if isinstance(r["offset"], str) else r["offset"]
+                    )
                 except Exception:
                     pass
             elif r.get("kind") == "multireg" and "name" in r and "offset" in r:
@@ -65,8 +73,13 @@ def build_seeds(module):
                 a = t.get("action", {})
                 if isinstance(a, dict) and a.get("action") == "write":
                     try:
-                        ops.append(("write", int(str(a.get("addr", "0")), 0),
-                                    int(str(a.get("data", "0")), 0)))
+                        ops.append(
+                            (
+                                "write",
+                                int(str(a.get("addr", "0")), 0),
+                                int(str(a.get("data", "0")), 0),
+                            )
+                        )
                     except Exception:
                         pass
                 elif isinstance(a, dict) and a.get("action") == "step":
@@ -76,21 +89,35 @@ def build_seeds(module):
     for f in glob.glob(os.path.join(PF, "fuzz", f"discover_{module}.json")):
         d = json.load(open(f))
         for x in d.get("findings", [])[:3]:
-            seeds.append({"name": f"fuzz_{x.get('oracle', '')[:12]}",
-                          "ops": [("write", 0x20, 0xDEADBEEF), ("step", 50)]})
-    seeds.append({"name": "generic_explore",
-                  "ops": [("write", 0x10, 0x1), ("step", 20),
-                          ("write", 0x14, 0x1), ("step", 100),
-                          ("write", 0x20, 0xDEADBEEF), ("step", 50)]})
+            seeds.append(
+                {
+                    "name": f"fuzz_{x.get('oracle', '')[:12]}",
+                    "ops": [("write", 0x20, 0xDEADBEEF), ("step", 50)],
+                }
+            )
+    seeds.append(
+        {
+            "name": "generic_explore",
+            "ops": [
+                ("write", 0x10, 0x1),
+                ("step", 20),
+                ("write", 0x14, 0x1),
+                ("step", 100),
+                ("write", 0x20, 0xDEADBEEF),
+                ("step", 50),
+            ],
+        }
+    )
     return seeds
 
 
 class Coverage:
     """值状态覆盖 + pairwise 组合覆盖"""
+
     def __init__(self, dut):
         self.dut = dut
         self.sigs = dict(dut.sigs)
-        self.values = {}   # sig -> set of value tuples
+        self.values = {}  # sig -> set of value tuples
         self.pairwise = set()  # (sigA, valA_bin, sigB, valB_bin) 组合
         self.prev = {}
 
@@ -100,8 +127,7 @@ class Coverage:
     def sample(self):
         cur = {}
         for name, words in self.sigs.items():
-            vals = tuple(self.dut.api.pf_sig_read(name.encode(), w)
-                         for w in range(words))
+            vals = tuple(self.dut.api.pf_sig_read(name.encode(), w) for w in range(words))
             cur[name] = vals
             old = self.prev.get(name)
             if old is not None and vals != old:
@@ -153,10 +179,19 @@ def mutate(seed_ops, regmap, rng):
         wi = [i for i, o in enumerate(ops) if o[0] == "write"]
         if wi:
             i = rng.choice(wi)
-            new_ops[i] = ("write", ops[i][1],
-                          rng.choice([0xDEADBEEF, 0x0, 0xFFFFFFFF,
-                                      rng.randint(0, 0xFFFFFFFF),
-                                      ops[i][2] ^ rng.randint(1, 0xFFFF)]))
+            new_ops[i] = (
+                "write",
+                ops[i][1],
+                rng.choice(
+                    [
+                        0xDEADBEEF,
+                        0x0,
+                        0xFFFFFFFF,
+                        rng.randint(0, 0xFFFFFFFF),
+                        ops[i][2] ^ rng.randint(1, 0xFFFF),
+                    ]
+                ),
+            )
     elif mut_type == "addr":
         wi = [i for i, o in enumerate(ops) if o[0] == "write"]
         if wi and regmap:
@@ -170,9 +205,10 @@ def mutate(seed_ops, regmap, rng):
         else:
             new_ops.append(("step", 100))
     elif mut_type == "insert" and regmap:
-        new_ops.insert(rng.randint(0, len(new_ops)),
-                       ("write", rng.choice(list(regmap.values())),
-                        rng.randint(0, 0xFFFFFFFF)))
+        new_ops.insert(
+            rng.randint(0, len(new_ops)),
+            ("write", rng.choice(list(regmap.values())), rng.randint(0, 0xFFFFFFFF)),
+        )
     elif mut_type == "delete" and len(new_ops) > 2:
         new_ops.pop(rng.randint(0, len(new_ops) - 1))
     elif mut_type == "dup" and ops:
@@ -196,6 +232,7 @@ def run_invariant_checks(dut, regmap, module):
     if script_dir not in sys.path:
         sys.path.insert(0, script_dir)
     from ok_invariant import InvariantChecker
+
     checker = InvariantChecker(dut, regmap)
     violations = []
     for item in inv.get("invariants", []):
@@ -207,13 +244,13 @@ def run_invariant_checks(dut, regmap, module):
 
 def main():
     import argparse
+
     ap = argparse.ArgumentParser()
     ap.add_argument("dut_dir")
     ap.add_argument("module")
     ap.add_argument("regmap_path")
     ap.add_argument("--iterations", type=int, default=80)
-    ap.add_argument("--plateau", type=int, default=15,
-                    help="无新覆盖 N 迭代触发剪枝")
+    ap.add_argument("--plateau", type=int, default=15, help="无新覆盖 N 迭代触发剪枝")
     args = ap.parse_args()
 
     regmap = load_regmap(args.regmap_path)
@@ -221,8 +258,10 @@ def main():
     seeds = build_seeds(args.module)
 
     print(f"=== O-L 闭环 fuzzing v2: {args.module} ===")
-    print(f"种子: {len(seeds)}, 白盒信号: {len(dut.sigs)}, "
-          f"迭代: {args.iterations}, plateau: {args.plateau}")
+    print(
+        f"种子: {len(seeds)}, 白盒信号: {len(dut.sigs)}, "
+        f"迭代: {args.iterations}, plateau: {args.plateau}"
+    )
 
     rng = random.Random(0xC0FFEE)
     corpus = []
@@ -257,14 +296,19 @@ def main():
             if len(corpus) % 5 == 0:
                 viols = run_invariant_checks(dut, regmap, args.module)
                 for v in viols:
-                    dup = any(x["signal"] == v["signal"] and x["rule"] == v["rule"]
-                              for x in new_findings)
+                    dup = any(
+                        x["signal"] == v["signal"] and x["rule"] == v["rule"] for x in new_findings
+                    )
                     if not dup:
                         new_findings.append(v)
-                        print(f"  [iter {it}] *** NEW VIOLATION: {v['signal']} "
-                              f"({v['rule']}): {str(v['desc'])[:80]}")
-            print(f"  [iter {it}] +cov (mut={mut_type}) "
-                  f"global={global_cov.size()} corpus={len(corpus)}")
+                        print(
+                            f"  [iter {it}] *** NEW VIOLATION: {v['signal']} "
+                            f"({v['rule']}): {str(v['desc'])[:80]}"
+                        )
+            print(
+                f"  [iter {it}] +cov (mut={mut_type}) "
+                f"global={global_cov.size()} corpus={len(corpus)}"
+            )
         else:
             plateau_count += 1
             # plateau 剪枝
@@ -274,33 +318,42 @@ def main():
                 pruned = corpus[:prune_n]
                 corpus = corpus[prune_n:]
                 plateau_count = 0
-                print(f"  [iter {it}] PLATEAU: pruned {len(pruned)} entries, "
-                      f"corpus={len(corpus)}")
+                print(f"  [iter {it}] PLATEAU: pruned {len(pruned)} entries, corpus={len(corpus)}")
         if it % 20 == 19:
-            print(f"  [iter {it}] cov={global_cov.size()} corpus={len(corpus)} "
-                  f"findings={len(new_findings)}")
+            print(
+                f"  [iter {it}] cov={global_cov.size()} corpus={len(corpus)} "
+                f"findings={len(new_findings)}"
+            )
 
     # 最终跑一遍全部不变量
     print("\n--- 最终不变量检查 ---")
     final_viols = run_invariant_checks(dut, regmap, args.module)
     for v in final_viols:
-        dup = any(x["signal"] == v["signal"] and x["rule"] == v["rule"]
-                  for x in new_findings)
+        dup = any(x["signal"] == v["signal"] and x["rule"] == v["rule"] for x in new_findings)
         if not dup:
             new_findings.append(v)
         print(f"  [{'VIOLATION' if not dup else 'dup'}] {v['signal']} ({v['rule']})")
 
     out = os.path.join(PF, "fuzz", f"closed_loop_v2_{args.module}.json")
-    json.dump({"module": args.module, "iterations": args.iterations,
-               "exec_count": exec_count,
-               "final_coverage": global_cov.size(),
-               "pairwise_count": len(global_cov.pairwise),
-               "corpus_size": len(corpus),
-               "violations": new_findings},
-              open(out, "w"), indent=1, ensure_ascii=False)
-    print(f"\n=== 汇总 ===")
-    print(f"执行: {exec_count}, 覆盖: {global_cov.size()} "
-          f"(含 pairwise {len(global_cov.pairwise)}), 语料库: {len(corpus)}")
+    json.dump(
+        {
+            "module": args.module,
+            "iterations": args.iterations,
+            "exec_count": exec_count,
+            "final_coverage": global_cov.size(),
+            "pairwise_count": len(global_cov.pairwise),
+            "corpus_size": len(corpus),
+            "violations": new_findings,
+        },
+        open(out, "w"),
+        indent=1,
+        ensure_ascii=False,
+    )
+    print("\n=== 汇总 ===")
+    print(
+        f"执行: {exec_count}, 覆盖: {global_cov.size()} "
+        f"(含 pairwise {len(global_cov.pairwise)}), 语料库: {len(corpus)}"
+    )
     print(f"不变量违反: {len(new_findings)} 条")
     for v in new_findings:
         print(f"  [{v['rule']}] {v['signal']}: {str(v['desc'])[:80]}")

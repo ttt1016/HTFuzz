@@ -36,9 +36,12 @@ Profile 格式（JSON）:
   # 或环境变量
   PF_PROFILE=profiles/opentitan.json discover_engine.py ...
 """
-import json, os
+
+import json
+import os
 
 DEFAULT_PROFILE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "profiles")
+
 
 def load_profile(path=None):
     """加载芯片 profile；无 profile 时返回通用默认值"""
@@ -61,19 +64,33 @@ def load_profile(path=None):
         "perip_base": 0x40000000,
         "module_base": {},
         "signal_patterns": {
-            "sensitive": ["key", "secret", "seed", "digest", "hash", "mask",
-                          "entropy", "priv", "credential", "token", "nonce",
-                          "rand", "cipher", "plain"],
-            "control": ["state_q", "_q", "fsm", "ctrl", "cfg", "en", "status"]
+            "sensitive": [
+                "key",
+                "secret",
+                "seed",
+                "digest",
+                "hash",
+                "mask",
+                "entropy",
+                "priv",
+                "credential",
+                "token",
+                "nonce",
+                "rand",
+                "cipher",
+                "plain",
+            ],
+            "control": ["state_q", "_q", "fsm", "ctrl", "cfg", "en", "status"],
         },
         "security_annotations": {
             "format": "none",  # 无标注格式 → 靶点生成降级为纯盲测
             "pattern": None,
-            "strategy_map": {}
+            "strategy_map": {},
         },
         "regmap_dir": ".",
-        "bus": "generic"
+        "bus": "generic",
     }
+
 
 def save_profile(profile, path):
     os.makedirs(os.path.dirname(path) or ".", exist_ok=True)

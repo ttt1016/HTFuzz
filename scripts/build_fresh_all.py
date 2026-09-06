@@ -10,11 +10,17 @@
 产物: perip/<module>-fresh/obj_so/libpf_<module>_fresh.so
 日志: reports/fresh_build.log
 """
-import glob, os, re, shutil, subprocess, sys
+
+import glob
+import json
+import os
+import re
+import shutil
+import subprocess
+import sys
 from concurrent.futures import ThreadPoolExecutor
 
-PF = os.environ.get("PF_ROOT",
-                    os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+PF = os.environ.get("PF_ROOT", os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 FRESH_TREE = os.environ.get("PF_FRESH_RTL", "/Users/fantasy/Desktop/home/workspace/opentitan-fresh")
 CTF_TREE = os.environ.get("PF_TARGET_RTL_HOST", "/Users/fantasy/Desktop/home/workspace/opentitan")
 LOG = open(os.path.join(PF, "reports", "fresh_build.log"), "a")
@@ -36,13 +42,30 @@ def copy_closure(module):
     if os.path.exists(dst):
         shutil.rmtree(dst)
     # 1) CTF 整体拷贝(排除构建产物)
-    shutil.copytree(ctf, dst,
-                    ignore=shutil.ignore_patterns("obj_*", "*.o", "*.so", "*.a",
-                                                  "__pycache__", "*.mk", "*.dat",
-                                                  "*.gch", "*.d", "selftest*",
-                                                  "pre_syn", "pre_sca", "syn",
-                                                  "lint", "dv", "fpv", "doc"),
-                    symlinks=True)
+    shutil.copytree(
+        ctf,
+        dst,
+        ignore=shutil.ignore_patterns(
+            "obj_*",
+            "*.o",
+            "*.so",
+            "*.a",
+            "__pycache__",
+            "*.mk",
+            "*.dat",
+            "*.gch",
+            "*.d",
+            "selftest*",
+            "pre_syn",
+            "pre_sca",
+            "syn",
+            "lint",
+            "dv",
+            "fpv",
+            "doc",
+        ),
+        symlinks=True,
+    )
     # 2) fresh 树同名覆盖
     src_hw = os.path.join(FRESH_TREE, "hw")
     dst_hw = os.path.join(dst, "hw")
@@ -80,19 +103,25 @@ FRESH_COMPAT = {
     # entropy_src: RNG 拍平 + xht meta + 无 cs_aes_halt（fresh 适配版 wrapper）
     "entropy_src": [],
     # keymgr: fresh keymgr.sv/kmac_if 需要新版 kmac_pkg 字段与带 SkewCycles 的 prim 组件
-    "keymgr": ["hw/ip/prim/rtl/prim_alert_sender.sv",
-               "hw/ip/prim/rtl/prim_diff_decode.sv",
-               "hw/ip/kmac/rtl/kmac_pkg.sv",
-               "hw/ip/kmac/rtl/sha3_pkg.sv",
-               "hw/ip/prim/rtl/prim_sec_anchor_const.sv"],
+    "keymgr": [
+        "hw/ip/prim/rtl/prim_alert_sender.sv",
+        "hw/ip/prim/rtl/prim_diff_decode.sv",
+        "hw/ip/kmac/rtl/kmac_pkg.sv",
+        "hw/ip/kmac/rtl/sha3_pkg.sv",
+        "hw/ip/prim/rtl/prim_sec_anchor_const.sv",
+    ],
 }
 
 
 def fresh_compat(module, dst):
     """按模块登记的 fresh 版本兼容层: 从 fresh 树覆盖指定依赖文件"""
     # fresh 适配版 wrapper 模板（perip/wrapper_fresh/）优先部署
-    wtpl = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
-                        "perip", "wrapper_fresh", f"{module}_perip_tb.sv")
+    wtpl = os.path.join(
+        os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+        "perip",
+        "wrapper_fresh",
+        f"{module}_perip_tb.sv",
+    )
     wdst = os.path.join(dst, "rtl_wrapper", f"{module}_perip_tb.sv")
     if os.path.exists(wtpl):
         os.makedirs(os.path.join(dst, "rtl_wrapper"), exist_ok=True)
@@ -107,25 +136,27 @@ def fresh_compat(module, dst):
         wp = os.path.join(dst, "rtl_wrapper", "csrng_perip_tb.sv")
         if os.path.exists(wp):
             import re as _re
-            lines = [l for l in open(wp).read().splitlines()
-                     if not _re.search(r"cs_aes_halt", l)]
+
+            lines = [l for l in open(wp).read().splitlines() if not _re.search(r"cs_aes_halt", l)]
             open(wp, "w").write("\n".join(lines) + "\n")
     if module == "keymgr":
         wp = os.path.join(dst, "rtl_wrapper", "keymgr_perip_tb.sv")
         if os.path.exists(wp):
             s = open(wp).read()
-            s = s.replace("""  assign kmac_rsp.ready = 1'b1;
+            s = s.replace(
+                """  assign kmac_rsp.ready = 1'b1;
   assign kmac_rsp.done = 1'b1;
   assign kmac_rsp.digest_share0 = {kmac_pkg::AppDigestW{1'b0}};
   assign kmac_rsp.digest_share1 = {kmac_pkg::AppDigestW{1'b0}};
   assign kmac_rsp.error = 1'b0;""",
-"""  // fresh kmac_pkg 的 app_rsp_t 字段名
+                """  // fresh kmac_pkg 的 app_rsp_t 字段名
   assign kmac_rsp.req_ready = 1'b1;
   assign kmac_rsp.rsp_valid = kmac_req.req_valid;
   assign kmac_rsp.rsp_finish = kmac_req.req_valid;
   assign kmac_rsp.digest_s0 = {kmac_pkg::AppDigestW{1'b0}};
   assign kmac_rsp.digest_s1 = {kmac_pkg::AppDigestW{1'b0}};
-  assign kmac_rsp.error = 1'b0;""")
+  assign kmac_rsp.error = 1'b0;""",
+            )
             open(wp, "w").write(s)
 
 
@@ -148,19 +179,25 @@ def overlay_own_rtl(module, dst):
 
 
 def build_one(module):
-    if f"{module}-fresh" in os.listdir(f"{PF}/perip") and \
-       os.path.exists(f"{PF}/perip/{module}-fresh/obj_so/libpf_{module}_fresh.so"):
+    if f"{module}-fresh" in os.listdir(f"{PF}/perip") and os.path.exists(
+        f"{PF}/perip/{module}-fresh/obj_so/libpf_{module}_fresh.so"
+    ):
         log(f"[{module}] SKIP (已建成)")
         return module, "ok"
     fb = copy_closure(module)
     fresh_compat(module, f"{PF}/perip/{module}-fresh")
     # 无 filelist 的模块（老会话构建）→ 通用生成器推导
     if not os.path.exists(f"{PF}/perip/{module}-fresh/filelist.f"):
-        g = subprocess.run([sys.executable,
-                            os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                                         "gen_filelist.py"),
-                            f"{PF}/perip/{module}-fresh"],
-                           capture_output=True, text=True, timeout=120)
+        g = subprocess.run(
+            [
+                sys.executable,
+                os.path.join(os.path.dirname(os.path.abspath(__file__)), "gen_filelist.py"),
+                f"{PF}/perip/{module}-fresh",
+            ],
+            capture_output=True,
+            text=True,
+            timeout=120,
+        )
         if not os.path.exists(f"{PF}/perip/{module}-fresh/filelist.f"):
             log(f"[{module}] filelist 生成失败: {g.stderr[-200:]}")
             return module, "no_filelist"
@@ -171,20 +208,24 @@ def build_one(module):
     hd = f"{PF}/perip/{module}-fresh/harness"
     if os.path.isdir(hd):
         cpps = [f for f in os.listdir(hd) if f.endswith(".cpp")]
-        pref = [f for f in cpps if module in f]   # 优先 <module>_harness.cpp
+        pref = [f for f in cpps if module in f]  # 优先 <module>_harness.cpp
         if not cpps:
             log(f"[{module}] 无 harness cpp, SKIP")
             return module, "no_harness"
         harness_cpp = (pref or cpps)[0]
     wd = f"{PF}/perip/{module}-fresh/rtl_wrapper"
-    topmod = f"{module}_perip_tb"      # 默认顶层 = <module>_perip_tb
+    topmod = f"{module}_perip_tb"  # 默认顶层 = <module>_perip_tb
     cands = [f for f in os.listdir(wd) if f == f"{topmod}.sv"] if os.path.isdir(wd) else []
     if not cands:
         # 无 perip_tb wrapper 的模块（单元 TB 集合, 如 ibex）→ 沿用 CTF 构建的顶层
         mk = glob.glob(f"{PF}/perip/{module}-ctf/obj_so/V*.mk")
         if mk:
-            mm = re.search(r"V(\w+)\.mk", sorted(m for m in os.listdir(
-                f"{PF}/perip/{module}-ctf/obj_so") if m.endswith(".mk"))[0])
+            mm = re.search(
+                r"V(\w+)\.mk",
+                sorted(
+                    m for m in os.listdir(f"{PF}/perip/{module}-ctf/obj_so") if m.endswith(".mk")
+                )[0],
+            )
             topmod = mm.group(1) if mm else None
         else:
             topmod = None
@@ -197,7 +238,7 @@ def build_one(module):
             return module, "no_wrapper"
     extra = "--timing" if module in TIMING_MODULES else ""
     extra += " -Wno-ENUMVALUE -Wno-WIDTH -Wno-PINCONNECTEMPTY"
-    cmd = f'''
+    cmd = f"""
 export PATH=/tools/verilator/v5.050/bin:$PATH
 cd /workspace/HTFuzz/perip/{module}-fresh
 rm -rf obj_so
@@ -212,21 +253,27 @@ g++ -c -fPIC -fcoroutines -O2 -I/tools/verilator/v5.050/share/verilator/include 
 make -f V{topmod}.mk libpf_{module}_fresh.a libpf_{module}_fresh.so \
   VK_USER_OBJS=pf_fresh_harness.o -j 10 2>&1 | grep -E "%Error|error:" | head -4
 ls libpf_{module}_fresh.so >/dev/null 2>&1 && echo FRESH_BUILD_OK
-'''
+"""
     for attempt in ("full-overlay", "own-rtl-only"):
         # MODMISSING 自动补件（最多 4 轮）: 从 fresh 树找缺失模块拷入闭包
         for rnd in range(4):
-            p = subprocess.run(["docker", "exec", "opentitan-env-fwt", "bash", "-c", cmd],
-                               capture_output=True, text=True, timeout=1800)
+            p = subprocess.run(
+                ["docker", "exec", "opentitan-env-fwt", "bash", "-c", cmd],
+                capture_output=True,
+                text=True,
+                timeout=1800,
+            )
             out = p.stdout + p.stderr
             if "FRESH_BUILD_OK" in out:
                 break
-            missing = sorted(set(re.findall(
-                r"Cannot find file containing module: '([^']+)'", out)))
+            missing = sorted(set(re.findall(r"Cannot find file containing module: '([^']+)'", out)))
             added = 0
             # 缺 include (.svh) → 按 basename 在 fresh 树找, 拷到引用者同目录
-            for ref_file, inc_name in sorted(set(re.findall(
-                    r"(hw/[^: ]+\.sv):\d+:\d+: Cannot find include file: '([^']+)'", out))):
+            for ref_file, inc_name in sorted(
+                set(
+                    re.findall(r"(hw/[^: ]+\.sv):\d+:\d+: Cannot find include file: '([^']+)'", out)
+                )
+            ):
                 src_hit = None
                 for root2, dirs2, files2 in os.walk(FRESH_TREE):
                     if inc_name == files2 or inc_name in files2:
@@ -235,8 +282,11 @@ ls libpf_{module}_fresh.so >/dev/null 2>&1 && echo FRESH_BUILD_OK
                 if not src_hit:
                     continue
                 parent = os.path.join(f"{PF}/perip/{module}-fresh", ref_file)
-                inc_dir = (os.path.relpath(os.path.dirname(ref_file), "hw")
-                           if os.path.exists(parent) else "hw/ip/prim/rtl")
+                inc_dir = (
+                    os.path.relpath(os.path.dirname(ref_file), "hw")
+                    if os.path.exists(parent)
+                    else "hw/ip/prim/rtl"
+                )
                 dstp = os.path.join(f"{PF}/perip/{module}-fresh/hw", inc_dir, inc_name)
                 os.makedirs(os.path.dirname(dstp), exist_ok=True)
                 shutil.copy(src_hit, dstp)
@@ -245,8 +295,14 @@ ls libpf_{module}_fresh.so >/dev/null 2>&1 && echo FRESH_BUILD_OK
             # 缺包(三种形态合一) → 从 fresh 树找定义者, 拷贝并插到引用者之前
             #   形态A: Import (package|object) not found
             #   形态B: Package/class for ':: reference' not found
-            for ref_file, pkg_name in sorted(set(re.findall(
-                    r"(hw/[^: ]+\.sv):\d+:\d+: (?:Import (?:package|object) not found|Package/class for ':: reference' not found): '(\w+)'", out))):
+            for ref_file, pkg_name in sorted(
+                set(
+                    re.findall(
+                        r"(hw/[^: ]+\.sv):\d+:\d+: (?:Import (?:package|object) not found|Package/class for ':: reference' not found): '(\w+)'",
+                        out,
+                    )
+                )
+            ):
                 hit = None
                 for root2, dirs2, files2 in os.walk(FRESH_TREE):
                     if pkg_name + ".sv" in files2:
@@ -258,16 +314,20 @@ ls libpf_{module}_fresh.so >/dev/null 2>&1 && echo FRESH_BUILD_OK
                 fl = f"{PF}/perip/{module}-fresh/filelist.f"
                 lines = open(fl).read().rstrip("\n").split("\n")
                 # 同名包已在 filelist → 原地升级为 fresh 内容（避免 MODDUP）
-                exist = [i for i, l in enumerate(lines)
-                         if os.path.basename(l) == pkg_name + ".sv"]
+                exist = [i for i, l in enumerate(lines) if os.path.basename(l) == pkg_name + ".sv"]
                 if exist:
-                    shutil.copy(hit, os.path.join(f"{PF}/perip/{module}-fresh",
-                                                  lines[exist[0]].strip()))
+                    shutil.copy(
+                        hit, os.path.join(f"{PF}/perip/{module}-fresh", lines[exist[0]].strip())
+                    )
                     # 去重（历史插入造成的重复行）
                     seen, dedup = set(), []
                     for l in lines:
                         k = os.path.basename(l)
-                        if k.endswith(".sv") and k in seen and os.path.basename(l) == pkg_name + ".sv":
+                        if (
+                            k.endswith(".sv")
+                            and k in seen
+                            and os.path.basename(l) == pkg_name + ".sv"
+                        ):
                             continue
                         seen.add(k)
                         dedup.append(l)
@@ -278,8 +338,7 @@ ls libpf_{module}_fresh.so >/dev/null 2>&1 && echo FRESH_BUILD_OK
                 dstp = os.path.join(f"{PF}/perip/{module}-fresh", rel)
                 os.makedirs(os.path.dirname(dstp), exist_ok=True)
                 shutil.copy(hit, dstp)
-                ref_idx = next((i for i, l in enumerate(lines)
-                                if l.strip() == ref_file), None)
+                ref_idx = next((i for i, l in enumerate(lines) if l.strip() == ref_file), None)
                 if ref_idx is not None:
                     lines.insert(ref_idx, rel)
                 else:
@@ -290,8 +349,13 @@ ls libpf_{module}_fresh.so >/dev/null 2>&1 && echo FRESH_BUILD_OK
                 log(f"[{module}] 缺包补件: {rel} ({pkg_name})")
                 added += 1
             # PINNOTFOUND(参数/引脚不存在) → 实例化的子模块文件过旧, 从 fresh 树覆盖
-            for mfile, mline, pn in sorted(set(re.findall(
-                    r"(hw/[^: ]+\.sv):(\d+):\d+: (?:Parameter|Pin) not found: '(\w+)'", out))):
+            for mfile, mline, pn in sorted(
+                set(
+                    re.findall(
+                        r"(hw/[^: ]+\.sv):(\d+):\d+: (?:Parameter|Pin) not found: '(\w+)'", out
+                    )
+                )
+            ):
                 parent = os.path.join(f"{PF}/perip/{module}-fresh", mfile)
                 if not os.path.exists(parent):
                     continue
@@ -352,7 +416,9 @@ ls libpf_{module}_fresh.so >/dev/null 2>&1 && echo FRESH_BUILD_OK
                         body.append(rel)
                         open(fl, "w").write("\n".join(body + tail) + "\n")
                     added += 1
-            log(f"[{module}] MODMISSING 轮{rnd}: 补 {added}/{len(missing)} ({', '.join(missing[:4])})")
+            log(
+                f"[{module}] MODMISSING 轮{rnd}: 补 {added}/{len(missing)} ({', '.join(missing[:4])})"
+            )
             if added == 0:
                 break
         if "FRESH_BUILD_OK" in out:
@@ -364,18 +430,27 @@ ls libpf_{module}_fresh.so >/dev/null 2>&1 && echo FRESH_BUILD_OK
             ctf_hw = f"{PF}/perip/{module}-ctf/hw"
             dst_hw = f"{PF}/perip/{module}-fresh/hw"
             shutil.rmtree(dst_hw)
-            shutil.copytree(ctf_hw, dst_hw,
-                            ignore=shutil.ignore_patterns("pre_syn", "pre_sca", "syn",
-                                                          "lint", "dv", "fpv", "doc"),
-                            symlinks=True)
+            shutil.copytree(
+                ctf_hw,
+                dst_hw,
+                ignore=shutil.ignore_patterns(
+                    "pre_syn", "pre_sca", "syn", "lint", "dv", "fpv", "doc"
+                ),
+                symlinks=True,
+            )
             n = overlay_own_rtl(module, f"{PF}/perip/{module}-fresh")
             fresh_compat(module, f"{PF}/perip/{module}-fresh")
             log(f"[{module}] own-rtl 覆盖 {n} 个文件 + compat 重应用")
-            g = subprocess.run([sys.executable,
-                                os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                                             "gen_filelist.py"),
-                                f"{PF}/perip/{module}-fresh"],
-                               capture_output=True, text=True, timeout=120)
+            g = subprocess.run(
+                [
+                    sys.executable,
+                    os.path.join(os.path.dirname(os.path.abspath(__file__)), "gen_filelist.py"),
+                    f"{PF}/perip/{module}-fresh",
+                ],
+                capture_output=True,
+                text=True,
+                timeout=120,
+            )
             log(f"[{module}] 回退后 filelist 重新生成")
     err = [l for l in out.splitlines() if "%Error" in l][:3]
     log(f"[{module}] BUILD FAIL: {' | '.join(err) or out[-200:]}")
@@ -385,12 +460,14 @@ ls libpf_{module}_fresh.so >/dev/null 2>&1 && echo FRESH_BUILD_OK
 def main():
     mods = sys.argv[1:]
     if not mods:
-        mods = sorted(d[:-4] for d in os.listdir(f"{PF}/perip")
-                      if d.endswith("-ctf") and os.path.isdir(f"{PF}/perip/{d}/rtl_wrapper"))
+        mods = sorted(
+            d[:-4]
+            for d in os.listdir(f"{PF}/perip")
+            if d.endswith("-ctf") and os.path.isdir(f"{PF}/perip/{d}/rtl_wrapper")
+        )
         mods = [m for m in mods if m not in SKIP_MODULES]
     log(f"=== fresh 批建开始: {len(mods)} 模块 ===")
     results = {}
-    workers = 2 if len(mods) > 1 else 1
     with ThreadPoolExecutor(max_workers=2 if len(mods) > 1 else 1) as ex:
         for module, status in ex.map(build_one, mods):
             results[module] = status
@@ -404,6 +481,5 @@ def main():
     json.dump(results, open(f"{PF}/fuzz/fresh_build_status.json", "w"), indent=1)
 
 
-import json
 if __name__ == "__main__":
     main()

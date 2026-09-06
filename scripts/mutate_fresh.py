@@ -9,18 +9,26 @@
 用法（宿主机运行, 需 docker）: mutate_fresh.py <module> [mutant ...]
 变异体注册表: MUTANTS[module]（按 P1/P2 已知注入"族"合成, 不参考具体已知 diff 语义）
 """
-import json, os, shutil, subprocess, sys
+
+import json
+import os
+import shutil
+import subprocess
+import sys
 
 # 宿主机脚本根 = scripts 的上级; 容器内路径由 dx() 用 relpath 换算
-PF = os.environ.get("PF_ROOT",
-                    os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+PF = os.environ.get("PF_ROOT", os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 DOCKER = "opentitan-env-fwt"
 
 
 def dx(cmd, timeout=900):
     """容器内执行"""
-    p = subprocess.run(["docker", "exec", DOCKER, "bash", "-c", cmd],
-                       capture_output=True, text=True, timeout=timeout)
+    p = subprocess.run(
+        ["docker", "exec", DOCKER, "bash", "-c", cmd],
+        capture_output=True,
+        text=True,
+        timeout=timeout,
+    )
     return p
 
 
@@ -37,8 +45,7 @@ def build_mutant(module, mid):
     dst = f"{PF}/perip/{module}-mut-{mid}"
     if os.path.exists(dst):
         shutil.rmtree(dst)
-    shutil.copytree(src, dst,
-                    ignore=shutil.ignore_patterns("obj_so", "obj_*"))
+    shutil.copytree(src, dst, ignore=shutil.ignore_patterns("obj_so", "obj_*"))
     return dst
 
 
@@ -62,7 +69,7 @@ def inject(module, mid, dut_dir):
 def rebuild(dut_dir, module, mid):
     """容器内重建 .so（复用 filelist/wrapper/harness）"""
     rel = os.path.relpath(dut_dir, PF)
-    cmd = f'''
+    cmd = f"""
 export PATH=/tools/verilator/v5.050/bin:$PATH
 cd /workspace/HTFuzz/{rel}
 rm -rf obj_so
@@ -76,7 +83,7 @@ g++ -c -fPIC -fcoroutines -O2 -I/tools/verilator/v5.050/share/verilator/include 
 make -f Vhmac_perip_tb.mk libpf_hmac_mut.a libpf_hmac_mut.so \
   VK_USER_OBJS=pf_hmac_harness.o -j 10 2>&1 | grep -E "%Error" | head -3
 ls libpf_hmac_mut.so >/dev/null 2>&1 && echo BUILD_OK
-'''
+"""
     p = dx(cmd)
     ok = "BUILD_OK" in (p.stdout + p.stderr)
     if not ok:
@@ -86,9 +93,12 @@ ls libpf_hmac_mut.so >/dev/null 2>&1 && echo BUILD_OK
 
 def _trace_container(dut_dir, seed, tag):
     out = f"/tmp/trace_{tag}.json"
-    p = dx(f"python3 /workspace/HTFuzz/scripts/dut_trace.py "
-           f"{os.path.relpath(dut_dir, PF)} hmac "
-           f"/workspace/HTFuzz/traces/hmac_regmap.json {out} {seed}", timeout=600)
+    p = dx(
+        f"python3 /workspace/HTFuzz/scripts/dut_trace.py "
+        f"{os.path.relpath(dut_dir, PF)} hmac "
+        f"/workspace/HTFuzz/traces/hmac_regmap.json {out} {seed}",
+        timeout=600,
+    )
     if p.returncode != 0:
         raise RuntimeError(f"dut_trace[{tag}] rc={p.returncode}: {p.stderr[-300:]}")
     # /tmp 在容器与宿主机不共享 → 容器内 cat 回来
@@ -119,20 +129,26 @@ def main():
         t_mut = _trace_container(dut_dir, 0, "mut")
         sys.path.insert(0, os.path.join(PF, "scripts"))
         import diff_replay as dr
+
         diff = dr.compare(t_mut, t_f1, t_f2)
         # 引擎检出（容器内; 侧车输出避免覆盖 CTF findings）
         bak = f"{PF}/fuzz/discover_{module}.json"
         saved = open(bak).read() if os.path.exists(bak) else None
-        dx(f"python3 /workspace/HTFuzz/scripts/discover_engine.py "
-           f"{os.path.relpath(dut_dir, PF)} {module} "
-           f"/workspace/HTFuzz/traces/{module}_regmap.json", timeout=600)
+        dx(
+            f"python3 /workspace/HTFuzz/scripts/discover_engine.py "
+            f"{os.path.relpath(dut_dir, PF)} {module} "
+            f"/workspace/HTFuzz/traces/{module}_regmap.json",
+            timeout=600,
+        )
         mut_findings = []
         if os.path.exists(bak):
             mut_findings = json.load(open(bak)).get("findings", [])
             if saved is not None:
                 open(bak, "w").write(saved)  # 还原 CTF 侧
         res = {
-            "module": module, "mutant": mid, "inject": desc,
+            "module": module,
+            "mutant": mid,
+            "inject": desc,
             "oracle_findings": len(mut_findings),
             "oracle_killed": len(mut_findings) > 0,
             "diff_verdict": diff["verdict"],
@@ -140,16 +156,22 @@ def main():
             "first_divergence": diff["first_divergence"],
             "signals": sorted({f.get("signal", "?") for f in mut_findings})[:8],
         }
-        json.dump(res, open(f"{PF}/fuzz/mut_{module}_{mid}.json", "w"),
-                  indent=1, ensure_ascii=False)
+        json.dump(
+            res, open(f"{PF}/fuzz/mut_{module}_{mid}.json", "w"), indent=1, ensure_ascii=False
+        )
         results.append(res)
         fd = res["first_divergence"]
-        fd_str = (f"idx={fd['idx']} {fd.get('signal', fd.get('channel'))}"
-                  if fd else "无")
-        print(f"  oracle: {res['oracle_findings']} 条 (killed={res['oracle_killed']})"
-              f"  diff: {res['diff_verdict']} (killed={res['diff_killed']}) 首偏离: {fd_str}")
-    json.dump(results, open(f"{PF}/fuzz/mutation_{module}_summary.json", "w"),
-              indent=1, ensure_ascii=False)
+        fd_str = f"idx={fd['idx']} {fd.get('signal', fd.get('channel'))}" if fd else "无"
+        print(
+            f"  oracle: {res['oracle_findings']} 条 (killed={res['oracle_killed']})"
+            f"  diff: {res['diff_verdict']} (killed={res['diff_killed']}) 首偏离: {fd_str}"
+        )
+    json.dump(
+        results,
+        open(f"{PF}/fuzz/mutation_{module}_summary.json", "w"),
+        indent=1,
+        ensure_ascii=False,
+    )
     ko = sum(1 for r in results if r.get("oracle_killed"))
     kd = sum(1 for r in results if r.get("diff_killed"))
     print(f"\n=== 杀伤率: oracle {ko}/{len(results)}  diff {kd}/{len(results)} ===")

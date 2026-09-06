@@ -40,6 +40,7 @@ oracle 按属性族实现、不针对具体漏洞——换注入手法仍可检�
 HTFuzz/
 ├── AGENT-HANDOFF.md          # 接手指南（任务/流水线/坑清单）
 ├── SUBMISSION.md             # 比赛提交材料
+├── ruff.toml                 # Python 代码标准（lint + format 配置）
 ├── scripts/                  # 11 个活跃脚本
 │   ├── discover_engine.py    # 盲测引擎（O-A~O-M 一体化）
 │   ├── batch_discover.py     # 全量引擎扫描
@@ -55,6 +56,22 @@ HTFuzz/
 ├── traces/                   # regmap JSON + 采样 trace
 └── fuzz/                     # 引擎发现 JSON + O-K 结果
 ```
+
+## 代码规范（2026-09-06 起执行）
+
+Python 代码标准由 `ruff.toml` 固化，改完脚本后跑一遍即可保持合规：
+
+```bash
+pip install ruff
+python3 -m ruff check scripts/          # lint: pyflakes 真缺陷类 + 导入排序
+python3 -m ruff format scripts/         # 统一格式（line-length 100）
+```
+
+- 范围：`scripts/` 活跃代码；`scripts/legacy/` 冻结豁免；`perip/`、`fuzz/out/`（生成产物）排除
+- 2026-09-06 全量整改基线：统一格式（23 文件，AST 级验证行为不变）、导入规范、
+  补 shebang 可执行位；清理死代码时删掉了 diff_hunt 被遮蔽的首个 ascon 定向序列、
+  diff_replay/keymgr_full_flow 的重复函数定义、diff_module_round 的死函数 report_row
+  （有调用会 IndexError，实际无调用方；台账插入以 one_module 为准）
 
 ## 快速开始
 

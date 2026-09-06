@@ -10,16 +10,19 @@ Phase A 工具: 白盒信号表自动扩充生成器
 
 用法: gen_whitebox.py <dut_dir> [--emit <out_cpp_lines>]
 """
-import glob, os, re, sys
+
+import glob
+import os
+import re
+import sys
 
 
 def collect(root_header, prefix):
     hdr = open(root_header).read()
-    members = re.findall(
-        r"\b(" + re.escape(prefix) + r"\w+)\s*(?:\[[^\]]*\])?\s*;", hdr)
+    members = re.findall(r"\b(" + re.escape(prefix) + r"\w+)\s*(?:\[[^\]]*\])?\s*;", hdr)
     out = {}
     for m in members:
-        sv = m[len(prefix):]
+        sv = m[len(prefix) :]
         sv = sv.replace("__DOT__", ".")
         if re.search(r"\.(tb|drv_q|div_cnt|tl_a|tl_h2d|tl_d2h)\b", sv):
             continue
@@ -30,7 +33,9 @@ def collect(root_header, prefix):
             continue
         low = sv.lower()
         tier = None
-        if re.search(r"key|secret|seed|digest|hash|mask|entropy|token|priv|wipe|scrambl|cred|rand", low):
+        if re.search(
+            r"key|secret|seed|digest|hash|mask|entropy|token|priv|wipe|scrambl|cred|rand", low
+        ):
             tier = "P0"
         elif re.search(r"fsm|state|ctr_|count.*q|addr_q|wdata_q|rdata_q|_cnt_q", low):
             tier = "P1"
@@ -68,7 +73,9 @@ def main():
                 sv = base
             if re.search(r"\.(we|strb|wr_en)$", sv.lower()):
                 continue
-            if any(sv == l.strip().lstrip('{').split(',')[0].strip('"') for l in lines if l.strip()):
+            if any(
+                sv == l.strip().lstrip("{").split(",")[0].strip('"') for l in lines if l.strip()
+            ):
                 continue
             entry = f'    {{"{sv}", nullptr, 1, true }},'
             lines.append(entry)

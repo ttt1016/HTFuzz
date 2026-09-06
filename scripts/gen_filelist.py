@@ -10,7 +10,10 @@
 
 用法: gen_filelist.py <dut_dir>   （生成/覆写 dut_dir/filelist.f）
 """
-import os, re, sys
+
+import os
+import re
+import sys
 
 
 def collect(base="hw"):
@@ -28,20 +31,21 @@ def collect(base="hw"):
                 body = open(p, errors="ignore").read()
             except Exception:
                 continue
-            pkg_m = re.search(r"^\s*package\s+(\w+)", body, re.M)
-            has_mod = bool(re.search(r"^\s*(module|macromodule)\s+\w+", body, re.M))
+            pkg_m = re.search(r"^\s*package\s+(\w+)", body, re.MULTILINE)
+            has_mod = bool(re.search(r"^\s*(module|macromodule)\s+\w+", body, re.MULTILINE))
             imports = set(re.findall(r"import\s+(\w+)\s*::", body))
             if fn.endswith(".svh") or "svpp" in fn:
-                kind = "inc"          # include 体, 不进 filelist
+                kind = "inc"  # include 体, 不进 filelist
             elif pkg_m:
                 kind = "pkg"
             elif not has_mod:
-                kind = "macro"        # 纯宏/函数库文件
+                kind = "macro"  # 纯宏/函数库文件
             else:
                 kind = "mod"
             pkg = pkg_m.group(1) if pkg_m else None
-            entries.append({"path": rel, "kind": kind, "pkg": pkg,
-                            "imports": imports, "body": body})
+            entries.append(
+                {"path": rel, "kind": kind, "pkg": pkg, "imports": imports, "body": body}
+            )
     return entries, sorted(incdirs)
 
 
@@ -56,7 +60,7 @@ def topo_packages(pkg_entries):
     def visit(n):
         if n in seen or n not in deps:
             return
-        if n in visiting:      # 环: 截断
+        if n in visiting:  # 环: 截断
             return
         visiting.add(n)
         for d in sorted(deps.get(n, ())):
@@ -75,23 +79,23 @@ def main():
     os.chdir(root)
     entries, incdirs = collect()
 
-    assert_f = [e["path"] for e in entries
-                if e["kind"] == "assert" or
-                (e["kind"] == "macro" and "assert" in e["path"])]
-    macro_f = [e for e in entries if e["kind"] == "macro"
-               and "assert" not in e["path"]]
+    assert_f = [
+        e["path"]
+        for e in entries
+        if e["kind"] == "assert" or (e["kind"] == "macro" and "assert" in e["path"])
+    ]
     pkgs = [e for e in entries if e["kind"] == "pkg"]
     mods = [e["path"] for e in entries if e["kind"] == "mod"]
 
-    ordered = ["hw/ip/prim/rtl/prim_assert.sv"] if os.path.exists(
-        "hw/ip/prim/rtl/prim_assert.sv") else []
+    ordered = (
+        ["hw/ip/prim/rtl/prim_assert.sv"] if os.path.exists("hw/ip/prim/rtl/prim_assert.sv") else []
+    )
     ordered += [p for p in assert_f if p not in ordered]
     ordered += topo_packages(pkgs)
     for p in mods:
         if p not in ordered:
             ordered.append(p)
 
-    wrapper = None
     wd = os.path.join("rtl_wrapper")
     if os.path.isdir(wd):
         cands = [f for f in os.listdir(wd) if f.endswith("_perip_tb.sv")]

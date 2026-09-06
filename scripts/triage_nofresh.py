@@ -21,16 +21,23 @@
   - 条件缺失（对比同文件其他分支）
   - 与 SEC_CM 注释声明的保护语义矛盾
 """
-import json, re, os, sys, subprocess
+
+import json
+import os
+import re
+import subprocess
+import sys
 
 OT = os.environ.get("PF_TARGET_RTL", "/workspace/opentitan")
+
 
 # SEC_CM 位置索引（file -> [(line, tag)]）
 def build_sec_cm_index():
     idx = {}
     for root, dirs, files in os.walk(os.path.join(OT, "hw/ip")):
         for d in ("dv", "fpv", "pre_syn", "pre_sca", "model"):
-            if d in dirs: dirs.remove(d)
+            if d in dirs:
+                dirs.remove(d)
         for fn in files:
             if not fn.endswith((".sv", ".svh")):
                 continue
@@ -46,11 +53,14 @@ def build_sec_cm_index():
                     idx.setdefault(rel, []).append((i, m.group(1)))
     return idx
 
+
 SENSITIVE = ["key", "secret", "seed", "digest", "mask", "entropy", "token", "priv"]
+
 
 def signal_module(signal):
     # "u_dut.secret_key" / "sha2.hash_q" -> 模块目录猜测
     return None  # 由调用方提供 module
+
 
 def triage(findings, module, sec_cm_idx):
     # 模块目录映射
@@ -67,9 +77,17 @@ def triage(findings, module, sec_cm_idx):
             tag = tag_line[1]
             # 信号名与 SEC_CM 语义关联（key/mask/wipe/shadow/token/integrity）
             low = sig.lower()
-            for kw, t in [("key", "KEY"), ("mask", "MASKING"), ("wipe", "SEC_WIPE"),
-                          ("shadow", "SHADOW"), ("token", "TOKEN"), ("digest", "DIGEST"),
-                          ("entropy", "RNG"), ("state", "STATE"), ("fsm", "FSM")]:
+            for kw, t in [
+                ("key", "KEY"),
+                ("mask", "MASKING"),
+                ("wipe", "SEC_WIPE"),
+                ("shadow", "SHADOW"),
+                ("token", "TOKEN"),
+                ("digest", "DIGEST"),
+                ("entropy", "RNG"),
+                ("state", "STATE"),
+                ("fsm", "FSM"),
+            ]:
                 if kw in low and t in tag:
                     sec_hits.append(tag)
                     break
@@ -87,8 +105,8 @@ def triage(findings, module, sec_cm_idx):
                     # 信号短名（去前缀）
                     short = sig.split(".")[-1].split("_q")[0].split("_d")[0]
                     # 找 wipe/clear 与该信号的邻近性（同 block 或 10 行内）
-                    for m in re.finditer(r"(wipe|clear|zeroize)", rtl, re.I):
-                        seg = rtl[max(0, m.start()-300):m.start()+300]
+                    for m in re.finditer(r"(wipe|clear|zeroize)", rtl, re.IGNORECASE):
+                        seg = rtl[max(0, m.start() - 300) : m.start() + 300]
                         if short in seg:
                             rtl_self = True
                             break
@@ -97,24 +115,33 @@ def triage(findings, module, sec_cm_idx):
                 if rtl_self:
                     break
         # 分级
-        if sens and (sec_hits or rtl_self) and (cross > 0 or oracle in ("O-A-residual", "O-B-determinism")):
+        if (
+            sens
+            and (sec_hits or rtl_self)
+            and (cross > 0 or oracle in ("O-A-residual", "O-B-determinism"))
+        ):
             level = "HIGH"
-        elif sens and (sec_hits or rtl_self):
-            level = "MEDIUM"
-        elif sens or sec_hits:
+        elif sens and (sec_hits or rtl_self) or sens or sec_hits:
             level = "MEDIUM"
         else:
             level = "LOW"
-        out.append({
-            "level": level, "oracle": oracle, "signal": sig,
-            "sec_cm": sec_hits, "sensitive": sens, "cross_oracle": cross,
-            "rtl_wipe_nearby": rtl_self,
-            "evidence": f.get("desc", ""),
-        })
+        out.append(
+            {
+                "level": level,
+                "oracle": oracle,
+                "signal": sig,
+                "sec_cm": sec_hits,
+                "sensitive": sens,
+                "cross_oracle": cross,
+                "rtl_wipe_nearby": rtl_self,
+                "evidence": f.get("desc", ""),
+            }
+        )
     # 排序: HIGH > MEDIUM > LOW
     order = {"HIGH": 0, "MEDIUM": 1, "LOW": 2}
     out.sort(key=lambda x: order[x["level"]])
     return out
+
 
 def main():
     if len(sys.argv) < 3:
@@ -136,11 +163,17 @@ def main():
         # 优先复用已有差分结果（同会话缓存）；否则现跑
         if not os.path.exists(diff_path):
             try:
-                r = subprocess.run([sys.executable,
-                                    os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                                                 "diff_replay.py"), fresh_name],
-                                   capture_output=True, text=True, timeout=900,
-                                   cwd=pf_root)
+                r = subprocess.run(
+                    [
+                        sys.executable,
+                        os.path.join(os.path.dirname(os.path.abspath(__file__)), "diff_replay.py"),
+                        fresh_name,
+                    ],
+                    capture_output=True,
+                    text=True,
+                    timeout=900,
+                    cwd=pf_root,
+                )
                 if r.returncode != 0:
                     print(f"  [diff] 差分重放失败 rc={r.returncode}: {r.stderr[-200:]}")
             except Exception as e:
@@ -164,9 +197,16 @@ def main():
                 else:
                     r["diff"] = "DIFF-UNKNOWN"
             # 排序: DIFF-CONFIRMED 最前
-            result.sort(key=lambda x: (0 if x.get("diff") == "DIFF-CONFIRMED"
-                                       else 1 if x.get("diff") == "DIFF-UNKNOWN"
-                                       else 2, {"HIGH": 0, "MEDIUM": 1, "LOW": 2}[x["level"]]))
+            result.sort(
+                key=lambda x: (
+                    0
+                    if x.get("diff") == "DIFF-CONFIRMED"
+                    else 1
+                    if x.get("diff") == "DIFF-UNKNOWN"
+                    else 2,
+                    {"HIGH": 0, "MEDIUM": 1, "LOW": 2}[x["level"]],
+                )
+            )
     else:
         print("  [diff] 无 fresh DUT，跳过差分验证")
 
@@ -177,13 +217,17 @@ def main():
         payload["diff_first_divergence"] = diff_info.get("first_divergence")
     json.dump(payload, open(out, "w"), indent=1, ensure_ascii=False)
     from collections import Counter
+
     c = Counter(r["level"] for r in result)
     print(f"=== 分诊结果: {dict(c)} → {out} ===")
     for r in result:
-        print("  [%s]%s %s %s" % (r["level"],
-              " "+r["diff"] if "diff" in r else "", r["oracle"], r["signal"]))
+        print(
+            "  [%s]%s %s %s"
+            % (r["level"], " " + r["diff"] if "diff" in r else "", r["oracle"], r["signal"])
+        )
         if r["sec_cm"]:
             print("        SEC_CM: %s" % ",".join(r["sec_cm"]))
+
 
 if __name__ == "__main__":
     main()
