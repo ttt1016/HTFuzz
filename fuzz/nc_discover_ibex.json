@@ -1,0 +1,12 @@
+{
+ "module": "ibex",
+ "findings": [
+  {
+   "oracle": "O-J-errprop",
+   "signal": "u_dut.load_err_q,u_dut.store_err_q,u_dut.lsu_err_q",
+   "value": "tried=1",
+   "confidence": "HIGH",
+   "desc": "全部 1 类错误触发均未引起任何 alert/err 信号置位 → 错误传播链断裂"
+  }
+ ]
+}

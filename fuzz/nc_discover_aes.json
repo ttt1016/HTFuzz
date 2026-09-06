@@ -1,0 +1,388 @@
+{
+ "module": "aes",
+ "findings": [
+  {
+   "oracle": "O-A-residual",
+   "signal": "u_dut.key_init",
+   "word": 0,
+   "value": "0xdead00be",
+   "marker": "0xdead00be",
+   "trial": 0,
+   "desc": "敏感信号 u_dut.key_init[0] 在清除/操作序列后残留写入标记值"
+  },
+  {
+   "oracle": "O-A-residual",
+   "signal": "u_dut.key_init",
+   "word": 0,
+   "value": "0xdead01be",
+   "marker": "0xdead01be",
+   "trial": 1,
+   "desc": "敏感信号 u_dut.key_init[0] 在清除/操作序列后残留写入标记值"
+  },
+  {
+   "oracle": "O-B-determinism",
+   "signal": "u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.prng_key",
+   "value": "0x74104067 0x756d5534 0xa457577 0x9a18ab87",
+   "trial": 0,
+   "desc": "掩码/熵信号 u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.prng_key 两次独立执行逐位相同 → 无随机性（静态掩码/PRNG 不动）"
+  },
+  {
+   "oracle": "O-B-determinism",
+   "signal": "u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.u_prim_bivium.state_q",
+   "value": "0x6df779d8 0xbeef3b1e 0xf779d8f6 0xef3b1ed8",
+   "trial": 0,
+   "desc": "掩码/熵信号 u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.u_prim_bivium.state_q 两次独立执行逐位相同 → 无随机性（静态掩码/PRNG 不动）"
+  },
+  {
+   "oracle": "O-B-determinism",
+   "signal": "u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.prng_key",
+   "value": "0x74104067 0x756d5534 0xa457577 0x9a18ab87",
+   "trial": 1,
+   "desc": "掩码/熵信号 u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.prng_key 两次独立执行逐位相同 → 无随机性（静态掩码/PRNG 不动）"
+  },
+  {
+   "oracle": "O-B-determinism",
+   "signal": "u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.u_prim_bivium.state_q",
+   "value": "0x6df779d8 0xbeef3b1e 0xf779d8f6 0xef3b1ed8",
+   "trial": 1,
+   "desc": "掩码/熵信号 u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.u_prim_bivium.state_q 两次独立执行逐位相同 → 无随机性（静态掩码/PRNG 不动）"
+  },
+  {
+   "oracle": "O-B-determinism",
+   "signal": "u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.prng_key",
+   "value": "0x74104067 0x756d5534 0xa457577 0x9a18ab87",
+   "trial": 2,
+   "desc": "掩码/熵信号 u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.prng_key 两次独立执行逐位相同 → 无随机性（静态掩码/PRNG 不动）"
+  },
+  {
+   "oracle": "O-B-determinism",
+   "signal": "u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.u_prim_bivium.state_q",
+   "value": "0x6df779d8 0xbeef3b1e 0xf779d8f6 0xef3b1ed8",
+   "trial": 2,
+   "desc": "掩码/熵信号 u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.u_prim_bivium.state_q 两次独立执行逐位相同 → 无随机性（静态掩码/PRNG 不动）"
+  },
+  {
+   "oracle": "O-B-determinism",
+   "signal": "u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.prng_key",
+   "value": "0x74104067 0x756d5534 0xa457577 0x9a18ab87",
+   "trial": 3,
+   "desc": "掩码/熵信号 u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.prng_key 两次独立执行逐位相同 → 无随机性（静态掩码/PRNG 不动）"
+  },
+  {
+   "oracle": "O-B-determinism",
+   "signal": "u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.u_prim_bivium.state_q",
+   "value": "0x6df779d8 0xbeef3b1e 0xf779d8f6 0xef3b1ed8",
+   "trial": 3,
+   "desc": "掩码/熵信号 u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.u_prim_bivium.state_q 两次独立执行逐位相同 → 无随机性（静态掩码/PRNG 不动）"
+  },
+  {
+   "oracle": "O-B-determinism",
+   "signal": "u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.prng_key",
+   "value": "0x74104067 0x756d5534 0xa457577 0x9a18ab87",
+   "trial": 4,
+   "desc": "掩码/熵信号 u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.prng_key 两次独立执行逐位相同 → 无随机性（静态掩码/PRNG 不动）"
+  },
+  {
+   "oracle": "O-B-determinism",
+   "signal": "u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.u_prim_bivium.state_q",
+   "value": "0x6df779d8 0xbeef3b1e 0xf779d8f6 0xef3b1ed8",
+   "trial": 4,
+   "desc": "掩码/熵信号 u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.u_prim_bivium.state_q 两次独立执行逐位相同 → 无随机性（静态掩码/PRNG 不动）"
+  },
+  {
+   "oracle": "O-B-determinism",
+   "signal": "u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.prng_key",
+   "value": "0x74104067 0x756d5534 0xa457577 0x9a18ab87",
+   "trial": 5,
+   "desc": "掩码/熵信号 u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.prng_key 两次独立执行逐位相同 → 无随机性（静态掩码/PRNG 不动）"
+  },
+  {
+   "oracle": "O-B-determinism",
+   "signal": "u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.u_prim_bivium.state_q",
+   "value": "0x6df779d8 0xbeef3b1e 0xf779d8f6 0xef3b1ed8",
+   "trial": 5,
+   "desc": "掩码/熵信号 u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.u_prim_bivium.state_q 两次独立执行逐位相同 → 无随机性（静态掩码/PRNG 不动）"
+  },
+  {
+   "oracle": "O-C-equivclass",
+   "signal": "u_dut.data_out_q",
+   "detail": "寄存器 CTRL_SHADOWED 两阶段写 vs 中间插读，控制信号 u_dut.data_out_q 终态不同",
+   "seq0": [
+    "0x0",
+    "0x0",
+    "0x0"
+   ],
+   "seq1": [
+    "0x26122612",
+    "0xb15bb15b",
+    "0x924b924b"
+   ],
+   "desc": "语义等价序列产生不同控制状态 → 可能存在中间读副作用/相位错误"
+  },
+  {
+   "oracle": "O-C-equivclass",
+   "signal": "u_dut.u_aes_core.u_aes_control.gen_fsm__BRA__1__KET__.gen_fsm_p.u_aes_control_fsm_i.u_aes_control_fsm.u_state_regs.state_raw",
+   "detail": "寄存器 CTRL_SHADOWED 两阶段写 vs 中间插读，控制信号 u_dut.u_aes_core.u_aes_control.gen_fsm__BRA__1__KET__.gen_fsm_p.u_aes_control_fsm_i.u_aes_control_fsm.u_state_regs.state_raw 终态不同",
+   "seq0": [
+    "0xe"
+   ],
+   "seq1": [
+    "0x9"
+   ],
+   "desc": "语义等价序列产生不同控制状态 → 可能存在中间读副作用/相位错误"
+  },
+  {
+   "oracle": "O-C-equivclass",
+   "signal": "u_dut.u_aes_core.u_aes_control.gen_fsm__BRA__0__KET__.gen_fsm_p.u_aes_control_fsm_i.u_aes_control_fsm.u_state_regs.state_raw",
+   "detail": "寄存器 CTRL_SHADOWED 两阶段写 vs 中间插读，控制信号 u_dut.u_aes_core.u_aes_control.gen_fsm__BRA__0__KET__.gen_fsm_p.u_aes_control_fsm_i.u_aes_control_fsm.u_state_regs.state_raw 终态不同",
+   "seq0": [
+    "0xe"
+   ],
+   "seq1": [
+    "0x9"
+   ],
+   "desc": "语义等价序列产生不同控制状态 → 可能存在中间读副作用/相位错误"
+  },
+  {
+   "oracle": "O-C-equivclass",
+   "signal": "u_dut.u_aes_core.u_aes_control.gen_fsm__BRA__2__KET__.gen_fsm_n.u_aes_control_fsm_i.u_aes_control_fsm.u_state_regs.state_raw",
+   "detail": "寄存器 CTRL_SHADOWED 两阶段写 vs 中间插读，控制信号 u_dut.u_aes_core.u_aes_control.gen_fsm__BRA__2__KET__.gen_fsm_n.u_aes_control_fsm_i.u_aes_control_fsm.u_state_regs.state_raw 终态不同",
+   "seq0": [
+    "0xe"
+   ],
+   "seq1": [
+    "0x9"
+   ],
+   "desc": "语义等价序列产生不同控制状态 → 可能存在中间读副作用/相位错误"
+  },
+  {
+   "oracle": "O-C-equivclass",
+   "signal": "u_dut.data_out_q",
+   "detail": "寄存器 CTRL_AUX_SHADOWED 两阶段写 vs 中间插读，控制信号 u_dut.data_out_q 终态不同",
+   "seq0": [
+    "0x0",
+    "0x0",
+    "0x0"
+   ],
+   "seq1": [
+    "0x26122612",
+    "0xb15bb15b",
+    "0x924b924b"
+   ],
+   "desc": "语义等价序列产生不同控制状态 → 可能存在中间读副作用/相位错误"
+  },
+  {
+   "oracle": "O-C-equivclass",
+   "signal": "u_dut.u_aes_core.u_aes_control.gen_fsm__BRA__1__KET__.gen_fsm_p.u_aes_control_fsm_i.u_aes_control_fsm.u_state_regs.state_raw",
+   "detail": "寄存器 CTRL_AUX_SHADOWED 两阶段写 vs 中间插读，控制信号 u_dut.u_aes_core.u_aes_control.gen_fsm__BRA__1__KET__.gen_fsm_p.u_aes_control_fsm_i.u_aes_control_fsm.u_state_regs.state_raw 终态不同",
+   "seq0": [
+    "0xe"
+   ],
+   "seq1": [
+    "0x9"
+   ],
+   "desc": "语义等价序列产生不同控制状态 → 可能存在中间读副作用/相位错误"
+  },
+  {
+   "oracle": "O-C-equivclass",
+   "signal": "u_dut.u_aes_core.u_aes_control.gen_fsm__BRA__0__KET__.gen_fsm_p.u_aes_control_fsm_i.u_aes_control_fsm.u_state_regs.state_raw",
+   "detail": "寄存器 CTRL_AUX_SHADOWED 两阶段写 vs 中间插读，控制信号 u_dut.u_aes_core.u_aes_control.gen_fsm__BRA__0__KET__.gen_fsm_p.u_aes_control_fsm_i.u_aes_control_fsm.u_state_regs.state_raw 终态不同",
+   "seq0": [
+    "0xe"
+   ],
+   "seq1": [
+    "0x9"
+   ],
+   "desc": "语义等价序列产生不同控制状态 → 可能存在中间读副作用/相位错误"
+  },
+  {
+   "oracle": "O-C-equivclass",
+   "signal": "u_dut.u_aes_core.u_aes_control.gen_fsm__BRA__2__KET__.gen_fsm_n.u_aes_control_fsm_i.u_aes_control_fsm.u_state_regs.state_raw",
+   "detail": "寄存器 CTRL_AUX_SHADOWED 两阶段写 vs 中间插读，控制信号 u_dut.u_aes_core.u_aes_control.gen_fsm__BRA__2__KET__.gen_fsm_n.u_aes_control_fsm_i.u_aes_control_fsm.u_state_regs.state_raw 终态不同",
+   "seq0": [
+    "0xe"
+   ],
+   "seq1": [
+    "0x9"
+   ],
+   "desc": "语义等价序列产生不同控制状态 → 可能存在中间读副作用/相位错误"
+  },
+  {
+   "oracle": "O-C-equivclass",
+   "signal": "u_dut.data_out_q",
+   "detail": "寄存器 CTRL_AUX_REGWEN 两阶段写 vs 中间插读，控制信号 u_dut.data_out_q 终态不同",
+   "seq0": [
+    "0x0",
+    "0x0",
+    "0x0"
+   ],
+   "seq1": [
+    "0x26122612",
+    "0xb15bb15b",
+    "0x924b924b"
+   ],
+   "desc": "语义等价序列产生不同控制状态 → 可能存在中间读副作用/相位错误"
+  },
+  {
+   "oracle": "O-C-equivclass",
+   "signal": "u_dut.u_aes_core.u_aes_control.gen_fsm__BRA__1__KET__.gen_fsm_p.u_aes_control_fsm_i.u_aes_control_fsm.u_state_regs.state_raw",
+   "detail": "寄存器 CTRL_AUX_REGWEN 两阶段写 vs 中间插读，控制信号 u_dut.u_aes_core.u_aes_control.gen_fsm__BRA__1__KET__.gen_fsm_p.u_aes_control_fsm_i.u_aes_control_fsm.u_state_regs.state_raw 终态不同",
+   "seq0": [
+    "0xe"
+   ],
+   "seq1": [
+    "0x9"
+   ],
+   "desc": "语义等价序列产生不同控制状态 → 可能存在中间读副作用/相位错误"
+  },
+  {
+   "oracle": "O-C-equivclass",
+   "signal": "u_dut.u_aes_core.u_aes_control.gen_fsm__BRA__0__KET__.gen_fsm_p.u_aes_control_fsm_i.u_aes_control_fsm.u_state_regs.state_raw",
+   "detail": "寄存器 CTRL_AUX_REGWEN 两阶段写 vs 中间插读，控制信号 u_dut.u_aes_core.u_aes_control.gen_fsm__BRA__0__KET__.gen_fsm_p.u_aes_control_fsm_i.u_aes_control_fsm.u_state_regs.state_raw 终态不同",
+   "seq0": [
+    "0xe"
+   ],
+   "seq1": [
+    "0x9"
+   ],
+   "desc": "语义等价序列产生不同控制状态 → 可能存在中间读副作用/相位错误"
+  },
+  {
+   "oracle": "O-C-equivclass",
+   "signal": "u_dut.u_aes_core.u_aes_control.gen_fsm__BRA__2__KET__.gen_fsm_n.u_aes_control_fsm_i.u_aes_control_fsm.u_state_regs.state_raw",
+   "detail": "寄存器 CTRL_AUX_REGWEN 两阶段写 vs 中间插读，控制信号 u_dut.u_aes_core.u_aes_control.gen_fsm__BRA__2__KET__.gen_fsm_n.u_aes_control_fsm_i.u_aes_control_fsm.u_state_regs.state_raw 终态不同",
+   "seq0": [
+    "0xe"
+   ],
+   "seq1": [
+    "0x9"
+   ],
+   "desc": "语义等价序列产生不同控制状态 → 可能存在中间读副作用/相位错误"
+  },
+  {
+   "oracle": "O-C-equivclass",
+   "signal": "u_dut.data_out_q",
+   "detail": "寄存器 CTRL_GCM_SHADOWED 两阶段写 vs 中间插读，控制信号 u_dut.data_out_q 终态不同",
+   "seq0": [
+    "0x0",
+    "0x0",
+    "0x0"
+   ],
+   "seq1": [
+    "0x26122612",
+    "0xb15bb15b",
+    "0x924b924b"
+   ],
+   "desc": "语义等价序列产生不同控制状态 → 可能存在中间读副作用/相位错误"
+  },
+  {
+   "oracle": "O-C-equivclass",
+   "signal": "u_dut.u_aes_core.u_aes_control.gen_fsm__BRA__1__KET__.gen_fsm_p.u_aes_control_fsm_i.u_aes_control_fsm.u_state_regs.state_raw",
+   "detail": "寄存器 CTRL_GCM_SHADOWED 两阶段写 vs 中间插读，控制信号 u_dut.u_aes_core.u_aes_control.gen_fsm__BRA__1__KET__.gen_fsm_p.u_aes_control_fsm_i.u_aes_control_fsm.u_state_regs.state_raw 终态不同",
+   "seq0": [
+    "0xe"
+   ],
+   "seq1": [
+    "0x9"
+   ],
+   "desc": "语义等价序列产生不同控制状态 → 可能存在中间读副作用/相位错误"
+  },
+  {
+   "oracle": "O-C-equivclass",
+   "signal": "u_dut.u_aes_core.u_aes_control.gen_fsm__BRA__0__KET__.gen_fsm_p.u_aes_control_fsm_i.u_aes_control_fsm.u_state_regs.state_raw",
+   "detail": "寄存器 CTRL_GCM_SHADOWED 两阶段写 vs 中间插读，控制信号 u_dut.u_aes_core.u_aes_control.gen_fsm__BRA__0__KET__.gen_fsm_p.u_aes_control_fsm_i.u_aes_control_fsm.u_state_regs.state_raw 终态不同",
+   "seq0": [
+    "0xe"
+   ],
+   "seq1": [
+    "0x9"
+   ],
+   "desc": "语义等价序列产生不同控制状态 → 可能存在中间读副作用/相位错误"
+  },
+  {
+   "oracle": "O-C-equivclass",
+   "signal": "u_dut.u_aes_core.u_aes_control.gen_fsm__BRA__2__KET__.gen_fsm_n.u_aes_control_fsm_i.u_aes_control_fsm.u_state_regs.state_raw",
+   "detail": "寄存器 CTRL_GCM_SHADOWED 两阶段写 vs 中间插读，控制信号 u_dut.u_aes_core.u_aes_control.gen_fsm__BRA__2__KET__.gen_fsm_n.u_aes_control_fsm_i.u_aes_control_fsm.u_state_regs.state_raw 终态不同",
+   "seq0": [
+    "0xe"
+   ],
+   "seq1": [
+    "0x9"
+   ],
+   "desc": "语义等价序列产生不同控制状态 → 可能存在中间读副作用/相位错误"
+  },
+  {
+   "oracle": "O-K2-midreset",
+   "signal": "u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.prng_key",
+   "desc": "中途复位后 u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.prng_key 残留非零值 ['0x8721c112', '0x27263099', '0xd461d0b0']（SEC_WIPE on reset 应归零）",
+   "trigger": "mid_reset",
+   "residual": [
+    "0x8721c112",
+    "0x27263099",
+    "0xd461d0b0"
+   ]
+  },
+  {
+   "oracle": "O-K2-midreset",
+   "signal": "u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.prng_key",
+   "desc": "中途复位后 u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.prng_key 残留非零值 ['0x8721c112', '0x27263099', '0xd461d0b0']（SEC_WIPE on reset 应归零）",
+   "trigger": "mid_reset",
+   "residual": [
+    "0x8721c112",
+    "0x27263099",
+    "0xd461d0b0"
+   ]
+  },
+  {
+   "oracle": "O-K2-midreset",
+   "signal": "u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.prng_key",
+   "desc": "中途复位后 u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.prng_key 残留非零值 ['0x8721c112', '0x27263099', '0xd461d0b0']（SEC_WIPE on reset 应归零）",
+   "trigger": "mid_reset",
+   "residual": [
+    "0x8721c112",
+    "0x27263099",
+    "0xd461d0b0"
+   ]
+  },
+  {
+   "oracle": "O-K2-midreset",
+   "signal": "u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.prng_key",
+   "desc": "中途复位后 u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.prng_key 残留非零值 ['0x8721c112', '0x27263099', '0xd461d0b0']（SEC_WIPE on reset 应归零）",
+   "trigger": "mid_reset",
+   "residual": [
+    "0x8721c112",
+    "0x27263099",
+    "0xd461d0b0"
+   ]
+  },
+  {
+   "oracle": "O-K2-midreset",
+   "signal": "u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.prng_key",
+   "desc": "中途复位后 u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.prng_key 残留非零值 ['0x8721c112', '0x27263099', '0xd461d0b0']（SEC_WIPE on reset 应归零）",
+   "trigger": "mid_reset",
+   "residual": [
+    "0x8721c112",
+    "0x27263099",
+    "0xd461d0b0"
+   ]
+  },
+  {
+   "oracle": "O-K2-midreset",
+   "signal": "u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.prng_key",
+   "desc": "中途复位后 u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.prng_key 残留非零值 ['0x8721c112', '0x27263099', '0xd461d0b0']（SEC_WIPE on reset 应归零）",
+   "trigger": "mid_reset",
+   "residual": [
+    "0x8721c112",
+    "0x27263099",
+    "0xd461d0b0"
+   ]
+  },
+  {
+   "oracle": "O-J-errprop",
+   "signal": "u_dut.u_aes_core.u_aes_ctr.gen_fsm__BRA__1__KET__.gen_fsm_p.u_aes_ctr_fsm_i.u_aes_ctr_fsm.alert_counter_q,u_dut.u_aes_core.u_aes_ctr.gen_fsm__BRA__0__KET__.gen_fsm_p.u_aes_ctr_fsm_i.u_aes_ctr_fsm.alert_counter_q,u_dut.u_aes_core.u_aes_ctr.gen_fsm__BRA__2__KET__.gen_fsm_n.u_aes_ctr_fsm_i.u_aes_ctr_fsm.alert_counter_q",
+   "value": "tried=4",
+   "confidence": "HIGH",
+   "desc": "全部 4 类错误触发均未引起任何 alert/err 信号置位 → 错误传播链断裂"
+  }
+ ]
+}
