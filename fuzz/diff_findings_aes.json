@@ -4,34 +4,6 @@
  "findings": [
   {
    "oracle": "O-DIFF-directed",
-   "signal": "u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.u_prim_bivium.state_q",
-   "desc": "定向刺激偏离: u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.u_prim_bivium.state_q ctf=1961980218 fresh=1844935128",
-   "first_idx": 0,
-   "channel": "sig"
-  },
-  {
-   "oracle": "O-DIFF-directed",
-   "signal": "u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.u_prim_bivium.state_q",
-   "desc": "定向刺激偏离: u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.u_prim_bivium.state_q ctf=3274528783 fresh=3203349278",
-   "first_idx": 0,
-   "channel": "sig"
-  },
-  {
-   "oracle": "O-DIFF-directed",
-   "signal": "u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.u_prim_bivium.state_q",
-   "desc": "定向刺激偏离: u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.u_prim_bivium.state_q ctf=1195619271 fresh=4151957750",
-   "first_idx": 0,
-   "channel": "sig"
-  },
-  {
-   "oracle": "O-DIFF-directed",
-   "signal": "u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.u_prim_bivium.state_q",
-   "desc": "定向刺激偏离: u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.u_prim_bivium.state_q ctf=600155343 fresh=4013629144",
-   "first_idx": 0,
-   "channel": "sig"
-  },
-  {
-   "oracle": "O-DIFF-directed",
    "signal": "u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.prng_key",
    "desc": "定向刺激偏离: u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.prng_key ctf=2267136274 fresh=1973552233",
    "first_idx": 0,
@@ -68,15 +40,29 @@
   {
    "oracle": "O-DIFF-directed",
    "signal": "u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.u_prim_bivium.state_q",
+   "desc": "定向刺激偏离: u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.u_prim_bivium.state_q ctf=1961980218 fresh=1844935128",
+   "first_idx": 0,
+   "channel": "sig"
+  },
+  {
+   "oracle": "O-DIFF-directed",
+   "signal": "u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.u_prim_bivium.state_q",
+   "desc": "定向刺激偏离: u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.u_prim_bivium.state_q ctf=3274528783 fresh=3203349278",
+   "first_idx": 0,
+   "channel": "sig"
+  },
+  {
+   "oracle": "O-DIFF-directed",
+   "signal": "u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.u_prim_bivium.state_q",
    "desc": "定向刺激偏离: u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.u_prim_bivium.state_q ctf=1195619271 fresh=4151957750",
-   "first_idx": 1,
+   "first_idx": 0,
    "channel": "sig"
   },
   {
    "oracle": "O-DIFF-directed",
    "signal": "u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.u_prim_bivium.state_q",
    "desc": "定向刺激偏离: u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.u_prim_bivium.state_q ctf=600155343 fresh=4013629144",
-   "first_idx": 1,
+   "first_idx": 0,
    "channel": "sig"
   },
   {
@@ -117,15 +103,15 @@
   {
    "oracle": "O-DIFF-directed",
    "signal": "u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.u_prim_bivium.state_q",
-   "desc": "定向刺激偏离: u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.u_prim_bivium.state_q ctf=2044262080 fresh=202582871",
-   "first_idx": 3,
+   "desc": "定向刺激偏离: u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.u_prim_bivium.state_q ctf=1195619271 fresh=4151957750",
+   "first_idx": 1,
    "channel": "sig"
   },
   {
    "oracle": "O-DIFF-directed",
    "signal": "u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.u_prim_bivium.state_q",
-   "desc": "定向刺激偏离: u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.u_prim_bivium.state_q ctf=55298 fresh=33443",
-   "first_idx": 3,
+   "desc": "定向刺激偏离: u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.u_prim_bivium.state_q ctf=600155343 fresh=4013629144",
+   "first_idx": 1,
    "channel": "sig"
   },
   {
@@ -167,27 +153,41 @@
    "oracle": "O-DIFF-directed",
    "signal": "u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.u_prim_bivium.state_q",
    "desc": "定向刺激偏离: u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.u_prim_bivium.state_q ctf=2044262080 fresh=202582871",
-   "first_idx": 4,
+   "first_idx": 3,
    "channel": "sig"
   },
   {
    "oracle": "O-DIFF-directed",
    "signal": "u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.u_prim_bivium.state_q",
    "desc": "定向刺激偏离: u_dut.u_aes_core.u_aes_cipher_core.gen_masks.u_aes_prng_masking.u_prim_bivium.state_q ctf=55298 fresh=33443",
+   "first_idx": 3,
+   "channel": "sig"
+  },
+  {
+   "oracle": "O-DIFF-directed",
+   "signal": "u_dut.data_in_prev_q",
+   "desc": "定向刺激偏离: u_dut.data_in_prev_q ctf=3735928559 fresh=0",
    "first_idx": 4,
    "channel": "sig"
   },
   {
    "oracle": "O-DIFF-directed",
-   "signal": "u_dut.u_aes_core.u_aes_control.gen_fsm__BRA__2__KET__.gen_fsm_n.u_aes_control_fsm_i.u_aes_control_fsm.u_state_regs.state_raw",
-   "desc": "定向刺激偏离: u_dut.u_aes_core.u_aes_control.gen_fsm__BRA__2__KET__.gen_fsm_n.u_aes_control_fsm_i.u_aes_control_fsm.u_state_regs.state_raw ctf=9 fresh=16",
+   "signal": "u_dut.data_in_prev_q",
+   "desc": "定向刺激偏离: u_dut.data_in_prev_q ctf=305419896 fresh=0",
    "first_idx": 4,
    "channel": "sig"
   },
   {
    "oracle": "O-DIFF-directed",
-   "signal": "u_dut.u_aes_core.u_aes_control.gen_fsm__BRA__0__KET__.gen_fsm_p.u_aes_control_fsm_i.u_aes_control_fsm.u_state_regs.state_raw",
-   "desc": "定向刺激偏离: u_dut.u_aes_core.u_aes_control.gen_fsm__BRA__0__KET__.gen_fsm_p.u_aes_control_fsm_i.u_aes_control_fsm.u_state_regs.state_raw ctf=9 fresh=16",
+   "signal": "u_dut.data_in_prev_q",
+   "desc": "定向刺激偏离: u_dut.data_in_prev_q ctf=2882343476 fresh=0",
+   "first_idx": 4,
+   "channel": "sig"
+  },
+  {
+   "oracle": "O-DIFF-directed",
+   "signal": "u_dut.data_in_prev_q",
+   "desc": "定向刺激偏离: u_dut.data_in_prev_q ctf=4009829189 fresh=0",
    "first_idx": 4,
    "channel": "sig"
   },
@@ -221,90 +221,6 @@
   },
   {
    "oracle": "O-DIFF-directed",
-   "signal": "u_dut.key_dec_q",
-   "desc": "定向刺激偏离: u_dut.key_dec_q ctf=1667457891 fresh=0",
-   "first_idx": 4,
-   "channel": "sig"
-  },
-  {
-   "oracle": "O-DIFF-directed",
-   "signal": "u_dut.key_dec_q",
-   "desc": "定向刺激偏离: u_dut.key_dec_q ctf=1667457891 fresh=0",
-   "first_idx": 4,
-   "channel": "sig"
-  },
-  {
-   "oracle": "O-DIFF-directed",
-   "signal": "u_dut.key_dec_q",
-   "desc": "定向刺激偏离: u_dut.key_dec_q ctf=1667457891 fresh=0",
-   "first_idx": 4,
-   "channel": "sig"
-  },
-  {
-   "oracle": "O-DIFF-directed",
-   "signal": "u_dut.key_dec_q",
-   "desc": "定向刺激偏离: u_dut.key_dec_q ctf=1667457891 fresh=0",
-   "first_idx": 4,
-   "channel": "sig"
-  },
-  {
-   "oracle": "O-DIFF-directed",
-   "signal": "u_dut.u_aes_core.u_aes_ctr.ctr_i_rev",
-   "desc": "定向刺激偏离: u_dut.u_aes_core.u_aes_ctr.ctr_i_rev ctf=588617896 fresh=0",
-   "first_idx": 4,
-   "channel": "sig"
-  },
-  {
-   "oracle": "O-DIFF-directed",
-   "signal": "u_dut.u_aes_core.u_aes_ctr.ctr_i_rev",
-   "desc": "定向刺激偏离: u_dut.u_aes_core.u_aes_ctr.ctr_i_rev ctf=2525954054 fresh=0",
-   "first_idx": 4,
-   "channel": "sig"
-  },
-  {
-   "oracle": "O-DIFF-directed",
-   "signal": "u_dut.u_aes_core.u_aes_ctr.ctr_i_rev",
-   "desc": "定向刺激偏离: u_dut.u_aes_core.u_aes_ctr.ctr_i_rev ctf=588617896 fresh=0",
-   "first_idx": 4,
-   "channel": "sig"
-  },
-  {
-   "oracle": "O-DIFF-directed",
-   "signal": "u_dut.u_aes_core.u_aes_ctr.ctr_i_rev",
-   "desc": "定向刺激偏离: u_dut.u_aes_core.u_aes_ctr.ctr_i_rev ctf=2525954054 fresh=0",
-   "first_idx": 4,
-   "channel": "sig"
-  },
-  {
-   "oracle": "O-DIFF-directed",
-   "signal": "u_dut.u_aes_core.u_aes_ctr.ctr_o_rev",
-   "desc": "定向刺激偏离: u_dut.u_aes_core.u_aes_ctr.ctr_o_rev ctf=588617896 fresh=0",
-   "first_idx": 4,
-   "channel": "sig"
-  },
-  {
-   "oracle": "O-DIFF-directed",
-   "signal": "u_dut.u_aes_core.u_aes_ctr.ctr_o_rev",
-   "desc": "定向刺激偏离: u_dut.u_aes_core.u_aes_ctr.ctr_o_rev ctf=2525954054 fresh=0",
-   "first_idx": 4,
-   "channel": "sig"
-  },
-  {
-   "oracle": "O-DIFF-directed",
-   "signal": "u_dut.u_aes_core.u_aes_ctr.ctr_o_rev",
-   "desc": "定向刺激偏离: u_dut.u_aes_core.u_aes_ctr.ctr_o_rev ctf=588617896 fresh=0",
-   "first_idx": 4,
-   "channel": "sig"
-  },
-  {
-   "oracle": "O-DIFF-directed",
-   "signal": "u_dut.u_aes_core.u_aes_ctr.ctr_o_rev",
-   "desc": "定向刺激偏离: u_dut.u_aes_core.u_aes_ctr.ctr_o_rev ctf=2525954054 fresh=0",
-   "first_idx": 4,
-   "channel": "sig"
-  },
-  {
-   "oracle": "O-DIFF-directed",
    "signal": "u_dut.key_full_q",
    "desc": "定向刺激偏离: u_dut.key_full_q ctf=1667457891 fresh=0",
    "first_idx": 4,
@@ -328,6 +244,34 @@
    "oracle": "O-DIFF-directed",
    "signal": "u_dut.key_full_q",
    "desc": "定向刺激偏离: u_dut.key_full_q ctf=1667457891 fresh=0",
+   "first_idx": 4,
+   "channel": "sig"
+  },
+  {
+   "oracle": "O-DIFF-directed",
+   "signal": "u_dut.key_dec_q",
+   "desc": "定向刺激偏离: u_dut.key_dec_q ctf=1667457891 fresh=0",
+   "first_idx": 4,
+   "channel": "sig"
+  },
+  {
+   "oracle": "O-DIFF-directed",
+   "signal": "u_dut.key_dec_q",
+   "desc": "定向刺激偏离: u_dut.key_dec_q ctf=1667457891 fresh=0",
+   "first_idx": 4,
+   "channel": "sig"
+  },
+  {
+   "oracle": "O-DIFF-directed",
+   "signal": "u_dut.key_dec_q",
+   "desc": "定向刺激偏离: u_dut.key_dec_q ctf=1667457891 fresh=0",
+   "first_idx": 4,
+   "channel": "sig"
+  },
+  {
+   "oracle": "O-DIFF-directed",
+   "signal": "u_dut.key_dec_q",
+   "desc": "定向刺激偏离: u_dut.key_dec_q ctf=1667457891 fresh=0",
    "first_idx": 4,
    "channel": "sig"
   },
@@ -340,15 +284,71 @@
   },
   {
    "oracle": "O-DIFF-directed",
-   "signal": "u_dut.u_aes_core.data_in_prev_q",
-   "desc": "定向刺激偏离: u_dut.u_aes_core.data_in_prev_q ctf=3735928559 fresh=0",
+   "signal": "u_dut.u_aes_core.u_aes_control.gen_fsm__BRA__0__KET__.gen_fsm_p.u_aes_control_fsm_i.u_aes_control_fsm.u_state_regs.state_raw",
+   "desc": "定向刺激偏离: u_dut.u_aes_core.u_aes_control.gen_fsm__BRA__0__KET__.gen_fsm_p.u_aes_control_fsm_i.u_aes_control_fsm.u_state_regs.state_raw ctf=9 fresh=16",
    "first_idx": 4,
    "channel": "sig"
   },
   {
    "oracle": "O-DIFF-directed",
-   "signal": "u_dut.u_aes_core.data_in_prev_q",
-   "desc": "定向刺激偏离: u_dut.u_aes_core.data_in_prev_q ctf=305419896 fresh=0",
+   "signal": "u_dut.u_aes_core.u_aes_control.gen_fsm__BRA__2__KET__.gen_fsm_n.u_aes_control_fsm_i.u_aes_control_fsm.u_state_regs.state_raw",
+   "desc": "定向刺激偏离: u_dut.u_aes_core.u_aes_control.gen_fsm__BRA__2__KET__.gen_fsm_n.u_aes_control_fsm_i.u_aes_control_fsm.u_state_regs.state_raw ctf=9 fresh=16",
+   "first_idx": 4,
+   "channel": "sig"
+  },
+  {
+   "oracle": "O-DIFF-directed",
+   "signal": "u_dut.u_aes_core.u_aes_ctr.ctr_i_rev",
+   "desc": "定向刺激偏离: u_dut.u_aes_core.u_aes_ctr.ctr_i_rev ctf=588617896 fresh=0",
+   "first_idx": 4,
+   "channel": "sig"
+  },
+  {
+   "oracle": "O-DIFF-directed",
+   "signal": "u_dut.u_aes_core.u_aes_ctr.ctr_i_rev",
+   "desc": "定向刺激偏离: u_dut.u_aes_core.u_aes_ctr.ctr_i_rev ctf=2525954054 fresh=0",
+   "first_idx": 4,
+   "channel": "sig"
+  },
+  {
+   "oracle": "O-DIFF-directed",
+   "signal": "u_dut.u_aes_core.u_aes_ctr.ctr_i_rev",
+   "desc": "定向刺激偏离: u_dut.u_aes_core.u_aes_ctr.ctr_i_rev ctf=588617896 fresh=0",
+   "first_idx": 4,
+   "channel": "sig"
+  },
+  {
+   "oracle": "O-DIFF-directed",
+   "signal": "u_dut.u_aes_core.u_aes_ctr.ctr_i_rev",
+   "desc": "定向刺激偏离: u_dut.u_aes_core.u_aes_ctr.ctr_i_rev ctf=2525954054 fresh=0",
+   "first_idx": 4,
+   "channel": "sig"
+  },
+  {
+   "oracle": "O-DIFF-directed",
+   "signal": "u_dut.u_aes_core.u_aes_ctr.ctr_o_rev",
+   "desc": "定向刺激偏离: u_dut.u_aes_core.u_aes_ctr.ctr_o_rev ctf=588617896 fresh=0",
+   "first_idx": 4,
+   "channel": "sig"
+  },
+  {
+   "oracle": "O-DIFF-directed",
+   "signal": "u_dut.u_aes_core.u_aes_ctr.ctr_o_rev",
+   "desc": "定向刺激偏离: u_dut.u_aes_core.u_aes_ctr.ctr_o_rev ctf=2525954054 fresh=0",
+   "first_idx": 4,
+   "channel": "sig"
+  },
+  {
+   "oracle": "O-DIFF-directed",
+   "signal": "u_dut.u_aes_core.u_aes_ctr.ctr_o_rev",
+   "desc": "定向刺激偏离: u_dut.u_aes_core.u_aes_ctr.ctr_o_rev ctf=588617896 fresh=0",
+   "first_idx": 4,
+   "channel": "sig"
+  },
+  {
+   "oracle": "O-DIFF-directed",
+   "signal": "u_dut.u_aes_core.u_aes_ctr.ctr_o_rev",
+   "desc": "定向刺激偏离: u_dut.u_aes_core.u_aes_ctr.ctr_o_rev ctf=2525954054 fresh=0",
    "first_idx": 4,
    "channel": "sig"
   }

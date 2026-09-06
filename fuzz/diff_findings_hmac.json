@@ -4,50 +4,8 @@
  "findings": [
   {
    "oracle": "O-DIFF-directed",
-   "signal": "u_dut.u_reg.u_err_code.q",
-   "desc": "定向刺激偏离: u_dut.u_reg.u_err_code.q ctf=0 fresh=255",
-   "first_idx": 0,
-   "channel": "sig"
-  },
-  {
-   "oracle": "O-DIFF-directed",
-   "signal": "u_dut.u_reg.u_reg_if.error_q",
-   "desc": "定向刺激偏离: u_dut.u_reg.u_reg_if.error_q ctf=1 fresh=0",
-   "first_idx": 0,
-   "channel": "sig"
-  },
-  {
-   "oracle": "O-DIFF-directed",
-   "signal": "sha2.hash_d",
-   "desc": "定向刺激偏离: sha2.hash_d ctf=0 fresh=1936028262",
-   "first_idx": 0,
-   "channel": "sig"
-  },
-  {
-   "oracle": "O-DIFF-directed",
-   "signal": "sha2.hash_d",
-   "desc": "定向刺激偏离: sha2.hash_d ctf=0 fresh=1702059880",
-   "first_idx": 0,
-   "channel": "sig"
-  },
-  {
-   "oracle": "O-DIFF-directed",
-   "signal": "u_dut.digest_size_started_q",
-   "desc": "定向刺激偏离: u_dut.digest_size_started_q ctf=8 fresh=0",
-   "first_idx": 0,
-   "channel": "sig"
-  },
-  {
-   "oracle": "O-DIFF-directed",
-   "signal": "u_dut.secret_key",
-   "desc": "定向刺激偏离: u_dut.secret_key ctf=0 fresh=1601466223",
-   "first_idx": 0,
-   "channel": "sig"
-  },
-  {
-   "oracle": "O-DIFF-directed",
-   "signal": "u_dut.u_reg.u_reg_if.rdata_q",
-   "desc": "定向刺激偏离: u_dut.u_reg.u_reg_if.rdata_q ctf=255 fresh=0",
+   "signal": "u_dut.fifo_empty_q",
+   "desc": "定向刺激偏离: u_dut.fifo_empty_q ctf=1 fresh=0",
    "first_idx": 0,
    "channel": "sig"
   },
@@ -67,8 +25,8 @@
   },
   {
    "oracle": "O-DIFF-directed",
-   "signal": "u_dut.fifo_empty_q",
-   "desc": "定向刺激偏离: u_dut.fifo_empty_q ctf=1 fresh=0",
+   "signal": "u_dut.digest_size_started_q",
+   "desc": "定向刺激偏离: u_dut.digest_size_started_q ctf=8 fresh=0",
    "first_idx": 0,
    "channel": "sig"
   },
@@ -76,48 +34,27 @@
    "oracle": "O-DIFF-directed",
    "signal": "u_dut.u_reg.u_err_code.q",
    "desc": "定向刺激偏离: u_dut.u_reg.u_err_code.q ctf=0 fresh=255",
-   "first_idx": 1,
-   "channel": "sig"
-  },
-  {
-   "oracle": "O-DIFF-directed",
-   "signal": "u_dut.u_reg.u_reg_if.error_q",
-   "desc": "定向刺激偏离: u_dut.u_reg.u_reg_if.error_q ctf=1 fresh=0",
-   "first_idx": 1,
-   "channel": "sig"
-  },
-  {
-   "oracle": "O-DIFF-directed",
-   "signal": "sha2.hash_d",
-   "desc": "定向刺激偏离: sha2.hash_d ctf=0 fresh=1936028262",
-   "first_idx": 1,
-   "channel": "sig"
-  },
-  {
-   "oracle": "O-DIFF-directed",
-   "signal": "sha2.hash_d",
-   "desc": "定向刺激偏离: sha2.hash_d ctf=0 fresh=1702059880",
-   "first_idx": 1,
-   "channel": "sig"
-  },
-  {
-   "oracle": "O-DIFF-directed",
-   "signal": "u_dut.digest_size_started_q",
-   "desc": "定向刺激偏离: u_dut.digest_size_started_q ctf=8 fresh=0",
-   "first_idx": 1,
-   "channel": "sig"
-  },
-  {
-   "oracle": "O-DIFF-directed",
-   "signal": "u_dut.secret_key",
-   "desc": "定向刺激偏离: u_dut.secret_key ctf=0 fresh=1601466223",
-   "first_idx": 1,
+   "first_idx": 0,
    "channel": "sig"
   },
   {
    "oracle": "O-DIFF-directed",
    "signal": "u_dut.u_reg.u_reg_if.rdata_q",
    "desc": "定向刺激偏离: u_dut.u_reg.u_reg_if.rdata_q ctf=255 fresh=0",
+   "first_idx": 0,
+   "channel": "sig"
+  },
+  {
+   "oracle": "O-DIFF-directed",
+   "signal": "u_dut.u_reg.u_reg_if.error_q",
+   "desc": "定向刺激偏离: u_dut.u_reg.u_reg_if.error_q ctf=1 fresh=0",
+   "first_idx": 0,
+   "channel": "sig"
+  },
+  {
+   "oracle": "O-DIFF-directed",
+   "signal": "u_dut.fifo_empty_q",
+   "desc": "定向刺激偏离: u_dut.fifo_empty_q ctf=1 fresh=0",
    "first_idx": 1,
    "channel": "sig"
   },
@@ -137,9 +74,58 @@
   },
   {
    "oracle": "O-DIFF-directed",
+   "signal": "u_dut.digest_size_started_q",
+   "desc": "定向刺激偏离: u_dut.digest_size_started_q ctf=8 fresh=0",
+   "first_idx": 1,
+   "channel": "sig"
+  },
+  {
+   "oracle": "O-DIFF-directed",
+   "signal": "u_dut.u_reg.u_err_code.q",
+   "desc": "定向刺激偏离: u_dut.u_reg.u_err_code.q ctf=0 fresh=255",
+   "first_idx": 1,
+   "channel": "sig"
+  },
+  {
+   "oracle": "O-DIFF-directed",
+   "signal": "u_dut.u_reg.u_reg_if.rdata_q",
+   "desc": "定向刺激偏离: u_dut.u_reg.u_reg_if.rdata_q ctf=255 fresh=0",
+   "first_idx": 1,
+   "channel": "sig"
+  },
+  {
+   "oracle": "O-DIFF-directed",
+   "signal": "u_dut.u_reg.u_reg_if.error_q",
+   "desc": "定向刺激偏离: u_dut.u_reg.u_reg_if.error_q ctf=1 fresh=0",
+   "first_idx": 1,
+   "channel": "sig"
+  },
+  {
+   "oracle": "O-DIFF-directed",
    "signal": "u_dut.fifo_empty_q",
    "desc": "定向刺激偏离: u_dut.fifo_empty_q ctf=1 fresh=0",
-   "first_idx": 1,
+   "first_idx": 2,
+   "channel": "sig"
+  },
+  {
+   "oracle": "O-DIFF-directed",
+   "signal": "u_dut.fifo_full_seen_q",
+   "desc": "定向刺激偏离: u_dut.fifo_full_seen_q ctf=0 fresh=1",
+   "first_idx": 2,
+   "channel": "sig"
+  },
+  {
+   "oracle": "O-DIFF-directed",
+   "signal": "u_dut.invalid_config",
+   "desc": "定向刺激偏离: u_dut.invalid_config ctf=1 fresh=8",
+   "first_idx": 2,
+   "channel": "sig"
+  },
+  {
+   "oracle": "O-DIFF-directed",
+   "signal": "u_dut.digest_size_started_q",
+   "desc": "定向刺激偏离: u_dut.digest_size_started_q ctf=8 fresh=0",
+   "first_idx": 2,
    "channel": "sig"
   },
   {
@@ -151,41 +137,6 @@
   },
   {
    "oracle": "O-DIFF-directed",
-   "signal": "u_dut.u_reg.u_reg_if.error_q",
-   "desc": "定向刺激偏离: u_dut.u_reg.u_reg_if.error_q ctf=1 fresh=0",
-   "first_idx": 2,
-   "channel": "sig"
-  },
-  {
-   "oracle": "O-DIFF-directed",
-   "signal": "sha2.hash_d",
-   "desc": "定向刺激偏离: sha2.hash_d ctf=0 fresh=1936028262",
-   "first_idx": 2,
-   "channel": "sig"
-  },
-  {
-   "oracle": "O-DIFF-directed",
-   "signal": "sha2.hash_d",
-   "desc": "定向刺激偏离: sha2.hash_d ctf=0 fresh=1702059880",
-   "first_idx": 2,
-   "channel": "sig"
-  },
-  {
-   "oracle": "O-DIFF-directed",
-   "signal": "u_dut.digest_size_started_q",
-   "desc": "定向刺激偏离: u_dut.digest_size_started_q ctf=8 fresh=0",
-   "first_idx": 2,
-   "channel": "sig"
-  },
-  {
-   "oracle": "O-DIFF-directed",
-   "signal": "u_dut.secret_key",
-   "desc": "定向刺激偏离: u_dut.secret_key ctf=0 fresh=1601466223",
-   "first_idx": 2,
-   "channel": "sig"
-  },
-  {
-   "oracle": "O-DIFF-directed",
    "signal": "u_dut.u_reg.u_reg_if.rdata_q",
    "desc": "定向刺激偏离: u_dut.u_reg.u_reg_if.rdata_q ctf=255 fresh=0",
    "first_idx": 2,
@@ -193,15 +144,8 @@
   },
   {
    "oracle": "O-DIFF-directed",
-   "signal": "u_dut.fifo_full_seen_q",
-   "desc": "定向刺激偏离: u_dut.fifo_full_seen_q ctf=0 fresh=1",
-   "first_idx": 2,
-   "channel": "sig"
-  },
-  {
-   "oracle": "O-DIFF-directed",
-   "signal": "u_dut.invalid_config",
-   "desc": "定向刺激偏离: u_dut.invalid_config ctf=1 fresh=8",
+   "signal": "u_dut.u_reg.u_reg_if.error_q",
+   "desc": "定向刺激偏离: u_dut.u_reg.u_reg_if.error_q ctf=1 fresh=0",
    "first_idx": 2,
    "channel": "sig"
   },
@@ -209,7 +153,28 @@
    "oracle": "O-DIFF-directed",
    "signal": "u_dut.fifo_empty_q",
    "desc": "定向刺激偏离: u_dut.fifo_empty_q ctf=1 fresh=0",
-   "first_idx": 2,
+   "first_idx": 3,
+   "channel": "sig"
+  },
+  {
+   "oracle": "O-DIFF-directed",
+   "signal": "u_dut.fifo_full_seen_q",
+   "desc": "定向刺激偏离: u_dut.fifo_full_seen_q ctf=0 fresh=1",
+   "first_idx": 3,
+   "channel": "sig"
+  },
+  {
+   "oracle": "O-DIFF-directed",
+   "signal": "u_dut.invalid_config",
+   "desc": "定向刺激偏离: u_dut.invalid_config ctf=1 fresh=8",
+   "first_idx": 3,
+   "channel": "sig"
+  },
+  {
+   "oracle": "O-DIFF-directed",
+   "signal": "u_dut.digest_size_started_q",
+   "desc": "定向刺激偏离: u_dut.digest_size_started_q ctf=8 fresh=0",
+   "first_idx": 3,
    "channel": "sig"
   },
   {
@@ -221,41 +186,6 @@
   },
   {
    "oracle": "O-DIFF-directed",
-   "signal": "u_dut.u_reg.u_reg_if.error_q",
-   "desc": "定向刺激偏离: u_dut.u_reg.u_reg_if.error_q ctf=1 fresh=0",
-   "first_idx": 3,
-   "channel": "sig"
-  },
-  {
-   "oracle": "O-DIFF-directed",
-   "signal": "sha2.hash_d",
-   "desc": "定向刺激偏离: sha2.hash_d ctf=0 fresh=1936028262",
-   "first_idx": 3,
-   "channel": "sig"
-  },
-  {
-   "oracle": "O-DIFF-directed",
-   "signal": "sha2.hash_d",
-   "desc": "定向刺激偏离: sha2.hash_d ctf=0 fresh=1702059880",
-   "first_idx": 3,
-   "channel": "sig"
-  },
-  {
-   "oracle": "O-DIFF-directed",
-   "signal": "u_dut.digest_size_started_q",
-   "desc": "定向刺激偏离: u_dut.digest_size_started_q ctf=8 fresh=0",
-   "first_idx": 3,
-   "channel": "sig"
-  },
-  {
-   "oracle": "O-DIFF-directed",
-   "signal": "u_dut.secret_key",
-   "desc": "定向刺激偏离: u_dut.secret_key ctf=0 fresh=1601466223",
-   "first_idx": 3,
-   "channel": "sig"
-  },
-  {
-   "oracle": "O-DIFF-directed",
    "signal": "u_dut.u_reg.u_reg_if.rdata_q",
    "desc": "定向刺激偏离: u_dut.u_reg.u_reg_if.rdata_q ctf=255 fresh=0",
    "first_idx": 3,
@@ -263,15 +193,8 @@
   },
   {
    "oracle": "O-DIFF-directed",
-   "signal": "u_dut.fifo_full_seen_q",
-   "desc": "定向刺激偏离: u_dut.fifo_full_seen_q ctf=0 fresh=1",
-   "first_idx": 3,
-   "channel": "sig"
-  },
-  {
-   "oracle": "O-DIFF-directed",
-   "signal": "u_dut.invalid_config",
-   "desc": "定向刺激偏离: u_dut.invalid_config ctf=1 fresh=8",
+   "signal": "u_dut.u_reg.u_reg_if.error_q",
+   "desc": "定向刺激偏离: u_dut.u_reg.u_reg_if.error_q ctf=1 fresh=0",
    "first_idx": 3,
    "channel": "sig"
   },
@@ -279,27 +202,20 @@
    "oracle": "O-DIFF-directed",
    "signal": "u_dut.fifo_empty_q",
    "desc": "定向刺激偏离: u_dut.fifo_empty_q ctf=1 fresh=0",
-   "first_idx": 3,
-   "channel": "sig"
-  },
-  {
-   "oracle": "O-DIFF-directed",
-   "signal": "u_dut.u_reg.u_err_code.q",
-   "desc": "定向刺激偏离: u_dut.u_reg.u_err_code.q ctf=0 fresh=3",
    "first_idx": 4,
    "channel": "sig"
   },
   {
    "oracle": "O-DIFF-directed",
-   "signal": "sha2.hash_d",
-   "desc": "定向刺激偏离: sha2.hash_d ctf=0 fresh=1936028262",
+   "signal": "u_dut.fifo_full_seen_q",
+   "desc": "定向刺激偏离: u_dut.fifo_full_seen_q ctf=0 fresh=1",
    "first_idx": 4,
    "channel": "sig"
   },
   {
    "oracle": "O-DIFF-directed",
-   "signal": "sha2.hash_d",
-   "desc": "定向刺激偏离: sha2.hash_d ctf=0 fresh=1702059880",
+   "signal": "u_dut.invalid_config",
+   "desc": "定向刺激偏离: u_dut.invalid_config ctf=1 fresh=8",
    "first_idx": 4,
    "channel": "sig"
   },
@@ -319,8 +235,8 @@
   },
   {
    "oracle": "O-DIFF-directed",
-   "signal": "u_dut.secret_key",
-   "desc": "定向刺激偏离: u_dut.secret_key ctf=0 fresh=1601466223",
+   "signal": "u_dut.u_reg.u_err_code.q",
+   "desc": "定向刺激偏离: u_dut.u_reg.u_err_code.q ctf=0 fresh=3",
    "first_idx": 4,
    "channel": "sig"
   },
@@ -333,23 +249,37 @@
   },
   {
    "oracle": "O-DIFF-directed",
+   "signal": "u_dut.fifo_empty_q",
+   "desc": "定向刺激偏离: u_dut.fifo_empty_q ctf=1 fresh=0",
+   "first_idx": 5,
+   "channel": "sig"
+  },
+  {
+   "oracle": "O-DIFF-directed",
    "signal": "u_dut.fifo_full_seen_q",
    "desc": "定向刺激偏离: u_dut.fifo_full_seen_q ctf=0 fresh=1",
-   "first_idx": 4,
+   "first_idx": 5,
    "channel": "sig"
   },
   {
    "oracle": "O-DIFF-directed",
    "signal": "u_dut.invalid_config",
    "desc": "定向刺激偏离: u_dut.invalid_config ctf=1 fresh=8",
-   "first_idx": 4,
+   "first_idx": 5,
    "channel": "sig"
   },
   {
    "oracle": "O-DIFF-directed",
-   "signal": "u_dut.fifo_empty_q",
-   "desc": "定向刺激偏离: u_dut.fifo_empty_q ctf=1 fresh=0",
-   "first_idx": 4,
+   "signal": "u_dut.digest_size_started_q",
+   "desc": "定向刺激偏离: u_dut.digest_size_started_q ctf=8 fresh=0",
+   "first_idx": 5,
+   "channel": "sig"
+  },
+  {
+   "oracle": "O-DIFF-directed",
+   "signal": "u_dut.u_reg.u_err_code.q",
+   "desc": "定向刺激偏离: u_dut.u_reg.u_err_code.q ctf=2 fresh=0",
+   "first_idx": 5,
    "channel": "sig"
   }
  ]

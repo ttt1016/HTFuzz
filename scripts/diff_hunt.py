@@ -12,6 +12,7 @@
 """
 
 import json
+import os
 import subprocess
 import sys
 
@@ -233,7 +234,7 @@ def main():
         for step_i, step in enumerate(seq):
             if step.get("reset"):
                 d.reset()
-                trace.append({"kind": "reset", "idx": step_i})
+                trace.append({"kind": "reset", "idx": step_i, "sigs": {}})
             elif "wr" in step:
                 addr, data = step["wr"]
                 d.write(addr, data)
@@ -241,58 +242,38 @@ def main():
                 rb = d.read(addr)
                 sigs = {nm: d.sig_all(nm) for nm in list(d.sigs)[:60]}
                 trace.append(
-                    {"kind": "wr_rd", "addr": addr, "data": data, "readback": rb, "sigs": sigs}
+                    {
+                        "kind": "wr_rd",
+                        "idx": step_i,
+                        "addr": addr,
+                        "data": data,
+                        "readback": rb,
+                        "sigs": sigs,
+                    }
                 )
             elif "rd" in step:
                 rb = d.read(step["rd"])
-                trace.append({"kind": "rd", "addr": step["rd"], "readback": rb})
+                trace.append(
+                    {"kind": "rd", "idx": step_i, "addr": step["rd"], "readback": rb, "sigs": {}}
+                )
             else:
                 d.step(step.get("step", 5))
-                trace.append({"kind": "step"})
+                trace.append({"kind": "step", "idx": step_i, "sigs": {}})
         return {"module": module, "trace": trace, "n_actions": len(trace)}
-
-    def diff_traces(t_ctf, t_f1, t_f2):
-        """定向序列差分: 对齐 trace 逐项比较"""
-        divergences = []
-        n = min(len(t_ctf["trace"]), len(t_f1["trace"]))
-        for i in range(n):
-            a, b = t_ctf["trace"][i], t_f1["trace"][i]
-            if a.get("kind") != b.get("kind"):
-                continue
-            # readback 差异
-            if a.get("readback") is not None and a.get("readback") != b.get("readback"):
-                d = {
-                    "idx": i,
-                    "channel": "readback",
-                    "addr": a.get("addr"),
-                    "ctf": a.get("readback"),
-                    "fresh": b.get("readback"),
-                }
-                divergences.append(d)
-            # 白盒信号差分
-            sa, sb = a.get("sigs", {}), b.get("sigs", {})
-            for sig in set(sa) & set(sb):
-                wa, wb = sa.get(sig, []), sb.get(sig, [])
-                for w, (va, vb) in enumerate(zip(wa, wb)):
-                    if va != vb:
-                        divergences.append(
-                            {
-                                "idx": i,
-                                "channel": "sig",
-                                "signal": sig,
-                                "word": w,
-                                "ctf": va,
-                                "fresh": vb,
-                            }
-                        )
-        return divergences, n
 
     t_ctf = run_directed(ctf_dir, "ctf")
     t_f1 = run_directed(fresh_dir, "f1")
     t_f2 = run_directed(fresh_dir, "f2")
 
-    divergences, _n = diff_traces(t_ctf, t_f1, t_f2)
-    verdict = "DIVERGENT" if divergences else "IDENTICAL"
+    # 两遍稳定集过滤复用 diff_replay.compare: fresh 跑两遍取逐字稳定集,
+    # 只在稳定集内做 CTF vs fresh 比对 —— RNG/熵类合法非确定性不再产生假偏离
+    # （旧实现只和 fresh 第一遍比, f2 跑了但被忽略）
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    import diff_replay
+
+    result = diff_replay.compare(t_ctf, t_f1, t_f2)
+    divergences = result["evidence"]
+    verdict = result["verdict"]
 
     # findings 正式化
     findings = []
